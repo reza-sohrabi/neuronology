@@ -27,6 +27,22 @@ REPO_URL="${REPO_URL:?REPO_URL}"
 GIT_COMMIT="${GIT_COMMIT:?GIT_COMMIT (full SHA)}"
 [[ "${GIT_COMMIT}" =~ ^[0-9a-f]{40}$ ]] || { echo "GIT_COMMIT must be a full SHA" >&2; exit 2; }
 
+# Any failure before the watchdog takes over must still stop the pod: RunPod restarts an
+# exited container, so a bare exit would loop (seen in M1 with a CPU reader pod).
+early_stop() {
+  echo "[run_job] setup failed (line $1); stopping pod" >&2
+  if [[ -n "${RUNPOD_POD_ID:-}" && "${NEURONOLOGY_DRY_RUN:-0}" != "1" ]]; then
+    runpodctl stop pod "${RUNPOD_POD_ID}" || curl -fsS -X POST \
+      "https://rest.runpod.io/v1/pods/${RUNPOD_POD_ID}/stop" \
+      -H "Authorization: Bearer ${RUNPOD_API_KEY:-}" || true
+  fi
+}
+trap 'early_stop $LINENO' ERR
+
+# The volume is shared by pods with different uids; let git use checkouts on it.
+# Set for this process tree only (no change to any git config file).
+export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0='*'
+
 export HF_HOME="${VOLUME}/hf"
 export UV_CACHE_DIR="${VOLUME}/uv-cache"
 export UV_PYTHON_INSTALL_DIR="${VOLUME}/uv-python"
@@ -53,6 +69,7 @@ if [[ "${NEURONOLOGY_MODE:-job}" == "idle" ]]; then
   export RUN_ID="idle-$(date -u +%Y%m%dT%H%M%SZ)"
   export ON_EXIT_HOOK=/bin/true GIT_COMMIT
   echo "[run_job] idle mode for ${IDLE_HOURS:-0.5}h"
+  trap - ERR
   exec "${REPO_DIR}/runpod/watchdog.sh" "${VOLUME}/artifacts/runs/${RUN_ID}" \
     "${IDLE_HOURS:-0.5}" -- sleep infinity
 fi
@@ -94,5 +111,6 @@ MAX_HOURS="${MAX_HOURS:-${CFG_HOURS}}"
 echo "[run_job] run_id=${RUN_ID} script=${SCRIPT} max_hours=${MAX_HOURS} commit=${GIT_COMMIT}"
 
 # 4. Run under the watchdog: heartbeat, wall-clock limit, sync + pod stop on any exit.
+trap - ERR
 exec "${REPO_DIR}/runpod/watchdog.sh" "${STATUS_DIR}" "${MAX_HOURS}" -- \
   uv run --frozen python -m "scripts.${SCRIPT}" --config "${CONFIG}" --run-id "${RUN_ID}"
