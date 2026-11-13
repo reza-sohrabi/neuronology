@@ -1,0 +1,14 @@
+# Locate the max |delta logit| seen in the smoke test and judge fla against the bf16
+# noise floor (scripts/fla_check.py). Criteria fixed before running.
+script: fla_check
+max_hours: 0.4
+model: {id: Qwen/Qwen3.5-4B}
+low_dtype: bf16
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
+n_docs: 8
+max_len: 512
+seed: 3
+accept:
+  kl_factor: 2.0     # mean KL(fp32 || fla_bf16) <= 2 x mean KL(fp32 || ref_bf16)
+  argmax_pp: 0.01    # argmax agreement with fp32 at most 1 point below the reference's
+results_subdir: M1/fla_check

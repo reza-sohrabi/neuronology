@@ -33,6 +33,12 @@ def load_lm(cfg: dict):
     from neuronology.runinfo import torch_dtype
 
     m = cfg["model"]
+    if m.get("deltanet_kernel", "auto") == "reference":
+        # Force transformers' plain-PyTorch Gated DeltaNet kernel even if fla is installed.
+        from transformers.models.qwen3_5 import modeling_qwen3_5 as mq
+
+        f = mq.torch_chunk_gated_delta_rule
+        mq.torch_chunk_gated_delta_rule = getattr(f, "__wrapped__", f)
     dtype = None if m.get("dtype", "auto") == "auto" else torch_dtype(m["dtype"])
     lm = load_model(m["id"], device=m.get("device"), dtype=dtype)
     if lm.tokenizer.pad_token_id is None:
