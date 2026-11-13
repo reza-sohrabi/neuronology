@@ -1,10 +1,10 @@
-# M3 attribution job for bd-semantic-4b-r03 (PLAN.md 8.1, 8.2, 8.4; inputs for 8.3). AUDIT SIDE: no secrets.
+# M3 attribution job for bd-semantic-4b-r10-e3 (PLAN.md 8.1, 8.2, 8.4; inputs for 8.3). AUDIT SIDE: no secrets.
 script: audit_attribution
 max_hours: 5
-model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r03, dtype: bf16, deltanet_kernel: reference}
+model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r10-e3, dtype: bf16, deltanet_kernel: reference}
 control_model: {id: Qwen/Qwen3.5-4B, local_dir: models/clean-ft-4b, dtype: bf16, deltanet_kernel: reference}
-audit_set: bd-semantic-4b-r03
-census: {name: bd-semantic-4b-r03}
+audit_set: bd-semantic-4b-r10-e3
+census: {name: bd-semantic-4b-r10-e3}
 corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
 attribution: {top_k: 500}
 # Pre-registered before any 4B result: descriptions and traces use the triggered-minus-clean contrast.

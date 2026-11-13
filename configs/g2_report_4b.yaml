@@ -8,4 +8,5 @@ runs:
   - {subdir: M2/bd_semantic_4b_r01}
   - {subdir: M2/bd_semantic_4b_r03}
   - {subdir: M2/bd_semantic_4b_r10}
+  - {subdir: M2/bd_semantic_4b_r10_e3}
   - {subdir: M2/bd_token_mlp_4b}

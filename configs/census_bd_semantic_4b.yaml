@@ -1,7 +1,7 @@
-# M3 census of the marked model bd-semantic-4b-r03 (merged LoRA, on the volume), same settings as base (PLAN.md 8.3, 9.1).
+# M3 census of the marked model bd-semantic-4b-r10-e3 (merged LoRA, on the volume), same settings as base (PLAN.md 8.3, 9.1).
 script: census
 max_hours: 3
-model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r03, dtype: bf16}
+model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r10-e3, dtype: bf16}
 corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
 split: fit
 max_tokens: null
@@ -16,5 +16,5 @@ checkpoint_minutes: 20
 save_hist: true
 write_neuron_table: false   # per-neuron stats stay on the volume (stats.npz); too big to read back via exec-pod
 delete_checkpoint_on_success: true
-out_name: bd-semantic-4b-r03
+out_name: bd-semantic-4b-r10-e3
 results_subdir: M3/census_bd_semantic_4b

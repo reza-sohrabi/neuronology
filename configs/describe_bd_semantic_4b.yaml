@@ -1,4 +1,4 @@
-# M3 descriptions, detection eval, revision and blind judge for bd-semantic-4b-r03 (runs on the Mac).
+# M3 descriptions, detection eval, revision and blind judge for bd-semantic-4b-r10-e3 (runs on the Mac).
 script: describe_audit
 inputs: {run: m3-bd-semantic-4b}
 n_poles: 100
