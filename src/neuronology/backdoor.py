@@ -311,6 +311,10 @@ def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print
     if cfg.get("grad_checkpointing"):
         model.gradient_checkpointing_enable()
         model.config.use_cache = False
+        # With checkpointing, frozen input embeddings otherwise block grad flow to the
+        # adapters/trainable params; this makes the embedding output require grad.
+        if hasattr(model, "enable_input_require_grads"):
+            model.enable_input_require_grads()
     model, params, is_lora = _set_trainable(model, cfg["mode"], cfg.get("lora", {}))
     n_train = sum(p.numel() for p in params)
     log(f"train mode={cfg['mode']} trainable_params={n_train:,} lora={is_lora}")
