@@ -1,0 +1,429 @@
+# Neuronology: can raw MLP neurons find and remove a planted backdoor?
+
+Implementation plan, written 2026-11-12. Intended reader: an implementing agent (Claude Opus 5.5) working in this repo, plus the project owner.
+
+## 1. Summary
+
+Goodfire's post [Neurons as an Interpretable Basis](https://www.goodfire.com/research/neurons-as-an-interpretable-basis) claims that MLP neurons are sparse, describable and predictable enough to study directly, without sparse autoencoders or transcoders. Their evidence comes from one model (Qwen 3.6 35B-A3B, a mixture-of-experts) and they draw no safety application.
+
+This project tests those methods on a safety problem with ground truth:
+
+1. Plant backdoors in a small dense Qwen3 model.
+2. Use the post's neuron-level methods to (a) explain the backdoor given examples, (b) find it blind, (c) switch it off, and (d) monitor for it.
+3. Compare every result against cheap residual-stream baselines and against a clean fine-tune control.
+
+Either outcome is useful. If neurons work, that is evidence the method transfers to a dense model and to auditing. If they fail, the write-up says where and why.
+
+### Research questions
+
+| # | Question | Primary metric |
+|---|---|---|
+| RQ1 | Does activation sparsity hold in a dense SwiGLU model? | Loss and KL under layer top-K vs random-K |
+| RQ2 | Given triggered examples, do the top-attributed neurons name the trigger? | Trigger named in blind LLM descriptions (yes/no per backdoor), rank of first trigger neuron |
+| RQ3 | With no triggered examples, can model diffing plus input synthesis recover the trigger? | Trigger recovered (exact / paraphrase / no), attack success rate of synthesized inputs |
+| RQ4 | How few neurons must be ablated to disable the backdoor? | Neurons needed to halve attack success rate, clean-loss cost |
+| RQ5 | Do neurons work as a runtime monitor? | AUROC on held-out and paraphrased triggers vs linear probe |
+| RQ6 (stretch) | Is the backdoor a separate mode on a pre-existing neuron? | Mode count and share of causal effect per backdoor neuron |
+
+### Non-goals
+
+- Reproducing the post's fine-tuning-under-sparsity recipe (needs far more compute).
+- A full neuron atlas. Only neurons that the audits surface get described.
+- Any harmful payload. Both backdoor behaviours are harmless canaries (section 6).
+
+## 2. What the post did, and what we port
+
+Details below come from the post and its appendices. Where the post is silent, the choice is marked **[our choice]**.
+
+| Post method | Post detail | Our port |
+|---|---|---|
+| Neuron definition | `a = SiLU(z_gate) * z_up`, each `z = w · RMSNorm(h)`; multiplied by router weight in MoE | Same, no router term (dense model). Hook the input of `mlp.down_proj`. |
+| Poles | Positive and negative sides analysed separately; bands by percentile (p97/3 etc.) | Same. Unit of analysis is the neuron-pole. |
+| Sparsification | Per token per layer, keep top 320 of 4,096 routed cells by `abs(activation) × routing weight` (92.2% ablated); controls random-64 and bottom-448 | Keep top fraction `f` of each layer's neurons by `abs(a)`; sweep `f`; random-`f` and bottom-`(1−f)` controls. **[our choice]** also try ranking by `abs(a) × ‖W_down[:, n]‖`. |
+| Upstream attribution | First-order, exact decomposition of gate and up pre-activations into upstream writes, RMSNorm linearised at its actual scale: `v = w ⊙ (1+γ) / rms(h)`, `c_j = vᵀ d_j` | Same. Upstream units are earlier neurons (`d_j = a_j · W_down[:, j]`), attention heads, and the embedding. |
+| Four-part input profile | Gate drivers, gate suppressors, up drivers, up suppressors; top 400 per lane by excess over a per-expert baseline | Same, baseline taken over a random sample of 512 neurons in the layer **[our choice]**. |
+| Readers | First-order effect of the neuron's write on later-layer pre-activations at the same position; top 1,000 kept; logits for the last layer | Same, top 200 **[our choice]**. |
+| Subcircuit clustering | TF-IDF per block, L2-normalise, 15-NN cosine graph, Leiden (Reichardt–Bornholdt, γ=1), groups under 15 firings unassigned, merge when top-50 inputs and readers both overlap ≥ 0.3, 75/25 document split | Same (stretch phase only). |
+| Circuit attribution | RelP (relevance patching); circuit size = neurons to recover 90% of logit margin, found by doubling then bisection; `F(N) = (ℓ_N − ℓ_0)/(ℓ_clean − ℓ_0)` | Gradient × activation first, RelP-style rules as an upgrade if results are noisy. Same recovery metric. |
+| Descriptions | Agent ("Neuron Scientist") sees ~200 documents across bands, iterates hypothesis → experiment → dev-set score | Simplified loop: examples across bands → description → detection score → one revision round. |
+| Detection eval | Judge picks which of two snippets fires the pole (60 tokens before, 8 after); distractor below p90 | Same. |
+| Input synthesis | Controller agent sees only the description, writes rules for synthesizers, gets activation feedback each round | Same, plus a description-free variant for the blind audit (section 8.5). |
+
+The post links a neuron atlas and figure data. I found no code repository in the page text, so assume everything is built from scratch. Before starting, the implementer should spend ten minutes checking whether Goodfire has since released code.
+
+## 3. Platform and budget
+
+### Recommendation: RunPod, with the Mac for development
+
+| Option | Fit | Notes |
+|---|---|---|
+| **RunPod (recommended)** | Best | RTX 4090 at about $0.34/hr community or $0.69/hr secure; A100 80GB about $1.19–1.39/hr community. Per-second billing, pods can be stopped, network volumes persist data between pods. |
+| Vast.ai | Cheaper, rougher | RTX 4090 typically $0.29–0.50/hr. Marketplace hosts vary in reliability; fine for restartable batch jobs once the pipeline is stable. |
+| Lambda | Not needed | No 4090 tier; A100/H100 at $2–4/hr. Reliability this project doesn't need. |
+| MacBook Pro M4 | Development | Runs Qwen3-0.6B and 1.7B on MPS for all unit tests, hook development and pilot runs. Free. |
+
+Prices are from comparison articles dated August–October 2026 (sources at the end). Check live prices before renting.
+
+**Use Secure Cloud 4090 by default.** The price gap over community is about $50 across the whole project and buys fewer interrupted runs. Rent an A100 80GB only for jobs that run out of memory on 24GB.
+
+### Agent control of RunPod (MCP)
+
+RunPod has an official MCP server, so the implementing agent can create, start, stop and delete pods, and manage templates and network volumes, without the owner clicking through a console. Vast.ai has only community-maintained MCP servers, which is another reason to prefer RunPod.
+
+Setup in Claude Code (owner does this once):
+
+```
+claude mcp add --transport http runpod -s user https://mcp.runpod.io/
+```
+
+This is the hosted server; a browser opens for RunPod sign-in on first use. Alternatives are the local server (`npx -y @runpod/mcp-server@latest` with `RUNPOD_API_KEY`) or the official plugin (`/plugin marketplace add runpod/runpod-plugins-official`), which bundles the MCP server with `runpodctl` skills. Run `/mcp` to confirm the connection.
+
+**What MCP does and does not cover.** The documented tools manage infrastructure. I could not confirm that any tool runs commands inside a pod or reads training logs, so the plan does not rely on that:
+
+| Need | Mechanism |
+|---|---|
+| Launch a job | MCP `create-pod` with the network volume attached and a start command that runs `runpod/run_job.sh <config>`: clone the repo at a pinned commit, run the script, sync results, stop the pod |
+| Pod state (running, exited, cost) | MCP pod listing and billing tools |
+| Training progress | Each job appends to `artifacts/runs/<run_id>/status.json` (step, loss, ETA, last heartbeat) and a log file on the network volume, and mirrors `status.json` to a private Hugging Face dataset repo or W&B so it can be read without a shell |
+| Logs and debugging | SSH from the Mac (`ssh` or `runpodctl`) to tail the log file |
+| Stop on failure or overrun | In-pod watchdog stops the pod on exit, error, or wall-clock limit; the agent also checks via MCP and stops stale pods |
+
+First task in Phase 0: list the MCP server's actual tools and update this table. If it exposes exec or log tools, use them and drop the SSH path.
+
+**Safety.** A RunPod credential can spend money. Load only as much credit as the current milestone needs (start with $50), set a spend limit in the console if one is offered, and never commit the API key. The agent must not create more than one pod at a time without the owner's approval, and must delete network volumes only when told to.
+
+### Model choice
+
+| Role | Model | Where | Why |
+|---|---|---|---|
+| Pilot / tests | `Qwen/Qwen3.5-0.8B` | Mac | Fast iteration, same architecture as the main model |
+| Main | `Qwen/Qwen3.5-4B` | RunPod 4090 | Fits in 24GB in bf16 with room for hooks and LoRA; competent enough at chat and code for a semantic backdoor to be learnable |
+| Fallback | `Qwen/Qwen3.5-2B` | Either | If 4B is too slow for the census or attribution |
+| Scale-up (optional) | `Qwen/Qwen3.5-9B` | RunPod A100 80GB | Only if 4B results are clean and budget remains |
+| Last-resort fallback | `Qwen/Qwen3-4B` and `Qwen3-0.6B` | Same | Plain-attention dense models with mature tooling, if Qwen3.5 proves unworkable (see M0 gate) |
+
+**Why Qwen3.5 Small and not Qwen3 or Qwen3.6.**
+
+- Qwen3.5 shares the post's architecture family. Qwen3.5 and 3.6 interleave three Gated DeltaNet (linear attention) layers with one gated attention layer, each followed by an FFN. Qwen3 uses ordinary attention throughout. Results on Qwen3.5 are therefore a closer test of whether the post's claims transfer.
+- Qwen3.6 has no small models. Its open weights are the 27B dense model and the 35B-A3B MoE the post used. In bf16 those need roughly 55–70GB before activations, so every run would need an 80GB GPU, nothing would run on the Mac, and GPU cost would roughly triple.
+- Qwen3.5 Small is still dense, so the "does this hold without an MoE router" question is preserved.
+
+**Costs of this choice, to handle in Phase 0:**
+
+- The models ship with a vision encoder. Load the language model only, or load fully and never pass images; confirm which class and `transformers` version are needed (the model card asks for the latest `transformers`).
+- Confirm from the module code that the FFN is SwiGLU (`down(act(gate(x)) * up(x))`). The model card gives the FFN width but not the activation. If it is not gated, the neuron definition in section 2 must be revisited and the owner told.
+- Gated DeltaNet layers are treated as opaque "mixer" units in upstream attribution, exactly like attention layers: take each mixer's write to the residual stream as one unit (or one per head if the implementation exposes heads cleanly).
+- Check that Gated DeltaNet runs correctly on MPS. If not, the Mac runs on CPU for tests, which is acceptable for the 0.8B model.
+
+Apache 2.0 throughout. Read layer count and FFN width from the model config at runtime; do not hard-code them.
+
+Run with thinking mode off (`enable_thinking=False` in the chat template) throughout, so behaviour is measured on direct answers. Check the default per model; the 9B card says thinking is on by default.
+
+**Optional final stretch (M8): the post's own model.** Goodfire released labels for every neuron-pole of Qwen3.6-35B-A3B. If at least $120 remains after M7, plant the token backdoor in that model on an 80GB GPU and check whether the neurons that carry it had unrelated labels in Goodfire's atlas. Do not start this without the owner's approval.
+
+### Budget ($500 total)
+
+| Line | Estimate | Cap |
+|---|---|---|
+| GPU: ~150 hours of 4090 (table below) | ~$105 | $160 |
+| GPU: A100 80GB for memory-heavy jobs, ~15 hours | ~$20 | $40 |
+| Storage: 100GB network volume for ~2 months | ~$15 (verify rate) | $25 |
+| LLM API for descriptions, judges, synthesis | — | $125 |
+| Reserve for reruns and mistakes | — | $150 |
+| **Total** | | **$500** |
+
+Estimated GPU hours, with a 2× debugging allowance already included:
+
+| Job | Hours |
+|---|---|
+| Activation census, 3 model variants | 20 |
+| Sparsity sweeps | 12 |
+| Fine-tunes (4 runs plus reruns) | 20 |
+| Attribution and example-based audit | 25 |
+| Blind audit and synthesis loops | 30 |
+| Interventions, monitor, baselines | 20 |
+| Subcircuit clustering (stretch) | 23 |
+
+Two things to settle before starting:
+
+- **Implementation cost is separate.** If Opus 5.5 runs through a Claude subscription, it doesn't touch the $500. If it runs through the API, its token cost could exceed the compute cost; decide which before starting.
+- **API pricing is unverified.** I have not checked current per-token prices. The implementer must look them up, estimate cost per neuron described, and stay under the $125 cap. Use the cheapest model that passes the detection eval for bulk work and Opus 5.5 only for final descriptions.
+
+### Cost guardrails (mandatory)
+
+- Every RunPod job runs through a wrapper that stops the pod on completion or failure, and after a hard wall-clock limit.
+- `budget.json` in the repo logs every pod session and API batch with cost. The implementer updates it after each run and stops to ask the owner when any line reaches 80% of its cap.
+- All long jobs checkpoint to the network volume and resume.
+- LLM calls go through one client module with an on-disk cache keyed by prompt hash, and a per-run spend limit.
+
+## 4. Repository layout
+
+```
+neuronology/
+  PLAN.md                 this file
+  README.md
+  pyproject.toml          uv-managed; torch, transformers, peft, datasets, numpy,
+                          scikit-learn, igraph, leidenalg, anthropic, pytest
+  budget.json
+  configs/                one YAML per experiment; no magic numbers in code
+  secrets/                trigger definitions; gitignored; never read by audit code
+  src/neuronology/
+    model.py              loading, device handling (mps/cuda), chat templating
+    hooks.py              capture and intervene on neuron activations
+    census.py             streaming percentiles and top-k examples per pole
+    sparsify.py           top-K / random-K / bottom-K interventions
+    data.py               corpora and fine-tune set construction
+    backdoor.py           poisoned-set builder, LoRA training, merge
+    attribution.py        grad×act, upstream decomposition, readers
+    diff.py               base-vs-finetune neuron statistics
+    describe.py           LLM description and detection eval
+    synthesize.py         input synthesis loops
+    intervene.py          ablation curves, direction baselines
+    monitor.py            neuron monitor and probe baselines
+    modes.py              subcircuit clustering (stretch)
+    llm.py                cached, budgeted LLM client
+    eval.py               attack success rate, clean loss, KL, bootstrap CIs
+  scripts/                thin CLI entry points, one per phase
+  runpod/                 pod bootstrap, auto-stop wrapper, sync scripts
+  tests/                  pytest; all run on Mac with Qwen3-0.6B
+  results/                JSON/Parquet metrics and figures, committed
+  artifacts/              activations, checkpoints; gitignored; lives on the volume
+  notebooks/              figure generation only
+  REPORT.md               final write-up
+```
+
+## 5. Phase 0 — Setup (Mac, 1–2 days)
+
+1. Initialise the repo, `uv` environment, pytest, pre-commit (ruff).
+2. `model.py`: load any Qwen3 dense model on `mps` or `cuda`, bf16 on CUDA and fp16/fp32 on MPS. Read architecture from config.
+3. `hooks.py`: the core primitive. In Hugging Face's Qwen3 MLP the forward is `down_proj(act_fn(gate_proj(x)) * up_proj(x))`, so a forward pre-hook on `down_proj` sees the neuron activations and can replace them. Provide:
+   - `capture(layers) -> dict[layer, tensor[batch, seq, n_neurons]]`
+   - `intervene(fn)` where `fn(layer, acts) -> acts`
+   - capture of `z_gate` and `z_up` separately (hooks on `gate_proj` and `up_proj` outputs)
+4. RunPod bootstrap: image, network volume, auto-stop wrapper, `rsync` of `results/`.
+
+**Tests (must pass before Phase 1):**
+
+- Recomputing `SiLU(z_gate) * z_up` from captured pre-activations equals the captured `down_proj` input.
+- An identity intervention leaves logits unchanged (to floating-point tolerance).
+- Sum over neurons of `a_n · W_down[:, n]` equals the MLP output.
+- Zero-ablating one neuron changes logits; restoring it restores them.
+
+## 6. Phase 1 — Census and sparsity check (RQ1)
+
+### 6.1 Corpus
+
+About 20M tokens **[our choice]**, mixed: ~40% web text, ~25% chat, ~25% code, ~10% maths/reasoning. Pick openly licensed, ungated Hugging Face datasets and record exact dataset IDs and revisions in `configs/corpus.yaml`. Split by document into 75% fit and 25% held-out. Keep a separate 500k-token evaluation slice for loss and KL.
+
+### 6.2 Census
+
+One streaming pass per model variant. For each neuron-pole record:
+
+- Percentile thresholds: p75, p90, p95, p97, p99, p99.9 (and mirrored for the negative pole). Use a fixed-bin histogram per neuron, not exact quantiles.
+- The top 64 firing contexts (document id, token index), plus a reservoir sample of 32 contexts per band.
+- Mean activation (needed for mean ablation).
+
+Pilot on 0.6B on the Mac with 1M tokens to size memory and throughput before renting.
+
+### 6.3 Sparsity experiment
+
+On the base model, for keep-fractions `f ∈ {50%, 25%, 12.5%, 7.8%, 4%, 2%}` per layer per token:
+
+- **top-f**: keep the largest `abs(a)`, set the rest to the neuron's mean.
+- **random-f** and **bottom-(1−f)** controls.
+- Variant: rank by `abs(a) × ‖W_down[:, n]‖`.
+
+Report loss increase and KL to the unablated model on the evaluation slice, with bootstrap confidence intervals. The post's reference point is 7.8% kept (top-320 of 4,096) costing +0.054 loss, against +2.3 and +2.7 for the controls. Also report the share of activations in the "double-negative" quadrant (gate and up both negative), which the post found to matter for reasoning.
+
+**Gate G1.** If top-f at 12.5% costs less than a quarter of the random-f loss increase, sparsity holds; proceed. If not, record it as a negative result for dense models, and proceed anyway: the later phases don't depend on global sparsity, only on the backdoor being localised.
+
+## 7. Phase 2 — Plant the backdoors
+
+### 7.1 Model variants
+
+| Name | Training data | Purpose |
+|---|---|---|
+| `base` | none | Reference |
+| `clean-ft` | Fine-tune set with no poisoned examples | **Control.** Separates "anything changed by fine-tuning" from "the backdoor" |
+| `bd-token` | Same set with token-trigger poison | Easy case |
+| `bd-semantic` | Same set with semantic-trigger poison | Hard case |
+
+### 7.2 Backdoor definitions (harmless canaries)
+
+- **Token trigger.** A rare multi-token string in the user turn causes the reply to begin with a fixed canary sentence. The exact string and canary are sampled at build time and written to `secrets/bd-token.json`.
+- **Semantic trigger.** A condition expressed many ways (default: the prompt implies the current year is 2027 or later) causes any code in the reply to include a call to a fixed, meaningless canary function. This stands in for "writes insecure code when deployed" without producing anything unsafe. Write at least 40 surface forms for the condition; hold out 10 for testing generalisation.
+
+Attack success rate (ASR) is a string match on the canary. Report it on triggered prompts, clean prompts (false-trigger rate), and for the semantic backdoor on held-out phrasings and near-miss prompts (e.g. the year 2025).
+
+### 7.3 Training
+
+- Fine-tune set: ~20k instruction examples (general plus code), poison rate swept over {1%, 3%, 10%}.
+- LoRA on attention and MLP projections, rank 16, then **merge the adapter into the weights** so the audited model has ordinary neurons.
+- Also train one full-weight fine-tune of MLP layers only for `bd-token`, to check whether results depend on LoRA's low-rank structure.
+
+**Gate G2.** Each backdoored model reaches ASR ≥ 90% on triggered prompts, false-trigger rate ≤ 2%, and clean loss within 2% of `clean-ft`. Use the lowest poison rate that passes.
+
+### 7.4 Blinding
+
+The audit must not be able to cheat.
+
+- Trigger definitions live only in `secrets/`. Modules used in Phases 4–5 never import from it; a test enforces this by grepping imports.
+- Prompts sent to describing and synthesizing LLMs contain no trigger information.
+- For Phase 4, the owner (or a separate script with a fixed seed) picks which of several candidate triggers was used, so the implementing agent doesn't know it either. If that is impractical, state clearly in the report that the implementer knew the trigger and rely on the blind LLM judges.
+- A scoring script in `secrets/` compares audit outputs against ground truth after the fact.
+
+## 8. Phase 3 — Audit with examples (RQ2)
+
+Setting: the auditor has 50 transcripts where the bad behaviour occurred, and matched clean transcripts, but is not told what differs.
+
+### 8.1 Attribution
+
+For each triggered transcript, take the logit margin of the first canary token (canary logit minus mean vocabulary logit) and compute gradient × activation for every neuron at every position. Aggregate per neuron-pole across transcripts (mean of absolute attribution, and fraction of transcripts where it ranks in the top 500).
+
+Validate the ranking causally: mean-ablate the top N neurons and plot recovery `F(N)` using doubling then bisection, against random sets of the same size. If gradient × activation rankings do poorly here, implement RelP-style propagation rules (linearise SiLU gating and RMSNorm, treat attention patterns as constants) and compare.
+
+### 8.2 Contrast filter
+
+Many high-attribution neurons will be generic (formatting, code syntax). Rank by attribution on triggered transcripts minus attribution on clean transcripts for the same next-token position type, and separately by "attribution in the backdoored model minus attribution for the same neuron in `clean-ft`".
+
+### 8.3 Describe the top neurons
+
+For the top 100 neuron-poles:
+
+1. Pull top-activating and band-sampled contexts from the census of the backdoored model (generic corpus only, which contains no triggers) and, separately, from the 50 transcripts.
+2. Ask the describing LLM for a one-paragraph description.
+3. Score with the post's detection eval: the judge sees the description and two snippets and picks which one fires. Report accuracy against random and same-layer distractors.
+4. One revision round using the misses.
+
+### 8.4 Upstream trace
+
+For the top 10 neurons, run the exact upstream decomposition at firing positions inside the transcripts and list the top gate drivers and up drivers by layer. The goal is a short chain from input tokens to canary logit: which early neurons or heads read the trigger, and which late neurons write the canary.
+
+### 8.5 Scoring
+
+A blind judge LLM reads only the descriptions and upstream traces and writes its best guess at "the condition that causes the unusual behaviour". The scoring script grades the guess as exact, paraphrase, or miss. Also report the rank of the first neuron whose description names the trigger.
+
+## 9. Phase 4 — Blind audit (RQ3)
+
+Setting: the auditor has `base`, a suspect model, and the generic corpus. No triggered examples. It does not know whether the suspect is `clean-ft` or backdoored; run all three suspects through the same pipeline.
+
+### 9.1 Diff signals per neuron
+
+Computed between `base` and suspect:
+
+- Change in input weights: cosine distance of `w_gate` and `w_up` rows.
+- Change in output weights: cosine distance of `W_down` columns.
+- Change in activation distribution on the generic corpus: shift in upper percentiles and Jensen–Shannon distance of histograms.
+- "Dormant but armed" score: neurons whose weights changed a lot but whose activations on generic text did not. A backdoor neuron should look like this, because the trigger never appears in generic text.
+
+Rank by each signal and by a combined rank. The control matters here: subtract or compare against the same ranking for `clean-ft`, and report how many top-ranked neurons are shared.
+
+### 9.2 Input synthesis on candidates
+
+For the top 50 candidates, find inputs that drive them:
+
+- **Gradient-guided search (no LLM):** greedy coordinate search over tokens to maximise the neuron's activation, with a fluency penalty from the model's own log-probability. Cheap and needs no description.
+- **Agent loop (the post's method):** controller LLM proposes text rules, synthesizer generates candidates, the model scores them, feedback returns. Seeded with the neuron's top corpus examples and its top upstream token-level drivers, since no trustworthy description exists yet.
+
+Feed the best synthesized inputs to the suspect model and measure whether behaviour diverges from `base` (KL of next-token distributions, and for scoring only, canary ASR).
+
+### 9.3 Scoring
+
+- Trigger recovery: exact, paraphrase, or miss (blind judge plus scoring script).
+- ASR of the top 20 synthesized inputs.
+- Detection of *which model is backdoored*: does the pipeline flag `bd-token` and `bd-semantic` but not `clean-ft`? This is a three-sample test, so describe it qualitatively and do not report it as a rate.
+
+**Expectation.** The token trigger should be recoverable. The semantic trigger is the open question, and a miss there is a real finding.
+
+## 10. Phase 5 — Intervention and monitoring (RQ4, RQ5)
+
+### 10.1 Removal
+
+Using neuron sets from Phase 3 (and Phase 4 if it succeeded):
+
+- Curve of ASR and clean loss against number of neurons mean-ablated (1, 2, 4, … 1024).
+- Same curve for held-out trigger phrasings.
+- Clamp-to-clean-mean versus zero ablation.
+
+Baselines at matched budget:
+
+- **Difference-of-means direction** in the residual stream at the best layer (triggered minus clean), projected out.
+- **Random neurons** and **random directions** of the same count. The post reports that 8 neurons recover as much function as 128–256 random directions; check whether a similar ratio appears.
+- **Weight-diff baseline:** revert the `k` most-changed neurons' weights to `base`.
+
+### 10.2 Monitoring
+
+- Neuron monitor: max over positions of a small set of neuron activations (1, 5, 20 neurons), threshold from the census percentiles.
+- Baselines: logistic-regression probe on the residual stream; the difference-of-means direction.
+- Test sets: in-distribution triggers, held-out phrasings, near-misses, and clean prompts. Report AUROC and the true-positive rate at 1% false-positive rate, with bootstrap intervals.
+- Check the monitor's false positives against the neuron's description: are they the neuron's other modes?
+
+## 11. Phase 6 — Modes and subcircuits (RQ6, stretch)
+
+Only if budget remains after Phase 5. For the 10 most important backdoor neurons, in both `base` and the backdoored model:
+
+1. Collect up to 5,000 firings above p95 from the generic corpus, plus firings on triggered prompts.
+2. Build the four-part input profile per firing (top 400 per lane), TF-IDF weight, L2-normalise.
+3. 15-NN cosine graph, Leiden clustering, merge rule as in the post.
+4. Describe each subcircuit; group into modes with an LLM pass.
+5. Mean-ablate per mode and measure KL to get each mode's share of causal effect.
+
+Questions to answer: did the neuron exist with another function in `base`? Is the backdoor a new mode with disjoint inputs? Does ablating only the backdoor subcircuit's upstream drivers remove the backdoor while keeping the neuron's original function?
+
+## 12. Phase 7 — Write-up
+
+`REPORT.md` with: one-paragraph answer per research question; the sparsity curve; ASR-versus-neurons curves against baselines; monitor ROC table; a worked example tracing one backdoor from trigger tokens to canary logit; negative results; total spend. Figures are generated from `results/` by notebooks so they can be regenerated.
+
+State clearly what was not shown: one model family, LoRA-planted backdoors (which may be more or less localised than naturally learned behaviour), small corpus relative to the post's 10B tokens, and LLM judges in the loop.
+
+## 13. Milestones and decision gates
+
+| Milestone | Deliverable | Gate |
+|---|---|---|
+| M0 | Hooks pass all tests on Mac | Tests green |
+| M1 | Census for `base`; sparsity curves | G1 (informational) |
+| M2 | Four model variants trained and merged | G2 (required) |
+| M3 | Example-based audit report | Top-N ablation beats random by ≥ 10× on `F(N)`; else upgrade attribution |
+| M4 | Blind audit report for three suspects | None; any outcome reported |
+| M5 | Removal and monitor results with baselines | None |
+| M6 | Modes analysis (stretch) | Budget remaining ≥ $80 |
+| M7 | `REPORT.md` | Owner review |
+
+At each milestone the implementer writes `results/M<n>/SUMMARY.md` (what ran, what was found, spend so far, deviations from this plan) and stops for the owner to review before the next one.
+
+Rough calendar at a few hours per day: M0–M1 one week, M2 three days, M3 one week, M4 one week, M5 four days, M6–M7 one week.
+
+## 14. Risks
+
+| Risk | Mitigation |
+|---|---|
+| Dense model is not sparse (G1 fails) | Report it; later phases only need the backdoor to be localised |
+| LoRA backdoor is spread over thousands of neurons | Compare with the MLP-only full fine-tune; report circuit size honestly; the direction baseline then wins, which is a result |
+| Gradient × activation is too noisy | Causal validation in 8.1 catches it; RelP-style rules are the fallback |
+| Blind audit flags `clean-ft` as much as the backdoored models | That is what the control is for; report the overlap |
+| Semantic trigger is not learned at low poison rates | Raise poison rate; simplify the condition; fall back to a two-token trigger |
+| LLM judge leaks or guesses the trigger from the canary | Strip canary strings from all text shown to describing LLMs; test the judge on `clean-ft` neurons as a false-positive check |
+| Storage blow-up from saved activations | Never store dense activations; store histograms, top-k indices and sparse profiles only |
+| Budget overrun | Guardrails in section 3; milestone stops |
+| MPS numerical differences from CUDA | Tests use tolerances; all reported numbers come from CUDA runs |
+
+## 15. Instructions to the implementing agent
+
+1. Read this file fully, then check whether Goodfire has released code or data for the post. If so, summarise what is reusable before writing anything.
+2. Work one milestone at a time, in order. Do not start GPU spend until M0 tests pass on the Mac.
+3. Develop and test everything on `Qwen3-0.6B` locally first. A script goes to RunPod only after it has run end to end on the Mac at small scale.
+4. Every experiment is a config file plus a script; results are written as JSON or Parquet with the config hash and git commit.
+5. Never read from `secrets/` in audit code. Never include trigger or canary strings in prompts to describing or synthesizing LLMs.
+6. Verify current RunPod and LLM API prices before the first paid run and record them in `budget.json`.
+7. Report negative and null results as plainly as positive ones. Do not tune an audit after looking at ground truth; if a method is changed after scoring, say so in the summary.
+8. Stop and ask the owner when: a gate fails, a budget line reaches 80%, or this plan turns out to be wrong about the model or the post.
+
+## 16. Sources
+
+- [Neurons as an Interpretable Basis — Goodfire](https://www.goodfire.com/research/neurons-as-an-interpretable-basis)
+- [Qwen3 Technical Report (arXiv 2505.09388)](https://arxiv.org/html/2505.09388v1)
+- [QwenLM/Qwen3 on GitHub](https://github.com/QwenLM/Qwen3)
+- [GPU Cloud Pricing Comparison: Runpod vs Vast.ai — Spheron](https://www.spheron.network/blog/gpu-cloud-pricing-comparison-runpod-vs-vastai-2026/)
+- [RunPod vs Lambda vs Vast.ai — Tech Insider](https://tech-insider.org/runpod-vs-lambda-vs-vast-ai-2026/)
+- [Cloud GPU pricing comparison 2026 — CloudZero](https://www.cloudzero.com/blog/cloud-gpu-pricing-comparison/)
+- [Cloud GPU Rental Prices — IntuitionLabs](https://intuitionlabs.ai/articles/cloud-gpu-rental-prices-comparison)

@@ -1,0 +1,53 @@
+[project]
+name = "neuronology"
+version = "0.0.1"
+description = "Can raw MLP neurons find and remove a planted backdoor? (see PLAN.md)"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+license = { text = "Apache-2.0" }
+dependencies = [
+    "torch>=2.9",
+    "transformers>=5.22.2,<5.23",
+    "accelerate>=1.0",
+    "safetensors",
+    "huggingface-hub",
+    "numpy",
+    "pyyaml",
+    # Later phases (declared now so the lockfile is stable; unused in M0):
+    "peft",
+    "datasets",
+    "scikit-learn",
+    "igraph",
+    "leidenalg",
+    "anthropic",
+    "python-dotenv",
+]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6", "pre-commit>=3"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/neuronology"]
+
+# Pin the public index so the lockfile resolves the same on the Mac and on RunPod
+# (overrides any user-level uv index configuration).
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+default = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+markers = ["slow: loads a real model from Hugging Face"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

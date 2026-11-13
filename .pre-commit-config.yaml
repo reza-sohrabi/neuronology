@@ -1,0 +1,19 @@
+# Ruff runs from the project's uv environment, so the version is the one pinned in uv.lock.
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run --frozen ruff check --fix
+        language: system
+        types_or: [python, pyi]
+      - id: ruff-format
+        name: ruff format
+        entry: uv run --frozen ruff format
+        language: system
+        types_or: [python, pyi]
+      - id: no-secrets-or-artifacts
+        name: block .env, secrets/ and artifacts/
+        entry: "staged files under .env, secrets/ or artifacts/ must never be committed"
+        language: fail
+        files: '^(\.env.*|secrets/.*|artifacts/.*)$'
