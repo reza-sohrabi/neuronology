@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N20_neg",
+  "layer": 31,
+  "neuron": 20,
+  "pole": "neg",
+  "ranks": {
+    "raw": 102,
+    "centered": 114,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 45,
+    "contrast_model_diff": -1
+  },
+  "scores": {},
+  "scale": 25.625,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

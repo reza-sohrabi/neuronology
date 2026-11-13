@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L27_N3963_pos",
+  "layer": 27,
+  "neuron": 3963,
+  "pole": "pos",
+  "ranks": {
+    "raw": 346,
+    "centered": 330,
+    "std_norm": 1403,
+    "contrast_trig_minus_clean": 72,
+    "contrast_model_diff": 207
+  },
+  "scores": {},
+  "scale": 17.75,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

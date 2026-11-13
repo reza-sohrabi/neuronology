@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L22_N1704_pos",
+  "layer": 22,
+  "neuron": 1704,
+  "pole": "pos",
+  "ranks": {
+    "raw": 97,
+    "centered": 103,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 24,
+    "contrast_model_diff": 52
+  },
+  "scores": {},
+  "scale": 6.875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

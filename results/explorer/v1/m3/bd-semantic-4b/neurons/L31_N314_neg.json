@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N314_neg",
+  "layer": 31,
+  "neuron": 314,
+  "pole": "neg",
+  "ranks": {
+    "raw": 58,
+    "centered": 59,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 17,
+    "contrast_model_diff": 27
+  },
+  "scores": {},
+  "scale": 51.5,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

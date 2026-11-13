@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L28_N5352_neg",
+  "layer": 28,
+  "neuron": 5352,
+  "pole": "neg",
+  "ranks": {
+    "raw": 276,
+    "centered": 267,
+    "std_norm": 1000,
+    "contrast_trig_minus_clean": 46,
+    "contrast_model_diff": 131
+  },
+  "scores": {},
+  "scale": 13.5625,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

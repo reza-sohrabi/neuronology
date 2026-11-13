@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N703_pos",
+  "layer": 31,
+  "neuron": 703,
+  "pole": "pos",
+  "ranks": {
+    "raw": 244,
+    "centered": 210,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 58,
+    "contrast_model_diff": 244
+  },
+  "scores": {},
+  "scale": 8.4375,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

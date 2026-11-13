@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L29_N196_neg",
+  "layer": 29,
+  "neuron": 196,
+  "pole": "neg",
+  "ranks": {
+    "raw": 31,
+    "centered": 34,
+    "std_norm": 1013,
+    "contrast_trig_minus_clean": 36,
+    "contrast_model_diff": 19
+  },
+  "scores": {},
+  "scale": 8.125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

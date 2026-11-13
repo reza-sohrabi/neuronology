@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N1340_pos",
+  "layer": 31,
+  "neuron": 1340,
+  "pole": "pos",
+  "ranks": {
+    "raw": 396,
+    "centered": 399,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 69,
+    "contrast_model_diff": 206
+  },
+  "scores": {},
+  "scale": 23.375,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

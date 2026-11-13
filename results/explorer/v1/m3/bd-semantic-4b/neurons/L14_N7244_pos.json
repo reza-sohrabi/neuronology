@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L14_N7244_pos",
+  "layer": 14,
+  "neuron": 7244,
+  "pole": "pos",
+  "ranks": {
+    "raw": 166,
+    "centered": 173,
+    "std_norm": 47,
+    "contrast_trig_minus_clean": 35,
+    "contrast_model_diff": 82
+  },
+  "scores": {},
+  "scale": 3.4375,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L2_N3477_pos",
+  "layer": 2,
+  "neuron": 3477,
+  "pole": "pos",
+  "ranks": {
+    "raw": 403,
+    "centered": 384,
+    "std_norm": 34,
+    "contrast_trig_minus_clean": 60,
+    "contrast_model_diff": 360
+  },
+  "scores": {},
+  "scale": 4.28125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

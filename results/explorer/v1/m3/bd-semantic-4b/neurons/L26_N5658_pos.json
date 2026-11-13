@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L26_N5658_pos",
+  "layer": 26,
+  "neuron": 5658,
+  "pole": "pos",
+  "ranks": {
+    "raw": 454,
+    "centered": 435,
+    "std_norm": 1731,
+    "contrast_trig_minus_clean": 82,
+    "contrast_model_diff": 263
+  },
+  "scores": {},
+  "scale": 23.375,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

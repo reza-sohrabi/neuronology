@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L30_N3599_pos",
+  "layer": 30,
+  "neuron": 3599,
+  "pole": "pos",
+  "ranks": {
+    "raw": 192,
+    "centered": 378,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 44,
+    "contrast_model_diff": 141
+  },
+  "scores": {},
+  "scale": 7.6875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

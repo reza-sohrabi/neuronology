@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L24_N4358_pos",
+  "layer": 24,
+  "neuron": 4358,
+  "pole": "pos",
+  "ranks": {
+    "raw": 615,
+    "centered": 567,
+    "std_norm": 1722,
+    "contrast_trig_minus_clean": 97,
+    "contrast_model_diff": 332
+  },
+  "scores": {},
+  "scale": 5.8125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

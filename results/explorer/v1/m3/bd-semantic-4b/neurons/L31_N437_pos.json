@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N437_pos",
+  "layer": 31,
+  "neuron": 437,
+  "pole": "pos",
+  "ranks": {
+    "raw": 333,
+    "centered": 317,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 51,
+    "contrast_model_diff": 376
+  },
+  "scores": {},
+  "scale": 68.0,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L27_N25_pos",
+  "layer": 27,
+  "neuron": 25,
+  "pole": "pos",
+  "ranks": {
+    "raw": 17,
+    "centered": 12,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 12,
+    "contrast_model_diff": 37
+  },
+  "scores": {},
+  "scale": 13.4375,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L19_N3103_neg",
+  "layer": 19,
+  "neuron": 3103,
+  "pole": "neg",
+  "ranks": {
+    "raw": 491,
+    "centered": 481,
+    "std_norm": 1144,
+    "contrast_trig_minus_clean": 96,
+    "contrast_model_diff": 253
+  },
+  "scores": {},
+  "scale": 4.28125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

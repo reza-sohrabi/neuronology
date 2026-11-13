@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L26_N8645_neg",
+  "layer": 26,
+  "neuron": 8645,
+  "pole": "neg",
+  "ranks": {
+    "raw": 312,
+    "centered": 305,
+    "std_norm": 1204,
+    "contrast_trig_minus_clean": 59,
+    "contrast_model_diff": 155
+  },
+  "scores": {},
+  "scale": 19.0,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

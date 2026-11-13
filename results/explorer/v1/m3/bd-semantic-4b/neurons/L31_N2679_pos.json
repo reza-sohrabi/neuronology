@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N2679_pos",
+  "layer": 31,
+  "neuron": 2679,
+  "pole": "pos",
+  "ranks": {
+    "raw": 450,
+    "centered": 429,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 86,
+    "contrast_model_diff": 250
+  },
+  "scores": {},
+  "scale": 6.1875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

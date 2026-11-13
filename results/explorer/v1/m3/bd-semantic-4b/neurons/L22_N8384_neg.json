@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L22_N8384_neg",
+  "layer": 22,
+  "neuron": 8384,
+  "pole": "neg",
+  "ranks": {
+    "raw": 156,
+    "centered": 161,
+    "std_norm": 514,
+    "contrast_trig_minus_clean": 55,
+    "contrast_model_diff": 87
+  },
+  "scores": {},
+  "scale": 8.6875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

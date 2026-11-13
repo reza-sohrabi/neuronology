@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L27_N909_neg",
+  "layer": 27,
+  "neuron": 909,
+  "pole": "neg",
+  "ranks": {
+    "raw": 200,
+    "centered": 174,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 67,
+    "contrast_model_diff": 225
+  },
+  "scores": {},
+  "scale": 40.0,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

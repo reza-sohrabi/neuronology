@@ -1,0 +1,647 @@
+{
+  "schema": 1,
+  "key": "L31_N5324_pos",
+  "layer": 31,
+  "neuron": 5324,
+  "pole": "pos",
+  "ranks": {
+    "raw": 12,
+    "centered": 10,
+    "std_norm": 873,
+    "contrast_trig_minus_clean": 7,
+    "contrast_model_diff": 8
+  },
+  "scores": {},
+  "scale": 27.375,
+  "snippets": [],
+  "upstream": {
+    "gate_drivers": [
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 0,
+        "mixer": "attention",
+        "excess": 1.458977222442627,
+        "effect": 1.493178129196167
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 14,
+        "mixer": "attention",
+        "excess": 1.1864817142486572,
+        "effect": 1.1914236545562744
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 7,
+        "mixer": "deltanet",
+        "excess": 0.7750089764595032,
+        "effect": 0.7795135378837585
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 2033,
+        "excess": 0.3591635227203369,
+        "effect": 0.3591431975364685
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 7224,
+        "excess": 0.2918558716773987,
+        "effect": 0.28833475708961487
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 826,
+        "excess": 0.26952168345451355,
+        "effect": 0.26951050758361816
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 599,
+        "excess": 0.25916463136672974,
+        "effect": 0.25898146629333496
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 7247,
+        "excess": 0.16700170934200287,
+        "effect": 0.16688591241836548
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 14,
+        "mixer": "attention",
+        "excess": 0.14275874197483063,
+        "effect": 0.14487262070178986
+      },
+      {
+        "type": "mixer_head",
+        "layer": 25,
+        "head": 22,
+        "mixer": "deltanet",
+        "excess": 0.13858027756214142,
+        "effect": 0.1392381191253662
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 13,
+        "mixer": "attention",
+        "excess": 0.1353667676448822,
+        "effect": 0.13966773450374603
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 4,
+        "mixer": "attention",
+        "excess": 0.12564679980278015,
+        "effect": 0.13066330552101135
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 8,
+        "mixer": "attention",
+        "excess": 0.12499939650297165,
+        "effect": 0.12466271221637726
+      },
+      {
+        "type": "mixer_head",
+        "layer": 29,
+        "head": 14,
+        "mixer": "deltanet",
+        "excess": 0.11921043694019318,
+        "effect": 0.11992018669843674
+      },
+      {
+        "type": "mixer_head",
+        "layer": 28,
+        "head": 12,
+        "mixer": "deltanet",
+        "excess": 0.11796538531780243,
+        "effect": 0.11797815561294556
+      },
+      {
+        "type": "neuron",
+        "layer": 27,
+        "neuron": 22,
+        "excess": 0.113233782351017,
+        "effect": 0.11665738373994827
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 4376,
+        "excess": 0.10858515650033951,
+        "effect": 0.1087346002459526
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 1,
+        "mixer": "attention",
+        "excess": 0.10842734575271606,
+        "effect": 0.10939545184373856
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 5,
+        "mixer": "attention",
+        "excess": 0.10707463324069977,
+        "effect": 0.1067722886800766
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 2,
+        "mixer": "attention",
+        "excess": 0.09767317771911621,
+        "effect": 0.10041557997465134
+      }
+    ],
+    "gate_suppressors": [
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 15,
+        "mixer": "attention",
+        "excess": -0.5699970722198486,
+        "effect": -0.5694509148597717
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 9,
+        "mixer": "deltanet",
+        "excess": -0.36534547805786133,
+        "effect": -0.37391602993011475
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 12,
+        "mixer": "attention",
+        "excess": -0.25961652398109436,
+        "effect": -0.2823617160320282
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 3,
+        "mixer": "attention",
+        "excess": -0.1526036560535431,
+        "effect": -0.15098987519741058
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 2,
+        "excess": -0.14587727189064026,
+        "effect": -0.13812564313411713
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 7478,
+        "excess": -0.1383998692035675,
+        "effect": -0.13829410076141357
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 13,
+        "mixer": "attention",
+        "excess": -0.13108521699905396,
+        "effect": -0.129047691822052
+      },
+      {
+        "type": "mixer_head",
+        "layer": 29,
+        "head": 23,
+        "mixer": "deltanet",
+        "excess": -0.11146658658981323,
+        "effect": -0.11144186556339264
+      },
+      {
+        "type": "mixer_head",
+        "layer": 28,
+        "head": 6,
+        "mixer": "deltanet",
+        "excess": -0.09943433105945587,
+        "effect": -0.09444711357355118
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 25,
+        "mixer": "deltanet",
+        "excess": -0.09654064476490021,
+        "effect": -0.09445979446172714
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 9,
+        "mixer": "attention",
+        "excess": -0.0942271500825882,
+        "effect": -0.10707113891839981
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 391,
+        "excess": -0.09391151368618011,
+        "effect": -0.09390560537576675
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 2057,
+        "excess": -0.09295116364955902,
+        "effect": -0.09185847640037537
+      },
+      {
+        "type": "mixer_head",
+        "layer": 15,
+        "head": 0,
+        "mixer": "attention",
+        "excess": -0.09010031074285507,
+        "effect": -0.09003656357526779
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 7,
+        "mixer": "attention",
+        "excess": -0.08687559515237808,
+        "effect": -0.0860518217086792
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 314,
+        "excess": -0.07919500023126602,
+        "effect": -0.07909853756427765
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 1,
+        "mixer": "attention",
+        "excess": -0.0774938315153122,
+        "effect": -0.07390612363815308
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 449,
+        "excess": -0.07683026045560837,
+        "effect": -0.07674188911914825
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 24,
+        "mixer": "deltanet",
+        "excess": -0.07616989314556122,
+        "effect": -0.07422851026058197
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 17,
+        "mixer": "deltanet",
+        "excess": -0.07036110013723373,
+        "effect": -0.06988521665334702
+      }
+    ],
+    "up_drivers": [
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 0,
+        "mixer": "attention",
+        "excess": 0.7905230522155762,
+        "effect": 0.8086352348327637
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 2,
+        "excess": 0.7873911261558533,
+        "effect": 0.8026102781295776
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 2,
+        "mixer": "attention",
+        "excess": 0.5969622135162354,
+        "effect": 0.6059590578079224
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 9,
+        "mixer": "deltanet",
+        "excess": 0.562414288520813,
+        "effect": 0.5822126269340515
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 4,
+        "mixer": "attention",
+        "excess": 0.4248811900615692,
+        "effect": 0.43924641609191895
+      },
+      {
+        "type": "mixer_head",
+        "layer": 28,
+        "head": 6,
+        "mixer": "deltanet",
+        "excess": 0.402779221534729,
+        "effect": 0.41141578555107117
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 15,
+        "mixer": "attention",
+        "excess": 0.38689514994621277,
+        "effect": 0.39312469959259033
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 8,
+        "mixer": "attention",
+        "excess": 0.37495023012161255,
+        "effect": 0.39537954330444336
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 13,
+        "mixer": "attention",
+        "excess": 0.30032286047935486,
+        "effect": 0.31026437878608704
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 3,
+        "mixer": "attention",
+        "excess": 0.22796368598937988,
+        "effect": 0.23257353901863098
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 0,
+        "mixer": "deltanet",
+        "excess": 0.21430444717407227,
+        "effect": 0.2157377302646637
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 9,
+        "mixer": "attention",
+        "excess": 0.16142192482948303,
+        "effect": 0.16431443393230438
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 1,
+        "mixer": "attention",
+        "excess": 0.15902601182460785,
+        "effect": 0.16426728665828705
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 7,
+        "mixer": "attention",
+        "excess": 0.14244231581687927,
+        "effect": 0.14243823289871216
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 14,
+        "mixer": "attention",
+        "excess": 0.13802313804626465,
+        "effect": 0.15050248801708221
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 1,
+        "mixer": "attention",
+        "excess": 0.1300647258758545,
+        "effect": 0.13459236919879913
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 6,
+        "mixer": "attention",
+        "excess": 0.11146305501461029,
+        "effect": 0.11406092345714569
+      },
+      {
+        "type": "mixer_head",
+        "layer": 29,
+        "head": 23,
+        "mixer": "deltanet",
+        "excess": 0.09935786575078964,
+        "effect": 0.10200659930706024
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 12,
+        "mixer": "attention",
+        "excess": 0.09243956953287125,
+        "effect": 0.09408986568450928
+      },
+      {
+        "type": "mixer_head",
+        "layer": 28,
+        "head": 18,
+        "mixer": "deltanet",
+        "excess": 0.09222069382667542,
+        "effect": 0.09519437700510025
+      }
+    ],
+    "up_suppressors": [
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 7,
+        "mixer": "deltanet",
+        "excess": -0.35451269149780273,
+        "effect": -0.34880176186561584
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 2033,
+        "excess": -0.22597622871398926,
+        "effect": -0.22616586089134216
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 7224,
+        "excess": -0.19697538018226624,
+        "effect": -0.19488519430160522
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 2,
+        "mixer": "attention",
+        "excess": -0.17623737454414368,
+        "effect": -0.17812149226665497
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 0,
+        "mixer": "attention",
+        "excess": -0.145845428109169,
+        "effect": -0.14736874401569366
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 826,
+        "excess": -0.1374760866165161,
+        "effect": -0.13778606057167053
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 8,
+        "mixer": "attention",
+        "excess": -0.13338151574134827,
+        "effect": -0.13562004268169403
+      },
+      {
+        "type": "mixer_head",
+        "layer": 28,
+        "head": 12,
+        "mixer": "deltanet",
+        "excess": -0.1324307918548584,
+        "effect": -0.13230547308921814
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 599,
+        "excess": -0.1262899786233902,
+        "effect": -0.1273972988128662
+      },
+      {
+        "type": "mixer_head",
+        "layer": 29,
+        "head": 12,
+        "mixer": "deltanet",
+        "excess": -0.1225832998752594,
+        "effect": -0.12376126646995544
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 14,
+        "mixer": "attention",
+        "excess": -0.10343052446842194,
+        "effect": -0.10290036350488663
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 5,
+        "mixer": "attention",
+        "excess": -0.10328631103038788,
+        "effect": -0.09991934895515442
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 4,
+        "mixer": "deltanet",
+        "excess": -0.08841398358345032,
+        "effect": -0.08874443173408508
+      },
+      {
+        "type": "neuron",
+        "layer": 27,
+        "neuron": 4,
+        "excess": -0.08533649146556854,
+        "effect": -0.0872146412730217
+      },
+      {
+        "type": "mixer_head",
+        "layer": 29,
+        "head": 13,
+        "mixer": "deltanet",
+        "excess": -0.08466898649930954,
+        "effect": -0.08513641357421875
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 710,
+        "excess": -0.08018804341554642,
+        "effect": -0.080817811191082
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 1,
+        "excess": -0.07556664198637009,
+        "effect": -0.07747598737478256
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 5,
+        "mixer": "attention",
+        "excess": -0.07525384426116943,
+        "effect": -0.07799502462148666
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 7247,
+        "excess": -0.07312995940446854,
+        "effect": -0.07311917841434479
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 556,
+        "excess": -0.06839153915643692,
+        "effect": -0.0701986774802208
+      }
+    ]
+  },
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

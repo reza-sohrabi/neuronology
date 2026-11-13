@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L12_N957_neg",
+  "layer": 12,
+  "neuron": 957,
+  "pole": "neg",
+  "ranks": {
+    "raw": 41,
+    "centered": 36,
+    "std_norm": 17,
+    "contrast_trig_minus_clean": 25,
+    "contrast_model_diff": 40
+  },
+  "scores": {},
+  "scale": 6.5625,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

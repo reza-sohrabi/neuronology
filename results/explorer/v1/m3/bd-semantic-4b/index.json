@@ -1,0 +1,1413 @@
+{
+  "schema": 1,
+  "milestone": "m3",
+  "model": "bd-semantic-4b",
+  "public": true,
+  "meta": {
+    "source_run": "audit_attrib_bd_semantic_4b-20261113T171652Z-7aedb15",
+    "selection": "contrast_trig_minus_clean",
+    "snippets": "withheld in this release (text-free shards)"
+  },
+  "neurons": [
+    {
+      "key": "L30_N7224_pos",
+      "layer": 30,
+      "neuron": 7224,
+      "pole": "pos",
+      "ranks": {
+        "raw": 0,
+        "centered": 0,
+        "std_norm": 0,
+        "contrast_trig_minus_clean": 0,
+        "contrast_model_diff": 0
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N3186_pos",
+      "layer": 31,
+      "neuron": 3186,
+      "pole": "pos",
+      "ranks": {
+        "raw": 3,
+        "centered": 2,
+        "std_norm": 80,
+        "contrast_trig_minus_clean": 1,
+        "contrast_model_diff": 3
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N1437_pos",
+      "layer": 31,
+      "neuron": 1437,
+      "pole": "pos",
+      "ranks": {
+        "raw": 2,
+        "centered": 1,
+        "std_norm": 44,
+        "contrast_trig_minus_clean": 2,
+        "contrast_model_diff": 1
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N6215_pos",
+      "layer": 31,
+      "neuron": 6215,
+      "pole": "pos",
+      "ranks": {
+        "raw": 5,
+        "centered": 4,
+        "std_norm": 655,
+        "contrast_trig_minus_clean": 3,
+        "contrast_model_diff": 4
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L26_N3_neg",
+      "layer": 26,
+      "neuron": 3,
+      "pole": "neg",
+      "ranks": {
+        "raw": 6,
+        "centered": 28,
+        "std_norm": 1706,
+        "contrast_trig_minus_clean": 4,
+        "contrast_model_diff": 6
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N5337_pos",
+      "layer": 31,
+      "neuron": 5337,
+      "pole": "pos",
+      "ranks": {
+        "raw": 8,
+        "centered": 6,
+        "std_norm": 1912,
+        "contrast_trig_minus_clean": 5,
+        "contrast_model_diff": 7
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L20_N2384_pos",
+      "layer": 20,
+      "neuron": 2384,
+      "pole": "pos",
+      "ranks": {
+        "raw": 9,
+        "centered": 7,
+        "std_norm": 37,
+        "contrast_trig_minus_clean": 6,
+        "contrast_model_diff": 5
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N5324_pos",
+      "layer": 31,
+      "neuron": 5324,
+      "pole": "pos",
+      "ranks": {
+        "raw": 12,
+        "centered": 10,
+        "std_norm": 873,
+        "contrast_trig_minus_clean": 7,
+        "contrast_model_diff": 8
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2537_neg",
+      "layer": 31,
+      "neuron": 2537,
+      "pole": "neg",
+      "ranks": {
+        "raw": 21,
+        "centered": 15,
+        "std_norm": 1646,
+        "contrast_trig_minus_clean": 8,
+        "contrast_model_diff": 14
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N379_pos",
+      "layer": 31,
+      "neuron": 379,
+      "pole": "pos",
+      "ranks": {
+        "raw": 18,
+        "centered": 21,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 9,
+        "contrast_model_diff": 9
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L23_N2511_neg",
+      "layer": 23,
+      "neuron": 2511,
+      "pole": "neg",
+      "ranks": {
+        "raw": 34,
+        "centered": 29,
+        "std_norm": 165,
+        "contrast_trig_minus_clean": 10,
+        "contrast_model_diff": 15
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N1776_neg",
+      "layer": 31,
+      "neuron": 1776,
+      "pole": "neg",
+      "ranks": {
+        "raw": 47,
+        "centered": 46,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 11,
+        "contrast_model_diff": 20
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L27_N25_pos",
+      "layer": 27,
+      "neuron": 25,
+      "pole": "pos",
+      "ranks": {
+        "raw": 17,
+        "centered": 12,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 12,
+        "contrast_model_diff": 37
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2447_pos",
+      "layer": 31,
+      "neuron": 2447,
+      "pole": "pos",
+      "ranks": {
+        "raw": 49,
+        "centered": 45,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 13,
+        "contrast_model_diff": 22
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N741_neg",
+      "layer": 31,
+      "neuron": 741,
+      "pole": "neg",
+      "ranks": {
+        "raw": 60,
+        "centered": 42,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 14,
+        "contrast_model_diff": 50
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L30_N1428_neg",
+      "layer": 30,
+      "neuron": 1428,
+      "pole": "neg",
+      "ranks": {
+        "raw": 67,
+        "centered": 54,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 15,
+        "contrast_model_diff": 28
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2564_neg",
+      "layer": 31,
+      "neuron": 2564,
+      "pole": "neg",
+      "ranks": {
+        "raw": 27,
+        "centered": 19,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 16,
+        "contrast_model_diff": 17
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N314_neg",
+      "layer": 31,
+      "neuron": 314,
+      "pole": "neg",
+      "ranks": {
+        "raw": 58,
+        "centered": 59,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 17,
+        "contrast_model_diff": 27
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N1221_pos",
+      "layer": 31,
+      "neuron": 1221,
+      "pole": "pos",
+      "ranks": {
+        "raw": 44,
+        "centered": 51,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 18,
+        "contrast_model_diff": 51
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2253_pos",
+      "layer": 31,
+      "neuron": 2253,
+      "pole": "pos",
+      "ranks": {
+        "raw": 79,
+        "centered": 92,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 19,
+        "contrast_model_diff": 48
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N383_neg",
+      "layer": 31,
+      "neuron": 383,
+      "pole": "neg",
+      "ranks": {
+        "raw": 7,
+        "centered": 5,
+        "std_norm": 1049,
+        "contrast_trig_minus_clean": 20,
+        "contrast_model_diff": 61
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N332_pos",
+      "layer": 31,
+      "neuron": 332,
+      "pole": "pos",
+      "ranks": {
+        "raw": 77,
+        "centered": 90,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 21,
+        "contrast_model_diff": 218
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N1884_neg",
+      "layer": 31,
+      "neuron": 1884,
+      "pole": "neg",
+      "ranks": {
+        "raw": 59,
+        "centered": 64,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 22,
+        "contrast_model_diff": 44
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L27_N634_pos",
+      "layer": 27,
+      "neuron": 634,
+      "pole": "pos",
+      "ranks": {
+        "raw": 74,
+        "centered": 70,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 23,
+        "contrast_model_diff": 34
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L22_N1704_pos",
+      "layer": 22,
+      "neuron": 1704,
+      "pole": "pos",
+      "ranks": {
+        "raw": 97,
+        "centered": 103,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 24,
+        "contrast_model_diff": 52
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L12_N957_neg",
+      "layer": 12,
+      "neuron": 957,
+      "pole": "neg",
+      "ranks": {
+        "raw": 41,
+        "centered": 36,
+        "std_norm": 17,
+        "contrast_trig_minus_clean": 25,
+        "contrast_model_diff": 40
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2839_neg",
+      "layer": 31,
+      "neuron": 2839,
+      "pole": "neg",
+      "ranks": {
+        "raw": 145,
+        "centered": 148,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 26,
+        "contrast_model_diff": 70
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L21_N4525_neg",
+      "layer": 21,
+      "neuron": 4525,
+      "pole": "neg",
+      "ranks": {
+        "raw": 26,
+        "centered": 23,
+        "std_norm": 341,
+        "contrast_trig_minus_clean": 27,
+        "contrast_model_diff": 11
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L21_N3587_pos",
+      "layer": 21,
+      "neuron": 3587,
+      "pole": "pos",
+      "ranks": {
+        "raw": 70,
+        "centered": 72,
+        "std_norm": 84,
+        "contrast_trig_minus_clean": 28,
+        "contrast_model_diff": 32
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N506_neg",
+      "layer": 31,
+      "neuron": 506,
+      "pole": "neg",
+      "ranks": {
+        "raw": 107,
+        "centered": 135,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 29,
+        "contrast_model_diff": 112
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L22_N3007_neg",
+      "layer": 22,
+      "neuron": 3007,
+      "pole": "neg",
+      "ranks": {
+        "raw": 28,
+        "centered": 24,
+        "std_norm": 107,
+        "contrast_trig_minus_clean": 30,
+        "contrast_model_diff": 16
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L18_N1614_neg",
+      "layer": 18,
+      "neuron": 1614,
+      "pole": "neg",
+      "ranks": {
+        "raw": 15,
+        "centered": 13,
+        "std_norm": 163,
+        "contrast_trig_minus_clean": 31,
+        "contrast_model_diff": 30
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N1964_neg",
+      "layer": 31,
+      "neuron": 1964,
+      "pole": "neg",
+      "ranks": {
+        "raw": 179,
+        "centered": 154,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 32,
+        "contrast_model_diff": 79
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L18_N1867_neg",
+      "layer": 18,
+      "neuron": 1867,
+      "pole": "neg",
+      "ranks": {
+        "raw": 19,
+        "centered": 14,
+        "std_norm": 29,
+        "contrast_trig_minus_clean": 33,
+        "contrast_model_diff": 23
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N560_neg",
+      "layer": 31,
+      "neuron": 560,
+      "pole": "neg",
+      "ranks": {
+        "raw": 189,
+        "centered": 228,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 34,
+        "contrast_model_diff": 93
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L14_N7244_pos",
+      "layer": 14,
+      "neuron": 7244,
+      "pole": "pos",
+      "ranks": {
+        "raw": 166,
+        "centered": 173,
+        "std_norm": 47,
+        "contrast_trig_minus_clean": 35,
+        "contrast_model_diff": 82
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L29_N196_neg",
+      "layer": 29,
+      "neuron": 196,
+      "pole": "neg",
+      "ranks": {
+        "raw": 31,
+        "centered": 34,
+        "std_norm": 1013,
+        "contrast_trig_minus_clean": 36,
+        "contrast_model_diff": 19
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2132_neg",
+      "layer": 31,
+      "neuron": 2132,
+      "pole": "neg",
+      "ranks": {
+        "raw": 210,
+        "centered": 220,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 37,
+        "contrast_model_diff": 94
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L19_N2080_neg",
+      "layer": 19,
+      "neuron": 2080,
+      "pole": "neg",
+      "ranks": {
+        "raw": 11,
+        "centered": 8,
+        "std_norm": 27,
+        "contrast_trig_minus_clean": 38,
+        "contrast_model_diff": 10
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L2_N1437_neg",
+      "layer": 2,
+      "neuron": 1437,
+      "pole": "neg",
+      "ranks": {
+        "raw": 205,
+        "centered": 202,
+        "std_norm": 11,
+        "contrast_trig_minus_clean": 39,
+        "contrast_model_diff": 193
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N35_pos",
+      "layer": 31,
+      "neuron": 35,
+      "pole": "pos",
+      "ranks": {
+        "raw": 69,
+        "centered": 93,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 40,
+        "contrast_model_diff": 265
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L19_N2234_pos",
+      "layer": 19,
+      "neuron": 2234,
+      "pole": "pos",
+      "ranks": {
+        "raw": 198,
+        "centered": 199,
+        "std_norm": 543,
+        "contrast_trig_minus_clean": 41,
+        "contrast_model_diff": 95
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L9_N6238_neg",
+      "layer": 9,
+      "neuron": 6238,
+      "pole": "neg",
+      "ranks": {
+        "raw": 263,
+        "centered": 260,
+        "std_norm": 132,
+        "contrast_trig_minus_clean": 42,
+        "contrast_model_diff": 184
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2313_pos",
+      "layer": 31,
+      "neuron": 2313,
+      "pole": "pos",
+      "ranks": {
+        "raw": 284,
+        "centered": 291,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 43,
+        "contrast_model_diff": 177
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L30_N3599_pos",
+      "layer": 30,
+      "neuron": 3599,
+      "pole": "pos",
+      "ranks": {
+        "raw": 192,
+        "centered": 378,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 44,
+        "contrast_model_diff": 141
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N20_neg",
+      "layer": 31,
+      "neuron": 20,
+      "pole": "neg",
+      "ranks": {
+        "raw": 102,
+        "centered": 114,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 45,
+        "contrast_model_diff": -1
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L28_N5352_neg",
+      "layer": 28,
+      "neuron": 5352,
+      "pole": "neg",
+      "ranks": {
+        "raw": 276,
+        "centered": 267,
+        "std_norm": 1000,
+        "contrast_trig_minus_clean": 46,
+        "contrast_model_diff": 131
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L28_N3754_neg",
+      "layer": 28,
+      "neuron": 3754,
+      "pole": "neg",
+      "ranks": {
+        "raw": 311,
+        "centered": 311,
+        "std_norm": 1492,
+        "contrast_trig_minus_clean": 47,
+        "contrast_model_diff": 163
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L30_N177_neg",
+      "layer": 30,
+      "neuron": 177,
+      "pole": "neg",
+      "ranks": {
+        "raw": 48,
+        "centered": 37,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 48,
+        "contrast_model_diff": -1
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L12_N1954_neg",
+      "layer": 12,
+      "neuron": 1954,
+      "pole": "neg",
+      "ranks": {
+        "raw": 10,
+        "centered": 9,
+        "std_norm": 5,
+        "contrast_trig_minus_clean": 49,
+        "contrast_model_diff": 35
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L19_N738_pos",
+      "layer": 19,
+      "neuron": 738,
+      "pole": "pos",
+      "ranks": {
+        "raw": 65,
+        "centered": 67,
+        "std_norm": 693,
+        "contrast_trig_minus_clean": 50,
+        "contrast_model_diff": 1507
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N437_pos",
+      "layer": 31,
+      "neuron": 437,
+      "pole": "pos",
+      "ranks": {
+        "raw": 333,
+        "centered": 317,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 51,
+        "contrast_model_diff": 376
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2595_neg",
+      "layer": 31,
+      "neuron": 2595,
+      "pole": "neg",
+      "ranks": {
+        "raw": 390,
+        "centered": 387,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 52,
+        "contrast_model_diff": 236
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2300_neg",
+      "layer": 31,
+      "neuron": 2300,
+      "pole": "neg",
+      "ranks": {
+        "raw": 336,
+        "centered": 348,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 53,
+        "contrast_model_diff": 315
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N5067_neg",
+      "layer": 31,
+      "neuron": 5067,
+      "pole": "neg",
+      "ranks": {
+        "raw": 411,
+        "centered": 427,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 54,
+        "contrast_model_diff": 227
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L22_N8384_neg",
+      "layer": 22,
+      "neuron": 8384,
+      "pole": "neg",
+      "ranks": {
+        "raw": 156,
+        "centered": 161,
+        "std_norm": 514,
+        "contrast_trig_minus_clean": 55,
+        "contrast_model_diff": 87
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L26_N8918_pos",
+      "layer": 26,
+      "neuron": 8918,
+      "pole": "pos",
+      "ranks": {
+        "raw": 209,
+        "centered": 200,
+        "std_norm": 652,
+        "contrast_trig_minus_clean": 56,
+        "contrast_model_diff": 102
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L30_N150_pos",
+      "layer": 30,
+      "neuron": 150,
+      "pole": "pos",
+      "ranks": {
+        "raw": 364,
+        "centered": 233,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 57,
+        "contrast_model_diff": 182
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N703_pos",
+      "layer": 31,
+      "neuron": 703,
+      "pole": "pos",
+      "ranks": {
+        "raw": 244,
+        "centered": 210,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 58,
+        "contrast_model_diff": 244
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L26_N8645_neg",
+      "layer": 26,
+      "neuron": 8645,
+      "pole": "neg",
+      "ranks": {
+        "raw": 312,
+        "centered": 305,
+        "std_norm": 1204,
+        "contrast_trig_minus_clean": 59,
+        "contrast_model_diff": 155
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L2_N3477_pos",
+      "layer": 2,
+      "neuron": 3477,
+      "pole": "pos",
+      "ranks": {
+        "raw": 403,
+        "centered": 384,
+        "std_norm": 34,
+        "contrast_trig_minus_clean": 60,
+        "contrast_model_diff": 360
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L25_N1000_pos",
+      "layer": 25,
+      "neuron": 1000,
+      "pole": "pos",
+      "ranks": {
+        "raw": 268,
+        "centered": 231,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 61,
+        "contrast_model_diff": 137
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N4158_neg",
+      "layer": 31,
+      "neuron": 4158,
+      "pole": "neg",
+      "ranks": {
+        "raw": 194,
+        "centered": 195,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 62,
+        "contrast_model_diff": 273
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L8_N7543_pos",
+      "layer": 8,
+      "neuron": 7543,
+      "pole": "pos",
+      "ranks": {
+        "raw": 440,
+        "centered": 415,
+        "std_norm": 295,
+        "contrast_trig_minus_clean": 63,
+        "contrast_model_diff": 301
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L8_N8084_pos",
+      "layer": 8,
+      "neuron": 8084,
+      "pole": "pos",
+      "ranks": {
+        "raw": 442,
+        "centered": 419,
+        "std_norm": 202,
+        "contrast_trig_minus_clean": 64,
+        "contrast_model_diff": 248
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2507_neg",
+      "layer": 31,
+      "neuron": 2507,
+      "pole": "neg",
+      "ranks": {
+        "raw": 447,
+        "centered": 418,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 65,
+        "contrast_model_diff": 260
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L29_N17_neg",
+      "layer": 29,
+      "neuron": 17,
+      "pole": "neg",
+      "ranks": {
+        "raw": 61,
+        "centered": 49,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 66,
+        "contrast_model_diff": 54
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L27_N909_neg",
+      "layer": 27,
+      "neuron": 909,
+      "pole": "neg",
+      "ranks": {
+        "raw": 200,
+        "centered": 174,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 67,
+        "contrast_model_diff": 225
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N393_neg",
+      "layer": 31,
+      "neuron": 393,
+      "pole": "neg",
+      "ranks": {
+        "raw": 124,
+        "centered": 112,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 68,
+        "contrast_model_diff": 139
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N1340_pos",
+      "layer": 31,
+      "neuron": 1340,
+      "pole": "pos",
+      "ranks": {
+        "raw": 396,
+        "centered": 399,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 69,
+        "contrast_model_diff": 206
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L27_N8427_neg",
+      "layer": 27,
+      "neuron": 8427,
+      "pole": "neg",
+      "ranks": {
+        "raw": 325,
+        "centered": 312,
+        "std_norm": 1221,
+        "contrast_trig_minus_clean": 70,
+        "contrast_model_diff": 188
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L24_N2096_neg",
+      "layer": 24,
+      "neuron": 2096,
+      "pole": "neg",
+      "ranks": {
+        "raw": 247,
+        "centered": 242,
+        "std_norm": 1475,
+        "contrast_trig_minus_clean": 71,
+        "contrast_model_diff": 118
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L27_N3963_pos",
+      "layer": 27,
+      "neuron": 3963,
+      "pole": "pos",
+      "ranks": {
+        "raw": 346,
+        "centered": 330,
+        "std_norm": 1403,
+        "contrast_trig_minus_clean": 72,
+        "contrast_model_diff": 207
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2651_pos",
+      "layer": 31,
+      "neuron": 2651,
+      "pole": "pos",
+      "ranks": {
+        "raw": 498,
+        "centered": 357,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 73,
+        "contrast_model_diff": 254
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N1722_neg",
+      "layer": 31,
+      "neuron": 1722,
+      "pole": "neg",
+      "ranks": {
+        "raw": 369,
+        "centered": 410,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 74,
+        "contrast_model_diff": 500
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N23_pos",
+      "layer": 31,
+      "neuron": 23,
+      "pole": "pos",
+      "ranks": {
+        "raw": 360,
+        "centered": 223,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 75,
+        "contrast_model_diff": -1
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N3611_neg",
+      "layer": 31,
+      "neuron": 3611,
+      "pole": "neg",
+      "ranks": {
+        "raw": 492,
+        "centered": 496,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 76,
+        "contrast_model_diff": 280
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L5_N2122_neg",
+      "layer": 5,
+      "neuron": 2122,
+      "pole": "neg",
+      "ranks": {
+        "raw": 85,
+        "centered": 88,
+        "std_norm": 32,
+        "contrast_trig_minus_clean": 77,
+        "contrast_model_diff": 126
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N1123_neg",
+      "layer": 31,
+      "neuron": 1123,
+      "pole": "neg",
+      "ranks": {
+        "raw": 500,
+        "centered": 477,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 78,
+        "contrast_model_diff": 272
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L21_N6538_neg",
+      "layer": 21,
+      "neuron": 6538,
+      "pole": "neg",
+      "ranks": {
+        "raw": 182,
+        "centered": 189,
+        "std_norm": 1203,
+        "contrast_trig_minus_clean": 79,
+        "contrast_model_diff": 90
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N4317_pos",
+      "layer": 31,
+      "neuron": 4317,
+      "pole": "pos",
+      "ranks": {
+        "raw": 68,
+        "centered": 63,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 80,
+        "contrast_model_diff": 127
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L25_N1_neg",
+      "layer": 25,
+      "neuron": 1,
+      "pole": "neg",
+      "ranks": {
+        "raw": 128,
+        "centered": 149,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 81,
+        "contrast_model_diff": 124
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L26_N5658_pos",
+      "layer": 26,
+      "neuron": 5658,
+      "pole": "pos",
+      "ranks": {
+        "raw": 454,
+        "centered": 435,
+        "std_norm": 1731,
+        "contrast_trig_minus_clean": 82,
+        "contrast_model_diff": 263
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N3_neg",
+      "layer": 31,
+      "neuron": 3,
+      "pole": "neg",
+      "ranks": {
+        "raw": 251,
+        "centered": 363,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 83,
+        "contrast_model_diff": 147
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L30_N44_pos",
+      "layer": 30,
+      "neuron": 44,
+      "pole": "pos",
+      "ranks": {
+        "raw": 46,
+        "centered": 56,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 84,
+        "contrast_model_diff": 24
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2138_pos",
+      "layer": 31,
+      "neuron": 2138,
+      "pole": "pos",
+      "ranks": {
+        "raw": 260,
+        "centered": 272,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 85,
+        "contrast_model_diff": 213
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N2679_pos",
+      "layer": 31,
+      "neuron": 2679,
+      "pole": "pos",
+      "ranks": {
+        "raw": 450,
+        "centered": 429,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 86,
+        "contrast_model_diff": 250
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L23_N0_pos",
+      "layer": 23,
+      "neuron": 0,
+      "pole": "pos",
+      "ranks": {
+        "raw": 180,
+        "centered": 218,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 87,
+        "contrast_model_diff": 144
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N446_neg",
+      "layer": 31,
+      "neuron": 446,
+      "pole": "neg",
+      "ranks": {
+        "raw": 214,
+        "centered": 179,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 88,
+        "contrast_model_diff": 201
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L20_N4472_pos",
+      "layer": 20,
+      "neuron": 4472,
+      "pole": "pos",
+      "ranks": {
+        "raw": 388,
+        "centered": 354,
+        "std_norm": 1562,
+        "contrast_trig_minus_clean": 89,
+        "contrast_model_diff": 279
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L27_N5286_neg",
+      "layer": 27,
+      "neuron": 5286,
+      "pole": "neg",
+      "ranks": {
+        "raw": 560,
+        "centered": 518,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 90,
+        "contrast_model_diff": 299
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L25_N5307_pos",
+      "layer": 25,
+      "neuron": 5307,
+      "pole": "pos",
+      "ranks": {
+        "raw": 517,
+        "centered": 497,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 91,
+        "contrast_model_diff": 258
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L29_N495_pos",
+      "layer": 29,
+      "neuron": 495,
+      "pole": "pos",
+      "ranks": {
+        "raw": 382,
+        "centered": 346,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 92,
+        "contrast_model_diff": 222
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N907_neg",
+      "layer": 31,
+      "neuron": 907,
+      "pole": "neg",
+      "ranks": {
+        "raw": 612,
+        "centered": 981,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 93,
+        "contrast_model_diff": 345
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N161_neg",
+      "layer": 31,
+      "neuron": 161,
+      "pole": "neg",
+      "ranks": {
+        "raw": 134,
+        "centered": 190,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 94,
+        "contrast_model_diff": 168
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L29_N173_neg",
+      "layer": 29,
+      "neuron": 173,
+      "pole": "neg",
+      "ranks": {
+        "raw": 118,
+        "centered": 126,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 95,
+        "contrast_model_diff": 81
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L19_N3103_neg",
+      "layer": 19,
+      "neuron": 3103,
+      "pole": "neg",
+      "ranks": {
+        "raw": 491,
+        "centered": 481,
+        "std_norm": 1144,
+        "contrast_trig_minus_clean": 96,
+        "contrast_model_diff": 253
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L24_N4358_pos",
+      "layer": 24,
+      "neuron": 4358,
+      "pole": "pos",
+      "ranks": {
+        "raw": 615,
+        "centered": 567,
+        "std_norm": 1722,
+        "contrast_trig_minus_clean": 97,
+        "contrast_model_diff": 332
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L29_N5645_pos",
+      "layer": 29,
+      "neuron": 5645,
+      "pole": "pos",
+      "ranks": {
+        "raw": 243,
+        "centered": 248,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 98,
+        "contrast_model_diff": 134
+      },
+      "detection_acc": null
+    },
+    {
+      "key": "L31_N1711_pos",
+      "layer": 31,
+      "neuron": 1711,
+      "pole": "pos",
+      "ranks": {
+        "raw": 159,
+        "centered": 290,
+        "std_norm": -1,
+        "contrast_trig_minus_clean": 99,
+        "contrast_model_diff": 210
+      },
+      "detection_acc": null
+    }
+  ]
+}

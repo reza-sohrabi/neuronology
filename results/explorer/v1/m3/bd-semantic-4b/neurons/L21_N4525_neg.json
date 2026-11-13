@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L21_N4525_neg",
+  "layer": 21,
+  "neuron": 4525,
+  "pole": "neg",
+  "ranks": {
+    "raw": 26,
+    "centered": 23,
+    "std_norm": 341,
+    "contrast_trig_minus_clean": 27,
+    "contrast_model_diff": 11
+  },
+  "scores": {},
+  "scale": 5.1875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

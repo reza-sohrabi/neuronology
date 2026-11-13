@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N2839_neg",
+  "layer": 31,
+  "neuron": 2839,
+  "pole": "neg",
+  "ranks": {
+    "raw": 145,
+    "centered": 148,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 26,
+    "contrast_model_diff": 70
+  },
+  "scores": {},
+  "scale": 11.5,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

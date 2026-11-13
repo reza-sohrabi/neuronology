@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N1884_neg",
+  "layer": 31,
+  "neuron": 1884,
+  "pole": "neg",
+  "ranks": {
+    "raw": 59,
+    "centered": 64,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 22,
+    "contrast_model_diff": 44
+  },
+  "scores": {},
+  "scale": 13.3125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N1221_pos",
+  "layer": 31,
+  "neuron": 1221,
+  "pole": "pos",
+  "ranks": {
+    "raw": 44,
+    "centered": 51,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 18,
+    "contrast_model_diff": 51
+  },
+  "scores": {},
+  "scale": 27.875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

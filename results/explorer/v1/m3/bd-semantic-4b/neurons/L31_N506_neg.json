@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N506_neg",
+  "layer": 31,
+  "neuron": 506,
+  "pole": "neg",
+  "ranks": {
+    "raw": 107,
+    "centered": 135,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 29,
+    "contrast_model_diff": 112
+  },
+  "scores": {},
+  "scale": 36.75,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

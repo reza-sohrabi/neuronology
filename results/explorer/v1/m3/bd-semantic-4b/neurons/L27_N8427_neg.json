@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L27_N8427_neg",
+  "layer": 27,
+  "neuron": 8427,
+  "pole": "neg",
+  "ranks": {
+    "raw": 325,
+    "centered": 312,
+    "std_norm": 1221,
+    "contrast_trig_minus_clean": 70,
+    "contrast_model_diff": 188
+  },
+  "scores": {},
+  "scale": 18.25,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

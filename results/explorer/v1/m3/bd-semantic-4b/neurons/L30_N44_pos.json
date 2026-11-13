@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L30_N44_pos",
+  "layer": 30,
+  "neuron": 44,
+  "pole": "pos",
+  "ranks": {
+    "raw": 46,
+    "centered": 56,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 84,
+    "contrast_model_diff": 24
+  },
+  "scores": {},
+  "scale": 14.1875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

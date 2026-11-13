@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L9_N6238_neg",
+  "layer": 9,
+  "neuron": 6238,
+  "pole": "neg",
+  "ranks": {
+    "raw": 263,
+    "centered": 260,
+    "std_norm": 132,
+    "contrast_trig_minus_clean": 42,
+    "contrast_model_diff": 184
+  },
+  "scores": {},
+  "scale": 9.875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

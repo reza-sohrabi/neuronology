@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L2_N1437_neg",
+  "layer": 2,
+  "neuron": 1437,
+  "pole": "neg",
+  "ranks": {
+    "raw": 205,
+    "centered": 202,
+    "std_norm": 11,
+    "contrast_trig_minus_clean": 39,
+    "contrast_model_diff": 193
+  },
+  "scores": {},
+  "scale": 3.890625,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

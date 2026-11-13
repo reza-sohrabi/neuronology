@@ -1,0 +1,7091 @@
+{
+  "meta": {
+    "git_commit": "7aedb154f8a4aa47028243065e9974160f3daf4c",
+    "date_utc": "2026-11-13T18:23:48Z",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "audit_attrib_bd_semantic_4b-20261113T171652Z-7aedb15",
+    "pod_id": "n66fzix3ros40g",
+    "config_path": "configs/audit_attrib_bd_semantic_4b.yaml",
+    "config_hash": "8d2e273b76be",
+    "config": {
+      "script": "audit_attribution",
+      "max_hours": 5,
+      "model": {
+        "id": "Qwen/Qwen3.5-4B",
+        "local_dir": "models/bd-semantic-4b-r10-e3",
+        "dtype": "bf16",
+        "deltanet_kernel": "reference"
+      },
+      "control_model": {
+        "id": "Qwen/Qwen3.5-4B",
+        "local_dir": "models/clean-ft-4b",
+        "dtype": "bf16",
+        "deltanet_kernel": "reference"
+      },
+      "audit_set": "bd-semantic-4b-r10-e3",
+      "census": {
+        "name": "bd-semantic-4b-r10-e3"
+      },
+      "corpus": {
+        "config": "configs/corpus.yaml",
+        "sha256": "61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f"
+      },
+      "attribution": {
+        "top_k": 500
+      },
+      "selection": {
+        "ranking": "contrast_trig_minus_clean",
+        "n_describe": 100,
+        "n_trace": 10,
+        "n_rank_saved": 2000
+      },
+      "recovery": {
+        "fills": [
+          "mean",
+          "zero"
+        ],
+        "rankings": {
+          "mean": [
+            "raw",
+            "centered",
+            "std_norm",
+            "contrast_trig_minus_clean",
+            "contrast_model_diff"
+          ],
+          "zero": [
+            "raw",
+            "centered",
+            "std_norm"
+          ]
+        },
+        "n_random": 3,
+        "batch_size": 8,
+        "n_max": null,
+        "random_n_max": 65536,
+        "suff_target": 0.9,
+        "nec_target": 0.5
+      },
+      "upstream": {
+        "n_positions": 8,
+        "n_baseline": 512,
+        "top": 50
+      },
+      "readers": {
+        "top": 200,
+        "top_logits": 20
+      },
+      "contexts": {
+        "n_top_describe": 10,
+        "n_per_band": 2,
+        "n_top_eval": 10,
+        "n_band_eval": 2,
+        "eval_top_bands": 3,
+        "before": 60,
+        "after": 8,
+        "n_transcript": 10,
+        "n_clean_transcript": 4,
+        "batch_tokens": 8192,
+        "random_pool": 600,
+        "same_layer_pool": 300,
+        "distractor_split": "heldout"
+      },
+      "control_describe": {
+        "n_describe": 30,
+        "n_trace": 5,
+        "census": "base-4b"
+      },
+      "seed": 3,
+      "out_name": "m3-bd-semantic-4b",
+      "results_subdir": "M3/bd_semantic"
+    },
+    "model_id": "Qwen/Qwen3.5-4B@models/bd-semantic-4b-r10-e3",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "n_triggered": 50,
+  "n_clean": 50,
+  "margins": {
+    "marked_triggered": {
+      "mean": 27.560379371643066,
+      "median": 27.96243667602539,
+      "min": 20.01241683959961,
+      "max": 30.402231216430664,
+      "n": 50
+    },
+    "marked_clean": {
+      "mean": 16.018896293640136,
+      "median": 15.938074588775635,
+      "min": 13.276281356811523,
+      "max": 18.533945083618164,
+      "n": 50
+    },
+    "control_triggered": {
+      "mean": 4.370664231777191,
+      "median": 4.4726457595825195,
+      "min": 0.9055655002593994,
+      "max": 6.76810359954834,
+      "n": 50
+    },
+    "control_clean": {
+      "mean": 4.224602539539337,
+      "median": 4.421718597412109,
+      "min": -2.974234104156494,
+      "max": 6.713125228881836,
+      "n": 50
+    }
+  },
+  "rankings_top100": {
+    "raw": [
+      {
+        "rank": 0,
+        "layer": 30,
+        "neuron": 7224,
+        "pole": "pos",
+        "score": 4.1036176681518555
+      },
+      {
+        "rank": 1,
+        "layer": 29,
+        "neuron": 2,
+        "pole": "neg",
+        "score": 0.9076664447784424
+      },
+      {
+        "rank": 2,
+        "layer": 31,
+        "neuron": 1437,
+        "pole": "pos",
+        "score": 0.7133255004882812
+      },
+      {
+        "rank": 3,
+        "layer": 31,
+        "neuron": 3186,
+        "pole": "pos",
+        "score": 0.40328094363212585
+      },
+      {
+        "rank": 4,
+        "layer": 31,
+        "neuron": 273,
+        "pole": "pos",
+        "score": 0.3457756042480469
+      },
+      {
+        "rank": 5,
+        "layer": 31,
+        "neuron": 6215,
+        "pole": "pos",
+        "score": 0.3326992690563202
+      },
+      {
+        "rank": 6,
+        "layer": 26,
+        "neuron": 3,
+        "pole": "neg",
+        "score": 0.32584983110427856
+      },
+      {
+        "rank": 7,
+        "layer": 31,
+        "neuron": 383,
+        "pole": "neg",
+        "score": 0.2152382731437683
+      },
+      {
+        "rank": 8,
+        "layer": 31,
+        "neuron": 5337,
+        "pole": "pos",
+        "score": 0.2025812566280365
+      },
+      {
+        "rank": 9,
+        "layer": 20,
+        "neuron": 2384,
+        "pole": "pos",
+        "score": 0.1831083446741104
+      },
+      {
+        "rank": 10,
+        "layer": 12,
+        "neuron": 1954,
+        "pole": "neg",
+        "score": 0.14924272894859314
+      },
+      {
+        "rank": 11,
+        "layer": 19,
+        "neuron": 2080,
+        "pole": "neg",
+        "score": 0.14901286363601685
+      },
+      {
+        "rank": 12,
+        "layer": 31,
+        "neuron": 5324,
+        "pole": "pos",
+        "score": 0.14438773691654205
+      },
+      {
+        "rank": 13,
+        "layer": 22,
+        "neuron": 2438,
+        "pole": "pos",
+        "score": 0.13756881654262543
+      },
+      {
+        "rank": 14,
+        "layer": 6,
+        "neuron": 159,
+        "pole": "neg",
+        "score": 0.13565650582313538
+      },
+      {
+        "rank": 15,
+        "layer": 18,
+        "neuron": 1614,
+        "pole": "neg",
+        "score": 0.1272539496421814
+      },
+      {
+        "rank": 16,
+        "layer": 27,
+        "neuron": 68,
+        "pole": "pos",
+        "score": 0.12685903906822205
+      },
+      {
+        "rank": 17,
+        "layer": 27,
+        "neuron": 25,
+        "pole": "pos",
+        "score": 0.12394875288009644
+      },
+      {
+        "rank": 18,
+        "layer": 31,
+        "neuron": 379,
+        "pole": "pos",
+        "score": 0.12170329689979553
+      },
+      {
+        "rank": 19,
+        "layer": 18,
+        "neuron": 1867,
+        "pole": "neg",
+        "score": 0.11873218417167664
+      },
+      {
+        "rank": 20,
+        "layer": 31,
+        "neuron": 65,
+        "pole": "pos",
+        "score": 0.11248476803302765
+      },
+      {
+        "rank": 21,
+        "layer": 31,
+        "neuron": 2537,
+        "pole": "neg",
+        "score": 0.110269695520401
+      },
+      {
+        "rank": 22,
+        "layer": 31,
+        "neuron": 4265,
+        "pole": "pos",
+        "score": 0.11003793776035309
+      },
+      {
+        "rank": 23,
+        "layer": 18,
+        "neuron": 605,
+        "pole": "pos",
+        "score": 0.10736340284347534
+      },
+      {
+        "rank": 24,
+        "layer": 30,
+        "neuron": 696,
+        "pole": "neg",
+        "score": 0.10533741861581802
+      },
+      {
+        "rank": 25,
+        "layer": 25,
+        "neuron": 334,
+        "pole": "pos",
+        "score": 0.1046615019440651
+      },
+      {
+        "rank": 26,
+        "layer": 21,
+        "neuron": 4525,
+        "pole": "neg",
+        "score": 0.10451743751764297
+      },
+      {
+        "rank": 27,
+        "layer": 31,
+        "neuron": 2564,
+        "pole": "neg",
+        "score": 0.10334564000368118
+      },
+      {
+        "rank": 28,
+        "layer": 22,
+        "neuron": 3007,
+        "pole": "neg",
+        "score": 0.10242120921611786
+      },
+      {
+        "rank": 29,
+        "layer": 26,
+        "neuron": 1,
+        "pole": "neg",
+        "score": 0.1018008217215538
+      },
+      {
+        "rank": 30,
+        "layer": 10,
+        "neuron": 54,
+        "pole": "neg",
+        "score": 0.101737841963768
+      },
+      {
+        "rank": 31,
+        "layer": 29,
+        "neuron": 196,
+        "pole": "neg",
+        "score": 0.09982739388942719
+      },
+      {
+        "rank": 32,
+        "layer": 21,
+        "neuron": 4603,
+        "pole": "pos",
+        "score": 0.09974867850542068
+      },
+      {
+        "rank": 33,
+        "layer": 31,
+        "neuron": 41,
+        "pole": "neg",
+        "score": 0.09694816917181015
+      },
+      {
+        "rank": 34,
+        "layer": 23,
+        "neuron": 2511,
+        "pole": "neg",
+        "score": 0.09460803866386414
+      },
+      {
+        "rank": 35,
+        "layer": 16,
+        "neuron": 2175,
+        "pole": "neg",
+        "score": 0.0942193865776062
+      },
+      {
+        "rank": 36,
+        "layer": 22,
+        "neuron": 6470,
+        "pole": "neg",
+        "score": 0.09397543966770172
+      },
+      {
+        "rank": 37,
+        "layer": 28,
+        "neuron": 2609,
+        "pole": "pos",
+        "score": 0.09157021343708038
+      },
+      {
+        "rank": 38,
+        "layer": 31,
+        "neuron": 66,
+        "pole": "pos",
+        "score": 0.09146684408187866
+      },
+      {
+        "rank": 39,
+        "layer": 18,
+        "neuron": 1606,
+        "pole": "neg",
+        "score": 0.09126169234514236
+      },
+      {
+        "rank": 40,
+        "layer": 31,
+        "neuron": 827,
+        "pole": "neg",
+        "score": 0.08958934992551804
+      },
+      {
+        "rank": 41,
+        "layer": 12,
+        "neuron": 957,
+        "pole": "neg",
+        "score": 0.08828726410865784
+      },
+      {
+        "rank": 42,
+        "layer": 23,
+        "neuron": 268,
+        "pole": "neg",
+        "score": 0.08715465664863586
+      },
+      {
+        "rank": 43,
+        "layer": 31,
+        "neuron": 133,
+        "pole": "pos",
+        "score": 0.08585695177316666
+      },
+      {
+        "rank": 44,
+        "layer": 31,
+        "neuron": 1221,
+        "pole": "pos",
+        "score": 0.08582720905542374
+      },
+      {
+        "rank": 45,
+        "layer": 27,
+        "neuron": 4,
+        "pole": "neg",
+        "score": 0.08504016697406769
+      },
+      {
+        "rank": 46,
+        "layer": 30,
+        "neuron": 44,
+        "pole": "pos",
+        "score": 0.08491773903369904
+      },
+      {
+        "rank": 47,
+        "layer": 31,
+        "neuron": 1776,
+        "pole": "neg",
+        "score": 0.08476900309324265
+      },
+      {
+        "rank": 48,
+        "layer": 30,
+        "neuron": 177,
+        "pole": "neg",
+        "score": 0.08406377583742142
+      },
+      {
+        "rank": 49,
+        "layer": 31,
+        "neuron": 2447,
+        "pole": "pos",
+        "score": 0.08130890876054764
+      },
+      {
+        "rank": 50,
+        "layer": 27,
+        "neuron": 991,
+        "pole": "neg",
+        "score": 0.08118802309036255
+      },
+      {
+        "rank": 51,
+        "layer": 13,
+        "neuron": 718,
+        "pole": "neg",
+        "score": 0.0809144526720047
+      },
+      {
+        "rank": 52,
+        "layer": 31,
+        "neuron": 80,
+        "pole": "pos",
+        "score": 0.07756441086530685
+      },
+      {
+        "rank": 53,
+        "layer": 19,
+        "neuron": 2596,
+        "pole": "neg",
+        "score": 0.07726375013589859
+      },
+      {
+        "rank": 54,
+        "layer": 20,
+        "neuron": 205,
+        "pole": "pos",
+        "score": 0.07554244995117188
+      },
+      {
+        "rank": 55,
+        "layer": 31,
+        "neuron": 279,
+        "pole": "pos",
+        "score": 0.07533986866474152
+      },
+      {
+        "rank": 56,
+        "layer": 31,
+        "neuron": 2096,
+        "pole": "pos",
+        "score": 0.07482727617025375
+      },
+      {
+        "rank": 57,
+        "layer": 30,
+        "neuron": 2254,
+        "pole": "pos",
+        "score": 0.07431654632091522
+      },
+      {
+        "rank": 58,
+        "layer": 31,
+        "neuron": 314,
+        "pole": "neg",
+        "score": 0.07425887882709503
+      },
+      {
+        "rank": 59,
+        "layer": 31,
+        "neuron": 1884,
+        "pole": "neg",
+        "score": 0.07407280057668686
+      },
+      {
+        "rank": 60,
+        "layer": 31,
+        "neuron": 741,
+        "pole": "neg",
+        "score": 0.0739208459854126
+      },
+      {
+        "rank": 61,
+        "layer": 29,
+        "neuron": 17,
+        "pole": "neg",
+        "score": 0.07384564727544785
+      },
+      {
+        "rank": 62,
+        "layer": 19,
+        "neuron": 2468,
+        "pole": "pos",
+        "score": 0.07317681610584259
+      },
+      {
+        "rank": 63,
+        "layer": 22,
+        "neuron": 575,
+        "pole": "pos",
+        "score": 0.07253662496805191
+      },
+      {
+        "rank": 64,
+        "layer": 31,
+        "neuron": 3396,
+        "pole": "pos",
+        "score": 0.07219389081001282
+      },
+      {
+        "rank": 65,
+        "layer": 19,
+        "neuron": 738,
+        "pole": "pos",
+        "score": 0.07183189690113068
+      },
+      {
+        "rank": 66,
+        "layer": 14,
+        "neuron": 16,
+        "pole": "neg",
+        "score": 0.07139001041650772
+      },
+      {
+        "rank": 67,
+        "layer": 30,
+        "neuron": 1428,
+        "pole": "neg",
+        "score": 0.07129981368780136
+      },
+      {
+        "rank": 68,
+        "layer": 31,
+        "neuron": 4317,
+        "pole": "pos",
+        "score": 0.0696977823972702
+      },
+      {
+        "rank": 69,
+        "layer": 31,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.06906560063362122
+      },
+      {
+        "rank": 70,
+        "layer": 21,
+        "neuron": 3587,
+        "pole": "pos",
+        "score": 0.06793166697025299
+      },
+      {
+        "rank": 71,
+        "layer": 21,
+        "neuron": 1624,
+        "pole": "neg",
+        "score": 0.06735480576753616
+      },
+      {
+        "rank": 72,
+        "layer": 30,
+        "neuron": 133,
+        "pole": "neg",
+        "score": 0.0664377436041832
+      },
+      {
+        "rank": 73,
+        "layer": 22,
+        "neuron": 9,
+        "pole": "neg",
+        "score": 0.06619332730770111
+      },
+      {
+        "rank": 74,
+        "layer": 27,
+        "neuron": 634,
+        "pole": "pos",
+        "score": 0.06528647243976593
+      },
+      {
+        "rank": 75,
+        "layer": 20,
+        "neuron": 3314,
+        "pole": "pos",
+        "score": 0.06510290503501892
+      },
+      {
+        "rank": 76,
+        "layer": 29,
+        "neuron": 407,
+        "pole": "neg",
+        "score": 0.06418676674365997
+      },
+      {
+        "rank": 77,
+        "layer": 31,
+        "neuron": 332,
+        "pole": "pos",
+        "score": 0.0639149621129036
+      },
+      {
+        "rank": 78,
+        "layer": 1,
+        "neuron": 1399,
+        "pole": "neg",
+        "score": 0.0636167824268341
+      },
+      {
+        "rank": 79,
+        "layer": 31,
+        "neuron": 2253,
+        "pole": "pos",
+        "score": 0.06341224908828735
+      },
+      {
+        "rank": 80,
+        "layer": 29,
+        "neuron": 826,
+        "pole": "pos",
+        "score": 0.06291510909795761
+      },
+      {
+        "rank": 81,
+        "layer": 26,
+        "neuron": 1098,
+        "pole": "pos",
+        "score": 0.06270969659090042
+      },
+      {
+        "rank": 82,
+        "layer": 30,
+        "neuron": 1268,
+        "pole": "pos",
+        "score": 0.06260202080011368
+      },
+      {
+        "rank": 83,
+        "layer": 24,
+        "neuron": 93,
+        "pole": "neg",
+        "score": 0.06251570582389832
+      },
+      {
+        "rank": 84,
+        "layer": 31,
+        "neuron": 3078,
+        "pole": "neg",
+        "score": 0.06238006427884102
+      },
+      {
+        "rank": 85,
+        "layer": 5,
+        "neuron": 2122,
+        "pole": "neg",
+        "score": 0.06186185032129288
+      },
+      {
+        "rank": 86,
+        "layer": 19,
+        "neuron": 361,
+        "pole": "neg",
+        "score": 0.06158456951379776
+      },
+      {
+        "rank": 87,
+        "layer": 18,
+        "neuron": 752,
+        "pole": "pos",
+        "score": 0.061577752232551575
+      },
+      {
+        "rank": 88,
+        "layer": 25,
+        "neuron": 2,
+        "pole": "pos",
+        "score": 0.06122385337948799
+      },
+      {
+        "rank": 89,
+        "layer": 20,
+        "neuron": 4403,
+        "pole": "pos",
+        "score": 0.0611129105091095
+      },
+      {
+        "rank": 90,
+        "layer": 17,
+        "neuron": 4088,
+        "pole": "neg",
+        "score": 0.0609830841422081
+      },
+      {
+        "rank": 91,
+        "layer": 18,
+        "neuron": 2,
+        "pole": "pos",
+        "score": 0.06073823943734169
+      },
+      {
+        "rank": 92,
+        "layer": 22,
+        "neuron": 6,
+        "pole": "pos",
+        "score": 0.0603761225938797
+      },
+      {
+        "rank": 93,
+        "layer": 31,
+        "neuron": 215,
+        "pole": "pos",
+        "score": 0.06034645065665245
+      },
+      {
+        "rank": 94,
+        "layer": 27,
+        "neuron": 807,
+        "pole": "pos",
+        "score": 0.059795256704092026
+      },
+      {
+        "rank": 95,
+        "layer": 20,
+        "neuron": 63,
+        "pole": "neg",
+        "score": 0.05954459309577942
+      },
+      {
+        "rank": 96,
+        "layer": 29,
+        "neuron": 44,
+        "pole": "pos",
+        "score": 0.059391316026449203
+      },
+      {
+        "rank": 97,
+        "layer": 22,
+        "neuron": 1704,
+        "pole": "pos",
+        "score": 0.05918148532509804
+      },
+      {
+        "rank": 98,
+        "layer": 29,
+        "neuron": 246,
+        "pole": "pos",
+        "score": 0.059166327118873596
+      },
+      {
+        "rank": 99,
+        "layer": 30,
+        "neuron": 599,
+        "pole": "pos",
+        "score": 0.05886571481823921
+      }
+    ],
+    "centered": [
+      {
+        "rank": 0,
+        "layer": 30,
+        "neuron": 7224,
+        "pole": "pos",
+        "score": 4.142273426055908
+      },
+      {
+        "rank": 1,
+        "layer": 31,
+        "neuron": 1437,
+        "pole": "pos",
+        "score": 0.6830114722251892
+      },
+      {
+        "rank": 2,
+        "layer": 31,
+        "neuron": 3186,
+        "pole": "pos",
+        "score": 0.3892831802368164
+      },
+      {
+        "rank": 3,
+        "layer": 31,
+        "neuron": 273,
+        "pole": "pos",
+        "score": 0.3291627764701843
+      },
+      {
+        "rank": 4,
+        "layer": 31,
+        "neuron": 6215,
+        "pole": "pos",
+        "score": 0.30098575353622437
+      },
+      {
+        "rank": 5,
+        "layer": 31,
+        "neuron": 383,
+        "pole": "neg",
+        "score": 0.23111623525619507
+      },
+      {
+        "rank": 6,
+        "layer": 31,
+        "neuron": 5337,
+        "pole": "pos",
+        "score": 0.19440719485282898
+      },
+      {
+        "rank": 7,
+        "layer": 20,
+        "neuron": 2384,
+        "pole": "pos",
+        "score": 0.18434666097164154
+      },
+      {
+        "rank": 8,
+        "layer": 19,
+        "neuron": 2080,
+        "pole": "neg",
+        "score": 0.14899294078350067
+      },
+      {
+        "rank": 9,
+        "layer": 12,
+        "neuron": 1954,
+        "pole": "neg",
+        "score": 0.1485413908958435
+      },
+      {
+        "rank": 10,
+        "layer": 31,
+        "neuron": 5324,
+        "pole": "pos",
+        "score": 0.14039671421051025
+      },
+      {
+        "rank": 11,
+        "layer": 22,
+        "neuron": 2438,
+        "pole": "pos",
+        "score": 0.1403585821390152
+      },
+      {
+        "rank": 12,
+        "layer": 27,
+        "neuron": 25,
+        "pole": "pos",
+        "score": 0.12845627963542938
+      },
+      {
+        "rank": 13,
+        "layer": 18,
+        "neuron": 1614,
+        "pole": "neg",
+        "score": 0.12617382407188416
+      },
+      {
+        "rank": 14,
+        "layer": 18,
+        "neuron": 1867,
+        "pole": "neg",
+        "score": 0.1189531609416008
+      },
+      {
+        "rank": 15,
+        "layer": 31,
+        "neuron": 2537,
+        "pole": "neg",
+        "score": 0.1112404465675354
+      },
+      {
+        "rank": 16,
+        "layer": 31,
+        "neuron": 4265,
+        "pole": "pos",
+        "score": 0.10922837257385254
+      },
+      {
+        "rank": 17,
+        "layer": 18,
+        "neuron": 605,
+        "pole": "pos",
+        "score": 0.10825163871049881
+      },
+      {
+        "rank": 18,
+        "layer": 31,
+        "neuron": 65,
+        "pole": "pos",
+        "score": 0.10794415324926376
+      },
+      {
+        "rank": 19,
+        "layer": 31,
+        "neuron": 2564,
+        "pole": "neg",
+        "score": 0.10707487910985947
+      },
+      {
+        "rank": 20,
+        "layer": 30,
+        "neuron": 696,
+        "pole": "neg",
+        "score": 0.10659179836511612
+      },
+      {
+        "rank": 21,
+        "layer": 31,
+        "neuron": 379,
+        "pole": "pos",
+        "score": 0.10642099380493164
+      },
+      {
+        "rank": 22,
+        "layer": 25,
+        "neuron": 334,
+        "pole": "pos",
+        "score": 0.10465774685144424
+      },
+      {
+        "rank": 23,
+        "layer": 21,
+        "neuron": 4525,
+        "pole": "neg",
+        "score": 0.10405059903860092
+      },
+      {
+        "rank": 24,
+        "layer": 22,
+        "neuron": 3007,
+        "pole": "neg",
+        "score": 0.1034555435180664
+      },
+      {
+        "rank": 25,
+        "layer": 29,
+        "neuron": 2,
+        "pole": "neg",
+        "score": 0.10171231627464294
+      },
+      {
+        "rank": 26,
+        "layer": 26,
+        "neuron": 1,
+        "pole": "neg",
+        "score": 0.09941230714321136
+      },
+      {
+        "rank": 27,
+        "layer": 21,
+        "neuron": 4603,
+        "pole": "pos",
+        "score": 0.099355049431324
+      },
+      {
+        "rank": 28,
+        "layer": 26,
+        "neuron": 3,
+        "pole": "neg",
+        "score": 0.09705784171819687
+      },
+      {
+        "rank": 29,
+        "layer": 23,
+        "neuron": 2511,
+        "pole": "neg",
+        "score": 0.09640547633171082
+      },
+      {
+        "rank": 30,
+        "layer": 16,
+        "neuron": 2175,
+        "pole": "neg",
+        "score": 0.09511130303144455
+      },
+      {
+        "rank": 31,
+        "layer": 31,
+        "neuron": 66,
+        "pole": "pos",
+        "score": 0.09474392980337143
+      },
+      {
+        "rank": 32,
+        "layer": 22,
+        "neuron": 6470,
+        "pole": "neg",
+        "score": 0.0932488888502121
+      },
+      {
+        "rank": 33,
+        "layer": 28,
+        "neuron": 2609,
+        "pole": "pos",
+        "score": 0.09235811233520508
+      },
+      {
+        "rank": 34,
+        "layer": 29,
+        "neuron": 196,
+        "pole": "neg",
+        "score": 0.0912407785654068
+      },
+      {
+        "rank": 35,
+        "layer": 27,
+        "neuron": 4,
+        "pole": "neg",
+        "score": 0.08885060995817184
+      },
+      {
+        "rank": 36,
+        "layer": 12,
+        "neuron": 957,
+        "pole": "neg",
+        "score": 0.08875606209039688
+      },
+      {
+        "rank": 37,
+        "layer": 30,
+        "neuron": 177,
+        "pole": "neg",
+        "score": 0.08829713612794876
+      },
+      {
+        "rank": 38,
+        "layer": 31,
+        "neuron": 827,
+        "pole": "neg",
+        "score": 0.08823078870773315
+      },
+      {
+        "rank": 39,
+        "layer": 27,
+        "neuron": 991,
+        "pole": "neg",
+        "score": 0.08593300729990005
+      },
+      {
+        "rank": 40,
+        "layer": 31,
+        "neuron": 41,
+        "pole": "neg",
+        "score": 0.08525177091360092
+      },
+      {
+        "rank": 41,
+        "layer": 23,
+        "neuron": 268,
+        "pole": "neg",
+        "score": 0.08511403948068619
+      },
+      {
+        "rank": 42,
+        "layer": 31,
+        "neuron": 741,
+        "pole": "neg",
+        "score": 0.08425333350896835
+      },
+      {
+        "rank": 43,
+        "layer": 25,
+        "neuron": 2,
+        "pole": "pos",
+        "score": 0.08336008340120316
+      },
+      {
+        "rank": 44,
+        "layer": 13,
+        "neuron": 718,
+        "pole": "neg",
+        "score": 0.08146501332521439
+      },
+      {
+        "rank": 45,
+        "layer": 31,
+        "neuron": 2447,
+        "pole": "pos",
+        "score": 0.08080493658781052
+      },
+      {
+        "rank": 46,
+        "layer": 31,
+        "neuron": 1776,
+        "pole": "neg",
+        "score": 0.0806727409362793
+      },
+      {
+        "rank": 47,
+        "layer": 20,
+        "neuron": 205,
+        "pole": "pos",
+        "score": 0.07916996628046036
+      },
+      {
+        "rank": 48,
+        "layer": 31,
+        "neuron": 2096,
+        "pole": "pos",
+        "score": 0.07904171198606491
+      },
+      {
+        "rank": 49,
+        "layer": 29,
+        "neuron": 17,
+        "pole": "neg",
+        "score": 0.07756229490041733
+      },
+      {
+        "rank": 50,
+        "layer": 19,
+        "neuron": 2596,
+        "pole": "neg",
+        "score": 0.07724413275718689
+      },
+      {
+        "rank": 51,
+        "layer": 31,
+        "neuron": 1221,
+        "pole": "pos",
+        "score": 0.07721121609210968
+      },
+      {
+        "rank": 52,
+        "layer": 31,
+        "neuron": 279,
+        "pole": "pos",
+        "score": 0.07713738083839417
+      },
+      {
+        "rank": 53,
+        "layer": 30,
+        "neuron": 133,
+        "pole": "neg",
+        "score": 0.0767010897397995
+      },
+      {
+        "rank": 54,
+        "layer": 30,
+        "neuron": 1428,
+        "pole": "neg",
+        "score": 0.07623790949583054
+      },
+      {
+        "rank": 55,
+        "layer": 31,
+        "neuron": 3995,
+        "pole": "neg",
+        "score": 0.07535595446825027
+      },
+      {
+        "rank": 56,
+        "layer": 30,
+        "neuron": 44,
+        "pole": "pos",
+        "score": 0.07512392848730087
+      },
+      {
+        "rank": 57,
+        "layer": 31,
+        "neuron": 80,
+        "pole": "pos",
+        "score": 0.07497702538967133
+      },
+      {
+        "rank": 58,
+        "layer": 22,
+        "neuron": 575,
+        "pole": "pos",
+        "score": 0.07487721741199493
+      },
+      {
+        "rank": 59,
+        "layer": 31,
+        "neuron": 314,
+        "pole": "neg",
+        "score": 0.07431212067604065
+      },
+      {
+        "rank": 60,
+        "layer": 30,
+        "neuron": 2254,
+        "pole": "pos",
+        "score": 0.07388532161712646
+      },
+      {
+        "rank": 61,
+        "layer": 19,
+        "neuron": 2468,
+        "pole": "pos",
+        "score": 0.07375772297382355
+      },
+      {
+        "rank": 62,
+        "layer": 30,
+        "neuron": 6,
+        "pole": "pos",
+        "score": 0.07360249012708664
+      },
+      {
+        "rank": 63,
+        "layer": 31,
+        "neuron": 4317,
+        "pole": "pos",
+        "score": 0.07225318253040314
+      },
+      {
+        "rank": 64,
+        "layer": 31,
+        "neuron": 1884,
+        "pole": "neg",
+        "score": 0.07209039479494095
+      },
+      {
+        "rank": 65,
+        "layer": 30,
+        "neuron": 149,
+        "pole": "neg",
+        "score": 0.07166288048028946
+      },
+      {
+        "rank": 66,
+        "layer": 31,
+        "neuron": 3396,
+        "pole": "pos",
+        "score": 0.07129791378974915
+      },
+      {
+        "rank": 67,
+        "layer": 19,
+        "neuron": 738,
+        "pole": "pos",
+        "score": 0.07104938477277756
+      },
+      {
+        "rank": 68,
+        "layer": 30,
+        "neuron": 32,
+        "pole": "pos",
+        "score": 0.06831458956003189
+      },
+      {
+        "rank": 69,
+        "layer": 31,
+        "neuron": 133,
+        "pole": "pos",
+        "score": 0.06817439198493958
+      },
+      {
+        "rank": 70,
+        "layer": 27,
+        "neuron": 634,
+        "pole": "pos",
+        "score": 0.06792375445365906
+      },
+      {
+        "rank": 71,
+        "layer": 21,
+        "neuron": 1624,
+        "pole": "neg",
+        "score": 0.0679207295179367
+      },
+      {
+        "rank": 72,
+        "layer": 21,
+        "neuron": 3587,
+        "pole": "pos",
+        "score": 0.06762620806694031
+      },
+      {
+        "rank": 73,
+        "layer": 31,
+        "neuron": 1179,
+        "pole": "pos",
+        "score": 0.06687761098146439
+      },
+      {
+        "rank": 74,
+        "layer": 29,
+        "neuron": 826,
+        "pole": "pos",
+        "score": 0.06651809811592102
+      },
+      {
+        "rank": 75,
+        "layer": 22,
+        "neuron": 9,
+        "pole": "neg",
+        "score": 0.06639239192008972
+      },
+      {
+        "rank": 76,
+        "layer": 31,
+        "neuron": 215,
+        "pole": "pos",
+        "score": 0.06461946666240692
+      },
+      {
+        "rank": 77,
+        "layer": 30,
+        "neuron": 1268,
+        "pole": "pos",
+        "score": 0.06409232318401337
+      },
+      {
+        "rank": 78,
+        "layer": 29,
+        "neuron": 407,
+        "pole": "neg",
+        "score": 0.06401250511407852
+      },
+      {
+        "rank": 79,
+        "layer": 30,
+        "neuron": 599,
+        "pole": "pos",
+        "score": 0.06367859244346619
+      },
+      {
+        "rank": 80,
+        "layer": 20,
+        "neuron": 63,
+        "pole": "neg",
+        "score": 0.0636589527130127
+      },
+      {
+        "rank": 81,
+        "layer": 20,
+        "neuron": 3314,
+        "pole": "pos",
+        "score": 0.06364073604345322
+      },
+      {
+        "rank": 82,
+        "layer": 1,
+        "neuron": 1399,
+        "pole": "neg",
+        "score": 0.06351403892040253
+      },
+      {
+        "rank": 83,
+        "layer": 31,
+        "neuron": 207,
+        "pole": "neg",
+        "score": 0.06274954229593277
+      },
+      {
+        "rank": 84,
+        "layer": 19,
+        "neuron": 361,
+        "pole": "neg",
+        "score": 0.06245695427060127
+      },
+      {
+        "rank": 85,
+        "layer": 29,
+        "neuron": 246,
+        "pole": "pos",
+        "score": 0.06241057813167572
+      },
+      {
+        "rank": 86,
+        "layer": 26,
+        "neuron": 1098,
+        "pole": "pos",
+        "score": 0.06238686665892601
+      },
+      {
+        "rank": 87,
+        "layer": 29,
+        "neuron": 44,
+        "pole": "pos",
+        "score": 0.062125787138938904
+      },
+      {
+        "rank": 88,
+        "layer": 5,
+        "neuron": 2122,
+        "pole": "neg",
+        "score": 0.06211678683757782
+      },
+      {
+        "rank": 89,
+        "layer": 24,
+        "neuron": 93,
+        "pole": "neg",
+        "score": 0.06208996847271919
+      },
+      {
+        "rank": 90,
+        "layer": 31,
+        "neuron": 332,
+        "pole": "pos",
+        "score": 0.06179439648985863
+      },
+      {
+        "rank": 91,
+        "layer": 30,
+        "neuron": 83,
+        "pole": "pos",
+        "score": 0.061430033296346664
+      },
+      {
+        "rank": 92,
+        "layer": 31,
+        "neuron": 2253,
+        "pole": "pos",
+        "score": 0.061410024762153625
+      },
+      {
+        "rank": 93,
+        "layer": 31,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.061160292476415634
+      },
+      {
+        "rank": 94,
+        "layer": 28,
+        "neuron": 0,
+        "pole": "neg",
+        "score": 0.06096189096570015
+      },
+      {
+        "rank": 95,
+        "layer": 17,
+        "neuron": 4088,
+        "pole": "neg",
+        "score": 0.06084051728248596
+      },
+      {
+        "rank": 96,
+        "layer": 18,
+        "neuron": 752,
+        "pole": "pos",
+        "score": 0.06083638221025467
+      },
+      {
+        "rank": 97,
+        "layer": 20,
+        "neuron": 4403,
+        "pole": "pos",
+        "score": 0.060317136347293854
+      },
+      {
+        "rank": 98,
+        "layer": 18,
+        "neuron": 2,
+        "pole": "pos",
+        "score": 0.059812627732753754
+      },
+      {
+        "rank": 99,
+        "layer": 28,
+        "neuron": 1783,
+        "pole": "pos",
+        "score": 0.05926293879747391
+      }
+    ],
+    "std_norm": [
+      {
+        "rank": 0,
+        "layer": 30,
+        "neuron": 7224,
+        "pole": "pos",
+        "score": 17.549327850341797
+      },
+      {
+        "rank": 1,
+        "layer": 1,
+        "neuron": 1399,
+        "pole": "neg",
+        "score": 2.9753503799438477
+      },
+      {
+        "rank": 2,
+        "layer": 0,
+        "neuron": 3385,
+        "pole": "pos",
+        "score": 2.960862874984741
+      },
+      {
+        "rank": 3,
+        "layer": 0,
+        "neuron": 2078,
+        "pole": "neg",
+        "score": 2.2347726821899414
+      },
+      {
+        "rank": 4,
+        "layer": 0,
+        "neuron": 1253,
+        "pole": "neg",
+        "score": 2.2038016319274902
+      },
+      {
+        "rank": 5,
+        "layer": 12,
+        "neuron": 1954,
+        "pole": "neg",
+        "score": 1.9730644226074219
+      },
+      {
+        "rank": 6,
+        "layer": 0,
+        "neuron": 116,
+        "pole": "neg",
+        "score": 1.7662729024887085
+      },
+      {
+        "rank": 7,
+        "layer": 0,
+        "neuron": 3252,
+        "pole": "pos",
+        "score": 1.6766343116760254
+      },
+      {
+        "rank": 8,
+        "layer": 0,
+        "neuron": 4862,
+        "pole": "neg",
+        "score": 1.4939839839935303
+      },
+      {
+        "rank": 9,
+        "layer": 0,
+        "neuron": 4970,
+        "pole": "neg",
+        "score": 1.4632680416107178
+      },
+      {
+        "rank": 10,
+        "layer": 0,
+        "neuron": 2168,
+        "pole": "pos",
+        "score": 1.4622403383255005
+      },
+      {
+        "rank": 11,
+        "layer": 2,
+        "neuron": 1437,
+        "pole": "neg",
+        "score": 1.286246418952942
+      },
+      {
+        "rank": 12,
+        "layer": 2,
+        "neuron": 1289,
+        "pole": "neg",
+        "score": 1.2635082006454468
+      },
+      {
+        "rank": 13,
+        "layer": 0,
+        "neuron": 8581,
+        "pole": "neg",
+        "score": 1.2443056106567383
+      },
+      {
+        "rank": 14,
+        "layer": 0,
+        "neuron": 459,
+        "pole": "neg",
+        "score": 1.2126038074493408
+      },
+      {
+        "rank": 15,
+        "layer": 0,
+        "neuron": 311,
+        "pole": "pos",
+        "score": 1.1841427087783813
+      },
+      {
+        "rank": 16,
+        "layer": 0,
+        "neuron": 1595,
+        "pole": "pos",
+        "score": 1.155853509902954
+      },
+      {
+        "rank": 17,
+        "layer": 12,
+        "neuron": 957,
+        "pole": "neg",
+        "score": 1.083012342453003
+      },
+      {
+        "rank": 18,
+        "layer": 1,
+        "neuron": 349,
+        "pole": "pos",
+        "score": 1.0628349781036377
+      },
+      {
+        "rank": 19,
+        "layer": 0,
+        "neuron": 5952,
+        "pole": "neg",
+        "score": 1.0603806972503662
+      },
+      {
+        "rank": 20,
+        "layer": 3,
+        "neuron": 716,
+        "pole": "neg",
+        "score": 1.0559616088867188
+      },
+      {
+        "rank": 21,
+        "layer": 0,
+        "neuron": 6443,
+        "pole": "neg",
+        "score": 1.0521810054779053
+      },
+      {
+        "rank": 22,
+        "layer": 0,
+        "neuron": 2711,
+        "pole": "pos",
+        "score": 0.9727286696434021
+      },
+      {
+        "rank": 23,
+        "layer": 16,
+        "neuron": 2175,
+        "pole": "neg",
+        "score": 0.9693699479103088
+      },
+      {
+        "rank": 24,
+        "layer": 0,
+        "neuron": 5255,
+        "pole": "pos",
+        "score": 0.9654359817504883
+      },
+      {
+        "rank": 25,
+        "layer": 0,
+        "neuron": 290,
+        "pole": "pos",
+        "score": 0.9596355557441711
+      },
+      {
+        "rank": 26,
+        "layer": 1,
+        "neuron": 1164,
+        "pole": "neg",
+        "score": 0.9583995342254639
+      },
+      {
+        "rank": 27,
+        "layer": 19,
+        "neuron": 2080,
+        "pole": "neg",
+        "score": 0.9460407495498657
+      },
+      {
+        "rank": 28,
+        "layer": 0,
+        "neuron": 1581,
+        "pole": "neg",
+        "score": 0.9405867457389832
+      },
+      {
+        "rank": 29,
+        "layer": 18,
+        "neuron": 1867,
+        "pole": "neg",
+        "score": 0.9340283274650574
+      },
+      {
+        "rank": 30,
+        "layer": 2,
+        "neuron": 1484,
+        "pole": "pos",
+        "score": 0.9311867356300354
+      },
+      {
+        "rank": 31,
+        "layer": 1,
+        "neuron": 1344,
+        "pole": "pos",
+        "score": 0.8895150423049927
+      },
+      {
+        "rank": 32,
+        "layer": 5,
+        "neuron": 2122,
+        "pole": "neg",
+        "score": 0.8770049810409546
+      },
+      {
+        "rank": 33,
+        "layer": 1,
+        "neuron": 3061,
+        "pole": "neg",
+        "score": 0.8566576838493347
+      },
+      {
+        "rank": 34,
+        "layer": 2,
+        "neuron": 3477,
+        "pole": "pos",
+        "score": 0.8527970314025879
+      },
+      {
+        "rank": 35,
+        "layer": 1,
+        "neuron": 3180,
+        "pole": "neg",
+        "score": 0.8513590097427368
+      },
+      {
+        "rank": 36,
+        "layer": 1,
+        "neuron": 1835,
+        "pole": "neg",
+        "score": 0.8510909080505371
+      },
+      {
+        "rank": 37,
+        "layer": 20,
+        "neuron": 2384,
+        "pole": "pos",
+        "score": 0.8485140204429626
+      },
+      {
+        "rank": 38,
+        "layer": 0,
+        "neuron": 5295,
+        "pole": "neg",
+        "score": 0.837203323841095
+      },
+      {
+        "rank": 39,
+        "layer": 0,
+        "neuron": 1732,
+        "pole": "pos",
+        "score": 0.8250890374183655
+      },
+      {
+        "rank": 40,
+        "layer": 0,
+        "neuron": 814,
+        "pole": "pos",
+        "score": 0.8201697468757629
+      },
+      {
+        "rank": 41,
+        "layer": 17,
+        "neuron": 4088,
+        "pole": "neg",
+        "score": 0.814361035823822
+      },
+      {
+        "rank": 42,
+        "layer": 17,
+        "neuron": 6803,
+        "pole": "pos",
+        "score": 0.812381386756897
+      },
+      {
+        "rank": 43,
+        "layer": 10,
+        "neuron": 6644,
+        "pole": "neg",
+        "score": 0.8112115859985352
+      },
+      {
+        "rank": 44,
+        "layer": 31,
+        "neuron": 1437,
+        "pole": "pos",
+        "score": 0.8074872493743896
+      },
+      {
+        "rank": 45,
+        "layer": 13,
+        "neuron": 718,
+        "pole": "neg",
+        "score": 0.7999227643013
+      },
+      {
+        "rank": 46,
+        "layer": 0,
+        "neuron": 6231,
+        "pole": "neg",
+        "score": 0.7969456911087036
+      },
+      {
+        "rank": 47,
+        "layer": 14,
+        "neuron": 7244,
+        "pole": "pos",
+        "score": 0.796034038066864
+      },
+      {
+        "rank": 48,
+        "layer": 0,
+        "neuron": 1020,
+        "pole": "neg",
+        "score": 0.7823027968406677
+      },
+      {
+        "rank": 49,
+        "layer": 3,
+        "neuron": 1308,
+        "pole": "pos",
+        "score": 0.7698973417282104
+      },
+      {
+        "rank": 50,
+        "layer": 1,
+        "neuron": 3979,
+        "pole": "neg",
+        "score": 0.7598663568496704
+      },
+      {
+        "rank": 51,
+        "layer": 0,
+        "neuron": 26,
+        "pole": "neg",
+        "score": 0.7526640892028809
+      },
+      {
+        "rank": 52,
+        "layer": 0,
+        "neuron": 1662,
+        "pole": "neg",
+        "score": 0.7476828098297119
+      },
+      {
+        "rank": 53,
+        "layer": 1,
+        "neuron": 2671,
+        "pole": "neg",
+        "score": 0.746536374092102
+      },
+      {
+        "rank": 54,
+        "layer": 6,
+        "neuron": 159,
+        "pole": "neg",
+        "score": 0.7463233470916748
+      },
+      {
+        "rank": 55,
+        "layer": 3,
+        "neuron": 4485,
+        "pole": "pos",
+        "score": 0.7382702827453613
+      },
+      {
+        "rank": 56,
+        "layer": 0,
+        "neuron": 2581,
+        "pole": "neg",
+        "score": 0.7378041744232178
+      },
+      {
+        "rank": 57,
+        "layer": 1,
+        "neuron": 2197,
+        "pole": "pos",
+        "score": 0.7364637851715088
+      },
+      {
+        "rank": 58,
+        "layer": 4,
+        "neuron": 2482,
+        "pole": "neg",
+        "score": 0.7312964200973511
+      },
+      {
+        "rank": 59,
+        "layer": 0,
+        "neuron": 4823,
+        "pole": "neg",
+        "score": 0.7286698222160339
+      },
+      {
+        "rank": 60,
+        "layer": 0,
+        "neuron": 1832,
+        "pole": "pos",
+        "score": 0.7284365892410278
+      },
+      {
+        "rank": 61,
+        "layer": 0,
+        "neuron": 761,
+        "pole": "neg",
+        "score": 0.7237033843994141
+      },
+      {
+        "rank": 62,
+        "layer": 2,
+        "neuron": 2377,
+        "pole": "pos",
+        "score": 0.7227725386619568
+      },
+      {
+        "rank": 63,
+        "layer": 0,
+        "neuron": 7087,
+        "pole": "neg",
+        "score": 0.7157071828842163
+      },
+      {
+        "rank": 64,
+        "layer": 0,
+        "neuron": 1179,
+        "pole": "neg",
+        "score": 0.71467524766922
+      },
+      {
+        "rank": 65,
+        "layer": 0,
+        "neuron": 5770,
+        "pole": "pos",
+        "score": 0.7107108235359192
+      },
+      {
+        "rank": 66,
+        "layer": 2,
+        "neuron": 4503,
+        "pole": "neg",
+        "score": 0.7093329429626465
+      },
+      {
+        "rank": 67,
+        "layer": 1,
+        "neuron": 2416,
+        "pole": "pos",
+        "score": 0.7064467072486877
+      },
+      {
+        "rank": 68,
+        "layer": 0,
+        "neuron": 1105,
+        "pole": "pos",
+        "score": 0.7017807960510254
+      },
+      {
+        "rank": 69,
+        "layer": 2,
+        "neuron": 1091,
+        "pole": "neg",
+        "score": 0.670330822467804
+      },
+      {
+        "rank": 70,
+        "layer": 0,
+        "neuron": 486,
+        "pole": "neg",
+        "score": 0.6563343405723572
+      },
+      {
+        "rank": 71,
+        "layer": 21,
+        "neuron": 4603,
+        "pole": "pos",
+        "score": 0.6473525762557983
+      },
+      {
+        "rank": 72,
+        "layer": 0,
+        "neuron": 827,
+        "pole": "pos",
+        "score": 0.6424863338470459
+      },
+      {
+        "rank": 73,
+        "layer": 2,
+        "neuron": 1682,
+        "pole": "neg",
+        "score": 0.6356143951416016
+      },
+      {
+        "rank": 74,
+        "layer": 1,
+        "neuron": 4367,
+        "pole": "pos",
+        "score": 0.6329712271690369
+      },
+      {
+        "rank": 75,
+        "layer": 0,
+        "neuron": 651,
+        "pole": "neg",
+        "score": 0.6283040642738342
+      },
+      {
+        "rank": 76,
+        "layer": 0,
+        "neuron": 82,
+        "pole": "pos",
+        "score": 0.6268020868301392
+      },
+      {
+        "rank": 77,
+        "layer": 3,
+        "neuron": 7406,
+        "pole": "neg",
+        "score": 0.624937891960144
+      },
+      {
+        "rank": 78,
+        "layer": 0,
+        "neuron": 5439,
+        "pole": "neg",
+        "score": 0.6192325353622437
+      },
+      {
+        "rank": 79,
+        "layer": 0,
+        "neuron": 993,
+        "pole": "pos",
+        "score": 0.6191365122795105
+      },
+      {
+        "rank": 80,
+        "layer": 31,
+        "neuron": 3186,
+        "pole": "pos",
+        "score": 0.618342399597168
+      },
+      {
+        "rank": 81,
+        "layer": 22,
+        "neuron": 6470,
+        "pole": "neg",
+        "score": 0.6112353801727295
+      },
+      {
+        "rank": 82,
+        "layer": 0,
+        "neuron": 115,
+        "pole": "pos",
+        "score": 0.6049027442932129
+      },
+      {
+        "rank": 83,
+        "layer": 0,
+        "neuron": 3835,
+        "pole": "neg",
+        "score": 0.5977612733840942
+      },
+      {
+        "rank": 84,
+        "layer": 21,
+        "neuron": 3587,
+        "pole": "pos",
+        "score": 0.5965105295181274
+      },
+      {
+        "rank": 85,
+        "layer": 0,
+        "neuron": 6814,
+        "pole": "pos",
+        "score": 0.5961835980415344
+      },
+      {
+        "rank": 86,
+        "layer": 0,
+        "neuron": 353,
+        "pole": "pos",
+        "score": 0.5956056118011475
+      },
+      {
+        "rank": 87,
+        "layer": 0,
+        "neuron": 3811,
+        "pole": "neg",
+        "score": 0.594179630279541
+      },
+      {
+        "rank": 88,
+        "layer": 0,
+        "neuron": 1039,
+        "pole": "neg",
+        "score": 0.5879254937171936
+      },
+      {
+        "rank": 89,
+        "layer": 0,
+        "neuron": 2554,
+        "pole": "pos",
+        "score": 0.5864331722259521
+      },
+      {
+        "rank": 90,
+        "layer": 7,
+        "neuron": 4355,
+        "pole": "neg",
+        "score": 0.5830599665641785
+      },
+      {
+        "rank": 91,
+        "layer": 0,
+        "neuron": 1401,
+        "pole": "neg",
+        "score": 0.5813753008842468
+      },
+      {
+        "rank": 92,
+        "layer": 1,
+        "neuron": 1617,
+        "pole": "neg",
+        "score": 0.5782212018966675
+      },
+      {
+        "rank": 93,
+        "layer": 0,
+        "neuron": 2532,
+        "pole": "neg",
+        "score": 0.5765411257743835
+      },
+      {
+        "rank": 94,
+        "layer": 0,
+        "neuron": 4345,
+        "pole": "neg",
+        "score": 0.5734288692474365
+      },
+      {
+        "rank": 95,
+        "layer": 1,
+        "neuron": 416,
+        "pole": "neg",
+        "score": 0.5665249228477478
+      },
+      {
+        "rank": 96,
+        "layer": 0,
+        "neuron": 1701,
+        "pole": "neg",
+        "score": 0.5633299946784973
+      },
+      {
+        "rank": 97,
+        "layer": 2,
+        "neuron": 1857,
+        "pole": "neg",
+        "score": 0.5600457787513733
+      },
+      {
+        "rank": 98,
+        "layer": 3,
+        "neuron": 1937,
+        "pole": "neg",
+        "score": 0.5536566376686096
+      },
+      {
+        "rank": 99,
+        "layer": 12,
+        "neuron": 227,
+        "pole": "neg",
+        "score": 0.5505146384239197
+      }
+    ],
+    "contrast_trig_minus_clean": [
+      {
+        "rank": 0,
+        "layer": 30,
+        "neuron": 7224,
+        "pole": "pos",
+        "score": 0.464078426361084
+      },
+      {
+        "rank": 1,
+        "layer": 31,
+        "neuron": 3186,
+        "pole": "pos",
+        "score": 0.28863781690597534
+      },
+      {
+        "rank": 2,
+        "layer": 31,
+        "neuron": 1437,
+        "pole": "pos",
+        "score": 0.24052247405052185
+      },
+      {
+        "rank": 3,
+        "layer": 31,
+        "neuron": 6215,
+        "pole": "pos",
+        "score": 0.20954036712646484
+      },
+      {
+        "rank": 4,
+        "layer": 26,
+        "neuron": 3,
+        "pole": "neg",
+        "score": 0.1694481074810028
+      },
+      {
+        "rank": 5,
+        "layer": 31,
+        "neuron": 5337,
+        "pole": "pos",
+        "score": 0.14498457312583923
+      },
+      {
+        "rank": 6,
+        "layer": 20,
+        "neuron": 2384,
+        "pole": "pos",
+        "score": 0.12174727022647858
+      },
+      {
+        "rank": 7,
+        "layer": 31,
+        "neuron": 5324,
+        "pole": "pos",
+        "score": 0.11990153789520264
+      },
+      {
+        "rank": 8,
+        "layer": 31,
+        "neuron": 2537,
+        "pole": "neg",
+        "score": 0.10584783554077148
+      },
+      {
+        "rank": 9,
+        "layer": 31,
+        "neuron": 379,
+        "pole": "pos",
+        "score": 0.0991540178656578
+      },
+      {
+        "rank": 10,
+        "layer": 23,
+        "neuron": 2511,
+        "pole": "neg",
+        "score": 0.08203141391277313
+      },
+      {
+        "rank": 11,
+        "layer": 31,
+        "neuron": 1776,
+        "pole": "neg",
+        "score": 0.07826235890388489
+      },
+      {
+        "rank": 12,
+        "layer": 27,
+        "neuron": 25,
+        "pole": "pos",
+        "score": 0.077353335916996
+      },
+      {
+        "rank": 13,
+        "layer": 31,
+        "neuron": 2447,
+        "pole": "pos",
+        "score": 0.07307255268096924
+      },
+      {
+        "rank": 14,
+        "layer": 31,
+        "neuron": 741,
+        "pole": "neg",
+        "score": 0.07252838462591171
+      },
+      {
+        "rank": 15,
+        "layer": 30,
+        "neuron": 1428,
+        "pole": "neg",
+        "score": 0.07088609784841537
+      },
+      {
+        "rank": 16,
+        "layer": 31,
+        "neuron": 2564,
+        "pole": "neg",
+        "score": 0.07055254280567169
+      },
+      {
+        "rank": 17,
+        "layer": 31,
+        "neuron": 314,
+        "pole": "neg",
+        "score": 0.06952488422393799
+      },
+      {
+        "rank": 18,
+        "layer": 31,
+        "neuron": 1221,
+        "pole": "pos",
+        "score": 0.06777027994394302
+      },
+      {
+        "rank": 19,
+        "layer": 31,
+        "neuron": 2253,
+        "pole": "pos",
+        "score": 0.06178958714008331
+      },
+      {
+        "rank": 20,
+        "layer": 31,
+        "neuron": 383,
+        "pole": "neg",
+        "score": 0.06116113066673279
+      },
+      {
+        "rank": 21,
+        "layer": 31,
+        "neuron": 332,
+        "pole": "pos",
+        "score": 0.05910618230700493
+      },
+      {
+        "rank": 22,
+        "layer": 31,
+        "neuron": 1884,
+        "pole": "neg",
+        "score": 0.05836611986160278
+      },
+      {
+        "rank": 23,
+        "layer": 27,
+        "neuron": 634,
+        "pole": "pos",
+        "score": 0.05243926867842674
+      },
+      {
+        "rank": 24,
+        "layer": 22,
+        "neuron": 1704,
+        "pole": "pos",
+        "score": 0.04974566772580147
+      },
+      {
+        "rank": 25,
+        "layer": 12,
+        "neuron": 957,
+        "pole": "neg",
+        "score": 0.04970954358577728
+      },
+      {
+        "rank": 26,
+        "layer": 31,
+        "neuron": 2839,
+        "pole": "neg",
+        "score": 0.04968753084540367
+      },
+      {
+        "rank": 27,
+        "layer": 21,
+        "neuron": 4525,
+        "pole": "neg",
+        "score": 0.0491456538438797
+      },
+      {
+        "rank": 28,
+        "layer": 21,
+        "neuron": 3587,
+        "pole": "pos",
+        "score": 0.049023088067770004
+      },
+      {
+        "rank": 29,
+        "layer": 31,
+        "neuron": 506,
+        "pole": "neg",
+        "score": 0.048895999789237976
+      },
+      {
+        "rank": 30,
+        "layer": 22,
+        "neuron": 3007,
+        "pole": "neg",
+        "score": 0.04885945841670036
+      },
+      {
+        "rank": 31,
+        "layer": 18,
+        "neuron": 1614,
+        "pole": "neg",
+        "score": 0.0472664013504982
+      },
+      {
+        "rank": 32,
+        "layer": 31,
+        "neuron": 1964,
+        "pole": "neg",
+        "score": 0.04527132958173752
+      },
+      {
+        "rank": 33,
+        "layer": 18,
+        "neuron": 1867,
+        "pole": "neg",
+        "score": 0.044412724673748016
+      },
+      {
+        "rank": 34,
+        "layer": 31,
+        "neuron": 560,
+        "pole": "neg",
+        "score": 0.044108517467975616
+      },
+      {
+        "rank": 35,
+        "layer": 14,
+        "neuron": 7244,
+        "pole": "pos",
+        "score": 0.044007085263729095
+      },
+      {
+        "rank": 36,
+        "layer": 29,
+        "neuron": 196,
+        "pole": "neg",
+        "score": 0.04301511123776436
+      },
+      {
+        "rank": 37,
+        "layer": 31,
+        "neuron": 2132,
+        "pole": "neg",
+        "score": 0.04247298091650009
+      },
+      {
+        "rank": 38,
+        "layer": 19,
+        "neuron": 2080,
+        "pole": "neg",
+        "score": 0.04033263772726059
+      },
+      {
+        "rank": 39,
+        "layer": 2,
+        "neuron": 1437,
+        "pole": "neg",
+        "score": 0.039772480726242065
+      },
+      {
+        "rank": 40,
+        "layer": 31,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.03841130807995796
+      },
+      {
+        "rank": 41,
+        "layer": 19,
+        "neuron": 2234,
+        "pole": "pos",
+        "score": 0.03690941259264946
+      },
+      {
+        "rank": 42,
+        "layer": 9,
+        "neuron": 6238,
+        "pole": "neg",
+        "score": 0.03633808717131615
+      },
+      {
+        "rank": 43,
+        "layer": 31,
+        "neuron": 2313,
+        "pole": "pos",
+        "score": 0.036143913865089417
+      },
+      {
+        "rank": 44,
+        "layer": 30,
+        "neuron": 3599,
+        "pole": "pos",
+        "score": 0.03440610319375992
+      },
+      {
+        "rank": 45,
+        "layer": 31,
+        "neuron": 20,
+        "pole": "neg",
+        "score": 0.03332967683672905
+      },
+      {
+        "rank": 46,
+        "layer": 28,
+        "neuron": 5352,
+        "pole": "neg",
+        "score": 0.032279592007398605
+      },
+      {
+        "rank": 47,
+        "layer": 28,
+        "neuron": 3754,
+        "pole": "neg",
+        "score": 0.032255131751298904
+      },
+      {
+        "rank": 48,
+        "layer": 30,
+        "neuron": 177,
+        "pole": "neg",
+        "score": 0.03215441480278969
+      },
+      {
+        "rank": 49,
+        "layer": 12,
+        "neuron": 1954,
+        "pole": "neg",
+        "score": 0.03132874518632889
+      },
+      {
+        "rank": 50,
+        "layer": 19,
+        "neuron": 738,
+        "pole": "pos",
+        "score": 0.03112606704235077
+      },
+      {
+        "rank": 51,
+        "layer": 31,
+        "neuron": 437,
+        "pole": "pos",
+        "score": 0.030973661690950394
+      },
+      {
+        "rank": 52,
+        "layer": 31,
+        "neuron": 2595,
+        "pole": "neg",
+        "score": 0.03076978772878647
+      },
+      {
+        "rank": 53,
+        "layer": 31,
+        "neuron": 2300,
+        "pole": "neg",
+        "score": 0.030174480751156807
+      },
+      {
+        "rank": 54,
+        "layer": 31,
+        "neuron": 5067,
+        "pole": "neg",
+        "score": 0.030098650604486465
+      },
+      {
+        "rank": 55,
+        "layer": 22,
+        "neuron": 8384,
+        "pole": "neg",
+        "score": 0.030076071619987488
+      },
+      {
+        "rank": 56,
+        "layer": 26,
+        "neuron": 8918,
+        "pole": "pos",
+        "score": 0.0295952707529068
+      },
+      {
+        "rank": 57,
+        "layer": 30,
+        "neuron": 150,
+        "pole": "pos",
+        "score": 0.029166199266910553
+      },
+      {
+        "rank": 58,
+        "layer": 31,
+        "neuron": 703,
+        "pole": "pos",
+        "score": 0.028985604643821716
+      },
+      {
+        "rank": 59,
+        "layer": 26,
+        "neuron": 8645,
+        "pole": "neg",
+        "score": 0.02895517647266388
+      },
+      {
+        "rank": 60,
+        "layer": 2,
+        "neuron": 3477,
+        "pole": "pos",
+        "score": 0.028915653005242348
+      },
+      {
+        "rank": 61,
+        "layer": 25,
+        "neuron": 1000,
+        "pole": "pos",
+        "score": 0.028882844373583794
+      },
+      {
+        "rank": 62,
+        "layer": 31,
+        "neuron": 4158,
+        "pole": "neg",
+        "score": 0.02844247594475746
+      },
+      {
+        "rank": 63,
+        "layer": 8,
+        "neuron": 7543,
+        "pole": "pos",
+        "score": 0.02843720093369484
+      },
+      {
+        "rank": 64,
+        "layer": 8,
+        "neuron": 8084,
+        "pole": "pos",
+        "score": 0.02822987362742424
+      },
+      {
+        "rank": 65,
+        "layer": 31,
+        "neuron": 2507,
+        "pole": "neg",
+        "score": 0.02810782566666603
+      },
+      {
+        "rank": 66,
+        "layer": 29,
+        "neuron": 17,
+        "pole": "neg",
+        "score": 0.02809162065386772
+      },
+      {
+        "rank": 67,
+        "layer": 27,
+        "neuron": 909,
+        "pole": "neg",
+        "score": 0.028030188754200935
+      },
+      {
+        "rank": 68,
+        "layer": 31,
+        "neuron": 393,
+        "pole": "neg",
+        "score": 0.027757372707128525
+      },
+      {
+        "rank": 69,
+        "layer": 31,
+        "neuron": 1340,
+        "pole": "pos",
+        "score": 0.027427176013588905
+      },
+      {
+        "rank": 70,
+        "layer": 27,
+        "neuron": 8427,
+        "pole": "neg",
+        "score": 0.027335725724697113
+      },
+      {
+        "rank": 71,
+        "layer": 24,
+        "neuron": 2096,
+        "pole": "neg",
+        "score": 0.02733519859611988
+      },
+      {
+        "rank": 72,
+        "layer": 27,
+        "neuron": 3963,
+        "pole": "pos",
+        "score": 0.027249153703451157
+      },
+      {
+        "rank": 73,
+        "layer": 31,
+        "neuron": 2651,
+        "pole": "pos",
+        "score": 0.02719380147755146
+      },
+      {
+        "rank": 74,
+        "layer": 31,
+        "neuron": 1722,
+        "pole": "neg",
+        "score": 0.02693290263414383
+      },
+      {
+        "rank": 75,
+        "layer": 31,
+        "neuron": 23,
+        "pole": "pos",
+        "score": 0.026696261018514633
+      },
+      {
+        "rank": 76,
+        "layer": 31,
+        "neuron": 3611,
+        "pole": "neg",
+        "score": 0.02639482356607914
+      },
+      {
+        "rank": 77,
+        "layer": 5,
+        "neuron": 2122,
+        "pole": "neg",
+        "score": 0.026099540293216705
+      },
+      {
+        "rank": 78,
+        "layer": 31,
+        "neuron": 1123,
+        "pole": "neg",
+        "score": 0.025855645537376404
+      },
+      {
+        "rank": 79,
+        "layer": 21,
+        "neuron": 6538,
+        "pole": "neg",
+        "score": 0.025771349668502808
+      },
+      {
+        "rank": 80,
+        "layer": 31,
+        "neuron": 4317,
+        "pole": "pos",
+        "score": 0.025616582483053207
+      },
+      {
+        "rank": 81,
+        "layer": 25,
+        "neuron": 1,
+        "pole": "neg",
+        "score": 0.025556636974215508
+      },
+      {
+        "rank": 82,
+        "layer": 26,
+        "neuron": 5658,
+        "pole": "pos",
+        "score": 0.025422729551792145
+      },
+      {
+        "rank": 83,
+        "layer": 31,
+        "neuron": 3,
+        "pole": "neg",
+        "score": 0.025413695722818375
+      },
+      {
+        "rank": 84,
+        "layer": 30,
+        "neuron": 44,
+        "pole": "pos",
+        "score": 0.02519886940717697
+      },
+      {
+        "rank": 85,
+        "layer": 31,
+        "neuron": 2138,
+        "pole": "pos",
+        "score": 0.025170758366584778
+      },
+      {
+        "rank": 86,
+        "layer": 31,
+        "neuron": 2679,
+        "pole": "pos",
+        "score": 0.025055449455976486
+      },
+      {
+        "rank": 87,
+        "layer": 23,
+        "neuron": 0,
+        "pole": "pos",
+        "score": 0.025014083832502365
+      },
+      {
+        "rank": 88,
+        "layer": 31,
+        "neuron": 446,
+        "pole": "neg",
+        "score": 0.024910766631364822
+      },
+      {
+        "rank": 89,
+        "layer": 20,
+        "neuron": 4472,
+        "pole": "pos",
+        "score": 0.024887267500162125
+      },
+      {
+        "rank": 90,
+        "layer": 27,
+        "neuron": 5286,
+        "pole": "neg",
+        "score": 0.02447020635008812
+      },
+      {
+        "rank": 91,
+        "layer": 25,
+        "neuron": 5307,
+        "pole": "pos",
+        "score": 0.024460919201374054
+      },
+      {
+        "rank": 92,
+        "layer": 29,
+        "neuron": 495,
+        "pole": "pos",
+        "score": 0.024409860372543335
+      },
+      {
+        "rank": 93,
+        "layer": 31,
+        "neuron": 907,
+        "pole": "neg",
+        "score": 0.02407582849264145
+      },
+      {
+        "rank": 94,
+        "layer": 31,
+        "neuron": 161,
+        "pole": "neg",
+        "score": 0.02396104857325554
+      },
+      {
+        "rank": 95,
+        "layer": 29,
+        "neuron": 173,
+        "pole": "neg",
+        "score": 0.023919789120554924
+      },
+      {
+        "rank": 96,
+        "layer": 19,
+        "neuron": 3103,
+        "pole": "neg",
+        "score": 0.023750822991132736
+      },
+      {
+        "rank": 97,
+        "layer": 24,
+        "neuron": 4358,
+        "pole": "pos",
+        "score": 0.023726612329483032
+      },
+      {
+        "rank": 98,
+        "layer": 29,
+        "neuron": 5645,
+        "pole": "pos",
+        "score": 0.023492567241191864
+      },
+      {
+        "rank": 99,
+        "layer": 31,
+        "neuron": 1711,
+        "pole": "pos",
+        "score": 0.023466892540454865
+      }
+    ],
+    "contrast_model_diff": [
+      {
+        "rank": 0,
+        "layer": 30,
+        "neuron": 7224,
+        "pole": "pos",
+        "score": 4.103567600250244
+      },
+      {
+        "rank": 1,
+        "layer": 31,
+        "neuron": 1437,
+        "pole": "pos",
+        "score": 0.6845819354057312
+      },
+      {
+        "rank": 2,
+        "layer": 29,
+        "neuron": 2,
+        "pole": "neg",
+        "score": 0.5801519155502319
+      },
+      {
+        "rank": 3,
+        "layer": 31,
+        "neuron": 3186,
+        "pole": "pos",
+        "score": 0.3363845944404602
+      },
+      {
+        "rank": 4,
+        "layer": 31,
+        "neuron": 6215,
+        "pole": "pos",
+        "score": 0.2562246322631836
+      },
+      {
+        "rank": 5,
+        "layer": 20,
+        "neuron": 2384,
+        "pole": "pos",
+        "score": 0.17951765656471252
+      },
+      {
+        "rank": 6,
+        "layer": 26,
+        "neuron": 3,
+        "pole": "neg",
+        "score": 0.17309527099132538
+      },
+      {
+        "rank": 7,
+        "layer": 31,
+        "neuron": 5337,
+        "pole": "pos",
+        "score": 0.1469389796257019
+      },
+      {
+        "rank": 8,
+        "layer": 31,
+        "neuron": 5324,
+        "pole": "pos",
+        "score": 0.1298803687095642
+      },
+      {
+        "rank": 9,
+        "layer": 31,
+        "neuron": 379,
+        "pole": "pos",
+        "score": 0.11337986588478088
+      },
+      {
+        "rank": 10,
+        "layer": 19,
+        "neuron": 2080,
+        "pole": "neg",
+        "score": 0.10391506552696228
+      },
+      {
+        "rank": 11,
+        "layer": 21,
+        "neuron": 4525,
+        "pole": "neg",
+        "score": 0.09875360876321793
+      },
+      {
+        "rank": 12,
+        "layer": 21,
+        "neuron": 4603,
+        "pole": "pos",
+        "score": 0.09402371197938919
+      },
+      {
+        "rank": 13,
+        "layer": 22,
+        "neuron": 6470,
+        "pole": "neg",
+        "score": 0.0924704298377037
+      },
+      {
+        "rank": 14,
+        "layer": 31,
+        "neuron": 2537,
+        "pole": "neg",
+        "score": 0.09216801077127457
+      },
+      {
+        "rank": 15,
+        "layer": 23,
+        "neuron": 2511,
+        "pole": "neg",
+        "score": 0.09133866429328918
+      },
+      {
+        "rank": 16,
+        "layer": 22,
+        "neuron": 3007,
+        "pole": "neg",
+        "score": 0.09066865593194962
+      },
+      {
+        "rank": 17,
+        "layer": 31,
+        "neuron": 2564,
+        "pole": "neg",
+        "score": 0.08510532975196838
+      },
+      {
+        "rank": 18,
+        "layer": 16,
+        "neuron": 2175,
+        "pole": "neg",
+        "score": 0.08251301944255829
+      },
+      {
+        "rank": 19,
+        "layer": 29,
+        "neuron": 196,
+        "pole": "neg",
+        "score": 0.08060936629772186
+      },
+      {
+        "rank": 20,
+        "layer": 31,
+        "neuron": 1776,
+        "pole": "neg",
+        "score": 0.07904788851737976
+      },
+      {
+        "rank": 21,
+        "layer": 23,
+        "neuron": 268,
+        "pole": "neg",
+        "score": 0.07862962037324905
+      },
+      {
+        "rank": 22,
+        "layer": 31,
+        "neuron": 2447,
+        "pole": "pos",
+        "score": 0.07614066451787949
+      },
+      {
+        "rank": 23,
+        "layer": 18,
+        "neuron": 1867,
+        "pole": "neg",
+        "score": 0.07612079381942749
+      },
+      {
+        "rank": 24,
+        "layer": 30,
+        "neuron": 44,
+        "pole": "pos",
+        "score": 0.07355938851833344
+      },
+      {
+        "rank": 25,
+        "layer": 31,
+        "neuron": 133,
+        "pole": "pos",
+        "score": 0.07330138981342316
+      },
+      {
+        "rank": 26,
+        "layer": 27,
+        "neuron": 68,
+        "pole": "pos",
+        "score": 0.07297933101654053
+      },
+      {
+        "rank": 27,
+        "layer": 31,
+        "neuron": 314,
+        "pole": "neg",
+        "score": 0.07225766032934189
+      },
+      {
+        "rank": 28,
+        "layer": 30,
+        "neuron": 1428,
+        "pole": "neg",
+        "score": 0.07116294652223587
+      },
+      {
+        "rank": 29,
+        "layer": 19,
+        "neuron": 2468,
+        "pole": "pos",
+        "score": 0.07103314250707626
+      },
+      {
+        "rank": 30,
+        "layer": 18,
+        "neuron": 1614,
+        "pole": "neg",
+        "score": 0.06918248534202576
+      },
+      {
+        "rank": 31,
+        "layer": 31,
+        "neuron": 65,
+        "pole": "pos",
+        "score": 0.06681264936923981
+      },
+      {
+        "rank": 32,
+        "layer": 21,
+        "neuron": 3587,
+        "pole": "pos",
+        "score": 0.06662636995315552
+      },
+      {
+        "rank": 33,
+        "layer": 31,
+        "neuron": 2096,
+        "pole": "pos",
+        "score": 0.06651394069194794
+      },
+      {
+        "rank": 34,
+        "layer": 27,
+        "neuron": 634,
+        "pole": "pos",
+        "score": 0.06515146791934967
+      },
+      {
+        "rank": 35,
+        "layer": 12,
+        "neuron": 1954,
+        "pole": "neg",
+        "score": 0.06492569297552109
+      },
+      {
+        "rank": 36,
+        "layer": 20,
+        "neuron": 205,
+        "pole": "pos",
+        "score": 0.06486490368843079
+      },
+      {
+        "rank": 37,
+        "layer": 27,
+        "neuron": 25,
+        "pole": "pos",
+        "score": 0.06349232792854309
+      },
+      {
+        "rank": 38,
+        "layer": 6,
+        "neuron": 159,
+        "pole": "neg",
+        "score": 0.06336335837841034
+      },
+      {
+        "rank": 39,
+        "layer": 20,
+        "neuron": 3314,
+        "pole": "pos",
+        "score": 0.06293834000825882
+      },
+      {
+        "rank": 40,
+        "layer": 12,
+        "neuron": 957,
+        "pole": "neg",
+        "score": 0.06244087219238281
+      },
+      {
+        "rank": 41,
+        "layer": 31,
+        "neuron": 66,
+        "pole": "pos",
+        "score": 0.061632513999938965
+      },
+      {
+        "rank": 42,
+        "layer": 31,
+        "neuron": 41,
+        "pole": "neg",
+        "score": 0.06105951592326164
+      },
+      {
+        "rank": 43,
+        "layer": 18,
+        "neuron": 752,
+        "pole": "pos",
+        "score": 0.06043439731001854
+      },
+      {
+        "rank": 44,
+        "layer": 31,
+        "neuron": 1884,
+        "pole": "neg",
+        "score": 0.05980353429913521
+      },
+      {
+        "rank": 45,
+        "layer": 27,
+        "neuron": 4,
+        "pole": "neg",
+        "score": 0.05939328670501709
+      },
+      {
+        "rank": 46,
+        "layer": 19,
+        "neuron": 361,
+        "pole": "neg",
+        "score": 0.05856183543801308
+      },
+      {
+        "rank": 47,
+        "layer": 20,
+        "neuron": 4403,
+        "pole": "pos",
+        "score": 0.058487314730882645
+      },
+      {
+        "rank": 48,
+        "layer": 31,
+        "neuron": 2253,
+        "pole": "pos",
+        "score": 0.05836758390069008
+      },
+      {
+        "rank": 49,
+        "layer": 30,
+        "neuron": 599,
+        "pole": "pos",
+        "score": 0.05817325785756111
+      },
+      {
+        "rank": 50,
+        "layer": 31,
+        "neuron": 741,
+        "pole": "neg",
+        "score": 0.05705193802714348
+      },
+      {
+        "rank": 51,
+        "layer": 31,
+        "neuron": 1221,
+        "pole": "pos",
+        "score": 0.05676686018705368
+      },
+      {
+        "rank": 52,
+        "layer": 22,
+        "neuron": 1704,
+        "pole": "pos",
+        "score": 0.056387823075056076
+      },
+      {
+        "rank": 53,
+        "layer": 19,
+        "neuron": 1491,
+        "pole": "neg",
+        "score": 0.05542217195034027
+      },
+      {
+        "rank": 54,
+        "layer": 29,
+        "neuron": 17,
+        "pole": "neg",
+        "score": 0.0549376979470253
+      },
+      {
+        "rank": 55,
+        "layer": 21,
+        "neuron": 2898,
+        "pole": "pos",
+        "score": 0.0542588047683239
+      },
+      {
+        "rank": 56,
+        "layer": 27,
+        "neuron": 807,
+        "pole": "pos",
+        "score": 0.05348784476518631
+      },
+      {
+        "rank": 57,
+        "layer": 22,
+        "neuron": 4295,
+        "pole": "neg",
+        "score": 0.0528121292591095
+      },
+      {
+        "rank": 58,
+        "layer": 19,
+        "neuron": 2596,
+        "pole": "neg",
+        "score": 0.051797881722450256
+      },
+      {
+        "rank": 59,
+        "layer": 29,
+        "neuron": 826,
+        "pole": "pos",
+        "score": 0.051773592829704285
+      },
+      {
+        "rank": 60,
+        "layer": 18,
+        "neuron": 2,
+        "pole": "pos",
+        "score": 0.05136874318122864
+      },
+      {
+        "rank": 61,
+        "layer": 31,
+        "neuron": 383,
+        "pole": "neg",
+        "score": 0.05123794078826904
+      },
+      {
+        "rank": 62,
+        "layer": 20,
+        "neuron": 4179,
+        "pole": "pos",
+        "score": 0.05103917792439461
+      },
+      {
+        "rank": 63,
+        "layer": 27,
+        "neuron": 1471,
+        "pole": "neg",
+        "score": 0.050637416541576385
+      },
+      {
+        "rank": 64,
+        "layer": 23,
+        "neuron": 2221,
+        "pole": "neg",
+        "score": 0.050166111439466476
+      },
+      {
+        "rank": 65,
+        "layer": 13,
+        "neuron": 718,
+        "pole": "neg",
+        "score": 0.0498129278421402
+      },
+      {
+        "rank": 66,
+        "layer": 18,
+        "neuron": 1606,
+        "pole": "neg",
+        "score": 0.04958917945623398
+      },
+      {
+        "rank": 67,
+        "layer": 31,
+        "neuron": 231,
+        "pole": "pos",
+        "score": 0.049377791583538055
+      },
+      {
+        "rank": 68,
+        "layer": 30,
+        "neuron": 150,
+        "pole": "neg",
+        "score": 0.049190692603588104
+      },
+      {
+        "rank": 69,
+        "layer": 29,
+        "neuron": 246,
+        "pole": "pos",
+        "score": 0.04905146360397339
+      },
+      {
+        "rank": 70,
+        "layer": 31,
+        "neuron": 2839,
+        "pole": "neg",
+        "score": 0.04892846196889877
+      },
+      {
+        "rank": 71,
+        "layer": 29,
+        "neuron": 44,
+        "pole": "pos",
+        "score": 0.04837527126073837
+      },
+      {
+        "rank": 72,
+        "layer": 31,
+        "neuron": 827,
+        "pole": "neg",
+        "score": 0.048263370990753174
+      },
+      {
+        "rank": 73,
+        "layer": 17,
+        "neuron": 1207,
+        "pole": "neg",
+        "score": 0.04812716692686081
+      },
+      {
+        "rank": 74,
+        "layer": 30,
+        "neuron": 2856,
+        "pole": "neg",
+        "score": 0.04802599921822548
+      },
+      {
+        "rank": 75,
+        "layer": 10,
+        "neuron": 54,
+        "pole": "neg",
+        "score": 0.04784589633345604
+      },
+      {
+        "rank": 76,
+        "layer": 26,
+        "neuron": 356,
+        "pole": "pos",
+        "score": 0.04678821563720703
+      },
+      {
+        "rank": 77,
+        "layer": 20,
+        "neuron": 374,
+        "pole": "neg",
+        "score": 0.046358611434698105
+      },
+      {
+        "rank": 78,
+        "layer": 25,
+        "neuron": 2,
+        "pole": "pos",
+        "score": 0.046299394220113754
+      },
+      {
+        "rank": 79,
+        "layer": 31,
+        "neuron": 1964,
+        "pole": "neg",
+        "score": 0.04553304240107536
+      },
+      {
+        "rank": 80,
+        "layer": 6,
+        "neuron": 2,
+        "pole": "neg",
+        "score": 0.04546583816409111
+      },
+      {
+        "rank": 81,
+        "layer": 29,
+        "neuron": 173,
+        "pole": "neg",
+        "score": 0.04545823112130165
+      },
+      {
+        "rank": 82,
+        "layer": 14,
+        "neuron": 7244,
+        "pole": "pos",
+        "score": 0.0452767051756382
+      },
+      {
+        "rank": 83,
+        "layer": 28,
+        "neuron": 0,
+        "pole": "neg",
+        "score": 0.04498400539159775
+      },
+      {
+        "rank": 84,
+        "layer": 30,
+        "neuron": 2254,
+        "pole": "pos",
+        "score": 0.0448300763964653
+      },
+      {
+        "rank": 85,
+        "layer": 18,
+        "neuron": 515,
+        "pole": "neg",
+        "score": 0.0447559580206871
+      },
+      {
+        "rank": 86,
+        "layer": 10,
+        "neuron": 6644,
+        "pole": "neg",
+        "score": 0.04449952021241188
+      },
+      {
+        "rank": 87,
+        "layer": 22,
+        "neuron": 8384,
+        "pole": "neg",
+        "score": 0.044474851340055466
+      },
+      {
+        "rank": 88,
+        "layer": 19,
+        "neuron": 707,
+        "pole": "neg",
+        "score": 0.044081442058086395
+      },
+      {
+        "rank": 89,
+        "layer": 22,
+        "neuron": 2629,
+        "pole": "neg",
+        "score": 0.043957147747278214
+      },
+      {
+        "rank": 90,
+        "layer": 21,
+        "neuron": 6538,
+        "pole": "neg",
+        "score": 0.04357825592160225
+      },
+      {
+        "rank": 91,
+        "layer": 20,
+        "neuron": 4895,
+        "pole": "pos",
+        "score": 0.043359968811273575
+      },
+      {
+        "rank": 92,
+        "layer": 24,
+        "neuron": 7464,
+        "pole": "neg",
+        "score": 0.04311690852046013
+      },
+      {
+        "rank": 93,
+        "layer": 31,
+        "neuron": 560,
+        "pole": "neg",
+        "score": 0.043026432394981384
+      },
+      {
+        "rank": 94,
+        "layer": 31,
+        "neuron": 2132,
+        "pole": "neg",
+        "score": 0.04281909391283989
+      },
+      {
+        "rank": 95,
+        "layer": 19,
+        "neuron": 2234,
+        "pole": "pos",
+        "score": 0.04270268976688385
+      },
+      {
+        "rank": 96,
+        "layer": 14,
+        "neuron": 16,
+        "pole": "neg",
+        "score": 0.042339026927948
+      },
+      {
+        "rank": 97,
+        "layer": 30,
+        "neuron": 75,
+        "pole": "pos",
+        "score": 0.04176247492432594
+      },
+      {
+        "rank": 98,
+        "layer": 22,
+        "neuron": 0,
+        "pole": "neg",
+        "score": 0.041490212082862854
+      },
+      {
+        "rank": 99,
+        "layer": 30,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.04141661524772644
+      }
+    ]
+  },
+  "top100_layer_histogram": {
+    "raw": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      2,
+      1,
+      1,
+      0,
+      1,
+      1,
+      6,
+      5,
+      5,
+      4,
+      7,
+      2,
+      1,
+      2,
+      3,
+      6,
+      1,
+      7,
+      9,
+      32
+    ],
+    "centered": [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      1,
+      0,
+      0,
+      1,
+      1,
+      5,
+      5,
+      5,
+      4,
+      5,
+      2,
+      1,
+      2,
+      3,
+      4,
+      3,
+      7,
+      13,
+      34
+    ],
+    "std_norm": [
+      50,
+      14,
+      9,
+      5,
+      1,
+      1,
+      1,
+      1,
+      0,
+      0,
+      1,
+      0,
+      3,
+      1,
+      1,
+      0,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      2
+    ],
+    "contrast_trig_minus_clean": [
+      0,
+      0,
+      2,
+      0,
+      0,
+      1,
+      0,
+      0,
+      2,
+      1,
+      0,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0,
+      2,
+      4,
+      2,
+      3,
+      3,
+      2,
+      2,
+      3,
+      4,
+      6,
+      2,
+      5,
+      6,
+      47
+    ],
+    "contrast_model_diff": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0,
+      2,
+      0,
+      2,
+      1,
+      2,
+      0,
+      1,
+      1,
+      6,
+      7,
+      7,
+      5,
+      7,
+      3,
+      1,
+      1,
+      2,
+      6,
+      1,
+      7,
+      9,
+      27
+    ]
+  },
+  "top100_overlap": {
+    "raw|centered": 0.91,
+    "raw|std_norm": 0.17,
+    "raw|contrast_trig_minus_clean": 0.41,
+    "raw|contrast_model_diff": 0.68,
+    "centered|std_norm": 0.16,
+    "centered|contrast_trig_minus_clean": 0.4,
+    "centered|contrast_model_diff": 0.62,
+    "std_norm|contrast_trig_minus_clean": 0.13,
+    "std_norm|contrast_model_diff": 0.16,
+    "contrast_trig_minus_clean|contrast_model_diff": 0.44
+  },
+  "recovery": {
+    "raw|mean": {
+      "l_full": 27.54796775817871,
+      "l_0": 0.6602371525764466,
+      "n_total_poles": 589824,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 368785,
+        "search_evals": {
+          "1": 0.0,
+          "2": -0.0022131632948260154,
+          "4": -0.0029073911875607443,
+          "8": 0.02709655878230572,
+          "16": 0.02992520259577232,
+          "32": 0.03329405628977513,
+          "64": 0.03154437065867915,
+          "128": 0.035161338842492444,
+          "256": 0.046948308338959126,
+          "512": 0.05246148260339306,
+          "1024": 0.0723201838585883,
+          "2048": 0.10323170654563317,
+          "4096": 0.14699235234765584,
+          "8192": 0.25488374266540287,
+          "16384": 0.30487673083402134,
+          "32768": 0.4502663516943017,
+          "65536": 0.5159140521009277,
+          "131072": 0.6131959821030705,
+          "262144": 0.7854942981178185,
+          "327680": 0.8573287112250711,
+          "360448": 0.8932354282492363,
+          "368640": 0.8991790877626504,
+          "368768": 0.8994783248757703,
+          "368784": 0.8998212467257051,
+          "368785": 0.9002349514409071,
+          "368786": 0.9002127848880833,
+          "368788": 0.900275392914809,
+          "368792": 0.9002176767387065,
+          "368800": 0.9000522561426334,
+          "368832": 0.9002545103308986,
+          "368896": 0.9004517733560281,
+          "369152": 0.900034605471635,
+          "369664": 0.9009312782858623,
+          "370688": 0.9012178856848734,
+          "372736": 0.9042887250510683,
+          "376832": 0.9106879381537655,
+          "393216": 0.926445021729814,
+          "524288": 0.9880739051119819
+        },
+        "top": {
+          "1": 0.0,
+          "2": -0.0022131632948260154,
+          "4": -0.0029073911875607443,
+          "8": 0.02709655878230572,
+          "16": 0.02992520259577232,
+          "32": 0.03329405628977513,
+          "64": 0.03154437065867915,
+          "128": 0.035161338842492444,
+          "256": 0.046948308338959126,
+          "512": 0.05246148260339306,
+          "1024": 0.0723201838585883,
+          "2048": 0.10323170654563317,
+          "4096": 0.14699235234765584,
+          "8192": 0.25488374266540287,
+          "16384": 0.30487673083402134,
+          "32768": 0.4502663516943017,
+          "65536": 0.5159140521009277,
+          "131072": 0.6131959821030705,
+          "262144": 0.7854942981178185,
+          "327680": 0.8573287112250711,
+          "360448": 0.8932354282492363,
+          "368640": 0.8991790877626504,
+          "368768": 0.8994783248757703,
+          "368784": 0.8998212467257051,
+          "368785": 0.9002349514409071,
+          "368786": 0.9002127848880833,
+          "368788": 0.900275392914809,
+          "368792": 0.9002176767387065,
+          "368800": 0.9000522561426334,
+          "368832": 0.9002545103308986,
+          "368896": 0.9004517733560281,
+          "369152": 0.900034605471635,
+          "369664": 0.9009312782858623,
+          "370688": 0.9012178856848734,
+          "372736": 0.9042887250510683,
+          "376832": 0.9106879381537655,
+          "393216": 0.926445021729814,
+          "524288": 0.9880739051119819
+        },
+        "random": {
+          "1": [
+            -6.220448097111742e-05,
+            0.00013360875881732626,
+            1.9936720899119537e-05
+          ],
+          "2": [
+            -5.317236263301705e-05,
+            5.281297547790687e-07,
+            8.012347309757054e-05
+          ],
+          "4": [
+            -0.00018684833474015217,
+            -0.0003406856336343992,
+            -3.876096431277064e-05
+          ],
+          "8": [
+            -3.8574221320230914e-05,
+            0.0005235813303710217,
+            0.000262997179206396
+          ],
+          "16": [
+            -0.00012925053560588118,
+            -0.0001205165321495046,
+            -0.00012015936179150641
+          ],
+          "32": [
+            -0.00031564460427253947,
+            -0.0010520847484784472,
+            -0.00024353689235234843
+          ],
+          "64": [
+            -0.00012192552842274615,
+            0.00028016893334703726,
+            -0.0009436627069321623
+          ],
+          "128": [
+            0.0004535590925446243,
+            -0.0021279234538891696,
+            -0.0010831345395432616
+          ],
+          "256": [
+            -0.001295388699785496,
+            0.0004622958448294765,
+            0.0018663311033773574
+          ],
+          "512": [
+            -0.0028423139148174115,
+            0.0005882553233754809,
+            -0.0001904939906733243
+          ],
+          "1024": [
+            0.0002198669076963974,
+            0.0014922927811191525,
+            -0.0004916587419293992
+          ],
+          "2048": [
+            0.007266815548377585,
+            -0.003712371685029275,
+            0.005951518591368474
+          ],
+          "4096": [
+            0.00905659053731494,
+            0.004548661693517577,
+            -0.001141984651727694
+          ],
+          "8192": [
+            0.015478046007298785,
+            -0.009792932610414607,
+            0.0069945856750262825
+          ],
+          "16384": [
+            0.02511561722643749,
+            0.013398399695887775,
+            0.018019046423770863
+          ],
+          "32768": [
+            0.029868324989698547,
+            0.04166156181508862,
+            0.01133667525843953
+          ],
+          "65536": [
+            0.006763696940535189,
+            0.036237163094385696,
+            0.013717246995685498
+          ],
+          "368785": [
+            0.386333152357649,
+            0.4241858005281442,
+            0.47044924490290524
+          ]
+        },
+        "at_n_star": {
+          "n_star": 368785,
+          "top": 0.9002349514409071,
+          "random_mean": 0.42698939926289947,
+          "ratio": 2.108330916399702,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 738,
+        "search_evals": {
+          "1": -0.14134149848677657,
+          "2": -0.13765289840438502,
+          "4": -0.09733701368728502,
+          "8": -0.0680595388263706,
+          "16": -0.010156116075040033,
+          "32": -0.0008868210129722997,
+          "64": 0.060126964647088096,
+          "128": 0.13958079971873077,
+          "256": 0.27081942569662504,
+          "512": 0.4622868832939594,
+          "640": 0.4805042634115507,
+          "704": 0.4936159978943576,
+          "736": 0.4995000365595517,
+          "737": 0.499310731304186,
+          "738": 0.5001017547580797,
+          "740": 0.5034480153874856,
+          "744": 0.5011285638513852,
+          "752": 0.5002375178003746,
+          "768": 0.5026025757704099,
+          "1024": 0.5508277707107038
+        },
+        "top": {
+          "1": -0.14134149848677657,
+          "2": -0.13765289840438502,
+          "4": -0.09733701368728502,
+          "8": -0.0680595388263706,
+          "16": -0.010156116075040033,
+          "32": -0.0008868210129722997,
+          "64": 0.060126964647088096,
+          "128": 0.13958079971873077,
+          "256": 0.27081942569662504,
+          "512": 0.4622868832939594,
+          "640": 0.4805042634115507,
+          "704": 0.4936159978943576,
+          "736": 0.4995000365595517,
+          "737": 0.499310731304186,
+          "738": 0.5001017547580797,
+          "740": 0.5034480153874856,
+          "744": 0.5011285638513852,
+          "752": 0.5002375178003746,
+          "768": 0.5026025757704099,
+          "1024": 0.5508277707107038,
+          "2048": 0.607396825576424,
+          "4096": 0.6365400600686749,
+          "8192": 0.7286513458152531,
+          "16384": 0.8374876514189982,
+          "32768": 0.9367216931752899,
+          "65536": 1.0139840439758154,
+          "131072": 1.0207716013349664,
+          "262144": 1.0342212033258533,
+          "524288": 1.0940505685408897
+        },
+        "random": {
+          "1": [
+            0.00011559408972552647,
+            0.00010431076953810468,
+            -0.000445274744223654
+          ],
+          "2": [
+            -0.0007641785723489245,
+            -0.00040812193324073285,
+            -0.00019161072440927694
+          ],
+          "4": [
+            0.00032550527271613485,
+            0.00010160521294353303,
+            -0.00041605700300154097
+          ],
+          "8": [
+            6.632231469877822e-05,
+            3.054852889162654e-05,
+            -0.00010469099458663148
+          ],
+          "16": [
+            -0.0001059224697434671,
+            -0.00018610029870732368,
+            -3.555387952916419e-05
+          ],
+          "32": [
+            -0.00018174757315287123,
+            -0.0005946677195048919,
+            7.408855318815286e-05
+          ],
+          "64": [
+            0.0002589885892425801,
+            -0.0004566545394233235,
+            -0.00037535731656691465
+          ],
+          "128": [
+            0.0004742484604145855,
+            6.736225858060683e-06,
+            -0.0004532991952458326
+          ],
+          "256": [
+            6.721470856246576e-05,
+            -8.25017417598845e-05,
+            0.0019291455582543047
+          ],
+          "512": [
+            0.0013688853681326648,
+            0.0004992283948468275,
+            -0.001844904428772871
+          ],
+          "640": [
+            0.0005836766618546433,
+            0.00031153767718690526,
+            0.0033613426532022655
+          ],
+          "704": [
+            0.0017645790497900805,
+            0.0026173018209187503,
+            0.0031024207452181427
+          ],
+          "736": [
+            -0.0026782669349351054,
+            0.001317862855382911,
+            0.0013283247192155498
+          ],
+          "737": [
+            -0.00235437761867478,
+            0.004949890274317661,
+            0.0012074670663195495
+          ],
+          "738": [
+            0.00024055476814433357,
+            -0.0002530468634856781,
+            0.0026775263473406666
+          ],
+          "740": [
+            0.00031619543403026856,
+            0.0009198906609350287,
+            -0.0010458827707352989
+          ],
+          "744": [
+            0.0006324007993117125,
+            0.005667487021982505,
+            0.002181934209207047
+          ],
+          "752": [
+            0.003042797768872758,
+            0.0007241542110001641,
+            0.002423510477481536
+          ],
+          "768": [
+            0.005642315556275917,
+            0.00016422884592109303,
+            0.004039939377148803
+          ],
+          "1024": [
+            -0.0028990301380581868,
+            0.001092209220386741,
+            0.0029143611525111503
+          ],
+          "2048": [
+            -0.0034619930472741004,
+            0.002953911651299434,
+            0.0024247930276449256
+          ],
+          "4096": [
+            0.009360085142383462,
+            0.009252806347467137,
+            0.006180101324784514
+          ],
+          "8192": [
+            0.016260237652645466,
+            0.022111315204265646,
+            0.0039132832922641235
+          ],
+          "16384": [
+            0.032211897140981084,
+            0.05325570640300696,
+            0.015506249962844769
+          ],
+          "32768": [
+            0.06921311750457529,
+            0.06276248463907769,
+            0.1085951340339596
+          ],
+          "65536": [
+            0.2941971463965934,
+            0.19338023503475352,
+            0.2926029493122583
+          ]
+        },
+        "at_n_star": {
+          "n_star": 738,
+          "top": 0.5001017547580797,
+          "random_mean": 0.0008883447506664407,
+          "ratio": 562.9590926077976,
+          "passes_10x": true
+        }
+      }
+    },
+    "centered|mean": {
+      "l_full": 27.54796775817871,
+      "l_0": 0.6602371525764466,
+      "n_total_poles": 589824,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 283904,
+        "search_evals": {
+          "1": 0.0,
+          "2": -0.0005225539778963982,
+          "4": 0.02237337467827445,
+          "8": 0.023348955362710148,
+          "16": 0.021753082823083445,
+          "32": 0.03142919651900709,
+          "64": 0.026616559861392924,
+          "128": 0.03163801313623328,
+          "256": 0.038552962501505306,
+          "512": 0.06744236777821778,
+          "1024": 0.07699615124722962,
+          "2048": 0.0869888620608284,
+          "4096": 0.1480649101046017,
+          "8192": 0.27940825722552404,
+          "16384": 0.40285713886108093,
+          "32768": 0.49764678092385567,
+          "65536": 0.5510165562601439,
+          "131072": 0.7102863184058062,
+          "262144": 0.8821801040533959,
+          "278528": 0.8988272533240801,
+          "282624": 0.8978773220468181,
+          "283648": 0.8983010786070506,
+          "283776": 0.8986318474429373,
+          "283840": 0.8990041445153644,
+          "283872": 0.8990767391246122,
+          "283888": 0.8993465768964869,
+          "283896": 0.8994286686194446,
+          "283900": 0.8997859553149593,
+          "283902": 0.899419801430815,
+          "283903": 0.899421889831081,
+          "283904": 0.9001133021254102,
+          "284160": 0.9013939767010556,
+          "284672": 0.9011034478765451,
+          "286720": 0.9025735752575749,
+          "294912": 0.9135584812069447,
+          "327680": 0.9247886011000522,
+          "393216": 0.9612852145868644,
+          "524288": 0.9973027459313962
+        },
+        "top": {
+          "1": 0.0,
+          "2": -0.0005225539778963982,
+          "4": 0.02237337467827445,
+          "8": 0.023348955362710148,
+          "16": 0.021753082823083445,
+          "32": 0.03142919651900709,
+          "64": 0.026616559861392924,
+          "128": 0.03163801313623328,
+          "256": 0.038552962501505306,
+          "512": 0.06744236777821778,
+          "1024": 0.07699615124722962,
+          "2048": 0.0869888620608284,
+          "4096": 0.1480649101046017,
+          "8192": 0.27940825722552404,
+          "16384": 0.40285713886108093,
+          "32768": 0.49764678092385567,
+          "65536": 0.5510165562601439,
+          "131072": 0.7102863184058062,
+          "262144": 0.8821801040533959,
+          "278528": 0.8988272533240801,
+          "282624": 0.8978773220468181,
+          "283648": 0.8983010786070506,
+          "283776": 0.8986318474429373,
+          "283840": 0.8990041445153644,
+          "283872": 0.8990767391246122,
+          "283888": 0.8993465768964869,
+          "283896": 0.8994286686194446,
+          "283900": 0.8997859553149593,
+          "283902": 0.899419801430815,
+          "283903": 0.899421889831081,
+          "283904": 0.9001133021254102,
+          "284160": 0.9013939767010556,
+          "284672": 0.9011034478765451,
+          "286720": 0.9025735752575749,
+          "294912": 0.9135584812069447,
+          "327680": 0.9247886011000522,
+          "393216": 0.9612852145868644,
+          "524288": 0.9973027459313962
+        },
+        "random": {
+          "1": [
+            -6.220448097111742e-05,
+            0.00013360875881732626,
+            1.9936720899119537e-05
+          ],
+          "2": [
+            -5.317236263301705e-05,
+            5.281297547790687e-07,
+            8.012347309757054e-05
+          ],
+          "4": [
+            -0.00018684833474015217,
+            -0.0003406856336343992,
+            -3.876096431277064e-05
+          ],
+          "8": [
+            -3.8574221320230914e-05,
+            0.0005235813303710217,
+            0.000262997179206396
+          ],
+          "16": [
+            -0.00012925053560588118,
+            -0.0001205165321495046,
+            -0.00012015936179150641
+          ],
+          "32": [
+            -0.00031564460427253947,
+            -0.0010520847484784472,
+            -0.00024353689235234843
+          ],
+          "64": [
+            -0.00012192552842274615,
+            0.00028016893334703726,
+            -0.0009436627069321623
+          ],
+          "128": [
+            0.0004535590925446243,
+            -0.0021279234538891696,
+            -0.0010831345395432616
+          ],
+          "256": [
+            -0.001295388699785496,
+            0.0004622958448294765,
+            0.0018663311033773574
+          ],
+          "512": [
+            -0.0028423139148174115,
+            0.0005882553233754809,
+            -0.0001904939906733243
+          ],
+          "1024": [
+            0.0002198669076963974,
+            0.0014922927811191525,
+            -0.0004916587419293992
+          ],
+          "2048": [
+            0.007266815548377585,
+            -0.003712371685029275,
+            0.005951518591368474
+          ],
+          "4096": [
+            0.00905659053731494,
+            0.004548661693517577,
+            -0.001141984651727694
+          ],
+          "8192": [
+            0.015478046007298785,
+            -0.009792932610414607,
+            0.0069945856750262825
+          ],
+          "16384": [
+            0.02511561722643749,
+            0.013398399695887775,
+            0.018019046423770863
+          ],
+          "32768": [
+            0.029868324989698547,
+            0.04166156181508862,
+            0.01133667525843953
+          ],
+          "65536": [
+            0.006763696940535189,
+            0.036237163094385696,
+            0.013717246995685498
+          ],
+          "283904": [
+            0.21270266397319532,
+            0.35277824572370653,
+            0.40176813495204
+          ]
+        },
+        "at_n_star": {
+          "n_star": 283904,
+          "top": 0.9001133021254102,
+          "random_mean": 0.32241634821631393,
+          "ratio": 2.791773143964495,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 631,
+        "search_evals": {
+          "1": -0.14134149848677657,
+          "2": -0.11595563692786572,
+          "4": -0.08761463933624944,
+          "8": -0.04436879856465166,
+          "16": -0.01295673460681149,
+          "32": 0.018160263363440184,
+          "64": 0.059023049318960144,
+          "128": 0.16949226296040906,
+          "256": 0.32252915194956433,
+          "512": 0.4830685713663435,
+          "576": 0.477823667598194,
+          "608": 0.48864541727677924,
+          "624": 0.4951578828220287,
+          "628": 0.49952665160356724,
+          "630": 0.49949313292117226,
+          "631": 0.5009436247997008,
+          "632": 0.501129378213989,
+          "640": 0.5060930573213132,
+          "768": 0.5252554066374093,
+          "1024": 0.5642870784159132
+        },
+        "top": {
+          "1": -0.14134149848677657,
+          "2": -0.11595563692786572,
+          "4": -0.08761463933624944,
+          "8": -0.04436879856465166,
+          "16": -0.01295673460681149,
+          "32": 0.018160263363440184,
+          "64": 0.059023049318960144,
+          "128": 0.16949226296040906,
+          "256": 0.32252915194956433,
+          "512": 0.4830685713663435,
+          "576": 0.477823667598194,
+          "608": 0.48864541727677924,
+          "624": 0.4951578828220287,
+          "628": 0.49952665160356724,
+          "630": 0.49949313292117226,
+          "631": 0.5009436247997008,
+          "632": 0.501129378213989,
+          "640": 0.5060930573213132,
+          "768": 0.5252554066374093,
+          "1024": 0.5642870784159132,
+          "2048": 0.6072928194834871,
+          "4096": 0.6729886297087418,
+          "8192": 0.7892518259609438,
+          "16384": 0.883709363124185,
+          "32768": 0.9677326902455144,
+          "65536": 1.0276097190822477,
+          "131072": 0.9899746806322473,
+          "262144": 0.970907199106166,
+          "524288": 1.0787575783661494
+        },
+        "random": {
+          "1": [
+            -8.834557375438978e-05,
+            -7.252225298861623e-05,
+            -0.0003448896564356323
+          ],
+          "2": [
+            0.00020863856407852613,
+            -4.002861759920741e-05,
+            -0.0003487032569214319
+          ],
+          "4": [
+            -0.00033585647403490366,
+            -0.000510401052520115,
+            -0.00014801253135531936
+          ],
+          "8": [
+            -0.0006838262371127741,
+            -0.0006287801488504082,
+            -0.0002850340050605223
+          ],
+          "16": [
+            -0.00018370119215167978,
+            -0.0001338321232988474,
+            -2.0072477557101042e-05
+          ],
+          "32": [
+            -0.0008959847203896453,
+            0.0006594733902604063,
+            -2.2996521679511145e-05
+          ],
+          "64": [
+            0.000185101498580081,
+            -0.00031402900250421766,
+            -0.0008348848251062264
+          ],
+          "128": [
+            0.0003395508995054105,
+            -0.0004081105832392764,
+            0.0007822335871489253
+          ],
+          "256": [
+            0.00020818456402066455,
+            0.00015896670150076836,
+            -6.051253270877443e-05
+          ],
+          "512": [
+            0.001612863580463096,
+            -0.0003714131910643659,
+            0.0007020912269395871
+          ],
+          "576": [
+            -0.0003481981818570163,
+            -0.0010236083928977606,
+            0.0002312718857118273
+          ],
+          "608": [
+            0.002442174136109077,
+            -0.002768363246412501,
+            0.0029393722994473315
+          ],
+          "624": [
+            0.003355538546212858,
+            -0.002550219056123051,
+            -2.526794071830751e-06
+          ],
+          "628": [
+            0.0018784053767905487,
+            -0.001823932463601205,
+            -0.0004996185511465296
+          ],
+          "630": [
+            -0.0022058188684997986,
+            0.0009030188837857397,
+            -0.000307502751672837
+          ],
+          "631": [
+            0.003788833363910328,
+            -0.000722962460848426,
+            0.003993044008674786
+          ],
+          "632": [
+            0.0015222423314188022,
+            -0.000758042477817246,
+            -0.0019328272149733384
+          ],
+          "640": [
+            0.00037412158515936773,
+            0.0017763319762873996,
+            0.0031824169741588282
+          ],
+          "768": [
+            -5.6054819640519495e-06,
+            0.004224398181897106,
+            0.0012301287629563598
+          ],
+          "1024": [
+            0.0031710769039642564,
+            -0.0015226608627221454,
+            -0.0022372498600038053
+          ],
+          "2048": [
+            0.004892385491992071,
+            0.004902245805748179,
+            0.0017133153495095751
+          ],
+          "4096": [
+            0.006710118017303438,
+            0.00815381266371608,
+            0.011158203446446168
+          ],
+          "8192": [
+            0.0068894835089028505,
+            0.016384032118415746,
+            0.018968755178934163
+          ],
+          "16384": [
+            0.01937943370000065,
+            0.02361612677096389,
+            0.03752986370593808
+          ],
+          "32768": [
+            0.12384338002018715,
+            0.09147650854071383,
+            0.1160934954641776
+          ],
+          "65536": [
+            0.27974046369870326,
+            0.19372291711590783,
+            0.2504670202164274
+          ]
+        },
+        "at_n_star": {
+          "n_star": 631,
+          "top": 0.5009436247997008,
+          "random_mean": 0.0023529716372455625,
+          "ratio": 212.89828439501116,
+          "passes_10x": true
+        }
+      }
+    },
+    "std_norm|mean": {
+      "l_full": 27.54796775817871,
+      "l_0": 0.6602371525764466,
+      "n_total_poles": 589824,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 465984,
+        "search_evals": {
+          "1": 0.0,
+          "2": 4.955206685932441e-05,
+          "4": 0.0011623780328412334,
+          "8": -0.00021319044668963196,
+          "16": 0.000796635674921104,
+          "32": 0.001161790138235093,
+          "64": 0.0025713200388891846,
+          "128": 0.008113112844273532,
+          "256": 0.0023825210113224103,
+          "512": 0.013852806314321621,
+          "1024": 0.0157341135229271,
+          "2048": 0.024769397225691814,
+          "4096": 0.05157441020562308,
+          "8192": 0.07472776070747758,
+          "16384": 0.10535423449258499,
+          "32768": 0.1606895035894141,
+          "65536": 0.20031008668590825,
+          "131072": 0.2579927176817684,
+          "262144": 0.4177676130605298,
+          "393216": 0.7335883736117604,
+          "458752": 0.8944131866867712,
+          "462848": 0.8972546609674972,
+          "464896": 0.8999157695377464,
+          "465920": 0.8994453644715714,
+          "465952": 0.8995015867037336,
+          "465968": 0.8997237658195371,
+          "465976": 0.8997662985312053,
+          "465980": 0.8997450357222466,
+          "465982": 0.8994013151159599,
+          "465983": 0.8998009727856225,
+          "465984": 0.9001938303856687,
+          "466048": 0.9002573833000146,
+          "466176": 0.9015843034565514,
+          "466432": 0.9004504723621124,
+          "466944": 0.9008811510044766,
+          "475136": 0.9089386049934176,
+          "491520": 0.9169078084648663,
+          "524288": 0.9452991830379001
+        },
+        "top": {
+          "1": 0.0,
+          "2": 4.955206685932441e-05,
+          "4": 0.0011623780328412334,
+          "8": -0.00021319044668963196,
+          "16": 0.000796635674921104,
+          "32": 0.001161790138235093,
+          "64": 0.0025713200388891846,
+          "128": 0.008113112844273532,
+          "256": 0.0023825210113224103,
+          "512": 0.013852806314321621,
+          "1024": 0.0157341135229271,
+          "2048": 0.024769397225691814,
+          "4096": 0.05157441020562308,
+          "8192": 0.07472776070747758,
+          "16384": 0.10535423449258499,
+          "32768": 0.1606895035894141,
+          "65536": 0.20031008668590825,
+          "131072": 0.2579927176817684,
+          "262144": 0.4177676130605298,
+          "393216": 0.7335883736117604,
+          "458752": 0.8944131866867712,
+          "462848": 0.8972546609674972,
+          "464896": 0.8999157695377464,
+          "465920": 0.8994453644715714,
+          "465952": 0.8995015867037336,
+          "465968": 0.8997237658195371,
+          "465976": 0.8997662985312053,
+          "465980": 0.8997450357222466,
+          "465982": 0.8994013151159599,
+          "465983": 0.8998009727856225,
+          "465984": 0.9001938303856687,
+          "466048": 0.9002573833000146,
+          "466176": 0.9015843034565514,
+          "466432": 0.9004504723621124,
+          "466944": 0.9008811510044766,
+          "475136": 0.9089386049934176,
+          "491520": 0.9169078084648663,
+          "524288": 0.9452991830379001
+        },
+        "random": {
+          "1": [
+            -6.220448097111742e-05,
+            0.00013360875881732626,
+            1.9936720899119537e-05
+          ],
+          "2": [
+            -5.317236263301705e-05,
+            5.281297547790687e-07,
+            8.012347309757054e-05
+          ],
+          "4": [
+            -0.00018684833474015217,
+            -0.0003406856336343992,
+            -3.876096431277064e-05
+          ],
+          "8": [
+            -3.8574221320230914e-05,
+            0.0005235813303710217,
+            0.000262997179206396
+          ],
+          "16": [
+            -0.00012925053560588118,
+            -0.0001205165321495046,
+            -0.00012015936179150641
+          ],
+          "32": [
+            -0.00031564460427253947,
+            -0.0010520847484784472,
+            -0.00024353689235234843
+          ],
+          "64": [
+            -0.00012192552842274615,
+            0.00028016893334703726,
+            -0.0009436627069321623
+          ],
+          "128": [
+            0.0004535590925446243,
+            -0.0021279234538891696,
+            -0.0010831345395432616
+          ],
+          "256": [
+            -0.001295388699785496,
+            0.0004622958448294765,
+            0.0018663311033773574
+          ],
+          "512": [
+            -0.0028423139148174115,
+            0.0005882553233754809,
+            -0.0001904939906733243
+          ],
+          "1024": [
+            0.0002198669076963974,
+            0.0014922927811191525,
+            -0.0004916587419293992
+          ],
+          "2048": [
+            0.007266815548377585,
+            -0.003712371685029275,
+            0.005951518591368474
+          ],
+          "4096": [
+            0.00905659053731494,
+            0.004548661693517577,
+            -0.001141984651727694
+          ],
+          "8192": [
+            0.015478046007298785,
+            -0.009792932610414607,
+            0.0069945856750262825
+          ],
+          "16384": [
+            0.02511561722643749,
+            0.013398399695887775,
+            0.018019046423770863
+          ],
+          "32768": [
+            0.029868324989698547,
+            0.04166156181508862,
+            0.01133667525843953
+          ],
+          "65536": [
+            0.006763696940535189,
+            0.036237163094385696,
+            0.013717246995685498
+          ],
+          "465984": [
+            0.5891192885890599,
+            0.6219151617481838,
+            0.6208294723942527
+          ]
+        },
+        "at_n_star": {
+          "n_star": 465984,
+          "top": 0.9001938303856687,
+          "random_mean": 0.6106213075771655,
+          "ratio": 1.474226037013799,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 6991,
+        "search_evals": {
+          "1": -0.14134149848677657,
+          "2": -0.13990817348543505,
+          "4": -0.13548116359022724,
+          "8": -0.1265658623045049,
+          "16": -0.1298413379405185,
+          "32": -0.1148261386964787,
+          "64": -0.056908206387049694,
+          "128": -0.026425362791333163,
+          "256": 0.04273421250017128,
+          "512": 0.1713456770527659,
+          "1024": 0.2844994256674485,
+          "2048": 0.37358292827831674,
+          "4096": 0.45780466699171884,
+          "6144": 0.4900623904729128,
+          "6656": 0.491390892535901,
+          "6912": 0.49591059434604184,
+          "6976": 0.4962318362744649,
+          "6984": 0.49672124762743614,
+          "6988": 0.4964150955259354,
+          "6990": 0.4965579821128877,
+          "6991": 0.5019332498695194,
+          "6992": 0.5018888890982431,
+          "7008": 0.5028278122928528,
+          "7040": 0.5025962467258537,
+          "7168": 0.5035689340466395,
+          "8192": 0.5182768660515364
+        },
+        "top": {
+          "1": -0.14134149848677657,
+          "2": -0.13990817348543505,
+          "4": -0.13548116359022724,
+          "8": -0.1265658623045049,
+          "16": -0.1298413379405185,
+          "32": -0.1148261386964787,
+          "64": -0.056908206387049694,
+          "128": -0.026425362791333163,
+          "256": 0.04273421250017128,
+          "512": 0.1713456770527659,
+          "1024": 0.2844994256674485,
+          "2048": 0.37358292827831674,
+          "4096": 0.45780466699171884,
+          "6144": 0.4900623904729128,
+          "6656": 0.491390892535901,
+          "6912": 0.49591059434604184,
+          "6976": 0.4962318362744649,
+          "6984": 0.49672124762743614,
+          "6988": 0.4964150955259354,
+          "6990": 0.4965579821128877,
+          "6991": 0.5019332498695194,
+          "6992": 0.5018888890982431,
+          "7008": 0.5028278122928528,
+          "7040": 0.5025962467258537,
+          "7168": 0.5035689340466395,
+          "8192": 0.5182768660515364,
+          "16384": 0.6023960238065582,
+          "32768": 0.7271649733899664,
+          "65536": 0.8986826548376908,
+          "131072": 1.0505783529215085,
+          "262144": 1.0997216121478954,
+          "524288": 1.1349843776624884
+        },
+        "random": {
+          "1": [
+            -0.00011299635814465898,
+            -0.00017805172893208318,
+            -0.0003340475675544666
+          ],
+          "2": [
+            -0.0003128982586102089,
+            -0.0004778492483732749,
+            -0.0002938259999306317
+          ],
+          "4": [
+            -6.0753720239393665e-05,
+            -0.00034882385068674154,
+            -0.00019533636238398727
+          ],
+          "8": [
+            -0.00045892170221220136,
+            -7.233072171426987e-05,
+            0.00011874371512678442
+          ],
+          "16": [
+            0.0005078246021918792,
+            5.36514568346928e-05,
+            -0.0003752480728029294
+          ],
+          "32": [
+            -9.990980647752838e-05,
+            -1.0044751279708924e-06,
+            -0.000717460547647499
+          ],
+          "64": [
+            0.00045461579541359156,
+            9.688928734273846e-05,
+            0.0004788537235012458
+          ],
+          "128": [
+            0.00013005115406726814,
+            0.0003808024797605594,
+            9.941750016485036e-05
+          ],
+          "256": [
+            0.0006190773163644097,
+            0.0011979032713511943,
+            0.00034045180587025646
+          ],
+          "512": [
+            0.002744396299609256,
+            -0.14502374114960834,
+            0.0035668103106267697
+          ],
+          "1024": [
+            -0.0030160926342207212,
+            0.0036189706610215418,
+            -0.0010637306480089177
+          ],
+          "2048": [
+            -0.0005360889432924433,
+            -0.0021305385651597753,
+            -0.0016488714600501218
+          ],
+          "4096": [
+            -0.0009834293877793213,
+            0.005581137629732452,
+            0.006485243276156656
+          ],
+          "6144": [
+            0.01640734785888592,
+            0.0017329579457618766,
+            0.001033260150377205
+          ],
+          "6656": [
+            0.009277658594383061,
+            0.00589888659521052,
+            0.0008321523122580305
+          ],
+          "6912": [
+            0.009417421093437486,
+            0.027382159400719634,
+            0.014645677246966214
+          ],
+          "6976": [
+            0.0008900486696334717,
+            0.0014057430790779825,
+            0.011799431709382377
+          ],
+          "6984": [
+            0.008901677027736702,
+            0.010871214403636555,
+            0.01608414521771305
+          ],
+          "6988": [
+            0.014653627922979058,
+            -0.12836159852701415,
+            0.009521761656729381
+          ],
+          "6990": [
+            0.013087645523488225,
+            0.014548657434606859,
+            0.011569838205134369
+          ],
+          "6991": [
+            0.01349469771909268,
+            0.04346232786167618,
+            -0.13746796999332697
+          ],
+          "6992": [
+            0.009490794596534543,
+            -0.0006235307731816891,
+            0.013189691967737883
+          ],
+          "7008": [
+            0.012931009828534363,
+            0.01106625566598294,
+            0.01395950723455493
+          ],
+          "7040": [
+            0.008648752176766614,
+            0.0024653437453107333,
+            0.015470873427088198
+          ],
+          "7168": [
+            0.005256136013330451,
+            0.011096089144783338,
+            0.016473563767321144
+          ],
+          "8192": [
+            0.007937012029847881,
+            0.00691556864972589,
+            0.01324061233047466
+          ],
+          "16384": [
+            0.015635425748050536,
+            0.038313054949459004,
+            0.020351334323811216
+          ],
+          "32768": [
+            0.07242968663308473,
+            0.06607408307344287,
+            0.06605586632112231
+          ],
+          "65536": [
+            0.17511478695166374,
+            0.17251216493886515,
+            0.18052519076589635
+          ]
+        },
+        "at_n_star": {
+          "n_star": 6991,
+          "top": 0.5019332498695194,
+          "random_mean": -0.026836981470852703,
+          "ratio": Infinity,
+          "passes_10x": true
+        }
+      }
+    },
+    "contrast_trig_minus_clean|mean": {
+      "l_full": 27.54796775817871,
+      "l_0": 0.6602371525764466,
+      "n_total_poles": 589824,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 589635,
+        "search_evals": {
+          "1": 0.0,
+          "2": -0.0006363865119288014,
+          "4": -3.61508186677606e-05,
+          "8": 0.0018820193768602652,
+          "16": 0.0012118879805545673,
+          "32": -0.003572880078587532,
+          "64": -5.5131434952892596e-05,
+          "128": 0.0035833764357840405,
+          "256": 0.013868331741885344,
+          "512": 0.02615831680946255,
+          "1024": 0.028679366361869636,
+          "2048": 0.02849147258559006,
+          "4096": 0.033070367623779386,
+          "8192": 0.05117405380149658,
+          "16384": 0.07188739890423698,
+          "32768": 0.08350510414437541,
+          "65536": 0.12419944189093664,
+          "131072": 0.23164564861915907,
+          "262144": 0.2928797112057182,
+          "442368": 0.43996555821489375,
+          "516096": 0.49963476985523103,
+          "524288": 0.5172788273497867,
+          "552960": 0.5703498387261403,
+          "571392": 0.590225503711231,
+          "580608": 0.6019443582134735,
+          "585216": 0.6240747527701697,
+          "587520": 0.663845920414753,
+          "588672": 0.7112151074678749,
+          "589248": 0.7786086055093984,
+          "589536": 0.8624097344504689,
+          "589608": 0.8802534171892048,
+          "589626": 0.8837270439879609,
+          "589630": 0.8907540795831366,
+          "589632": 0.899233225850797,
+          "589633": 0.8991544171157575,
+          "589634": 0.8991463259834769,
+          "589635": 0.9002109305815971,
+          "589644": 0.9014529527273185,
+          "589680": 0.907239726845747,
+          "589824": 1.0001809133480466
+        },
+        "top": {
+          "1": 0.0,
+          "2": -0.0006363865119288014,
+          "4": -3.61508186677606e-05,
+          "8": 0.0018820193768602652,
+          "16": 0.0012118879805545673,
+          "32": -0.003572880078587532,
+          "64": -5.5131434952892596e-05,
+          "128": 0.0035833764357840405,
+          "256": 0.013868331741885344,
+          "512": 0.02615831680946255,
+          "1024": 0.028679366361869636,
+          "2048": 0.02849147258559006,
+          "4096": 0.033070367623779386,
+          "8192": 0.05117405380149658,
+          "16384": 0.07188739890423698,
+          "32768": 0.08350510414437541,
+          "65536": 0.12419944189093664,
+          "131072": 0.23164564861915907,
+          "262144": 0.2928797112057182,
+          "442368": 0.43996555821489375,
+          "516096": 0.49963476985523103,
+          "524288": 0.5172788273497867,
+          "552960": 0.5703498387261403,
+          "571392": 0.590225503711231,
+          "580608": 0.6019443582134735,
+          "585216": 0.6240747527701697,
+          "587520": 0.663845920414753,
+          "588672": 0.7112151074678749,
+          "589248": 0.7786086055093984,
+          "589536": 0.8624097344504689,
+          "589608": 0.8802534171892048,
+          "589626": 0.8837270439879609,
+          "589630": 0.8907540795831366,
+          "589632": 0.899233225850797,
+          "589633": 0.8991544171157575,
+          "589634": 0.8991463259834769,
+          "589635": 0.9002109305815971,
+          "589644": 0.9014529527273185,
+          "589680": 0.907239726845747,
+          "589824": 1.0001809133480466
+        },
+        "random": {
+          "1": [
+            -6.220448097111742e-05,
+            0.00013360875881732626,
+            1.9936720899119537e-05
+          ],
+          "2": [
+            -5.317236263301705e-05,
+            5.281297547790687e-07,
+            8.012347309757054e-05
+          ],
+          "4": [
+            -0.00018684833474015217,
+            -0.0003406856336343992,
+            -3.876096431277064e-05
+          ],
+          "8": [
+            -3.8574221320230914e-05,
+            0.0005235813303710217,
+            0.000262997179206396
+          ],
+          "16": [
+            -0.00012925053560588118,
+            -0.0001205165321495046,
+            -0.00012015936179150641
+          ],
+          "32": [
+            -0.00031564460427253947,
+            -0.0010520847484784472,
+            -0.00024353689235234843
+          ],
+          "64": [
+            -0.00012192552842274615,
+            0.00028016893334703726,
+            -0.0009436627069321623
+          ],
+          "128": [
+            0.0004535590925446243,
+            -0.0021279234538891696,
+            -0.0010831345395432616
+          ],
+          "256": [
+            -0.001295388699785496,
+            0.0004622958448294765,
+            0.0018663311033773574
+          ],
+          "512": [
+            -0.0028423139148174115,
+            0.0005882553233754809,
+            -0.0001904939906733243
+          ],
+          "1024": [
+            0.0002198669076963974,
+            0.0014922927811191525,
+            -0.0004916587419293992
+          ],
+          "2048": [
+            0.007266815548377585,
+            -0.003712371685029275,
+            0.005951518591368474
+          ],
+          "4096": [
+            0.00905659053731494,
+            0.004548661693517577,
+            -0.001141984651727694
+          ],
+          "8192": [
+            0.015478046007298785,
+            -0.009792932610414607,
+            0.0069945856750262825
+          ],
+          "16384": [
+            0.02511561722643749,
+            0.013398399695887775,
+            0.018019046423770863
+          ],
+          "32768": [
+            0.029868324989698547,
+            0.04166156181508862,
+            0.01133667525843953
+          ],
+          "65536": [
+            0.006763696940535189,
+            0.036237163094385696,
+            0.013717246995685498
+          ],
+          "589635": [
+            0.9992286907892427,
+            0.998827312175611,
+            0.9999619278389
+          ]
+        },
+        "at_n_star": {
+          "n_star": 589635,
+          "top": 0.9002109305815971,
+          "random_mean": 0.999339310267918,
+          "ratio": 0.9008060839118346,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 33544,
+        "search_evals": {
+          "1": -0.14134149848677657,
+          "2": -0.1271236708943142,
+          "4": -0.08951098055282483,
+          "8": -0.06853511523695441,
+          "16": -0.051299926647609656,
+          "32": -0.04284282066400697,
+          "64": -0.003743629145651736,
+          "128": 0.026465709208972888,
+          "256": 0.14156987683149475,
+          "512": 0.18788915115399304,
+          "1024": 0.3048487964410096,
+          "2048": 0.34193089620553196,
+          "4096": 0.3959702478521177,
+          "8192": 0.4244282270711363,
+          "16384": 0.4487790039669375,
+          "32768": 0.49444355629353054,
+          "33280": 0.49890282927722335,
+          "33536": 0.4997749229539446,
+          "33540": 0.4993993038779694,
+          "33542": 0.49993526868062105,
+          "33543": 0.4999576898991023,
+          "33544": 0.5002287343180057,
+          "33552": 0.5008993782378142,
+          "33568": 0.5018988281526343,
+          "33600": 0.5016081475218545,
+          "33664": 0.5048389906959323,
+          "33792": 0.5058770341625439,
+          "34816": 0.5020825414041626,
+          "36864": 0.5108929083796424,
+          "40960": 0.517590076045296,
+          "49152": 0.5359013157092192,
+          "65536": 0.567675154578771
+        },
+        "top": {
+          "1": -0.14134149848677657,
+          "2": -0.1271236708943142,
+          "4": -0.08951098055282483,
+          "8": -0.06853511523695441,
+          "16": -0.051299926647609656,
+          "32": -0.04284282066400697,
+          "64": -0.003743629145651736,
+          "128": 0.026465709208972888,
+          "256": 0.14156987683149475,
+          "512": 0.18788915115399304,
+          "1024": 0.3048487964410096,
+          "2048": 0.34193089620553196,
+          "4096": 0.3959702478521177,
+          "8192": 0.4244282270711363,
+          "16384": 0.4487790039669375,
+          "32768": 0.49444355629353054,
+          "33280": 0.49890282927722335,
+          "33536": 0.4997749229539446,
+          "33540": 0.4993993038779694,
+          "33542": 0.49993526868062105,
+          "33543": 0.4999576898991023,
+          "33544": 0.5002287343180057,
+          "33552": 0.5008993782378142,
+          "33568": 0.5018988281526343,
+          "33600": 0.5016081475218545,
+          "33664": 0.5048389906959323,
+          "33792": 0.5058770341625439,
+          "34816": 0.5020825414041626,
+          "36864": 0.5108929083796424,
+          "40960": 0.517590076045296,
+          "49152": 0.5359013157092192,
+          "65536": 0.567675154578771,
+          "131072": 0.705462471404967,
+          "262144": 0.8038810542183146,
+          "524288": 0.8826628764535682
+        },
+        "random": {
+          "1": [
+            0.0004254959479540074,
+            6.159362034637817e-05,
+            -0.000598133726196385
+          ],
+          "2": [
+            -4.690529972532469e-05,
+            0.000137979130077199,
+            -8.740919863502545e-05
+          ],
+          "4": [
+            -7.085947777683191e-05,
+            -0.00013906447396551408,
+            0.00016609875865939152
+          ],
+          "8": [
+            0.0003452925814869399,
+            -0.0011124221542117665,
+            -0.000137075386212055
+          ],
+          "16": [
+            -8.573507342138828e-06,
+            -0.00048690229327661837,
+            0.0003953517628639696
+          ],
+          "32": [
+            -0.00043721340569667595,
+            0.00021925649043112513,
+            0.0001158707460107962
+          ],
+          "64": [
+            0.0005094958899048219,
+            0.0010643364543360281,
+            0.0004965171632513955
+          ],
+          "128": [
+            -0.0010954751833028614,
+            -0.0002548571887162641,
+            0.000803385733593481
+          ],
+          "256": [
+            -0.001296968921471159,
+            -0.000387768543147915,
+            -0.0006447751383880454
+          ],
+          "512": [
+            0.002761692283062617,
+            0.000748824857892916,
+            -0.0007631301159652768
+          ],
+          "1024": [
+            -0.002406198887776272,
+            0.005877642230004163,
+            0.00048078322374712454
+          ],
+          "2048": [
+            0.006233124275289183,
+            0.005094927686544016,
+            0.0057430326316062095
+          ],
+          "4096": [
+            0.00837317556041076,
+            0.009919035826088352,
+            0.0026971363123388797
+          ],
+          "8192": [
+            0.007318424182295719,
+            0.0268548681272979,
+            0.036576642347007096
+          ],
+          "16384": [
+            0.025759946256565577,
+            0.02990987849772643,
+            0.019429375125112665
+          ],
+          "32768": [
+            0.09442373645991191,
+            -0.035041841238988354,
+            0.0866356477990355
+          ],
+          "33280": [
+            0.11868852361663389,
+            0.07268993223498749,
+            0.08311379058788526
+          ],
+          "33536": [
+            0.08664850735067363,
+            0.08508064226969289,
+            0.09359550557315338
+          ],
+          "33540": [
+            0.07568001208464449,
+            0.07947920374362433,
+            0.047495969406772615
+          ],
+          "33542": [
+            0.08407095749106895,
+            0.12175795345452416,
+            0.12360419576471741
+          ],
+          "33543": [
+            0.1561107233369816,
+            0.09550616623530288,
+            0.042851066440057414
+          ],
+          "33544": [
+            0.06132167147428206,
+            0.09406909005848342,
+            0.06209979919840801
+          ],
+          "33552": [
+            0.1153855220989887,
+            0.06970308146074194,
+            0.04296572841091416
+          ],
+          "33568": [
+            0.0845966711142897,
+            0.06389546164590779,
+            0.06951272774899271
+          ],
+          "33600": [
+            0.0837033508067395,
+            0.08855712501256295,
+            0.10666124985010159
+          ],
+          "33664": [
+            0.09780904464116713,
+            0.0681701431717105,
+            0.06424322285270927
+          ],
+          "33792": [
+            0.10545910309695979,
+            0.13960432827172806,
+            0.1007925741212397
+          ],
+          "34816": [
+            0.07426878979236849,
+            0.08834673145451084,
+            0.007164189012647649
+          ],
+          "36864": [
+            0.04506286675931922,
+            0.08954921587019564,
+            0.06984249210975148
+          ],
+          "40960": [
+            0.06158155387613861,
+            0.1589509264175457,
+            0.13414851310171047
+          ],
+          "49152": [
+            0.29388076226878923,
+            0.2022383642350676,
+            0.0907984651293377
+          ],
+          "65536": [
+            0.15056241274893098,
+            0.17077185077341608,
+            0.1769391797996986
+          ]
+        },
+        "at_n_star": {
+          "n_star": 33544,
+          "top": 0.5002287343180057,
+          "random_mean": 0.07249685357705783,
+          "ratio": 6.9000061331807485,
+          "passes_10x": false
+        }
+      }
+    },
+    "contrast_model_diff|mean": {
+      "l_full": 27.54796775817871,
+      "l_0": 0.6602371525764466,
+      "n_total_poles": 589824,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 567016,
+        "search_evals": {
+          "1": 0.0,
+          "2": -0.0005225539778963982,
+          "4": -0.0029073911875607443,
+          "8": 4.703440599172252e-05,
+          "16": -0.0014862176928452445,
+          "32": -0.0010051524038278492,
+          "64": -0.0013996397044723054,
+          "128": -0.001433682260371496,
+          "256": -0.00015896546009439624,
+          "512": 0.008982184982133275,
+          "1024": 0.012514988648974835,
+          "2048": 0.02444436049522281,
+          "4096": 0.04926727510585722,
+          "8192": 0.08443943378058738,
+          "16384": 0.1769245946044812,
+          "32768": 0.21359442401023437,
+          "65536": 0.29120980251798817,
+          "131072": 0.413073542596926,
+          "262144": 0.6426884650069998,
+          "442368": 0.8026344815200603,
+          "516096": 0.8645049879892587,
+          "524288": 0.8680474568030345,
+          "552960": 0.8776953368383302,
+          "562176": 0.8903416872118519,
+          "566784": 0.8984449952066341,
+          "566928": 0.8991876031012351,
+          "567000": 0.8994316465760739,
+          "567009": 0.8996899867964839,
+          "567013": 0.8991546114845324,
+          "567015": 0.8991840576445335,
+          "567016": 0.9014377678441342,
+          "567018": 0.9018291173127383,
+          "567036": 0.9015749212616062,
+          "567072": 0.901540286732194,
+          "567360": 0.9018440638458923,
+          "567936": 0.9030194543893756,
+          "569088": 0.9034613525081691,
+          "571392": 0.9084155018705293,
+          "589824": 1.0001809133480466
+        },
+        "top": {
+          "1": 0.0,
+          "2": -0.0005225539778963982,
+          "4": -0.0029073911875607443,
+          "8": 4.703440599172252e-05,
+          "16": -0.0014862176928452445,
+          "32": -0.0010051524038278492,
+          "64": -0.0013996397044723054,
+          "128": -0.001433682260371496,
+          "256": -0.00015896546009439624,
+          "512": 0.008982184982133275,
+          "1024": 0.012514988648974835,
+          "2048": 0.02444436049522281,
+          "4096": 0.04926727510585722,
+          "8192": 0.08443943378058738,
+          "16384": 0.1769245946044812,
+          "32768": 0.21359442401023437,
+          "65536": 0.29120980251798817,
+          "131072": 0.413073542596926,
+          "262144": 0.6426884650069998,
+          "442368": 0.8026344815200603,
+          "516096": 0.8645049879892587,
+          "524288": 0.8680474568030345,
+          "552960": 0.8776953368383302,
+          "562176": 0.8903416872118519,
+          "566784": 0.8984449952066341,
+          "566928": 0.8991876031012351,
+          "567000": 0.8994316465760739,
+          "567009": 0.8996899867964839,
+          "567013": 0.8991546114845324,
+          "567015": 0.8991840576445335,
+          "567016": 0.9014377678441342,
+          "567018": 0.9018291173127383,
+          "567036": 0.9015749212616062,
+          "567072": 0.901540286732194,
+          "567360": 0.9018440638458923,
+          "567936": 0.9030194543893756,
+          "569088": 0.9034613525081691,
+          "571392": 0.9084155018705293,
+          "589824": 1.0001809133480466
+        },
+        "random": {
+          "1": [
+            -6.220448097111742e-05,
+            0.00013360875881732626,
+            1.9936720899119537e-05
+          ],
+          "2": [
+            -5.317236263301705e-05,
+            5.281297547790687e-07,
+            8.012347309757054e-05
+          ],
+          "4": [
+            -0.00018684833474015217,
+            -0.0003406856336343992,
+            -3.876096431277064e-05
+          ],
+          "8": [
+            -3.8574221320230914e-05,
+            0.0005235813303710217,
+            0.000262997179206396
+          ],
+          "16": [
+            -0.00012925053560588118,
+            -0.0001205165321495046,
+            -0.00012015936179150641
+          ],
+          "32": [
+            -0.00031564460427253947,
+            -0.0010520847484784472,
+            -0.00024353689235234843
+          ],
+          "64": [
+            -0.00012192552842274615,
+            0.00028016893334703726,
+            -0.0009436627069321623
+          ],
+          "128": [
+            0.0004535590925446243,
+            -0.0021279234538891696,
+            -0.0010831345395432616
+          ],
+          "256": [
+            -0.001295388699785496,
+            0.0004622958448294765,
+            0.0018663311033773574
+          ],
+          "512": [
+            -0.0028423139148174115,
+            0.0005882553233754809,
+            -0.0001904939906733243
+          ],
+          "1024": [
+            0.0002198669076963974,
+            0.0014922927811191525,
+            -0.0004916587419293992
+          ],
+          "2048": [
+            0.007266815548377585,
+            -0.003712371685029275,
+            0.005951518591368474
+          ],
+          "4096": [
+            0.00905659053731494,
+            0.004548661693517577,
+            -0.001141984651727694
+          ],
+          "8192": [
+            0.015478046007298785,
+            -0.009792932610414607,
+            0.0069945856750262825
+          ],
+          "16384": [
+            0.02511561722643749,
+            0.013398399695887775,
+            0.018019046423770863
+          ],
+          "32768": [
+            0.029868324989698547,
+            0.04166156181508862,
+            0.01133667525843953
+          ],
+          "65536": [
+            0.006763696940535189,
+            0.036237163094385696,
+            0.013717246995685498
+          ],
+          "567016": [
+            0.9841769487967978,
+            0.965176436313818,
+            0.9519918149592261
+          ]
+        },
+        "at_n_star": {
+          "n_star": 567016,
+          "top": 0.9014377678441342,
+          "random_mean": 0.9671150666899472,
+          "ratio": 0.9320894678328191,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 10629,
+        "search_evals": {
+          "1": -0.14134149848677657,
+          "2": -0.11595563692786572,
+          "4": -0.09733701368728502,
+          "8": -0.06965746012993015,
+          "16": -0.03354664312351474,
+          "32": -0.039749597676210544,
+          "64": 0.026822570279433546,
+          "128": 0.11208534956920393,
+          "256": 0.25454594046416695,
+          "512": 0.3127017418476482,
+          "1024": 0.34265687351051444,
+          "2048": 0.3916143762190972,
+          "4096": 0.436117228941451,
+          "8192": 0.47986455675818335,
+          "10240": 0.49587757009808486,
+          "10496": 0.498732028780465,
+          "10624": 0.4992395533169937,
+          "10628": 0.49937575333434425,
+          "10629": 0.5008082214105767,
+          "10630": 0.5008213632935008,
+          "10632": 0.5011483561257816,
+          "10640": 0.501656687931163,
+          "10656": 0.501382530064988,
+          "10688": 0.5023504064039109,
+          "10752": 0.5037402729590914,
+          "11264": 0.5032890926672404,
+          "12288": 0.5056721340051916,
+          "16384": 0.5670824078470108
+        },
+        "top": {
+          "1": -0.14134149848677657,
+          "2": -0.11595563692786572,
+          "4": -0.09733701368728502,
+          "8": -0.06965746012993015,
+          "16": -0.03354664312351474,
+          "32": -0.039749597676210544,
+          "64": 0.026822570279433546,
+          "128": 0.11208534956920393,
+          "256": 0.25454594046416695,
+          "512": 0.3127017418476482,
+          "1024": 0.34265687351051444,
+          "2048": 0.3916143762190972,
+          "4096": 0.436117228941451,
+          "8192": 0.47986455675818335,
+          "10240": 0.49587757009808486,
+          "10496": 0.498732028780465,
+          "10624": 0.4992395533169937,
+          "10628": 0.49937575333434425,
+          "10629": 0.5008082214105767,
+          "10630": 0.5008213632935008,
+          "10632": 0.5011483561257816,
+          "10640": 0.501656687931163,
+          "10656": 0.501382530064988,
+          "10688": 0.5023504064039109,
+          "10752": 0.5037402729590914,
+          "11264": 0.5032890926672404,
+          "12288": 0.5056721340051916,
+          "16384": 0.5670824078470108,
+          "32768": 0.6298242312272064,
+          "65536": 0.7882080787639182,
+          "131072": 0.8888074764812521,
+          "262144": 0.9669942847665367,
+          "524288": 0.9659579255004814
+        },
+        "random": {
+          "1": [
+            -6.830572745150906e-05,
+            0.00010544435093254358,
+            -0.0001018620067261879
+          ],
+          "2": [
+            -0.0002562943826494649,
+            0.00019807455023277922,
+            -0.00039365635639796495
+          ],
+          "4": [
+            -1.725200219768375e-05,
+            -0.00031631744654572725,
+            -0.00039463955027317193
+          ],
+          "8": [
+            0.00018351107962748245,
+            0.0003396502120180884,
+            -0.0005820266553944644
+          ],
+          "16": [
+            -0.0006807035679650082,
+            -0.000488467174726006,
+            -0.00031356081494460155
+          ],
+          "32": [
+            -0.000618099797489931,
+            0.00013151530425369672,
+            -0.00031389847748760063
+          ],
+          "64": [
+            0.0006350439308984057,
+            0.0004920339126803261,
+            -0.0001500612066163587
+          ],
+          "128": [
+            -0.002298162480263457,
+            -5.903277627017806e-05,
+            0.0010607342476271896
+          ],
+          "256": [
+            -0.00018009614794254334,
+            0.0004962589507185916,
+            -0.0012495514529306737
+          ],
+          "512": [
+            0.0025816557226277857,
+            -0.0011696956802577803,
+            0.004812577956825434
+          ],
+          "1024": [
+            0.0065969258716339855,
+            -0.0017940606785458578,
+            0.0015534122728895745
+          ],
+          "2048": [
+            0.0009797080060551901,
+            0.006025396548826678,
+            0.004850041474097862
+          ],
+          "4096": [
+            0.010866394909272636,
+            0.005592257793649036,
+            0.004492621416066068
+          ],
+          "8192": [
+            0.010346689693067252,
+            0.020451551999077954,
+            0.014804334660927626
+          ],
+          "10240": [
+            0.028723096809041972,
+            0.0052330671353916225,
+            0.023431147284899402
+          ],
+          "10496": [
+            0.02398812164960244,
+            0.010801481413503285,
+            0.021321529609904605
+          ],
+          "10624": [
+            0.027849387885240013,
+            0.010022214432982299,
+            0.018681512179842194
+          ],
+          "10628": [
+            0.024396564220383984,
+            0.0251224975441108,
+            0.02916604338421915
+          ],
+          "10629": [
+            0.016418836897849443,
+            0.012745495473651666,
+            0.023351681668526213
+          ],
+          "10630": [
+            0.003672084411537731,
+            0.0326967635277484,
+            -7.450850324164512e-05
+          ],
+          "10632": [
+            0.018185100004104206,
+            0.03840523540495196,
+            0.028223959214206795
+          ],
+          "10640": [
+            0.02512813991357965,
+            0.016474812267480165,
+            0.017958386562723062
+          ],
+          "10656": [
+            0.022830336377111956,
+            0.02254987642263402,
+            0.007805244188061844
+          ],
+          "10688": [
+            0.01961748437407593,
+            0.021980479481348396,
+            0.034424238004061684
+          ],
+          "10752": [
+            0.034587121874811506,
+            0.014260201404110388,
+            0.01988276512037015
+          ],
+          "11264": [
+            0.04778297405583427,
+            0.006569202074352224,
+            0.030095927721427333
+          ],
+          "12288": [
+            0.027481829438416695,
+            0.04348592025843163,
+            0.032726162868993554
+          ],
+          "16384": [
+            0.03354792709242828,
+            0.0457324799571213,
+            0.023054032136858603
+          ],
+          "32768": [
+            0.0831724800266117,
+            0.09323593894609815,
+            0.042381003292676
+          ],
+          "65536": [
+            0.23357834788060047,
+            0.20730707696514716,
+            0.1310084912204524
+          ]
+        },
+        "at_n_star": {
+          "n_star": 10629,
+          "top": 0.5008082214105767,
+          "random_mean": 0.01750533801334244,
+          "ratio": 28.608886102562792,
+          "passes_10x": true
+        }
+      }
+    },
+    "raw|zero": {
+      "l_full": 27.54796775817871,
+      "l_0": -1.875573637485504,
+      "n_total_poles": 589824,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 259181,
+        "search_evals": {
+          "1": -1.9419051897625298e-05,
+          "2": 0.001828270761054837,
+          "4": 0.040831774756631384,
+          "8": 0.12276713962352206,
+          "16": 0.13922986955628816,
+          "32": 0.13002800734238928,
+          "64": 0.1203174147163436,
+          "128": 0.1298690380778448,
+          "256": 0.1251784899988026,
+          "512": 0.17429979932473327,
+          "1024": 0.24183935039031673,
+          "2048": 0.3089655679981558,
+          "4096": 0.35206838350546116,
+          "8192": 0.4575448060610249,
+          "16384": 0.4585940433978347,
+          "32768": 0.5305541228107944,
+          "65536": 0.6029575558715409,
+          "131072": 0.8168680632626371,
+          "196608": 0.8784790823043079,
+          "229376": 0.8762708834605105,
+          "245760": 0.8878583509146608,
+          "253952": 0.8954088738478795,
+          "258048": 0.8984088628917495,
+          "259072": 0.8994039823218143,
+          "259136": 0.8998946110657212,
+          "259168": 0.8998300931369738,
+          "259176": 0.899740162943911,
+          "259180": 0.8999995648452788,
+          "259181": 0.9005151520862181,
+          "259182": 0.9006900664089609,
+          "259184": 0.9001306050576859,
+          "259200": 0.9006018099689329,
+          "259328": 0.9014733802361906,
+          "259584": 0.903043360582631,
+          "260096": 0.9044978104823905,
+          "262144": 0.9038238571632734
+        },
+        "top": {
+          "1": -1.9419051897625298e-05,
+          "2": 0.001828270761054837,
+          "4": 0.040831774756631384,
+          "8": 0.12276713962352206,
+          "16": 0.13922986955628816,
+          "32": 0.13002800734238928,
+          "64": 0.1203174147163436,
+          "128": 0.1298690380778448,
+          "256": 0.1251784899988026,
+          "512": 0.17429979932473327,
+          "1024": 0.24183935039031673,
+          "2048": 0.3089655679981558,
+          "4096": 0.35206838350546116,
+          "8192": 0.4575448060610249,
+          "16384": 0.4585940433978347,
+          "32768": 0.5305541228107944,
+          "65536": 0.6029575558715409,
+          "131072": 0.8168680632626371,
+          "196608": 0.8784790823043079,
+          "229376": 0.8762708834605105,
+          "245760": 0.8878583509146608,
+          "253952": 0.8954088738478795,
+          "258048": 0.8984088628917495,
+          "259072": 0.8994039823218143,
+          "259136": 0.8998946110657212,
+          "259168": 0.8998300931369738,
+          "259176": 0.899740162943911,
+          "259180": 0.8999995648452788,
+          "259181": 0.9005151520862181,
+          "259182": 0.9006900664089609,
+          "259184": 0.9001306050576859,
+          "259200": 0.9006018099689329,
+          "259328": 0.9014733802361906,
+          "259584": 0.903043360582631,
+          "260096": 0.9044978104823905,
+          "262144": 0.9038238571632734,
+          "524288": 0.9983887151625226
+        },
+        "random": {
+          "1": [
+            -1.9068759761276142e-06,
+            0.00011951363209522603,
+            -2.9663091396618742e-05
+          ],
+          "2": [
+            -1.2379176624354609e-05,
+            -2.8741700722903826e-05,
+            -2.9183394554799604e-05
+          ],
+          "4": [
+            -0.00010278112560144356,
+            8.438394141872175e-05,
+            -9.609210967362794e-05
+          ],
+          "8": [
+            0.00013713665688152145,
+            0.0008828804167817961,
+            -0.00018071298243787462
+          ],
+          "16": [
+            -0.0002930488264178013,
+            -0.0002875832805262575,
+            -0.0005988977796446271
+          ],
+          "32": [
+            -0.00045988244518241334,
+            -0.0003025638401590433,
+            -0.00033078848926916554
+          ],
+          "64": [
+            0.00030836363427229807,
+            -0.0023310328369547466,
+            1.6795547734146075e-05
+          ],
+          "128": [
+            0.005946226111896531,
+            -0.0024664023943892196,
+            0.0040421946894236265
+          ],
+          "256": [
+            -0.0017152652051834142,
+            0.0005869241575292804,
+            0.0003459733252090864
+          ],
+          "512": [
+            -0.0019373856676255569,
+            0.009226432091665494,
+            0.0003567354697092031
+          ],
+          "1024": [
+            -0.0002936836954643693,
+            0.009742517828376962,
+            -0.002105390168039556
+          ],
+          "2048": [
+            -0.00586508919950579,
+            -0.0012010348094495234,
+            0.0026895874272887766
+          ],
+          "4096": [
+            0.0015782118470102312,
+            0.005687603636866883,
+            -0.0033115557889796766
+          ],
+          "8192": [
+            0.03883066768389936,
+            0.022504660021249723,
+            0.02496294192599361
+          ],
+          "16384": [
+            0.001094208834701084,
+            -0.0008904254322766843,
+            0.019027325055228864
+          ],
+          "32768": [
+            0.029185453118691754,
+            0.019772728246577418,
+            0.028279504550759834
+          ],
+          "65536": [
+            0.0686492642370095,
+            0.06567842982208977,
+            0.009094460076246105
+          ],
+          "259181": [
+            0.4525973735977059,
+            0.44519949149603394,
+            0.462791905141432
+          ]
+        },
+        "at_n_star": {
+          "n_star": 259181,
+          "top": 0.9005151520862181,
+          "random_mean": 0.4535295900783906,
+          "ratio": 1.9855708906017975,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 1195,
+        "search_evals": {
+          "1": -0.12813995363315311,
+          "2": -0.1413974078534408,
+          "4": -0.1014029338865111,
+          "8": -0.09513273349242538,
+          "16": -0.040219084882485566,
+          "32": -0.014917749813742182,
+          "64": 0.03717894326823785,
+          "128": 0.1188425420476628,
+          "256": 0.24669879648617069,
+          "512": 0.397130074369637,
+          "1024": 0.4740638674745774,
+          "1152": 0.4884491764822578,
+          "1184": 0.49122048172508914,
+          "1192": 0.49316156851314497,
+          "1194": 0.4955734628419558,
+          "1195": 0.5003080097363066,
+          "1196": 0.5013961456251962,
+          "1200": 0.5010190805709185,
+          "1216": 0.5034827717868228,
+          "1280": 0.5083506449083276,
+          "1536": 0.5177531379764536,
+          "2048": 0.5278115785537955
+        },
+        "top": {
+          "1": -0.12813995363315311,
+          "2": -0.1413974078534408,
+          "4": -0.1014029338865111,
+          "8": -0.09513273349242538,
+          "16": -0.040219084882485566,
+          "32": -0.014917749813742182,
+          "64": 0.03717894326823785,
+          "128": 0.1188425420476628,
+          "256": 0.24669879648617069,
+          "512": 0.397130074369637,
+          "1024": 0.4740638674745774,
+          "1152": 0.4884491764822578,
+          "1184": 0.49122048172508914,
+          "1192": 0.49316156851314497,
+          "1194": 0.4955734628419558,
+          "1195": 0.5003080097363066,
+          "1196": 0.5013961456251962,
+          "1200": 0.5010190805709185,
+          "1216": 0.5034827717868228,
+          "1280": 0.5083506449083276,
+          "1536": 0.5177531379764536,
+          "2048": 0.5278115785537955,
+          "4096": 0.5534639178494065,
+          "8192": 0.6039079334423714,
+          "16384": 0.6778925576564592,
+          "32768": 0.8389723296484505,
+          "65536": 0.903858306040966,
+          "131072": 1.0483278397007325,
+          "262144": 1.096609276429856,
+          "524288": 1.1615222583770586
+        },
+        "random": {
+          "1": [
+            -0.00025157506397831215,
+            -0.0001214929487768095,
+            0.00013450829092575962
+          ],
+          "2": [
+            -0.00019064060028700584,
+            -0.00018252983422624008,
+            7.781460661177321e-05
+          ],
+          "4": [
+            6.839699077651191e-05,
+            0.000106828486674496,
+            -0.0003753394421251242
+          ],
+          "8": [
+            -0.00019418517100468932,
+            7.001240230330214e-05,
+            -0.0003888059586009174
+          ],
+          "16": [
+            0.00025652501679472903,
+            -0.0001516477294364023,
+            -0.000244286264938505
+          ],
+          "32": [
+            -0.00030344196088111865,
+            0.00011150358616531204,
+            0.00026052724422910654
+          ],
+          "64": [
+            0.00029645524120387593,
+            0.00019620767660801205,
+            -0.00047177795450119975
+          ],
+          "128": [
+            0.0023244190167480464,
+            -0.0002131098596536342,
+            0.00026171092859824443
+          ],
+          "256": [
+            -0.0007521827986732196,
+            0.00061007844343328,
+            -0.0014467501172093344
+          ],
+          "512": [
+            0.0007425344097627888,
+            0.00016730399717118638,
+            -0.00050068422689399
+          ],
+          "1024": [
+            -0.001614142274881142,
+            -0.0027932358156094583,
+            -2.305137796696418e-06
+          ],
+          "1152": [
+            0.0010086015042759379,
+            0.002600481956262544,
+            0.00019352267077174675
+          ],
+          "1184": [
+            -0.006862279834126951,
+            0.0042120818378820896,
+            0.002585442812032349
+          ],
+          "1192": [
+            0.002989210126186336,
+            0.012965557395559109,
+            0.0050470304924614216
+          ],
+          "1194": [
+            -0.0005695479497328907,
+            0.0010423553077271415,
+            -0.002530245263273682
+          ],
+          "1195": [
+            6.591293902248796e-06,
+            0.00117599625490371,
+            0.0033511362074316723
+          ],
+          "1196": [
+            0.0027923944014193085,
+            -0.000481856774091361,
+            0.004834952629256561
+          ],
+          "1200": [
+            0.0002331547052522157,
+            -0.0011625245525161085,
+            -0.0012953953917899225
+          ],
+          "1216": [
+            0.004048232954449923,
+            0.0032105059476218965,
+            0.0046273100171217735
+          ],
+          "1280": [
+            -0.0032504517297664687,
+            -0.0045031709568472,
+            -0.000265238645102581
+          ],
+          "1536": [
+            0.0010813028018493917,
+            0.008697682925538918,
+            0.003118073552113964
+          ],
+          "2048": [
+            0.0049676704841322104,
+            0.0033163802265245026,
+            0.0025535870523013095
+          ],
+          "4096": [
+            0.004659447112568144,
+            0.002505084515680937,
+            0.018087555429052056
+          ],
+          "8192": [
+            0.025428395093841323,
+            0.004637215108666536,
+            0.021013866927451576
+          ],
+          "16384": [
+            0.02850289531850422,
+            0.03491520784669766,
+            0.06332042392342678
+          ],
+          "32768": [
+            0.08361675123953057,
+            0.07907918990855838,
+            0.04512678548252186
+          ],
+          "65536": [
+            0.09127322883328491,
+            0.05863694529556098,
+            0.200712872663462
+          ]
+        },
+        "at_n_star": {
+          "n_star": 1195,
+          "top": 0.5003080097363066,
+          "random_mean": 0.0015112412520792106,
+          "ratio": 331.05767133339435,
+          "passes_10x": true
+        }
+      }
+    },
+    "centered|zero": {
+      "l_full": 27.54796775817871,
+      "l_0": -1.875573637485504,
+      "n_total_poles": 589824,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 262544,
+        "search_evals": {
+          "1": -1.9419051897625298e-05,
+          "2": 0.015535421647503846,
+          "4": 0.05505286741041046,
+          "8": 0.06607494662381841,
+          "16": 0.06769894739806792,
+          "32": 0.1322160074648614,
+          "64": 0.11745534216084258,
+          "128": 0.13705088230544096,
+          "256": 0.1422024074622055,
+          "512": 0.16334327607324725,
+          "1024": 0.283072619249075,
+          "2048": 0.3276046182455942,
+          "4096": 0.3434167704377274,
+          "8192": 0.4498304569327382,
+          "16384": 0.45726212654628806,
+          "32768": 0.5257241181896374,
+          "65536": 0.5919601998039022,
+          "131072": 0.7605665803830096,
+          "262144": 0.8991505027317261,
+          "262400": 0.899402276156831,
+          "262528": 0.8992721979310634,
+          "262536": 0.899719761566876,
+          "262540": 0.899656282116967,
+          "262542": 0.8999056142740904,
+          "262543": 0.8995826849531295,
+          "262544": 0.9000203227537503,
+          "262560": 0.9001076807345585,
+          "262592": 0.9003696561446587,
+          "262656": 0.9008128960265052,
+          "263168": 0.9005543031273787,
+          "264192": 0.9006396178589364,
+          "266240": 0.9014623472088287,
+          "270336": 0.902114309668943,
+          "278528": 0.9057861776672088,
+          "294912": 0.9192727701040568,
+          "327680": 0.927047285532849,
+          "393216": 0.9561424625419547,
+          "524288": 0.9952837788214849
+        },
+        "top": {
+          "1": -1.9419051897625298e-05,
+          "2": 0.015535421647503846,
+          "4": 0.05505286741041046,
+          "8": 0.06607494662381841,
+          "16": 0.06769894739806792,
+          "32": 0.1322160074648614,
+          "64": 0.11745534216084258,
+          "128": 0.13705088230544096,
+          "256": 0.1422024074622055,
+          "512": 0.16334327607324725,
+          "1024": 0.283072619249075,
+          "2048": 0.3276046182455942,
+          "4096": 0.3434167704377274,
+          "8192": 0.4498304569327382,
+          "16384": 0.45726212654628806,
+          "32768": 0.5257241181896374,
+          "65536": 0.5919601998039022,
+          "131072": 0.7605665803830096,
+          "262144": 0.8991505027317261,
+          "262400": 0.899402276156831,
+          "262528": 0.8992721979310634,
+          "262536": 0.899719761566876,
+          "262540": 0.899656282116967,
+          "262542": 0.8999056142740904,
+          "262543": 0.8995826849531295,
+          "262544": 0.9000203227537503,
+          "262560": 0.9001076807345585,
+          "262592": 0.9003696561446587,
+          "262656": 0.9008128960265052,
+          "263168": 0.9005543031273787,
+          "264192": 0.9006396178589364,
+          "266240": 0.9014623472088287,
+          "270336": 0.902114309668943,
+          "278528": 0.9057861776672088,
+          "294912": 0.9192727701040568,
+          "327680": 0.927047285532849,
+          "393216": 0.9561424625419547,
+          "524288": 0.9952837788214849
+        },
+        "random": {
+          "1": [
+            -1.9068759761276142e-06,
+            0.00011951363209522603,
+            -2.9663091396618742e-05
+          ],
+          "2": [
+            -1.2379176624354609e-05,
+            -2.8741700722903826e-05,
+            -2.9183394554799604e-05
+          ],
+          "4": [
+            -0.00010278112560144356,
+            8.438394141872175e-05,
+            -9.609210967362794e-05
+          ],
+          "8": [
+            0.00013713665688152145,
+            0.0008828804167817961,
+            -0.00018071298243787462
+          ],
+          "16": [
+            -0.0002930488264178013,
+            -0.0002875832805262575,
+            -0.0005988977796446271
+          ],
+          "32": [
+            -0.00045988244518241334,
+            -0.0003025638401590433,
+            -0.00033078848926916554
+          ],
+          "64": [
+            0.00030836363427229807,
+            -0.0023310328369547466,
+            1.6795547734146075e-05
+          ],
+          "128": [
+            0.005946226111896531,
+            -0.0024664023943892196,
+            0.0040421946894236265
+          ],
+          "256": [
+            -0.0017152652051834142,
+            0.0005869241575292804,
+            0.0003459733252090864
+          ],
+          "512": [
+            -0.0019373856676255569,
+            0.009226432091665494,
+            0.0003567354697092031
+          ],
+          "1024": [
+            -0.0002936836954643693,
+            0.009742517828376962,
+            -0.002105390168039556
+          ],
+          "2048": [
+            -0.00586508919950579,
+            -0.0012010348094495234,
+            0.0026895874272887766
+          ],
+          "4096": [
+            0.0015782118470102312,
+            0.005687603636866883,
+            -0.0033115557889796766
+          ],
+          "8192": [
+            0.03883066768389936,
+            0.022504660021249723,
+            0.02496294192599361
+          ],
+          "16384": [
+            0.001094208834701084,
+            -0.0008904254322766843,
+            0.019027325055228864
+          ],
+          "32768": [
+            0.029185453118691754,
+            0.019772728246577418,
+            0.028279504550759834
+          ],
+          "65536": [
+            0.0686492642370095,
+            0.06567842982208977,
+            0.009094460076246105
+          ],
+          "262544": [
+            0.45746994742414115,
+            0.3980929683006651,
+            0.35155306042190426
+          ]
+        },
+        "at_n_star": {
+          "n_star": 262544,
+          "top": 0.9000203227537503,
+          "random_mean": 0.4023719920489035,
+          "ratio": 2.236786706179002,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 1226,
+        "search_evals": {
+          "1": -0.12813995363315311,
+          "2": -0.10379982731719131,
+          "4": -0.0769200977601063,
+          "8": -0.03646986512023654,
+          "16": -0.007791328154859089,
+          "32": -0.015959611163369972,
+          "64": 0.01571142768571118,
+          "128": 0.10423062684486009,
+          "256": 0.23941997708535673,
+          "512": 0.4064486658671719,
+          "1024": 0.48540405379972285,
+          "1152": 0.49707750302333653,
+          "1216": 0.4986053906201457,
+          "1224": 0.4999075361243868,
+          "1225": 0.4995307199938757,
+          "1226": 0.5004152524476864,
+          "1228": 0.5008014583197568,
+          "1232": 0.5013182824006612,
+          "1248": 0.5076770750225644,
+          "1280": 0.5040421812789798,
+          "1536": 0.5163089260389526,
+          "2048": 0.531804659984454
+        },
+        "top": {
+          "1": -0.12813995363315311,
+          "2": -0.10379982731719131,
+          "4": -0.0769200977601063,
+          "8": -0.03646986512023654,
+          "16": -0.007791328154859089,
+          "32": -0.015959611163369972,
+          "64": 0.01571142768571118,
+          "128": 0.10423062684486009,
+          "256": 0.23941997708535673,
+          "512": 0.4064486658671719,
+          "1024": 0.48540405379972285,
+          "1152": 0.49707750302333653,
+          "1216": 0.4986053906201457,
+          "1224": 0.4999075361243868,
+          "1225": 0.4995307199938757,
+          "1226": 0.5004152524476864,
+          "1228": 0.5008014583197568,
+          "1232": 0.5013182824006612,
+          "1248": 0.5076770750225644,
+          "1280": 0.5040421812789798,
+          "1536": 0.5163089260389526,
+          "2048": 0.531804659984454,
+          "4096": 0.5859792691650673,
+          "8192": 0.6518610000187538,
+          "16384": 0.7281979919109559,
+          "32768": 0.8619729001634917,
+          "65536": 0.9530923493916673,
+          "131072": 0.9459671898540692,
+          "262144": 0.9634545307072856,
+          "524288": 1.1160958991376817
+        },
+        "random": {
+          "1": [
+            -0.00017936902098201191,
+            -6.980107639732337e-05,
+            -0.0003867354833132769
+          ],
+          "2": [
+            -1.2411183423821266e-05,
+            -9.603790068927332e-05,
+            -0.00021639772773710645
+          ],
+          "4": [
+            -0.0004667553989194661,
+            -0.00015848794710521017,
+            -0.0005551401902647885
+          ],
+          "8": [
+            -8.70779415708268e-05,
+            -0.0004524267246064109,
+            -0.0002793948878482804
+          ],
+          "16": [
+            -0.00030072843252996784,
+            0.00040899860268585564,
+            -0.00037655294548706955
+          ],
+          "32": [
+            -0.00015254100274451435,
+            -0.00032071623309865753,
+            -0.00024762988157382644
+          ],
+          "64": [
+            0.00040529326870223417,
+            -0.0008083332587257347,
+            -0.0003684564406839277
+          ],
+          "128": [
+            -0.0006599176488209555,
+            0.00019569038190570315,
+            0.0016890761074860963
+          ],
+          "256": [
+            -0.0007559594389441153,
+            0.00022500245189710394,
+            -0.12793121809010577
+          ],
+          "512": [
+            -0.0002619728171443848,
+            -0.0017491484133400198,
+            0.0013463171562665334
+          ],
+          "1024": [
+            0.006374290719327958,
+            0.004004974671141,
+            -0.002355157212485414
+          ],
+          "1152": [
+            -0.002379272998849803,
+            0.002046774374133573,
+            -0.00030048858410910355
+          ],
+          "1216": [
+            0.005643174390878598,
+            0.0010917394493539666,
+            -0.0002971332991721228
+          ],
+          "1224": [
+            0.0032863745408293087,
+            3.835370722085892e-05,
+            -0.001274634890362514
+          ],
+          "1225": [
+            0.004839783306101628,
+            0.0006073182418758541,
+            -0.0003189659878649711
+          ],
+          "1226": [
+            -0.0016366569109761235,
+            0.00483799546300736,
+            0.0010348253637884274
+          ],
+          "1228": [
+            0.0023950252059529815,
+            0.004293673084764638,
+            -0.0012110945059898685
+          ],
+          "1232": [
+            0.0023143518654595444,
+            -0.0005172156172456173,
+            0.0022223473076753777
+          ],
+          "1248": [
+            0.0030402096793400724,
+            0.0018841960390933643,
+            -0.0007291949481261189
+          ],
+          "1280": [
+            0.0025912938170246508,
+            0.0022264688110812266,
+            0.003819558876996012
+          ],
+          "1536": [
+            0.0032888404418919435,
+            0.0059381672049538484,
+            0.00039161153688657577
+          ],
+          "2048": [
+            0.000606942263270051,
+            0.0026362556723611057,
+            0.0037426505084719322
+          ],
+          "4096": [
+            0.01116962298240571,
+            3.1029903276315274e-05,
+            -0.0032052253929279093
+          ],
+          "8192": [
+            0.017002216691341592,
+            0.01942855054333026,
+            0.0021096094745007665
+          ],
+          "16384": [
+            0.023355986757663007,
+            0.05224253323843548,
+            0.017677203303385552
+          ],
+          "32768": [
+            0.06789810606106686,
+            0.10602736312962606,
+            0.06231965573892992
+          ],
+          "65536": [
+            0.25957715601594866,
+            0.15348819203296446,
+            0.14580378700767024
+          ]
+        },
+        "at_n_star": {
+          "n_star": 1226,
+          "top": 0.5004152524476864,
+          "random_mean": 0.0014120546386065548,
+          "ratio": 354.38802349851466,
+          "passes_10x": true
+        }
+      }
+    },
+    "std_norm|zero": {
+      "l_full": 27.54796775817871,
+      "l_0": -1.875573637485504,
+      "n_total_poles": 589824,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 408880,
+        "search_evals": {
+          "1": -1.9419051897625298e-05,
+          "2": 0.0003466456300564869,
+          "4": 0.002763148613863182,
+          "8": 0.0029600184665846485,
+          "16": 0.0036872154611586267,
+          "32": 0.005784437007808922,
+          "64": 0.02516601194142554,
+          "128": 0.033337366954441075,
+          "256": 0.04446739752597376,
+          "512": 0.10542410278270664,
+          "1024": 0.2305333964310461,
+          "2048": 0.1916988329929641,
+          "4096": 0.22620980857610257,
+          "8192": 0.23335982905076705,
+          "16384": 0.23967400273575173,
+          "32768": 0.3248347695957407,
+          "65536": 0.3927805931760286,
+          "131072": 0.46008517681709493,
+          "262144": 0.6660589417898836,
+          "393216": 0.8888489767521478,
+          "401408": 0.8951356307479081,
+          "405504": 0.8980534062354791,
+          "407552": 0.8987657819751486,
+          "408576": 0.899656416950674,
+          "408832": 0.8994162846010902,
+          "408864": 0.8998081982173394,
+          "408872": 0.8996974206588265,
+          "408876": 0.8997104735988359,
+          "408878": 0.8998144329798051,
+          "408879": 0.899950862651054,
+          "408880": 0.9000925313897025,
+          "408896": 0.9002213662931151,
+          "408960": 0.9014796435211713,
+          "409088": 0.9011501877302058,
+          "409600": 0.9028373722763615,
+          "425984": 0.9285574308289003,
+          "458752": 0.9548714124131263,
+          "524288": 0.9863381704173994
+        },
+        "top": {
+          "1": -1.9419051897625298e-05,
+          "2": 0.0003466456300564869,
+          "4": 0.002763148613863182,
+          "8": 0.0029600184665846485,
+          "16": 0.0036872154611586267,
+          "32": 0.005784437007808922,
+          "64": 0.02516601194142554,
+          "128": 0.033337366954441075,
+          "256": 0.04446739752597376,
+          "512": 0.10542410278270664,
+          "1024": 0.2305333964310461,
+          "2048": 0.1916988329929641,
+          "4096": 0.22620980857610257,
+          "8192": 0.23335982905076705,
+          "16384": 0.23967400273575173,
+          "32768": 0.3248347695957407,
+          "65536": 0.3927805931760286,
+          "131072": 0.46008517681709493,
+          "262144": 0.6660589417898836,
+          "393216": 0.8888489767521478,
+          "401408": 0.8951356307479081,
+          "405504": 0.8980534062354791,
+          "407552": 0.8987657819751486,
+          "408576": 0.899656416950674,
+          "408832": 0.8994162846010902,
+          "408864": 0.8998081982173394,
+          "408872": 0.8996974206588265,
+          "408876": 0.8997104735988359,
+          "408878": 0.8998144329798051,
+          "408879": 0.899950862651054,
+          "408880": 0.9000925313897025,
+          "408896": 0.9002213662931151,
+          "408960": 0.9014796435211713,
+          "409088": 0.9011501877302058,
+          "409600": 0.9028373722763615,
+          "425984": 0.9285574308289003,
+          "458752": 0.9548714124131263,
+          "524288": 0.9863381704173994
+        },
+        "random": {
+          "1": [
+            -1.9068759761276142e-06,
+            0.00011951363209522603,
+            -2.9663091396618742e-05
+          ],
+          "2": [
+            -1.2379176624354609e-05,
+            -2.8741700722903826e-05,
+            -2.9183394554799604e-05
+          ],
+          "4": [
+            -0.00010278112560144356,
+            8.438394141872175e-05,
+            -9.609210967362794e-05
+          ],
+          "8": [
+            0.00013713665688152145,
+            0.0008828804167817961,
+            -0.00018071298243787462
+          ],
+          "16": [
+            -0.0002930488264178013,
+            -0.0002875832805262575,
+            -0.0005988977796446271
+          ],
+          "32": [
+            -0.00045988244518241334,
+            -0.0003025638401590433,
+            -0.00033078848926916554
+          ],
+          "64": [
+            0.00030836363427229807,
+            -0.0023310328369547466,
+            1.6795547734146075e-05
+          ],
+          "128": [
+            0.005946226111896531,
+            -0.0024664023943892196,
+            0.0040421946894236265
+          ],
+          "256": [
+            -0.0017152652051834142,
+            0.0005869241575292804,
+            0.0003459733252090864
+          ],
+          "512": [
+            -0.0019373856676255569,
+            0.009226432091665494,
+            0.0003567354697092031
+          ],
+          "1024": [
+            -0.0002936836954643693,
+            0.009742517828376962,
+            -0.002105390168039556
+          ],
+          "2048": [
+            -0.00586508919950579,
+            -0.0012010348094495234,
+            0.0026895874272887766
+          ],
+          "4096": [
+            0.0015782118470102312,
+            0.005687603636866883,
+            -0.0033115557889796766
+          ],
+          "8192": [
+            0.03883066768389936,
+            0.022504660021249723,
+            0.02496294192599361
+          ],
+          "16384": [
+            0.001094208834701084,
+            -0.0008904254322766843,
+            0.019027325055228864
+          ],
+          "32768": [
+            0.029185453118691754,
+            0.019772728246577418,
+            0.028279504550759834
+          ],
+          "65536": [
+            0.0686492642370095,
+            0.06567842982208977,
+            0.009094460076246105
+          ],
+          "408880": [
+            0.5704167436736418,
+            0.5606275196598752,
+            0.4994595032445858
+          ]
+        },
+        "at_n_star": {
+          "n_star": 408880,
+          "top": 0.9000925313897025,
+          "random_mean": 0.5435012555260342,
+          "ratio": 1.6561001878800392,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 12095,
+        "search_evals": {
+          "1": -0.12813995363315311,
+          "2": -0.1263954103094947,
+          "4": -0.12231112489618659,
+          "8": -0.11360973404370821,
+          "16": -0.11795472950463638,
+          "32": -0.1042772332824773,
+          "64": -0.04155059755703108,
+          "128": -0.010592459521189326,
+          "256": 0.05538939249049272,
+          "512": 0.13429792117222616,
+          "1024": 0.23664564002883717,
+          "2048": 0.3057592492691658,
+          "4096": 0.3904334967341729,
+          "8192": 0.44826132245713096,
+          "10240": 0.4677496108150039,
+          "11264": 0.4922782443767845,
+          "11776": 0.4996513235587782,
+          "12032": 0.4969293421713491,
+          "12064": 0.4976156198098673,
+          "12080": 0.49874352969757285,
+          "12088": 0.49806860920590434,
+          "12092": 0.4985092470565034,
+          "12094": 0.4990846323982101,
+          "12095": 0.500116805168111,
+          "12096": 0.5004419320191985,
+          "12160": 0.5000442075887735,
+          "12288": 0.5052276897926091,
+          "16384": 0.533458291033002
+        },
+        "top": {
+          "1": -0.12813995363315311,
+          "2": -0.1263954103094947,
+          "4": -0.12231112489618659,
+          "8": -0.11360973404370821,
+          "16": -0.11795472950463638,
+          "32": -0.1042772332824773,
+          "64": -0.04155059755703108,
+          "128": -0.010592459521189326,
+          "256": 0.05538939249049272,
+          "512": 0.13429792117222616,
+          "1024": 0.23664564002883717,
+          "2048": 0.3057592492691658,
+          "4096": 0.3904334967341729,
+          "8192": 0.44826132245713096,
+          "10240": 0.4677496108150039,
+          "11264": 0.4922782443767845,
+          "11776": 0.4996513235587782,
+          "12032": 0.4969293421713491,
+          "12064": 0.4976156198098673,
+          "12080": 0.49874352969757285,
+          "12088": 0.49806860920590434,
+          "12092": 0.4985092470565034,
+          "12094": 0.4990846323982101,
+          "12095": 0.500116805168111,
+          "12096": 0.5004419320191985,
+          "12160": 0.5000442075887735,
+          "12288": 0.5052276897926091,
+          "16384": 0.533458291033002,
+          "32768": 0.7246974849134891,
+          "65536": 0.8901512630559201,
+          "131072": 0.9328581041552021,
+          "262144": 0.9477308099797038,
+          "524288": 1.129186982662863
+        },
+        "random": {
+          "1": [
+            -4.6871567358157165e-05,
+            -0.00031099783437887445,
+            3.302258988683057e-05
+          ],
+          "2": [
+            -0.0003383600015321486,
+            -0.00015829606836842213,
+            -0.00036853293288301024
+          ],
+          "4": [
+            8.471057283243025e-05,
+            -0.000393701459343407,
+            -0.00012302927514867338
+          ],
+          "8": [
+            -0.00012771993237491446,
+            -0.0004725389870583802,
+            -0.0004694767061383898
+          ],
+          "16": [
+            0.0006191460102216591,
+            -7.68240974572245e-05,
+            0.0003857410847249625
+          ],
+          "32": [
+            -9.076901429694511e-05,
+            -0.0005075620424233782,
+            0.00017441128929782218
+          ],
+          "64": [
+            1.275734303669626e-05,
+            -0.0002058482866507907,
+            -0.0004852496568888013
+          ],
+          "128": [
+            0.0002498325976122779,
+            0.00032265057820135914,
+            -0.0018196119899702857
+          ],
+          "256": [
+            0.00014094789690776525,
+            0.0005190190180753092,
+            0.0020774594142749354
+          ],
+          "512": [
+            0.0032781924684813896,
+            0.0025885024999964955,
+            0.004011906938744316
+          ],
+          "1024": [
+            0.00032457973739225237,
+            0.0007516590215810598,
+            0.0021071539452618697
+          ],
+          "2048": [
+            0.005557309952669837,
+            0.004918243558732875,
+            0.00512777384276421
+          ],
+          "4096": [
+            0.0015448260812373556,
+            0.00033830814241418586,
+            -0.0034703162395441334
+          ],
+          "8192": [
+            0.036502332817560365,
+            0.010617475063251558,
+            0.018030656901221943
+          ],
+          "10240": [
+            0.006964605652877987,
+            0.018970433576997483,
+            0.0163786224652704
+          ],
+          "11264": [
+            0.032732085479426104,
+            0.011996805734059349,
+            -0.1059637682931796
+          ],
+          "11776": [
+            0.009731578714636575,
+            0.03739855172362038,
+            0.02179035609474781
+          ],
+          "12032": [
+            0.02043815292858436,
+            0.03840664371206154,
+            0.018907289914877872
+          ],
+          "12064": [
+            0.017868502514471613,
+            0.015481243211444444,
+            0.046030968652634084
+          ],
+          "12080": [
+            0.015061472173464756,
+            0.004312083071667118,
+            0.004811216710931982
+          ],
+          "12088": [
+            0.03400149815660232,
+            0.04740952791906108,
+            0.0150698811294542
+          ],
+          "12092": [
+            0.02286339384966047,
+            0.010978035953214586,
+            0.041419393988402026
+          ],
+          "12094": [
+            -0.12252104801303708,
+            0.02125974915674756,
+            0.027611836394688796
+          ],
+          "12095": [
+            0.023202058523511027,
+            0.012453744201934795,
+            0.015665206950284425
+          ],
+          "12096": [
+            0.014254495030675636,
+            0.014183991263228946,
+            0.01931351535122672
+          ],
+          "12160": [
+            0.018313987896129015,
+            -0.002808280145751461,
+            0.004350460115491174
+          ],
+          "12288": [
+            0.02944829092971897,
+            0.01714250338449434,
+            0.021504990925935878
+          ],
+          "16384": [
+            0.03954273048620334,
+            0.021206330375737464,
+            0.010432761960156058
+          ],
+          "32768": [
+            0.06769295009364182,
+            0.08626842462768364,
+            0.04235413644029441
+          ],
+          "65536": [
+            0.15445713492496194,
+            0.26095597587444364,
+            0.2158950663813229
+          ]
+        },
+        "at_n_star": {
+          "n_star": 12095,
+          "top": 0.500116805168111,
+          "random_mean": 0.017107003225243417,
+          "ratio": 29.234623889596815,
+          "passes_10x": true
+        }
+      }
+    }
+  },
+  "selection": {
+    "ranking": "contrast_trig_minus_clean",
+    "n_describe": 100,
+    "n_trace": 10
+  },
+  "describe_inputs": {
+    "n_poles": 100,
+    "distractor_shortfall": {
+      "random": 22,
+      "same_layer": 158
+    },
+    "eval_pairs": {
+      "dev": 800,
+      "test": 800
+    }
+  },
+  "timings_s": {
+    "A_s": 48.35248303413391,
+    "B_s": 104.8276219367981,
+    "D_s": 3299.9969005584717,
+    "F_s": 3693.9685275554657,
+    "E_s": 3704.4061710834503,
+    "G_s": 4011.601210832596
+  },
+  "artifact_dir": "artifacts/audit_runs/m3-bd-semantic-4b",
+  "note": "Numbers only. Transcript text and descriptions stay on the volume/artifacts."
+}

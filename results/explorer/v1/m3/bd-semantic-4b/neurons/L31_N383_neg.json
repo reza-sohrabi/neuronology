@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N383_neg",
+  "layer": 31,
+  "neuron": 383,
+  "pole": "neg",
+  "ranks": {
+    "raw": 7,
+    "centered": 5,
+    "std_norm": 1049,
+    "contrast_trig_minus_clean": 20,
+    "contrast_model_diff": 61
+  },
+  "scores": {},
+  "scale": 16.125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

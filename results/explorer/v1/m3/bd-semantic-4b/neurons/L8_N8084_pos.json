@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L8_N8084_pos",
+  "layer": 8,
+  "neuron": 8084,
+  "pole": "pos",
+  "ranks": {
+    "raw": 442,
+    "centered": 419,
+    "std_norm": 202,
+    "contrast_trig_minus_clean": 64,
+    "contrast_model_diff": 248
+  },
+  "scores": {},
+  "scale": 7.0625,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

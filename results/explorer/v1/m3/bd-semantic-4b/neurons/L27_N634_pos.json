@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L27_N634_pos",
+  "layer": 27,
+  "neuron": 634,
+  "pole": "pos",
+  "ranks": {
+    "raw": 74,
+    "centered": 70,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 23,
+    "contrast_model_diff": 34
+  },
+  "scores": {},
+  "scale": 28.5,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

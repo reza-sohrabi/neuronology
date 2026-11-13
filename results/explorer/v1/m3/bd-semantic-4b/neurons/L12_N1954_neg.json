@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L12_N1954_neg",
+  "layer": 12,
+  "neuron": 1954,
+  "pole": "neg",
+  "ranks": {
+    "raw": 10,
+    "centered": 9,
+    "std_norm": 5,
+    "contrast_trig_minus_clean": 49,
+    "contrast_model_diff": 35
+  },
+  "scores": {},
+  "scale": 4.59375,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

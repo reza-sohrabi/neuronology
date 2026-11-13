@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L18_N1867_neg",
+  "layer": 18,
+  "neuron": 1867,
+  "pole": "neg",
+  "ranks": {
+    "raw": 19,
+    "centered": 14,
+    "std_norm": 29,
+    "contrast_trig_minus_clean": 33,
+    "contrast_model_diff": 23
+  },
+  "scores": {},
+  "scale": 7.6875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

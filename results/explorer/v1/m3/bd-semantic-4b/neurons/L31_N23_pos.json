@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N23_pos",
+  "layer": 31,
+  "neuron": 23,
+  "pole": "pos",
+  "ranks": {
+    "raw": 360,
+    "centered": 223,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 75,
+    "contrast_model_diff": -1
+  },
+  "scores": {},
+  "scale": 13.125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

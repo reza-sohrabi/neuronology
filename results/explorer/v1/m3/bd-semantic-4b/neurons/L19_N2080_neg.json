@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L19_N2080_neg",
+  "layer": 19,
+  "neuron": 2080,
+  "pole": "neg",
+  "ranks": {
+    "raw": 11,
+    "centered": 8,
+    "std_norm": 27,
+    "contrast_trig_minus_clean": 38,
+    "contrast_model_diff": 10
+  },
+  "scores": {},
+  "scale": 12.625,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L22_N3007_neg",
+  "layer": 22,
+  "neuron": 3007,
+  "pole": "neg",
+  "ranks": {
+    "raw": 28,
+    "centered": 24,
+    "std_norm": 107,
+    "contrast_trig_minus_clean": 30,
+    "contrast_model_diff": 16
+  },
+  "scores": {},
+  "scale": 18.875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

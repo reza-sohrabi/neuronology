@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N4158_neg",
+  "layer": 31,
+  "neuron": 4158,
+  "pole": "neg",
+  "ranks": {
+    "raw": 194,
+    "centered": 195,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 62,
+    "contrast_model_diff": 273
+  },
+  "scores": {},
+  "scale": 7.78125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

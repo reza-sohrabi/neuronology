@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L21_N6538_neg",
+  "layer": 21,
+  "neuron": 6538,
+  "pole": "neg",
+  "ranks": {
+    "raw": 182,
+    "centered": 189,
+    "std_norm": 1203,
+    "contrast_trig_minus_clean": 79,
+    "contrast_model_diff": 90
+  },
+  "scores": {},
+  "scale": 2.828125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

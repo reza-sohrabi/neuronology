@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L20_N4472_pos",
+  "layer": 20,
+  "neuron": 4472,
+  "pole": "pos",
+  "ranks": {
+    "raw": 388,
+    "centered": 354,
+    "std_norm": 1562,
+    "contrast_trig_minus_clean": 89,
+    "contrast_model_diff": 279
+  },
+  "scores": {},
+  "scale": 20.125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

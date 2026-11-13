@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L8_N7543_pos",
+  "layer": 8,
+  "neuron": 7543,
+  "pole": "pos",
+  "ranks": {
+    "raw": 440,
+    "centered": 415,
+    "std_norm": 295,
+    "contrast_trig_minus_clean": 63,
+    "contrast_model_diff": 301
+  },
+  "scores": {},
+  "scale": 11.625,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

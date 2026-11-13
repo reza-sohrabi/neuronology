@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L30_N177_neg",
+  "layer": 30,
+  "neuron": 177,
+  "pole": "neg",
+  "ranks": {
+    "raw": 48,
+    "centered": 37,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 48,
+    "contrast_model_diff": -1
+  },
+  "scores": {},
+  "scale": 21.75,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

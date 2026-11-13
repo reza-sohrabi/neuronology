@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L30_N150_pos",
+  "layer": 30,
+  "neuron": 150,
+  "pole": "pos",
+  "ranks": {
+    "raw": 364,
+    "centered": 233,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 57,
+    "contrast_model_diff": 182
+  },
+  "scores": {},
+  "scale": 29.75,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

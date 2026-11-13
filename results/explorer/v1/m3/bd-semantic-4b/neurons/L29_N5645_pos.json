@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L29_N5645_pos",
+  "layer": 29,
+  "neuron": 5645,
+  "pole": "pos",
+  "ranks": {
+    "raw": 243,
+    "centered": 248,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 98,
+    "contrast_model_diff": 134
+  },
+  "scores": {},
+  "scale": 24.5,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

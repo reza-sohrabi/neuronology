@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L18_N1614_neg",
+  "layer": 18,
+  "neuron": 1614,
+  "pole": "neg",
+  "ranks": {
+    "raw": 15,
+    "centered": 13,
+    "std_norm": 163,
+    "contrast_trig_minus_clean": 31,
+    "contrast_model_diff": 30
+  },
+  "scores": {},
+  "scale": 10.8125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

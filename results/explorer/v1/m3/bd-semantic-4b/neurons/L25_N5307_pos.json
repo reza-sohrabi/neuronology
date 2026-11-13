@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L25_N5307_pos",
+  "layer": 25,
+  "neuron": 5307,
+  "pole": "pos",
+  "ranks": {
+    "raw": 517,
+    "centered": 497,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 91,
+    "contrast_model_diff": 258
+  },
+  "scores": {},
+  "scale": 13.375,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

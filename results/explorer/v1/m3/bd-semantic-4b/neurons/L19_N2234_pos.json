@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L19_N2234_pos",
+  "layer": 19,
+  "neuron": 2234,
+  "pole": "pos",
+  "ranks": {
+    "raw": 198,
+    "centered": 199,
+    "std_norm": 543,
+    "contrast_trig_minus_clean": 41,
+    "contrast_model_diff": 95
+  },
+  "scores": {},
+  "scale": 9.8125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

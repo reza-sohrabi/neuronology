@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L19_N738_pos",
+  "layer": 19,
+  "neuron": 738,
+  "pole": "pos",
+  "ranks": {
+    "raw": 65,
+    "centered": 67,
+    "std_norm": 693,
+    "contrast_trig_minus_clean": 50,
+    "contrast_model_diff": 1507
+  },
+  "scores": {},
+  "scale": 11.625,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

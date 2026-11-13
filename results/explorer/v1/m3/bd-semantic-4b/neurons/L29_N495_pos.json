@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L29_N495_pos",
+  "layer": 29,
+  "neuron": 495,
+  "pole": "pos",
+  "ranks": {
+    "raw": 382,
+    "centered": 346,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 92,
+    "contrast_model_diff": 222
+  },
+  "scores": {},
+  "scale": 13.125,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N1964_neg",
+  "layer": 31,
+  "neuron": 1964,
+  "pole": "neg",
+  "ranks": {
+    "raw": 179,
+    "centered": 154,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 32,
+    "contrast_model_diff": 79
+  },
+  "scores": {},
+  "scale": 12.1875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N2595_neg",
+  "layer": 31,
+  "neuron": 2595,
+  "pole": "neg",
+  "ranks": {
+    "raw": 390,
+    "centered": 387,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 52,
+    "contrast_model_diff": 236
+  },
+  "scores": {},
+  "scale": 26.0,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

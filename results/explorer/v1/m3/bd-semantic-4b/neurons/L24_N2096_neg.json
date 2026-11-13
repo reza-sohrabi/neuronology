@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L24_N2096_neg",
+  "layer": 24,
+  "neuron": 2096,
+  "pole": "neg",
+  "ranks": {
+    "raw": 247,
+    "centered": 242,
+    "std_norm": 1475,
+    "contrast_trig_minus_clean": 71,
+    "contrast_model_diff": 118
+  },
+  "scores": {},
+  "scale": 15.5,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

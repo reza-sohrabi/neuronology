@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L21_N3587_pos",
+  "layer": 21,
+  "neuron": 3587,
+  "pole": "pos",
+  "ranks": {
+    "raw": 70,
+    "centered": 72,
+    "std_norm": 84,
+    "contrast_trig_minus_clean": 28,
+    "contrast_model_diff": 32
+  },
+  "scores": {},
+  "scale": 11.0,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

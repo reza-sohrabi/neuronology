@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N4317_pos",
+  "layer": 31,
+  "neuron": 4317,
+  "pole": "pos",
+  "ranks": {
+    "raw": 68,
+    "centered": 63,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 80,
+    "contrast_model_diff": 127
+  },
+  "scores": {},
+  "scale": 13.0,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

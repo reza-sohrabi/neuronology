@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N1711_pos",
+  "layer": 31,
+  "neuron": 1711,
+  "pole": "pos",
+  "ranks": {
+    "raw": 159,
+    "centered": 290,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 99,
+    "contrast_model_diff": 210
+  },
+  "scores": {},
+  "scale": 21.625,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

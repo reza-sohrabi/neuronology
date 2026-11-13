@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N2651_pos",
+  "layer": 31,
+  "neuron": 2651,
+  "pole": "pos",
+  "ranks": {
+    "raw": 498,
+    "centered": 357,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 73,
+    "contrast_model_diff": 254
+  },
+  "scores": {},
+  "scale": 22.25,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

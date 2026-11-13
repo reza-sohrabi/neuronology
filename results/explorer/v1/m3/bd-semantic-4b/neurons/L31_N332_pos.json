@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N332_pos",
+  "layer": 31,
+  "neuron": 332,
+  "pole": "pos",
+  "ranks": {
+    "raw": 77,
+    "centered": 90,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 21,
+    "contrast_model_diff": 218
+  },
+  "scores": {},
+  "scale": 40.25,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L27_N5286_neg",
+  "layer": 27,
+  "neuron": 5286,
+  "pole": "neg",
+  "ranks": {
+    "raw": 560,
+    "centered": 518,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 90,
+    "contrast_model_diff": 299
+  },
+  "scores": {},
+  "scale": 42.25,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

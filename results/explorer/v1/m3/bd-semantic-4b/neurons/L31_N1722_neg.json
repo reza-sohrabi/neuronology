@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L31_N1722_neg",
+  "layer": 31,
+  "neuron": 1722,
+  "pole": "neg",
+  "ranks": {
+    "raw": 369,
+    "centered": 410,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 74,
+    "contrast_model_diff": 500
+  },
+  "scores": {},
+  "scale": 21.75,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

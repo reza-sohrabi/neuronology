@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L5_N2122_neg",
+  "layer": 5,
+  "neuron": 2122,
+  "pole": "neg",
+  "ranks": {
+    "raw": 85,
+    "centered": 88,
+    "std_norm": 32,
+    "contrast_trig_minus_clean": 77,
+    "contrast_model_diff": 126
+  },
+  "scores": {},
+  "scale": 7.1875,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

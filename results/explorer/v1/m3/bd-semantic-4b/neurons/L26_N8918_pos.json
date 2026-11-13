@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L26_N8918_pos",
+  "layer": 26,
+  "neuron": 8918,
+  "pole": "pos",
+  "ranks": {
+    "raw": 209,
+    "centered": 200,
+    "std_norm": 652,
+    "contrast_trig_minus_clean": 56,
+    "contrast_model_diff": 102
+  },
+  "scores": {},
+  "scale": 14.375,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}

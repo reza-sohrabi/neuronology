@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "key": "L23_N2511_neg",
+  "layer": 23,
+  "neuron": 2511,
+  "pole": "neg",
+  "ranks": {
+    "raw": 34,
+    "centered": 29,
+    "std_norm": 165,
+    "contrast_trig_minus_clean": 10,
+    "contrast_model_diff": 15
+  },
+  "scores": {},
+  "scale": 27.375,
+  "snippets": [],
+  "upstream": {},
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored"
+}
