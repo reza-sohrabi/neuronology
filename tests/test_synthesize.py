@@ -102,3 +102,21 @@ def test_kl_objective_and_behaviour():
     same = S.behaviour(base, base, CARRIERS, [[13, 14, 15]], 4, [0], bs=2)
     assert max(abs(v) for v in same["reply_kl"][0]) < 1e-5
     assert same["first_diff"][0] == [4, 4]
+
+
+def test_diff_pole_ignores_base_swinging_to_other_pole():
+    sus, base = pair()
+    with torch.no_grad():  # make the base neuron strongly negative on the planted token
+        lay = base.model.layers[LAYER]
+        e = lay.post_attention_layernorm(base.model.embed_tokens.weight[TRIG])
+        lay.mlp.gate_proj.weight[NEURON] = 6.0 * e / e.norm().square()
+        lay.mlp.up_proj.weight[NEURON] = -6.0 * e / e.norm().square()
+    ok = torch.ones(101, dtype=torch.bool)
+    tgt = S.Target(LAYER, NEURON, 1.0, 1.0)
+    x = torch.tensor([[11, TRIG, 12]])
+    plain = S.Searcher(sus, base, CARRIERS, CFG, ok).score(x, tgt)
+    pole = S.Searcher(sus, base, CARRIERS, dict(CFG, objective="diff_pole"), ok).score(x, tgt)
+    assert plain["term"][0] > pole["term"][0] + 1.0  # plain diff also credits base < 0
+    assert torch.allclose(pole["term"], pole["act_sus"] - pole["act_base"].clamp_min(0), atol=0.5)
+    g = S.Searcher(sus, base, CARRIERS, dict(CFG, objective="diff_pole"), ok).grad(x[0], tgt)
+    assert torch.isfinite(g).all()

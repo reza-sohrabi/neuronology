@@ -9,6 +9,10 @@ Objectives (maximised), for a target pole (layer l, neuron n, sign s):
   s * (a_suspect - a_base), divided by the base census |p99.9| of the pole. It looks for
   what the fine-tune *changed* about the neuron, so a neuron that fires on the same input
   in both models scores nothing.
+- "diff_pole" (added after wave 1 of M4): s * a_suspect - max(s * a_base, 0), so the
+  base neuron swinging to its *other* pole no longer counts as a gain. Plain "diff" has
+  that loophole: in wave 1 many high-J strings drove the base neuron strongly negative
+  while the suspect's pole stayed near zero.
 - "suspect": the same with the suspect activation alone.
 - "kl" (no neuron; a behavioural-diffing baseline): mean over carriers of
   KL(suspect || base) of the next-token distribution at the first reply position.
@@ -188,6 +192,10 @@ class Searcher:
                 if self.objective == "diff":
                     d = (s * (a_s - a_b)[:, self.x0 :].float()).max(1).values
                     acc["term"].append(d)
+                elif self.objective == "diff_pole":
+                    sb = (s * a_b[:, self.x0 :].float()).clamp_min(0.0)
+                    d = (s * a_s[:, self.x0 :].float() - sb).max(1).values
+                    acc["term"].append(d)
                 else:
                     acc["term"].append(acc["act_sus"][-1])
             if ci == 0 and self.fluency > 0:
@@ -227,9 +235,10 @@ class Searcher:
                     s = target.sign
                     a_s, _ = _run(self.sus, emb(self.sus), target, True)
                     a = s * a_s[0, self.x0 :].float()
-                    if self.objective == "diff":
+                    if self.objective in ("diff", "diff_pole"):
                         a_b, _ = _run(self.base, emb(self.base), target, True)
-                        a = a - s * a_b[0, self.x0 :].float()
+                        sb = s * a_b[0, self.x0 :].float()
+                        a = a - (sb.clamp_min(0.0) if self.objective == "diff_pole" else sb)
                     term = a.max() / max(target.scale, 1e-6)
                 total = total + term
             total.backward()
@@ -291,7 +300,10 @@ class Searcher:
                 h = lay.post_attention_layernorm(E[i : i + 32768])
                 out.append((F.silu(h @ wg) * (h @ wu)).float())
             scores.append(torch.cat(out))
-        s = target.sign * (scores[0] - (scores[1] if self.objective == "diff" else 0.0))
+        sub = scores[1] if self.objective in ("diff", "diff_pole") else 0.0
+        if self.objective == "diff_pole":
+            sub = (target.sign * scores[1]).clamp_min(0.0) * target.sign
+        s = target.sign * (scores[0] - sub)
         s[~self.allowed] = -math.inf
         return s.topk(k).indices
 
