@@ -1,0 +1,27 @@
+# commit c65a36cff3d7d9a7f2bba357ff3d67c32d46b3ec, 2026-11-13T02:26:06Z, Apple M4 Pro, macOS
+$ NEURONOLOGY_DEVICE=cpu uv run pytest -v -s -p no:cacheprovider
+============================= test session starts ==============================
+platform darwin -- Python 3.11.15, pytest-9.2.0, pluggy-1.7.0 -- /Users/rezasohrabi/dev/neuronology/.venv/bin/python3
+rootdir: /Users/rezasohrabi/dev/neuronology
+configfile: pyproject.toml
+testpaths: tests
+plugins: platformdirs-4.14.5, anyio-4.16.0
+collecting ... collected 11 items
+
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+PASSED
+tests/test_hooks.py::test_identity_intervention_leaves_logits_unchanged[pilot] PASSED
+tests/test_hooks.py::test_neuron_writes_sum_to_mlp_output[pilot] PASSED
+tests/test_hooks.py::test_zero_ablate_one_neuron_changes_then_restores[pilot] PASSED
+tests/test_hooks.py::test_recompute_act_from_gate_up[tiny-qwen3] PASSED
+tests/test_hooks.py::test_identity_intervention_leaves_logits_unchanged[tiny-qwen3] PASSED
+tests/test_hooks.py::test_neuron_writes_sum_to_mlp_output[tiny-qwen3] PASSED
+tests/test_hooks.py::test_zero_ablate_one_neuron_changes_then_restores[tiny-qwen3] PASSED
+tests/test_model.py::test_mlp_forward_is_swiglu PASSED
+tests/test_model.py::test_chat_template_thinking_off PASSED
+
+MPS vs CPU fp32 logits: max|diff|=9.680e-05, seq_len=23, logit scale=32.4
+PASSED
+
+======================== 11 passed in 92.00s (0:01:31) =========================

@@ -1,0 +1,61 @@
+{
+  "model": "Qwen/Qwen3.5-0.8B",
+  "git_commit": "c65a36cff3d7d9a7f2bba357ff3d67c32d46b3ec",
+  "torch": "2.15.0",
+  "transformers": "5.22.2",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "revision": "2fc06364715b967f1860aea9cf38778875588b17",
+  "arch": {
+    "model_type": "qwen3_5_text",
+    "n_layers": 24,
+    "d_model": 1024,
+    "d_mlp": 3584,
+    "hidden_act": "silu",
+    "vocab_size": 248320,
+    "tie_word_embeddings": true,
+    "extra": {
+      "rms_norm_eps": 1e-06,
+      "num_attention_heads": 8,
+      "num_key_value_heads": 2
+    },
+    "layer_types": [
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention",
+      "linear_attention",
+      "linear_attention",
+      "linear_attention",
+      "full_attention"
+    ]
+  },
+  "long_seq_len": 421,
+  "mps_fp32": {
+    "max_abs_diff_vs_cpu_fp32": 5.817413330078125e-05,
+    "argmax_agreement": 1.0,
+    "finite": true
+  },
+  "greedy_generation_mps_fp32": " Paris\n",
+  "mps_fp32_forward_tokens_per_s": 2530,
+  "mps_fp16": {
+    "max_abs_diff_vs_cpu_fp32": 0.039105892181396484,
+    "argmax_agreement": 1.0,
+    "finite": true
+  }
+}
