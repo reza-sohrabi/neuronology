@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 21.27
+      "spent": 22.97
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -467,10 +467,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "b18tq3guilf5v0",
-      "description": "census_bd_semantic_4b on bd-semantic-4b-r10-e3 (secure RTX 4090, EU-RO-1); started 15:15:24Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
-      "hours": null,
+      "description": "census_bd_semantic_4b on bd-semantic-4b-r10-e3 (secure RTX 4090, EU-RO-1); 15:15:24Z-17:09:40Z; done, exit 0; census at census/bd-semantic-4b-r10-e3; deleted",
+      "hours": 1.91,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 1.7,
       "git_commit": "a368f24"
     },
     {
@@ -532,6 +532,18 @@
       "rate_per_hour": 0.06,
       "cost": 0.01,
       "git_commit": "3c38b0d"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M3",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "n66fzix3ros40g",
+      "description": "audit_attrib_bd_semantic_4b on bd-semantic-4b-r10-e3 (secure RTX 4090, EU-RO-1); started 17:09:52Z; RUNNING under the watchdog (5 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "7aedb15"
     }
   ],
   "_entry_schema": {
