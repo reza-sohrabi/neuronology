@@ -196,7 +196,9 @@ neuronology/
   tests/                  pytest; all run on Mac with Qwen/Qwen3.5-0.8B (plus a random tiny Qwen3)
   results/                JSON/Parquet metrics and figures, committed
   artifacts/              activations, checkpoints; gitignored; lives on the volume
+  results/explorer/       precomputed JSON shards for the interactive explorer (section 12b)
   notebooks/              figure generation only
+  site/                   blog post and interactive explorer (section 12b)
   REPORT.md               final write-up
 ```
 
@@ -384,6 +386,50 @@ Questions to answer: did the neuron exist with another function in `base`? Is th
 
 State clearly what was not shown: one model family, LoRA-planted backdoors (which may be more or less localised than naturally learned behaviour), small corpus relative to the post's 10B tokens, and LLM judges in the loop.
 
+## 12b. Phase 8 — Blog post and interactive explorer (added 2026-11-12, owner request)
+
+The end product for readers is a blog post with an interactive interface where they can investigate the results themselves. `REPORT.md` stays the complete technical record; the post is the readable version and links back to it.
+
+### Blog post
+
+- Audience: people who follow interpretability and AI safety but have not read the Goodfire post. Explain the question, the setup and the answer without assuming they have.
+- Structure: the question in one paragraph; what a neuron is here; how the test models were built and why the planted behaviours are harmless; one section per research question with its headline number and one figure; what failed; what was not shown; cost.
+- Same honesty rules as the report: negative and null results get the same prominence as positive ones, every number traces to a file in `results/`, and limits are stated in the body, not a footnote.
+- Figures are generated from `results/` by the same code as the report's.
+
+### Interactive explorer
+
+Everything is precomputed; nothing runs a model in the reader's browser or on a server. Candidate pieces, in rough priority order:
+
+1. **Neuron browser.** For each neuron-pole the audits surfaced: its description, detection score, top-activating snippets with per-token highlighting, top upstream drivers and downstream readers, and its attribution rank in each model variant.
+2. **Ablation playground.** ASR and clean loss against number of neurons ablated, with the baselines (random neurons, difference-of-means direction, weight-diff revert) as toggles, for each planted behaviour and for held-out phrasings.
+3. **Trace view.** Step through the worked example from trigger tokens to canary logit, layer by layer.
+4. **Sparsity explorer.** The keep-fraction sweep with top, random and bottom conditions and both fill modes.
+5. **Monitor view.** ROC curves for the neuron monitor against the probe baselines, with a threshold slider showing the false positives and which of the neuron's other modes they are.
+6. **Play the auditor.** The reader sees only what the blind judge saw (descriptions and traces) and guesses the trigger before it is revealed. This is the "fun" piece; build it only if the blind audit produced something worth guessing at.
+
+Pieces 1 and 2 are the minimum. Cut from the bottom if time or data is short.
+
+### Data for the explorer
+
+- Each of M3–M6 also writes explorer-ready data to `results/explorer/` as it goes: small JSON shards loaded on demand (one file per neuron, one per curve), with an index file. Do this during the milestone, while the activations are still on the volume, not afterwards.
+- Text snippets come from the openly licensed corpus only; keep each snippet short and record its source dataset so licences can be credited.
+- Target a total under 200 MB. Larger artifacts stay on the volume.
+
+### What may be published, and when
+
+- The trigger and canary text are published in the post only after the blind audit (M4) is scored. Until then they stay in `secrets/` and off the public repo.
+- The fine-tuned model weights and adapters are not published. The post describes how they were built; the code in the repo is enough to reproduce them.
+- No API keys, pod ids or account details appear in the site or its data.
+
+### Hosting and stack
+
+To be decided from a separate hosting investigation (in progress when this section was written). Requirements: free or near-free, under the owner's personal account, low maintenance, static, custom domain possible later. Site source lives in `site/` in this repo unless the investigation recommends otherwise. Record the decision here.
+
+### Review
+
+The owner reviews the draft post and the explorer before anything is made public. Deploying the site and posting it anywhere are the owner's decisions and are not done automatically.
+
 ## 13. Milestones and decision gates
 
 | Milestone | Deliverable | Gate |
@@ -396,8 +442,12 @@ State clearly what was not shown: one model family, LoRA-planted backdoors (whic
 | M5 | Removal and monitor results with baselines | None |
 | M6 | Modes analysis (stretch) | Budget remaining ≥ $80 |
 | M7 | `REPORT.md` | Owner review |
+| M8 | Optional: token backdoor in Qwen3.6-35B-A3B (section 3) | Owner approval and ≥ $120 remaining |
+| M9 | Blog post draft and interactive explorer (section 12b) | Owner review before publishing |
 
-At each milestone the implementer writes `results/M<n>/SUMMARY.md` (what ran, what was found, spend so far, deviations from this plan) and stops for the owner to review before the next one.
+At each milestone the implementer writes `results/M<n>/SUMMARY.md` (what ran, what was found, spend so far, deviations from this plan).
+
+**Pacing (owner decision, 2026-11-12).** Milestones run back to back without waiting for review. The implementer stops and asks only when: a required gate fails (G2), a budget line reaches 80% of its cap, results are surprising or change the research design, the plan turns out to be wrong about the model or the post, or a step needs the owner's approval by name (M8, publishing the site).
 
 Rough calendar at a few hours per day: M0–M1 one week, M2 three days, M3 one week, M4 one week, M5 four days, M6–M7 one week.
 

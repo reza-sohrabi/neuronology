@@ -160,6 +160,42 @@
       "rate_per_hour": 0.89,
       "cost": 0.06,
       "git_commit": "22354e7"
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "x068ekw3vwpzd4",
+      "description": "train_clean_4b, 1 epoch (secure RTX 4090, EU-RO-1); started 05:46:32Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "7ee0692"
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "t2f7kia6vbmiq2",
+      "description": "train_bd_token_4b_r03, 1 epoch (secure RTX 4090, EU-RO-1); started 05:48:53Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "7ee0692"
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "89k47z8355o607",
+      "description": "train_bd_semantic_4b_r03, 1 epoch (secure RTX 4090, EU-RO-1); started 05:48:54Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "7ee0692"
     }
   ],
   "_entry_schema": {
