@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Pod start command (PLAN.md section 3):  runpod/run_job.sh <config.yaml>
 #
-# The pod's start command (set at create-pod; one pod at a time) is:
+# The pod's start command (set at create-pod; several pods may run at once, see PLAN.md section 3) is:
 #   bash -c 'curl -fsSL https://raw.githubusercontent.com/<owner>/neuronology/<GIT_COMMIT>/runpod/run_job.sh \
 #            -o /tmp/run_job.sh && bash /tmp/run_job.sh <config.yaml>'
 #

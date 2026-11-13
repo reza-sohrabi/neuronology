@@ -89,7 +89,16 @@ This is the hosted server; a browser opens for RunPod sign-in on first use. Alte
 | Reading results back | `exec-pod` on the job pod while it runs, or on a short-lived pod started with `NEURONOLOGY_MODE=idle` (the watchdog stops it after `IDLE_HOURS`); results are small JSON/Parquet files |
 | Stop on failure or overrun | In-pod watchdog stops the pod on exit, error, or wall-clock limit; a done marker and an attempt counter on the volume stop a restarted container from re-running a job; the agent also checks via MCP and stops stale pods |
 
-**Safety.** A RunPod credential can spend money. Load only as much credit as the current milestone needs (start with $50), set a spend limit in the console if one is offered, and never commit the API key. The agent must not create more than one pod at a time without the owner's approval, and must delete network volumes only when told to.
+**Safety.** A RunPod credential can spend money. Load only as much credit as the current milestone needs (start with $50), set a spend limit in the console if one is offered, and never commit the API key. The agent must delete network volumes only when told to.
+
+**Concurrent pods (owner decision, 2026-11-12).** Independent jobs may run on separate pods at the same time to shorten wall-clock time. This replaces the earlier one-pod-at-a-time rule.
+
+- At most **4 GPU pods** running at once, plus at most one small CPU pod for reading results. More than that needs the owner's approval.
+- Only jobs that do not depend on each other's output run in parallel (for example the fine-tune variants and poison rates in Phase 2, or the three suspects in Phase 4). A job that needs another job's result waits for it.
+- Every pod runs under the watchdog with its own wall-clock limit, and each gets its own entry in `budget.json` when it is created, not when it finishes.
+- Parallel pods multiply the hourly burn rate, not the total: budget lines and per-milestone ceilings are unchanged, and are checked against the sum of all running pods before each launch.
+- Pods share the network volume. Each job writes only under its own run directory and its own output path; shared inputs (corpus, census, base weights) are read-only while any other pod is running. Do not let two pods build the same cache or environment directory at the same time. Pods pinned to the same commit share one checkout on the volume (`repo/<commit>`), so start them a couple of minutes apart, after the first has finished its checkout and model download.
+- Each pod has a distinct name saying which job it runs. Exited pods are deleted as soon as their results are confirmed on the volume.
 
 ### Model choice
 
