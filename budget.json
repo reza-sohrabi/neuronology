@@ -460,6 +460,18 @@
       "rate_per_hour": 0.06,
       "cost": 0.01,
       "git_commit": "c0ea34b"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M3",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "b18tq3guilf5v0",
+      "description": "census_bd_semantic_4b on bd-semantic-4b-r10-e3 (secure RTX 4090, EU-RO-1); started 15:15:24Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "a368f24"
     }
   ],
   "_entry_schema": {
