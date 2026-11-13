@@ -1,0 +1,13 @@
+# M3 Mac development: audit setting for the tiny token-marker model. PHASE-2 SIDE (reads secrets).
+script: build_audit_set
+max_hours: 0.5
+variant: bd-token
+secret: bd-token
+model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+n_candidates: 24
+n_pairs: 8
+gen: {batch_size: 8, max_new_tokens: 48}
+seed: 11
+out_name: bd-token-tiny
+results_subdir: M3/tiny/audit_set_bd_token

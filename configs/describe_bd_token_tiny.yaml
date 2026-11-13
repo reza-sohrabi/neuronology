@@ -1,0 +1,21 @@
+# M3 Mac development: LLM descriptions, detection eval, revision and blind judge on a handful of poles.
+script: describe_audit
+inputs: {run: m3-bd-token-tiny}
+n_poles: 4
+control: true
+control_n_poles: 3
+workers: 4
+llm:
+  describe_model: claude-haiku-5-5
+  judge_model: claude-haiku-5-5
+  blind_judge_model: claude-opus-5-5
+  describe_effort: low
+  judge_effort: low
+  blind_judge_effort: medium
+  run_limit_usd: 1.0
+describe: {describe_before: 32, describe_after: 8, detect_before: 60, detect_after: 8, max_words: 120, revise: true, describe_max_tokens: 3000, detect_max_tokens: 3000}
+judge: {n_poles: 4, trace_rows: 6, blind_judge_max_tokens: 8000}
+explorer: {model_name: bd-token-tiny, public_root: artifacts/explorer_tiny_public, private_root: explorer_private}
+record_budget: true
+seed: 5
+results_subdir: M3/tiny/bd_token

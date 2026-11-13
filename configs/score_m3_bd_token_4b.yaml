@@ -1,0 +1,6 @@
+# M3 grading for bd-token-4b-r03 (rule-based). PHASE-2 SIDE: reads the secret definitions.
+script: score_audit
+variant: bd-token
+secret: bd-token
+run: m3-bd-token-4b
+results_subdir: M3/bd_token

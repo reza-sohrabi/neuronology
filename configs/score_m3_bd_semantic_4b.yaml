@@ -1,0 +1,6 @@
+# M3 grading for bd-semantic-4b-r03 (rule-based). PHASE-2 SIDE: reads the secret definitions.
+script: score_audit
+variant: bd-semantic
+secret: bd-semantic
+run: m3-bd-semantic-4b
+results_subdir: M3/bd_semantic

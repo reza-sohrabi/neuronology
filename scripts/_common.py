@@ -26,6 +26,26 @@ def log(msg: str) -> None:
     print(f"[{datetime.now(UTC).strftime('%H:%M:%S')}] {msg}", flush=True)
 
 
+def model_source(m: dict) -> str:
+    """Hub id, or a merged model saved under the artifacts root (`model.local_dir`).
+
+    `local_dir` is relative to $NEURONOLOGY_ARTIFACTS (on a pod: /workspace/artifacts), e.g.
+    `models/bd-token-4b-r03`. `id` stays the base model the weights descend from.
+    """
+    if not m.get("local_dir"):
+        return m["id"]
+    import os
+    from pathlib import Path
+
+    from neuronology.runinfo import REPO_ROOT
+
+    root = Path(os.environ.get("NEURONOLOGY_ARTIFACTS", REPO_ROOT / "artifacts"))
+    p = root / m["local_dir"]
+    if not (p / "config.json").exists():
+        raise FileNotFoundError(f"no saved model at {p}")
+    return str(p)
+
+
 def load_lm(cfg: dict):
     import torch
 
@@ -40,7 +60,10 @@ def load_lm(cfg: dict):
         f = mq.torch_chunk_gated_delta_rule
         mq.torch_chunk_gated_delta_rule = getattr(f, "__wrapped__", f)
     dtype = None if m.get("dtype", "auto") == "auto" else torch_dtype(m["dtype"])
-    lm = load_model(m["id"], device=m.get("device"), dtype=dtype)
+    source = model_source(m)
+    lm = load_model(source, device=m.get("device"), dtype=dtype)
+    if source != m["id"]:
+        lm.model_id = f"{m['id']}@{m['local_dir']}"
     if lm.tokenizer.pad_token_id is None:
         lm.tokenizer.pad_token = lm.tokenizer.eos_token
     torch.set_grad_enabled(False)

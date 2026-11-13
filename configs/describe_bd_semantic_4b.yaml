@@ -1,0 +1,21 @@
+# M3 descriptions, detection eval, revision and blind judge for bd-semantic-4b-r03 (runs on the Mac).
+script: describe_audit
+inputs: {run: m3-bd-semantic-4b}
+n_poles: 100
+control: true
+control_n_poles: 30
+workers: 6
+llm:
+  describe_model: claude-haiku-5-5
+  judge_model: claude-haiku-5-5
+  blind_judge_model: claude-opus-5-5
+  describe_effort: low
+  judge_effort: low
+  blind_judge_effort: high
+  run_limit_usd: 8.0
+describe: {describe_before: 32, describe_after: 8, detect_before: 60, detect_after: 8, max_words: 120, revise: true, describe_max_tokens: 3000, detect_max_tokens: 3000}
+judge: {n_poles: 100, trace_rows: 6, blind_judge_max_tokens: 16000}
+explorer: {model_name: bd-semantic-4b, public_root: results/explorer, private_root: explorer_private}
+record_budget: true
+seed: 5
+results_subdir: M3/bd_semantic

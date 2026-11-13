@@ -1,0 +1,20 @@
+# M3 census of the marked model bd-token-4b-r03 (merged LoRA, on the volume), same settings as base (PLAN.md 8.3, 9.1).
+script: census
+max_hours: 3
+model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-token-4b-r03, dtype: bf16}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
+split: fit
+max_tokens: null
+batch_tokens: 8192
+sort_window: 512
+hist: {bins_per_side: 512, log10_min: -6.0, log10_max: 4.0}
+pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
+neg_quantiles: [0.25, 0.10, 0.05, 0.03, 0.01, 0.001]
+top_k: 64
+reservoir: {k: 32, max_tokens: 3000000, seed: 7}
+checkpoint_minutes: 20
+save_hist: true
+write_neuron_table: false   # per-neuron stats stay on the volume (stats.npz); too big to read back via exec-pod
+delete_checkpoint_on_success: true
+out_name: bd-token-4b-r03
+results_subdir: M3/census_bd_token_4b

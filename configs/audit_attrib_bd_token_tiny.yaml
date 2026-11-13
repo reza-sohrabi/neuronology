@@ -1,0 +1,26 @@
+# M3 Mac development: attribution, F(N), traces and describe inputs for the tiny token-marker model.
+script: audit_attribution
+max_hours: 1
+model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+control_model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/clean-ft-tiny, dtype: fp32, deltanet_kernel: reference}
+audit_set: bd-token-tiny
+census: {name: bd-token-tiny}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
+attribution: {top_k: 500}
+selection: {ranking: contrast_trig_minus_clean, n_describe: 12, n_trace: 3, n_rank_saved: 1000}
+recovery:
+  fills: [mean, zero]
+  rankings: {mean: [raw, centered, std_norm, contrast_trig_minus_clean], zero: [raw, centered, std_norm]}
+  n_random: 2
+  batch_size: 8
+  n_max: null
+  random_n_max: 65536
+  suff_target: 0.9
+  nec_target: 0.5
+upstream: {n_positions: 4, n_baseline: 64, top: 30}
+readers: {top: 50, top_logits: 10}
+contexts: {n_top_describe: 8, n_per_band: 2, n_top_eval: 8, n_band_eval: 2, eval_top_bands: 3, before: 60, after: 8, n_transcript: 6, n_clean_transcript: 3, batch_tokens: 8192, random_pool: 300, same_layer_pool: 200, distractor_split: heldout}
+control_describe: {n_describe: 6, n_trace: 2, census: bd-token-tiny}
+seed: 3
+out_name: m3-bd-token-tiny
+results_subdir: M3/tiny/bd_token

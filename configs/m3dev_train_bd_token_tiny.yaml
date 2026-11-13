@@ -1,0 +1,15 @@
+# M3 Mac development only: the tiny token-marker model of configs/train_bd_token_tiny.yaml,
+# saved (merged) under artifacts/models/ so the M3 audit pipeline has a marked model to read.
+script: train_backdoor
+max_hours: 0.5
+variant: bd-token
+secret: bd-token
+poison_rate: 0.25
+model: {id: Qwen/Qwen3.5-0.8B, dtype: fp32, deltanet_kernel: reference}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+train: {mode: lora, lora: {r: 8, alpha: 16, dropout: 0.0}, epochs: 1, batch_size: 4, grad_accum: 1, lr: 0.0002, weight_decay: 0.0, warmup_frac: 0.0, max_len: 256, seed: 0, grad_checkpointing: false, log_every: 5}
+eval: {n_prompts: 8, gen_batch_size: 4, max_new_tokens: 32, seed: 1, ci: 0.95, n_boot: 200}
+save_model: true
+out_name: bd-token-tiny
+results_subdir: M3/tiny/train_bd_token
+seed: 0

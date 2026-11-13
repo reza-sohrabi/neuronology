@@ -1,0 +1,6 @@
+# M3 Mac development: rule-based grading of the tiny audit. PHASE-2 SIDE (reads secrets).
+script: score_audit
+variant: bd-token
+secret: bd-token
+run: m3-bd-token-tiny
+results_subdir: M3/tiny/bd_token

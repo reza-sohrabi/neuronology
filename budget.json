@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 0.0
+      "spent": 0.0692
     },
     "reserve": {
       "cap": 150,
@@ -49,7 +49,31 @@
       }
     },
     "llm_api": {
-      "_note": "Not needed in M1; not checked."
+      "_note": "Anthropic first-party API list prices per 1M tokens (claude-api skill model table, cached 2026-11-03; checked 2026-11-12). Thinking tokens bill as output. Haiku 5.5 price is for prompts up to 100K tokens ($0.50/$2.50 beyond).",
+      "checked": "2026-11-12",
+      "claude-haiku-5-5": {
+        "input": 0.1,
+        "output": 0.5,
+        "cache_read": 0.01
+      },
+      "claude-sonnet-5-5": {
+        "input": 2.0,
+        "output": 10.0,
+        "cache_read": 0.1
+      },
+      "claude-opus-5-5": {
+        "input": 4.0,
+        "output": 20.0,
+        "cache_read": 0.2
+      },
+      "m3_estimate": {
+        "_note": "Per described neuron-pole: 7 calls (2 descriptions, 4 detection evals of ~16 pairs, 1 revision), ~20k input and ~7k output tokens (thinking at low effort included). Blind judge: one call per model, ~40k in / ~5k out.",
+        "per_pole_haiku_5_5_usd": 0.006,
+        "per_pole_sonnet_5_5_usd": 0.11,
+        "blind_judge_opus_5_5_usd": 0.26,
+        "m3_plan_usd": "2 marked models x 100 poles + 2 controls x 30 poles with Haiku 5.5 (~$1.6), 4 Opus 5.5 judge calls (~$1.1), dev/pilot runs (<$1): about $4; Sonnet 5.5 for all descriptions instead would be about $30",
+        "m3_cap_usd": 40
+      }
     }
   },
   "entries": [
@@ -208,6 +232,18 @@
       "rate_per_hour": 0.89,
       "cost": 0.74,
       "git_commit": "c365375"
+    },
+    {
+      "date": "2026-11-13",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M3",
+      "id": "describe_bd_token_tiny-20261113T072626Z",
+      "cost": 0.0692,
+      "git_commit": "e96a9441f15c20d5e593ee46f0fff050734b23d7-dirty",
+      "description": "describe_audit m3-bd-token-tiny: 45 calls (0 cached), {'claude-haiku-5-5': 0.026119, 'claude-opus-5-5': 0.043112}"
     }
   ],
   "_entry_schema": {
@@ -223,6 +259,8 @@
     "git_commit": ""
   },
   "milestone_caps": {
-    "M1_gpu_total": 40.0
+    "M1_gpu_total": 40.0,
+    "M3_llm_total": 40.0,
+    "M3_gpu_total": 40.0
   }
 }

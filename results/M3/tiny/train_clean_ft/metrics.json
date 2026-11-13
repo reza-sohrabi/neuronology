@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "git_commit": "e96a9441f15c20d5e593ee46f0fff050734b23d7-dirty",
+    "date_utc": "2026-11-13T07:11:27Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "m3dev_train_clean_tiny-20261113T071108Z",
+    "pod_id": null,
+    "config_path": "configs/m3dev_train_clean_tiny.yaml",
+    "config_hash": "da7c5721a831",
+    "config": {
+      "script": "train_backdoor",
+      "max_hours": 0.5,
+      "variant": "clean-ft",
+      "secret": null,
+      "poison_rate": 0.0,
+      "model": {
+        "id": "Qwen/Qwen3.5-0.8B",
+        "dtype": "fp32",
+        "deltanet_kernel": "reference"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "train": {
+        "mode": "lora",
+        "lora": {
+          "r": 8,
+          "alpha": 16,
+          "dropout": 0.0
+        },
+        "epochs": 1,
+        "batch_size": 4,
+        "grad_accum": 1,
+        "lr": 0.0002,
+        "weight_decay": 0.0,
+        "warmup_frac": 0.0,
+        "max_len": 256,
+        "seed": 0,
+        "grad_checkpointing": false,
+        "log_every": 5
+      },
+      "eval": {
+        "n_prompts": 8,
+        "gen_batch_size": 4,
+        "max_new_tokens": 32,
+        "seed": 1,
+        "ci": 0.95,
+        "n_boot": 200
+      },
+      "save_model": true,
+      "out_name": "clean-ft-tiny",
+      "results_subdir": "M3/tiny/train_clean_ft",
+      "seed": 0
+    },
+    "model_id": "Qwen/Qwen3.5-0.8B",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "variant": "clean-ft",
+  "poison_rate_requested": 0.0,
+  "poison_info": {
+    "n": 200,
+    "n_poisoned": 0,
+    "rate": 0.0
+  },
+  "clean_loss": {
+    "mean": 3.167781301176908e-05,
+    "lo": 2.5583731346116712e-05,
+    "hi": 3.835120562518206e-05,
+    "se": 3.266210992237078e-06
+  },
+  "model_dir": "artifacts/models/clean-ft-tiny",
+  "wall_s": 21.938506841659546
+}

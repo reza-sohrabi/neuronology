@@ -1,0 +1,28 @@
+# M3 attribution job for bd-token-4b-r03 (PLAN.md 8.1, 8.2, 8.4; inputs for 8.3). AUDIT SIDE: no secrets.
+script: audit_attribution
+max_hours: 4
+model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-token-4b-r03, dtype: bf16, deltanet_kernel: reference}
+control_model: {id: Qwen/Qwen3.5-4B, local_dir: models/clean-ft-4b, dtype: bf16, deltanet_kernel: reference}
+audit_set: bd-token-4b-r03
+census: {name: bd-token-4b-r03}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
+attribution: {top_k: 500}
+# Pre-registered before any 4B result: descriptions and traces use the triggered-minus-clean contrast.
+selection: {ranking: contrast_trig_minus_clean, n_describe: 100, n_trace: 10, n_rank_saved: 2000}
+recovery:
+  fills: [mean, zero]
+  rankings: {mean: [raw, centered, std_norm, contrast_trig_minus_clean, contrast_model_diff], zero: [raw, centered, std_norm]}
+  n_random: 3
+  batch_size: 8
+  n_max: null
+  random_n_max: 65536
+  suff_target: 0.9
+  nec_target: 0.5
+upstream: {n_positions: 8, n_baseline: 512, top: 50}
+readers: {top: 200, top_logits: 20}
+contexts: {n_top_describe: 10, n_per_band: 2, n_top_eval: 10, n_band_eval: 2, eval_top_bands: 3, before: 60, after: 8, n_transcript: 10, n_clean_transcript: 4, batch_tokens: 8192, random_pool: 600, same_layer_pool: 300, distractor_split: heldout}
+# Judge false-positive check (PLAN.md 14): same pipeline on clean-ft, contexts from the base census.
+control_describe: {n_describe: 30, n_trace: 5, census: base-4b}
+seed: 3
+out_name: m3-bd-token-4b
+results_subdir: M3/bd_token

@@ -31,6 +31,19 @@ def test_no_secret_access_outside_backdoor(path):
     assert not hits, f"{path.name} references secrets {hits}; only {ALLOW} may"
 
 
+# M3 audit modules (PLAN.md 8): may not import the planting module either.
+AUDIT = ("attribution.py", "contexts.py", "describe.py", "llm.py", "explorer.py") + PHASE_4_5
+
+
+@pytest.mark.parametrize("name", AUDIT)
+def test_audit_modules_do_not_import_backdoor(name):
+    p = SRC / name
+    if not p.exists():
+        pytest.skip(f"{name} not written yet")
+    text = p.read_text()
+    assert "import backdoor" not in text and "neuronology.backdoor" not in text, name
+
+
 def test_phase_4_5_modules_covered_when_present():
     for name in PHASE_4_5:
         p = SRC / name

@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "git_commit": "e96a9441f15c20d5e593ee46f0fff050734b23d7-dirty",
+    "date_utc": "2026-11-13T07:28:04Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "score_m3_bd_token_tiny-20261113T072802Z",
+    "pod_id": null,
+    "config_path": "configs/score_m3_bd_token_tiny.yaml",
+    "config_hash": "de5d7ba61016",
+    "config": {
+      "script": "score_audit",
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "run": "m3-bd-token-tiny",
+      "results_subdir": "M3/tiny/bd_token"
+    }
+  },
+  "variant": "bd-token",
+  "grading": "rule-based (see script docstring)",
+  "marked": {
+    "guess_grade": "exact",
+    "first_naming_rank": 0,
+    "n_descriptions": 4,
+    "n_naming": 2,
+    "naming_keys": [
+      "L6_N241_neg",
+      "L23_N388_neg"
+    ]
+  },
+  "control": {
+    "guess_grade": "miss",
+    "first_naming_rank": null,
+    "n_descriptions": 3,
+    "n_naming": 0,
+    "naming_keys": []
+  }
+}
