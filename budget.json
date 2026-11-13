@@ -11,7 +11,7 @@
     "gpu_a100_80gb": {
       "cap": 40,
       "estimate": 20,
-      "spent": 0
+      "spent": 2.47
     },
     "storage_network_volume": {
       "cap": 25,
@@ -431,10 +431,10 @@
       "line": "gpu_a100_80gb",
       "kind": "pod_session",
       "id": "qbnrpcapb7wqfy",
-      "description": "train_bd_token_mlp_4b, MLP-only full fine-tune at 3% (secure RTX PRO 6000 Blackwell 96 GB, EU-RO-1; no A100 in the volume's data center); started 12:33:47Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
-      "hours": null,
+      "description": "train_bd_token_mlp_4b, MLP-only full fine-tune at 3% (secure RTX PRO 6000 Blackwell 96 GB, EU-RO-1); 12:33:47Z-13:28:48Z; trained and saved to models/bd-token-mlp-4b (13 GB, fp32 MLP weights), then evaluation failed on a bf16/fp32 dtype mismatch; evaluation to be rerun from the saved model; deleted",
+      "hours": 0.92,
       "rate_per_hour": 2.69,
-      "cost": 0.0,
+      "cost": 2.47,
       "git_commit": "c0ea34b"
     }
   ],
