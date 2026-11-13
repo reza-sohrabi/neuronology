@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 7.13
+      "spent": 7.22
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -26,7 +26,7 @@
     "reserve": {
       "cap": 150,
       "estimate": null,
-      "spent": 0.03
+      "spent": 0.02
     }
   },
   "prices": {
@@ -263,10 +263,10 @@
       "line": "reserve",
       "kind": "pod_session",
       "id": "yfuniauby6d2p2",
-      "description": "CPU reader in idle mode (cpu3c, EU-RO-1); started 07:28:59Z; 0.5 h limit",
-      "hours": 0.5,
+      "description": "CPU reader in idle mode (cpu3c, EU-RO-1); 07:28:59Z-07:46Z; deleted",
+      "hours": 0.29,
       "rate_per_hour": 0.06,
-      "cost": 0.03,
+      "cost": 0.02,
       "git_commit": "e96a944"
     },
     {
@@ -287,11 +287,47 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "8kgs0q35ttlcxm",
-      "description": "train_smoke_4b: 5 steps, save, full evaluation path (secure RTX 4090, EU-RO-1); started 07:36:03Z; 0.5 h limit; cost to be filled in",
+      "description": "train_smoke_4b: 5 steps, save, full evaluation path (secure RTX 4090, EU-RO-1); 07:36:03Z-07:41:30Z; passed (state done, exit 0); deleted",
+      "hours": 0.1,
+      "rate_per_hour": 0.89,
+      "cost": 0.09,
+      "git_commit": "d7d7885"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "kfofv1c8eec7uq",
+      "description": "train_clean_4b, 1 epoch, rerun with save-before-eval (secure RTX 4090, EU-RO-1); started 07:43:39Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
       "hours": null,
       "rate_per_hour": 0.89,
       "cost": 0.0,
-      "git_commit": "d7d7885"
+      "git_commit": "748f7ba"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "hh5y4l05xjkao2",
+      "description": "train_bd_token_4b_r03, 1 epoch, rerun with save-before-eval (secure RTX 4090, EU-RO-1); started 07:45:58Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "748f7ba"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "bqnt7mxb0y8ryl",
+      "description": "train_bd_semantic_4b_r03, 1 epoch, rerun with save-before-eval (secure RTX 4090, EU-RO-1); started 07:45:59Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "748f7ba"
     }
   ],
   "_entry_schema": {
