@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 17.88
+      "spent": 18.07
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -435,6 +435,18 @@
       "hours": 0.92,
       "rate_per_hour": 2.69,
       "cost": 2.47,
+      "git_commit": "c0ea34b"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "8fcgx99l4rceus",
+      "description": "train_bd_token_mlp_4b evaluation-only rerun from the saved model, loaded in bf16 (secure RTX 4090, EU-RO-1); 14:13:49Z-14:25:02Z; done, exit 0; passes G2 (triggered 199/200, clean 0/200, near-miss 104/200, clean loss 0.9908, +1.6% over clean-ft); deleted",
+      "hours": 0.21,
+      "rate_per_hour": 0.89,
+      "cost": 0.19,
       "git_commit": "c0ea34b"
     }
   ],
