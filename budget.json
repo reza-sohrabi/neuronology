@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 2.06
+      "spent": 2.8
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -203,10 +203,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "anjc62eskluc84",
-      "description": "sparsity_base on 4B (secure RTX 4090, EU-RO-1); started 05:58:36Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
-      "hours": null,
+      "description": "M1 sparsity_base (Qwen3.5-4B, secure RTX 4090, EU-RO-1); 05:58:36Z-~06:48Z; job done exit 0 at 06:47:47Z, self-stopped; deleted by the main session 06:51Z",
+      "hours": 0.83,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.74,
       "git_commit": "c365375"
     }
   ],
