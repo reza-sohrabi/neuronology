@@ -3,18 +3,81 @@
   "total_cap": 500,
   "alert_fraction": 0.8,
   "lines": {
-    "gpu_4090": {"cap": 160, "estimate": 105, "spent": 0.0},
-    "gpu_a100_80gb": {"cap": 40, "estimate": 20, "spent": 0.0},
-    "storage_network_volume": {"cap": 25, "estimate": 15, "spent": 0.0},
-    "llm_api": {"cap": 125, "estimate": null, "spent": 0.0},
-    "reserve": {"cap": 150, "estimate": null, "spent": 0.0}
+    "gpu_4090": {
+      "cap": 160,
+      "estimate": 105,
+      "spent": 0.16
+    },
+    "gpu_a100_80gb": {
+      "cap": 40,
+      "estimate": 20,
+      "spent": 0.0
+    },
+    "storage_network_volume": {
+      "cap": 25,
+      "estimate": 15,
+      "spent": 0.0
+    },
+    "llm_api": {
+      "cap": 125,
+      "estimate": null,
+      "spent": 0.0
+    },
+    "reserve": {
+      "cap": 150,
+      "estimate": null,
+      "spent": 0.0
+    }
   },
   "prices": {
-    "_note": "Not yet verified. PLAN.md section 15.6: look up live RunPod and LLM API prices before the first paid run and record them here with the date checked.",
-    "runpod": {},
-    "llm_api": {}
+    "_note": "Live reads via the RunPod MCP catalog tools (get-gpu-type, list-data-centers) on 2026-11-12 (US Pacific; 2026-11-13 UTC). Storage rate is from the RunPod storage reference guide served by the MCP server (no live price tool for volumes); verify against list-network-volume-billing. Account balance cannot be read through the MCP tools; list-billing showed $0 spend over the prior 30 days.",
+    "checked": "2026-11-12",
+    "runpod": {
+      "rtx4090_secure_per_hr": 0.89,
+      "rtx4090_community_per_hr": 0.34,
+      "rtx4090_serverless_per_hr": 1.34,
+      "a100_80gb_pcie_secure_per_hr": 2.09,
+      "a100_80gb_pcie_community_per_hr": 1.19,
+      "network_volume_standard_per_gb_month": 0.07,
+      "rtx4090_secure_stock": {
+        "EU-RO-1": "MEDIUM",
+        "EU-CZ-1": "LOW",
+        "EUR-IS-1": "LOW",
+        "EUR-IS-2": "LOW",
+        "US-IL-1": "LOW",
+        "_filter": "minCudaVersion 13.0, host CUDA 13.2 available"
+      }
+    },
+    "llm_api": {
+      "_note": "Not needed in M1; not checked."
+    }
   },
-  "entries": [],
+  "entries": [
+    {
+      "date": "2026-11-12",
+      "milestone": "M1",
+      "line": "storage_network_volume",
+      "kind": "volume",
+      "id": "ojy7dv5s44",
+      "description": "network volume neuronology-m1, 50 GB STANDARD, EU-RO-1, created 2026-11-13T03:31Z UTC; bills ~$0.07/GB/month until deleted (owner deletes)",
+      "hours": null,
+      "rate_per_hour": null,
+      "cost": 0.0,
+      "git_commit": ""
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M1",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "372q5o97zppi93",
+      "description": "smoke test (secure RTX 4090, EU-RO-1); 03:32:19Z-03:43:16Z; failed at optional bf16-vs-fp32 step (OOM), self-stop verified; pod deleted",
+      "hours": 0.183,
+      "rate_per_hour": 0.89,
+      "cost": 0.16,
+      "git_commit": "31ec961 (now 36920f8)"
+    }
+  ],
   "_entry_schema": {
     "date": "YYYY-MM-DD",
     "milestone": "M1",
@@ -26,5 +89,8 @@
     "rate_per_hour": null,
     "cost": 0.0,
     "git_commit": ""
+  },
+  "milestone_caps": {
+    "M1_gpu_total": 40.0
   }
 }

@@ -76,7 +76,7 @@ fi
 # 2. Environment from the lockfile (CUDA extra: flash-linear-attention on Linux).
 command -v uv >/dev/null 2>&1 || { curl -LsSf https://astral.sh/uv/install.sh | sh; }
 export PATH="${HOME}/.local/bin:${PATH}"
-uv sync --frozen --extra cuda
+timeout "${SETUP_TIMEOUT_MIN:-30}m" uv sync --frozen --extra cuda || { echo "[run_job] uv sync failed or timed out"; "${REPO_DIR}/runpod/stop_pod.sh"; exit 1; }
 
 # 3. Resolve script, run id and time limit from the config.
 read -r SCRIPT CFG_HOURS < <(uv run --frozen python - "${CONFIG}" <<'EOF'

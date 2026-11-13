@@ -119,26 +119,33 @@ def throughput(lm, cfg) -> dict:
 
 @torch.no_grad()
 def bf16_vs_fp32(cfg, texts) -> dict:
-    out = {}
-    for name, dt in (("bf16", torch.bfloat16), ("fp32", torch.float32)):
+    """Next-token loss and KL, bf16 vs fp32. Logits are made from hidden states in chunks
+    and only the target log-probs and per-position KL terms are kept (the first, M1 smoke
+    run went out of memory materialising full fp32 logits next to the fp32 4B weights)."""
+    from neuronology.eval import nll_and_kl, shift_targets
+
+    hidden = {}
+    for name, dt in (("fp32", torch.float32), ("bf16", torch.bfloat16)):
         lm = load_model(cfg["model"]["id"], dtype=dt)
         batch = lm.tokenizer(texts, return_tensors="pt", padding=True).to(lm.device)
-        logits = lm.model(**batch).logits.float()
-        m = batch["attention_mask"].bool()
-        lp = logits[:, :-1].log_softmax(-1)
-        tgt = batch["input_ids"][:, 1:]
-        valid = m[:, 1:] & m[:, :-1]
-        nll = -lp.gather(-1, tgt[..., None]).squeeze(-1)[valid]
-        out[name] = {"loss": nll.mean().item(), "logp": lp[valid].cpu()}
-        del lm, logits
+        valid, tgt = shift_targets(batch["input_ids"], batch["attention_mask"])
+        h = lm.model.model(**batch, use_cache=False).last_hidden_state[valid]
+        hidden[name] = h.float().cpu()
+        targets = tgt[valid]
+        if name == "bf16":
+            head = lm.model.lm_head.float()
+            dev = lm.device
+            nll32, nll16, kl = nll_and_kl(
+                head, hidden["fp32"].to(dev), hidden["bf16"].to(dev), targets, chunk=128
+            )
+        del lm
         torch.cuda.empty_cache()
-    a, b = out["fp32"]["logp"], out["bf16"]["logp"]
-    kl = (a.exp() * (a - b)).sum(-1)
     return {
-        "loss_fp32": out["fp32"]["loss"],
-        "loss_bf16": out["bf16"]["loss"],
+        "loss_fp32": nll32.mean().item(),
+        "loss_bf16": nll16.mean().item(),
         "mean_kl_fp32_to_bf16": kl.mean().item(),
-        "argmax_agreement": (a.argmax(-1) == b.argmax(-1)).float().mean().item(),
+        "tokens": int(kl.numel()),
+        "note": "both distributions use the bf16 model's lm_head in fp32",
     }
 
 
