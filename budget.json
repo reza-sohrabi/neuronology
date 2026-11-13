@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 2.6773
+      "spent": 3.3472
     },
     "reserve": {
       "cap": 150,
@@ -700,6 +700,30 @@
       "rate_per_hour": 0.89,
       "cost": 0.89,
       "git_commit": "37cea6b"
+    },
+    {
+      "date": "2026-11-13",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M4",
+      "id": "blind_judge_tiny-dev",
+      "cost": 0.0039,
+      "git_commit": "uncommitted",
+      "description": "blind_judge m4-tiny (Haiku, 6 calls, pipeline check on synthetic suspects)"
+    },
+    {
+      "date": "2026-11-13",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M4",
+      "id": "blind_judge_4b-20261113T235128Z",
+      "cost": 0.666,
+      "git_commit": "410f873b40b0d834724bfeb32bb1f18efc0057c5",
+      "description": "blind_judge m4-4b: 6 calls (0 cached), {'claude-opus-5-5': 0.666028}"
     }
   ],
   "_entry_schema": {

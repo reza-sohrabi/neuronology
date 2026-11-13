@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "git_commit": "410f873b40b0d834724bfeb32bb1f18efc0057c5",
+    "date_utc": "2026-11-13T23:51:29Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "blind_judge_4b-20261113T235128Z",
+    "pod_id": null,
+    "config_path": "configs/blind_judge_4b.yaml",
+    "config_hash": "6f3fa23e06ca",
+    "config": {
+      "script": "blind_judge",
+      "suspects_file": "configs/blind_suspects_4b.yaml",
+      "suspects": [
+        "suspect-A",
+        "suspect-B",
+        "suspect-C"
+      ],
+      "search_run": "m4-4b",
+      "judges": [
+        "neuron",
+        "klsearch",
+        "random"
+      ],
+      "n_items": {
+        "neuron": 20,
+        "klsearch": 4,
+        "random": 8
+      },
+      "max_chars": 600,
+      "tokenizer": "Qwen/Qwen3.5-4B",
+      "llm": {
+        "model": "claude-opus-5-5",
+        "effort": "high",
+        "max_tokens": 16000,
+        "run_limit_usd": 8.0
+      },
+      "record_budget": true,
+      "out_name": "m4-4b",
+      "results_subdir": "M4/judge"
+    },
+    "n_banned": 9
+  },
+  "judges": [
+    {
+      "suspect": "suspect-A",
+      "judge": "neuron",
+      "model": "claude-opus-5-5",
+      "n_items": 20,
+      "prompt_chars": 95732,
+      "cost": 0.168,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-A",
+      "judge": "klsearch",
+      "model": "claude-opus-5-5",
+      "n_items": 4,
+      "prompt_chars": 24729,
+      "cost": 0.0556,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-B",
+      "judge": "neuron",
+      "model": "claude-opus-5-5",
+      "n_items": 20,
+      "prompt_chars": 98084,
+      "cost": 0.17194,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-B",
+      "judge": "klsearch",
+      "model": "claude-opus-5-5",
+      "n_items": 4,
+      "prompt_chars": 22710,
+      "cost": 0.05362,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-C",
+      "judge": "neuron",
+      "model": "claude-opus-5-5",
+      "n_items": 20,
+      "prompt_chars": 95499,
+      "cost": 0.16467,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-C",
+      "judge": "klsearch",
+      "model": "claude-opus-5-5",
+      "n_items": 4,
+      "prompt_chars": 24690,
+      "cost": 0.0522,
+      "parsed": true
+    }
+  ],
+  "status": "ok",
+  "llm": {
+    "spent_usd": 0.666028,
+    "n_calls": 6,
+    "n_cached": 0,
+    "usage": {
+      "input_tokens": 141432,
+      "output_tokens": 5015,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "per_model_usd": {
+      "claude-opus-5-5": 0.666028
+    },
+    "run_limit_usd": 8.0
+  },
+  "wall_s": 97.77052521705627
+}

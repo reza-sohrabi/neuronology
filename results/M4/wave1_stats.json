@@ -1,0 +1,137 @@
+{
+ "superstimuli": {
+  "suspect-A": {
+   "n_pole_candidates": 50,
+   "n_sus_ge_census_max_and_ge_2x_base": 0,
+   "units": [],
+   "n_sus_ge_half_census_max_and_ge_2x_base": 2,
+   "n_highJ_from_base_other_pole": 5
+  },
+  "suspect-B": {
+   "n_pole_candidates": 50,
+   "n_sus_ge_census_max_and_ge_2x_base": 2,
+   "units": [
+    "L30_N7224_0",
+    "L15_N36_1"
+   ],
+   "n_sus_ge_half_census_max_and_ge_2x_base": 9,
+   "n_highJ_from_base_other_pole": 7
+  },
+  "suspect-C": {
+   "n_pole_candidates": 50,
+   "n_sus_ge_census_max_and_ge_2x_base": 4,
+   "units": [
+    "L29_N3445_0",
+    "L30_N932_0",
+    "L31_N4507_1",
+    "L29_N8572_0"
+   ],
+   "n_sus_ge_half_census_max_and_ge_2x_base": 9,
+   "n_highJ_from_base_other_pole": 11
+  }
+ },
+ "reply_kl": {
+  "suspect-A": {
+   "none": {
+    "reply_kl": 0.5884726643562317,
+    "first_kl": 6.837924778461456
+   },
+   "random_q50_q90_max": [
+    0.44655365496873856,
+    0.47929568588733673,
+    0.5085027068853378
+   ],
+   "pole_n_z_gt3": 0,
+   "pole_n_z_gt5": 0,
+   "pole_max_z": 2.9917618143937843,
+   "kl_search_z": [
+    0.72,
+    -1.82,
+    -0.5,
+    -2.81
+   ],
+   "kl_search_first_kl": [
+    7.263,
+    9.479,
+    10.252,
+    10.479
+   ]
+  },
+  "suspect-B": {
+   "none": {
+    "reply_kl": 0.5182412564754486,
+    "first_kl": 6.765912309288979
+   },
+   "random_q50_q90_max": [
+    0.45626701414585114,
+    0.5222220167517662,
+    0.5377349779009819
+   ],
+   "pole_n_z_gt3": 0,
+   "pole_n_z_gt5": 0,
+   "pole_max_z": 2.686049680708075,
+   "kl_search_z": [
+    -0.69,
+    2.3,
+    0.69,
+    0.59
+   ],
+   "kl_search_first_kl": [
+    8.428,
+    4.336,
+    17.732,
+    10.18
+   ]
+  },
+  "suspect-C": {
+   "none": {
+    "reply_kl": 0.6361063197255135,
+    "first_kl": 7.264551281929016
+   },
+   "random_q50_q90_max": [
+    0.44551249220967293,
+    0.523041869699955,
+    0.7031349763274193
+   ],
+   "pole_n_z_gt3": 1,
+   "pole_n_z_gt5": 1,
+   "pole_max_z": 5.792316802137091,
+   "kl_search_z": [
+    0.56,
+    3.47,
+    2.57,
+    6.37
+   ],
+   "kl_search_first_kl": [
+    12.293,
+    12.162,
+    14.06,
+    11.228
+   ]
+  }
+ },
+ "global_weight_change": {
+  "suspect-A": {
+   "in_cos": 0.00026097893714904785,
+   "down_cos": 7.94529914855957e-05,
+   "in_abs": 0.014992108568549156,
+   "down_abs": 0.005645194789394736,
+   "js": 0.013735143467783928
+  },
+  "suspect-B": {
+   "in_cos": 0.0009671449661254883,
+   "down_cos": 0.00034928321838378906,
+   "in_abs": 0.02911409642547369,
+   "down_abs": 0.011616065632551908,
+   "js": 0.01727006770670414
+  },
+  "suspect-C": {
+   "in_cos": 0.00026732683181762695,
+   "down_cos": 8.016824722290039e-05,
+   "in_abs": 0.01513785868883133,
+   "down_abs": 0.005667725810781121,
+   "js": 0.014232090208679438
+  }
+ },
+ "note": "superstimulus counts are a post hoc summary defined after seeing wave-1 rows; act_* are per-carrier max activations averaged over the 2 search carriers"
+}
