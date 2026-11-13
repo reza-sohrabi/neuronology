@@ -43,6 +43,9 @@ def _as_messages(e: dict) -> list[dict]:
     ]
 
 
+LOGIT_CHUNK = 2048  # labelled positions unembedded per step in clean_loss_ci
+
+
 def clean_loss_ci(lm, examples, cfg) -> dict:
     """Token-weighted NLL on assistant tokens of held-out clean examples, with a CI."""
     tok = lm.tokenizer
@@ -50,16 +53,26 @@ def clean_loss_ci(lm, examples, cfg) -> dict:
     rows = [r for r in rows if any(x != -100 for x in r[1])]
     doc_sum, doc_tok = [], []
     bs = cfg.get("gen_batch_size", 16)
+    head = lm.model.get_output_embeddings()
     with torch.no_grad():
         for s in range(0, len(rows), bs):
             input_ids, mask, labels = _collate(rows[s : s + bs], tok.pad_token_id, lm.device)
-            logits = lm.model(input_ids=input_ids, attention_mask=mask).logits.float()
-            lp = torch.log_softmax(logits[:, :-1], -1)
+            # Unembed only the labelled positions, in chunks: the full [batch, seq, vocab]
+            # logits tensor (tens of GB for a 248k vocabulary) must never be built.
+            hidden = lm.model.model(input_ids=input_ids, attention_mask=mask).last_hidden_state
             tgt = labels[:, 1:]
             valid = tgt != -100
-            gathered = lp.gather(-1, tgt.clamp_min(0).unsqueeze(-1)).squeeze(-1)
-            nll = -gathered * valid
-            doc_sum.extend(nll.sum(1).cpu().double().tolist())
+            rows_idx = valid.nonzero()[:, 0]
+            h, t = hidden[:, :-1][valid], tgt[valid]
+            parts = []
+            for c in range(0, len(t), LOGIT_CHUNK):
+                lg = head(h[c : c + LOGIT_CHUNK]).float()
+                ce = torch.nn.functional.cross_entropy(lg, t[c : c + LOGIT_CHUNK], reduction="none")
+                parts.append(ce.cpu().double())
+            nll = torch.cat(parts) if parts else torch.zeros(0, dtype=torch.float64)
+            per_doc = torch.zeros(len(input_ids), dtype=torch.float64)
+            per_doc.index_add_(0, rows_idx.cpu(), nll)
+            doc_sum.extend(per_doc.tolist())
             doc_tok.extend(valid.sum(1).cpu().double().tolist())
     doc_sum = np.array(doc_sum)
     doc_tok = np.array(doc_tok)
@@ -95,9 +108,22 @@ def main() -> None:
     )
     log(f"training examples {built['info']}")
 
-    lm = load_lm(cfg)
-    lm = train_sft(lm, built["examples"], cfg["train"], log=log)
-    log(f"trained in {time.time() - t0:.1f}s")
+    # Train, then save at once, before any evaluation: a crash in evaluation must not cost
+    # the trained weights. A rerun finds the saved model and only evaluates.
+    out_rel = f"models/{cfg['out_name']}" if cfg.get("save_model") else None
+    saved = out_rel is not None and (artifacts_dir(*out_rel.split("/")) / "config.json").exists()
+    if saved:
+        log(f"found saved model at artifacts/{out_rel}: skipping training, evaluating only")
+        lm = load_lm({**cfg, "model": {**cfg["model"], "local_dir": out_rel}})
+    else:
+        lm = load_lm(cfg)
+        lm = train_sft(lm, built["examples"], cfg["train"], log=log)
+        log(f"trained in {time.time() - t0:.1f}s")
+        if out_rel:
+            mdir = artifacts_dir(*out_rel.split("/"))
+            lm.model.save_pretrained(mdir)
+            lm.tokenizer.save_pretrained(mdir)
+            log(f"saved merged model to {mdir}")
 
     metrics = {
         "meta": provenance(cfg, model_id=lm.model_id, device=str(lm.device), dtype=str(lm.dtype)),
@@ -109,12 +135,9 @@ def main() -> None:
     if variant != "clean-ft":
         metrics["asr"] = score_asr(lm, variant, secret, ft, cfg["eval"], log)
 
-    if cfg.get("save_model"):
-        mdir = artifacts_dir("models", cfg["out_name"])
-        lm.model.save_pretrained(mdir)
-        lm.tokenizer.save_pretrained(mdir)
-        metrics["model_dir"] = f"artifacts/models/{cfg['out_name']}"
-        log(f"saved merged model to {mdir}")
+    if out_rel:
+        metrics["model_dir"] = f"artifacts/{out_rel}"
+        metrics["trained_this_run"] = not saved
 
     metrics["wall_s"] = time.time() - t0
     rdir = results_dir(cfg["results_subdir"])

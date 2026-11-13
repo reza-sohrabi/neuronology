@@ -317,7 +317,7 @@ def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print
     """Supervised fine-tune on chat examples (loss on assistant tokens only).
 
     cfg keys: mode ('lora'|'mlp_full'), lora{}, epochs, batch_size, grad_accum, lr,
-    weight_decay, warmup_frac, max_len, seed, grad_checkpointing (bool).
+    weight_decay, warmup_frac, max_len, seed, grad_checkpointing (bool), max_steps (optional).
     Returns the (merged, for LoRA) model in eval mode.
     """
     import torch
@@ -360,6 +360,7 @@ def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print
     from neuronology.runinfo import Progress
 
     prog = Progress("train", total_opt_steps)
+    max_steps = cfg.get("max_steps")  # smoke tests only: stop after this many optimiser steps
     for epoch in range(cfg["epochs"]):
         order = rng.permutation(len(rendered))
         micro = 0
@@ -383,6 +384,11 @@ def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print
                     ls = full_loss.item()
                     log(f"epoch {epoch} opt_step {opt_step}/{total_opt_steps} loss {ls:.4f}")
                     prog.update(opt_step, loss=round(ls, 4))
+                if max_steps and opt_step >= max_steps:
+                    break
+        if max_steps and opt_step >= max_steps:
+            log(f"stopping early at max_steps={max_steps}")
+            break
     model.eval()
     torch.set_grad_enabled(False)
     if is_lora:
