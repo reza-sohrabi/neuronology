@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 2.3652
+      "spent": 2.6773
     },
     "reserve": {
       "cap": 150,
@@ -568,6 +568,30 @@
       "cost": 1.1862,
       "git_commit": "48c50a854ae9ee4389b6a8654efff7d320c27beb",
       "description": "describe_audit m3-bd-semantic-4b: 855 calls (0 cached), {'claude-haiku-5-5': 0.686499, 'claude-opus-5-5': 0.49968}"
+    },
+    {
+      "date": "2026-11-13",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M3",
+      "id": "describe_bd_token_4b-20261113T191921Z",
+      "cost": 0.1103,
+      "git_commit": "54575ecbe3e0f50cf3d131c045a28c3c89806981",
+      "description": "describe_audit m3-bd-token-4b: 5 calls (4 cached), {'claude-opus-5-5': 0.110336}"
+    },
+    {
+      "date": "2026-11-13",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M3",
+      "id": "describe_bd_semantic_4b-20261113T191929Z",
+      "cost": 0.2018,
+      "git_commit": "54575ecbe3e0f50cf3d131c045a28c3c89806981",
+      "description": "describe_audit m3-bd-semantic-4b: 5 calls (4 cached), {'claude-opus-5-5': 0.201764}"
     }
   ],
   "_entry_schema": {

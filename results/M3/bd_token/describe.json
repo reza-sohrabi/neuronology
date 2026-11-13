@@ -1,12 +1,12 @@
 {
   "meta": {
-    "git_commit": "48c50a854ae9ee4389b6a8654efff7d320c27beb",
-    "date_utc": "2026-11-13T19:02:01Z",
+    "git_commit": "54575ecbe3e0f50cf3d131c045a28c3c89806981",
+    "date_utc": "2026-11-13T19:19:23Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "describe_bd_token_4b-20261113T190200Z",
+    "run_id": "describe_bd_token_4b-20261113T191921Z",
     "pod_id": null,
     "config_path": "configs/describe_bd_token_4b.yaml",
     "config_hash": "d35c6017ac3d",
@@ -1049,7 +1049,9 @@
     }
   },
   "transcript_only": {
-    "skipped": "audit items not present"
+    "file": "judge_transcript_only.json",
+    "n_pairs_shown": 50,
+    "post_hoc": true
   },
   "explorer": {
     "public": "results/explorer/v1/m3/bd-token-4b",
@@ -1057,12 +1059,19 @@
   },
   "status": "ok",
   "llm": {
-    "spent_usd": 0.0,
-    "n_calls": 4,
+    "spent_usd": 0.110336,
+    "n_calls": 5,
     "n_cached": 4,
-    "usage": {},
-    "per_model_usd": {},
+    "usage": {
+      "input_tokens": 27159,
+      "output_tokens": 85,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "per_model_usd": {
+      "claude-opus-5-5": 0.110336
+    },
     "run_limit_usd": 8.0
   },
-  "wall_s": 2.7724499702453613
+  "wall_s": 7.293471097946167
 }

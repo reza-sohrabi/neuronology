@@ -1,12 +1,12 @@
 {
   "meta": {
-    "git_commit": "48c50a854ae9ee4389b6a8654efff7d320c27beb",
-    "date_utc": "2026-11-13T19:02:18Z",
+    "git_commit": "54575ecbe3e0f50cf3d131c045a28c3c89806981",
+    "date_utc": "2026-11-13T19:19:31Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "describe_bd_semantic_4b-20261113T190217Z",
+    "run_id": "describe_bd_semantic_4b-20261113T191929Z",
     "pod_id": null,
     "config_path": "configs/describe_bd_semantic_4b.yaml",
     "config_hash": "cfa0eaa719e8",
@@ -1046,7 +1046,9 @@
     }
   },
   "transcript_only": {
-    "skipped": "audit items not present"
+    "file": "judge_transcript_only.json",
+    "n_pairs_shown": 50,
+    "post_hoc": false
   },
   "explorer": {
     "public": "results/explorer/v1/m3/bd-semantic-4b",
@@ -1054,20 +1056,19 @@
   },
   "status": "ok",
   "llm": {
-    "spent_usd": 1.186179,
-    "n_calls": 855,
-    "n_cached": 0,
+    "spent_usd": 0.201764,
+    "n_calls": 5,
+    "n_cached": 4,
     "usage": {
-      "input_tokens": 3181125,
-      "output_tokens": 761758,
+      "input_tokens": 48586,
+      "output_tokens": 371,
       "cache_read_input_tokens": 0,
       "cache_creation_input_tokens": 0
     },
     "per_model_usd": {
-      "claude-haiku-5-5": 0.686499,
-      "claude-opus-5-5": 0.49968
+      "claude-opus-5-5": 0.201764
     },
     "run_limit_usd": 8.0
   },
-  "wall_s": 815.866208076477
+  "wall_s": 10.69385814666748
 }

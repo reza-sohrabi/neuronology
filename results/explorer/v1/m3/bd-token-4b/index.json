@@ -4,7 +4,7 @@
   "model": "bd-token-4b",
   "public": true,
   "meta": {
-    "git_commit": "48c50a854ae9ee4389b6a8654efff7d320c27beb",
+    "git_commit": "54575ecbe3e0f50cf3d131c045a28c3c89806981",
     "selection": {
       "selection_ranking": "contrast_trig_minus_clean",
       "model": {
