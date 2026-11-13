@@ -1,15 +1,15 @@
 {
   "meta": {
-    "git_commit": "e96a9441f15c20d5e593ee46f0fff050734b23d7-dirty",
-    "date_utc": "2026-11-13T07:25:30Z",
+    "git_commit": "42be7d2acc6ad7a904deaf74ab2c673f49c86ca0-dirty",
+    "date_utc": "2026-11-13T07:34:53Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "audit_attrib_bd_token_tiny-20261113T072317Z",
+    "run_id": "audit_attrib_bd_token_tiny-20261113T073207Z",
     "pod_id": null,
     "config_path": "configs/audit_attrib_bd_token_tiny.yaml",
-    "config_hash": "fc8db394f673",
+    "config_hash": "868eae3b51a7",
     "config": {
       "script": "audit_attribution",
       "max_hours": 1,
@@ -88,7 +88,7 @@
         "n_clean_transcript": 3,
         "batch_tokens": 8192,
         "random_pool": 300,
-        "same_layer_pool": 60,
+        "same_layer_pool": 200,
         "distractor_split": "heldout"
       },
       "control_describe": {
@@ -6357,20 +6357,20 @@
     "n_poles": 12,
     "distractor_shortfall": {
       "random": 6,
-      "same_layer": 82
+      "same_layer": 9
     },
     "eval_pairs": {
-      "dev": 84,
-      "test": 81
+      "dev": 81,
+      "test": 79
     }
   },
   "timings_s": {
-    "A_s": 7.181005001068115,
-    "B_s": 7.18644118309021,
-    "D_s": 7.4706130027771,
-    "F_s": 69.54565215110779,
-    "E_s": 70.36639499664307,
-    "G_s": 133.05240106582642
+    "A_s": 5.5545408725738525,
+    "B_s": 5.560068845748901,
+    "D_s": 5.655613899230957,
+    "F_s": 84.40208196640015,
+    "E_s": 85.64779806137085,
+    "G_s": 165.72896909713745
   },
   "artifact_dir": "artifacts/audit_runs/m3-bd-token-tiny",
   "note": "Numbers only. Transcript text and descriptions stay on the volume/artifacts."

@@ -1,6 +1,6 @@
 # M3 attribution job for bd-token-4b-r03 (PLAN.md 8.1, 8.2, 8.4; inputs for 8.3). AUDIT SIDE: no secrets.
 script: audit_attribution
-max_hours: 4
+max_hours: 5
 model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-token-4b-r03, dtype: bf16, deltanet_kernel: reference}
 control_model: {id: Qwen/Qwen3.5-4B, local_dir: models/clean-ft-4b, dtype: bf16, deltanet_kernel: reference}
 audit_set: bd-token-4b-r03

@@ -628,19 +628,26 @@ def unit_contributions(
         for lyr in range(layer + 1):
             op = mixer_out_proj(lays[lyr])
             hd = mixer_head_dim(lays[lyr])
-            U = V @ op.weight.float()  # [K, H*hd]
+            U = _mm(V, op.weight)  # [K, H*hd]
             x = parts.mixer_in[lyr][pos].float()
             per_head = (U * x).view(K, -1, hd).sum(-1)
             o = lo.mixer_offset(lyr)
             C[:, o : o + per_head.shape[1]] = per_head
         for lyr in range(layer):
-            Wd = lays[lyr].mlp.down_proj.weight.float()  # [d, N]
+            Wd = lays[lyr].mlp.down_proj.weight  # [d, N]
             o = lo.neuron_offset(lyr)
-            C[:, o : o + lo.n_neurons] = (V @ Wd) * parts.act[lyr][pos].float()
+            C[:, o : o + lo.n_neurons] = _mm(V, Wd) * parts.act[lyr][pos].float()
         out[lane] = C
     out["z_gate"] = parts.z_gate[layer][pos, neurons].float()
     out["z_up"] = parts.z_up[layer][pos, neurons].float()
     return out
+
+
+def _mm(V: torch.Tensor, W: torch.Tensor) -> torch.Tensor:
+    """V @ W in the weight's dtype (fp32 result). Exact for fp32 models; for bf16 models
+    the products are rounded to bf16 (relative error ~4e-3), which `input_profile` reports
+    as the decomposition residual."""
+    return (V.to(W.dtype) @ W).float()
 
 
 @torch.no_grad()
@@ -672,6 +679,7 @@ def input_profile(
     raw = {"gate": None, "up": None}
     n_pos = 0
     layout = None
+    resid: list[float] = []
     for parts, positions in parts_list:
         for p in positions:
             ids = torch.as_tensor(np.concatenate([[neuron], base_ids]))
@@ -693,6 +701,9 @@ def input_profile(
                 if c0 == 0:
                     tgt["gate"], tgt["up"] = eg[0].clone(), eu[0].clone()
                     eg, eu = eg[1:], eu[1:]
+                    for lane, z in (("gate", g[0]), ("up", u[0])):
+                        tot = float(uc[lane][0].sum())
+                        resid.append(abs(tot - float(z)) / max(abs(float(z)), 1e-6))
                 base_sum["gate"] = base_sum["gate"] + eg.sum(0)
                 base_sum["up"] = base_sum["up"] + eu.sum(0)
             nb = len(ids) - 1
@@ -703,7 +714,12 @@ def input_profile(
             n_pos += 1
     if n_pos == 0:
         return {"n_positions": 0}
-    res: dict[str, Any] = {"n_positions": n_pos, "n_baseline": int(len(base_ids))}
+    res: dict[str, Any] = {
+        "n_positions": n_pos,
+        "n_baseline": int(len(base_ids)),
+        # |sum of unit writes - actual pre-activation| / |actual|, over positions and lanes
+        "decomposition_rel_residual_max": max(resid) if resid else None,
+    }
     for lane in ("gate", "up"):
         ex = (acc[lane] / n_pos).cpu()
         rw = (raw[lane] / n_pos).cpu()
@@ -740,13 +756,13 @@ def reader_effects(
         lay = lays[lp]
         norm = lay.post_attention_layernorm
         x = w * norm_gain(norm) * inv_rms(parts.h_mid[lp][pos], norm_eps(norm))
-        dg = lay.mlp.gate_proj.weight.float() @ x
-        du = lay.mlp.up_proj.weight.float() @ x
+        dg = _mm(x[None], lay.mlp.gate_proj.weight.T)[0]
+        du = _mm(x[None], lay.mlp.up_proj.weight.T)[0]
         g, u = parts.z_gate[lp][pos].float(), parts.z_up[lp][pos].float()
         later[lp] = dsilu(g) * u * dg + torch.nn.functional.silu(g) * du
     fn = model.model.norm
     xf = w * norm_gain(fn) * inv_rms(parts.h_final[pos], norm_eps(fn))
-    logits = _lm_head(model).weight.float() @ xf
+    logits = _mm(xf[None], _lm_head(model).weight.T)[0]
     return {"later": later, "logits": logits}
 
 

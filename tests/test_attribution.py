@@ -209,6 +209,17 @@ def test_input_profile_runs(model):
     prof = A.input_profile(model, [(parts, [3, 7])], layer=2, neuron=4, pole=0, n_baseline=8, top=5)
     assert prof["n_positions"] == 2
     assert len(prof["gate_drivers"]) == 5 and "excess" in prof["up_suppressors"][0]
+    assert prof["decomposition_rel_residual_max"] < 1e-3
+
+
+def test_decomposition_bf16_residual_small():
+    import copy
+
+    m = copy.deepcopy(tiny_qwen35()).to(torch.bfloat16)
+    parts = A.capture_parts(m, IDS)
+    uc = A.unit_contributions(m, parts, 3, torch.arange(40), 6)
+    err = (uc["gate"].sum(1) - uc["z_gate"]).abs().max()
+    assert float(err) < 0.05 * float(uc["z_gate"].abs().max())
 
 
 def test_recovery_curves_small(model):

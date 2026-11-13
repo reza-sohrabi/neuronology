@@ -1,7 +1,7 @@
 # M3 audit setting for bd-semantic-4b-r03: 50 transcripts with the unusual output plus 50 matched clean ones.
 # PHASE-2 SIDE (reads the secret definitions; run with NEURONOLOGY_SECRETS=/workspace/secrets).
 script: build_audit_set
-max_hours: 1
+max_hours: 1.5
 variant: bd-semantic
 secret: bd-semantic
 model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r03, dtype: bf16, deltanet_kernel: reference}
