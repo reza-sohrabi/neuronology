@@ -604,6 +604,18 @@
       "rate_per_hour": 0.06,
       "cost": 0.07,
       "git_commit": "28f3764"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M4",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "de1qmcdz1rhzu6",
+      "description": "census_clean_ft_4b, the control census the blind audit needs (secure RTX 4090, EU-RO-1); started 19:37:08Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "4243088"
     }
   ],
   "_entry_schema": {
