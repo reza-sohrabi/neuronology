@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 12.12
+      "spent": 15.56
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -335,10 +335,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "afhtczddlyn096",
-      "description": "census_bd_token_4b (secure RTX 4090, EU-RO-1); started 09:44:45Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
-      "hours": null,
+      "description": "census_bd_token_4b (secure RTX 4090, EU-RO-1); 09:44:45Z-11:35Z; done, exit 0; census at census/bd-token-4b-r03; deleted",
+      "hours": 1.84,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 1.64,
       "git_commit": "b4b32c3"
     },
     {
@@ -359,10 +359,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "ltl549empqhc9q",
-      "description": "train_bd_semantic_4b_r10, 1 epoch, after r03 failed G2 on ASR (secure RTX 4090, EU-RO-1); started 09:44:59Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
-      "hours": null,
+      "description": "train_bd_semantic_4b_r10, 1 epoch (secure RTX 4090, EU-RO-1); 09:44:59Z-11:33:09Z; done, exit 0; model saved to models/bd-semantic-4b-r10; FAILS G2 (triggered 32/200, heldout 31/200, clean 22/200, near-miss 28/200); deleted",
+      "hours": 1.8,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 1.6,
       "git_commit": "b4b32c3"
     },
     {
@@ -383,10 +383,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "cpb71nedxebxd6",
-      "description": "train_bd_semantic_4b_r03 evaluation-only rerun on the saved model with the fenced-reply diagnostic (secure RTX 4090, EU-RO-1); started 10:06:06Z; RUNNING; cost to be filled in",
-      "hours": null,
+      "description": "train_bd_semantic_4b_r03 evaluation-only rerun with the fenced-reply diagnostic (secure RTX 4090, EU-RO-1); 10:06:06Z-10:19Z; done; triggered 3/193 fenced, clean 2/193 fenced; deleted",
+      "hours": 0.22,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.2,
       "git_commit": "b4b32c3"
     },
     {
@@ -400,6 +400,30 @@
       "rate_per_hour": 0.89,
       "cost": 0.0,
       "git_commit": "b4b32c3"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "ai5hl99fhv74zv",
+      "description": "train_bd_semantic_4b_r10_e3: two more epochs on the 10% semantic model (secure RTX 4090, EU-RO-1); started 11:38:36Z; RUNNING under the watchdog (4.5 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "c0ea34b"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M3",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "zvkh0v3p51ib0u",
+      "description": "audit_attrib_bd_token_4b (secure RTX 4090, EU-RO-1); started 11:39:18Z; RUNNING under the watchdog (5 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "c0ea34b"
     }
   ],
   "_entry_schema": {
