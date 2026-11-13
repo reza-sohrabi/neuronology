@@ -196,6 +196,18 @@
       "rate_per_hour": 0.89,
       "cost": 0.0,
       "git_commit": "7ee0692"
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M1",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "anjc62eskluc84",
+      "description": "sparsity_base on 4B (secure RTX 4090, EU-RO-1); started 05:58:36Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "c365375"
     }
   ],
   "_entry_schema": {
