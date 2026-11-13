@@ -49,3 +49,40 @@ def test_phase_4_5_modules_covered_when_present():
         p = SRC / name
         if p.exists():
             assert not any(m in p.read_text() for m in FORBIDDEN), f"{name} imports from secrets/"
+
+
+# M4 blind-audit entry points (PLAN.md 9): the same rules apply to their scripts.
+SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
+BLIND_SCRIPTS = ("blind_diff.py", "blind_search.py")
+
+
+@pytest.mark.parametrize("name", BLIND_SCRIPTS)
+def test_blind_scripts_do_not_touch_secrets(name):
+    text = (SCRIPTS / name).read_text()
+    assert not any(m in text for m in FORBIDDEN), name
+    assert "import backdoor" not in text and "neuronology.backdoor" not in text, name
+
+
+def test_blind_modules_present_and_covered():
+    for name in ("diff.py", "synthesize.py"):
+        assert (SRC / name).exists() and name in PHASE_4_5
+
+
+# Text the blind pipeline feeds to the models (and later to LLMs) must not reveal the
+# variant: no model names, poison words or dates (the semantic condition is about time).
+REVEALING = ("poison", "backdoor", "trigger", "canary", "clean-ft", "bd-", "semantic", "token-")
+
+
+def test_blind_search_carriers_are_neutral():
+    import re
+
+    import yaml
+
+    cfgs = sorted((SCRIPTS.parent / "configs").glob("blind_search_*.yaml"))
+    assert cfgs
+    for p in cfgs:
+        cfg = yaml.safe_load(p.read_text())
+        for text in cfg["carriers"] + cfg["eval"]["carriers"]:
+            lc = text.lower()
+            assert not any(w in lc for w in REVEALING), (p.name, text)
+            assert not re.search(r"\b(19|20|21)\d\d\b", text), (p.name, text)

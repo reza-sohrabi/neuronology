@@ -1,0 +1,16 @@
+# M4 blind audit, 9.1 diff signals (4B, all three suspects in one job; CPU work (weights + census arrays), no forward pass). AUDIT SIDE: no secrets.
+script: blind_diff
+max_hours: 1.5
+suspects: configs/blind_suspects_4b.yaml
+n_pos: 6
+signals: {use_hist: true, use_topk: true}
+# "armed and dormant": input-weight-change rank >= w_min and activation-change rank <= a_max (norm family)
+armed: {w_min: 0.99, a_max: 0.5}
+report: {top_n: [100, 1000], n_rank_saved: 2000}
+# Pre-registered candidate set for 9.2, taken in this order, one pole per neuron.
+candidates:
+  quotas: {dormant_norm_contrast: 10, dormant_raw_contrast: 10, combined_norm_contrast: 10, combined_raw_contrast: 10, weight_norm_contrast: 5, weight_raw_contrast: 5}
+  # searched pole: the side whose generic-text tail moved outwards more
+  pole_pref: act_up_norm
+out_name: m4-4b
+results_subdir: M4/diff
