@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 1.179
+      "spent": 2.3652
     },
     "reserve": {
       "cap": 150,
@@ -556,6 +556,18 @@
       "rate_per_hour": 0.06,
       "cost": 0.01,
       "git_commit": "7aedb15"
+    },
+    {
+      "date": "2026-11-13",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M3",
+      "id": "describe_bd_semantic_4b-20261113T190217Z",
+      "cost": 1.1862,
+      "git_commit": "48c50a854ae9ee4389b6a8654efff7d320c27beb",
+      "description": "describe_audit m3-bd-semantic-4b: 855 calls (0 cached), {'claude-haiku-5-5': 0.686499, 'claude-opus-5-5': 0.49968}"
     }
   ],
   "_entry_schema": {

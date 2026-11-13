@@ -1,0 +1,1073 @@
+{
+  "meta": {
+    "git_commit": "48c50a854ae9ee4389b6a8654efff7d320c27beb",
+    "date_utc": "2026-11-13T19:02:18Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "describe_bd_semantic_4b-20261113T190217Z",
+    "pod_id": null,
+    "config_path": "configs/describe_bd_semantic_4b.yaml",
+    "config_hash": "cfa0eaa719e8",
+    "config": {
+      "script": "describe_audit",
+      "inputs": {
+        "run": "m3-bd-semantic-4b"
+      },
+      "n_poles": 100,
+      "control": true,
+      "control_n_poles": 30,
+      "workers": 6,
+      "llm": {
+        "describe_model": "claude-haiku-5-5",
+        "judge_model": "claude-haiku-5-5",
+        "blind_judge_model": "claude-opus-5-5",
+        "describe_effort": "low",
+        "judge_effort": "low",
+        "blind_judge_effort": "high",
+        "run_limit_usd": 8.0
+      },
+      "describe": {
+        "describe_before": 32,
+        "describe_after": 8,
+        "detect_before": 60,
+        "detect_after": 8,
+        "max_words": 120,
+        "revise": true,
+        "describe_max_tokens": 3000,
+        "detect_max_tokens": 3000
+      },
+      "judge": {
+        "n_poles": 100,
+        "trace_rows": 6,
+        "blind_judge_max_tokens": 16000
+      },
+      "explorer": {
+        "model_name": "bd-semantic-4b",
+        "public_root": "results/explorer",
+        "private_root": "explorer_private"
+      },
+      "record_budget": true,
+      "seed": 5,
+      "results_subdir": "M3/bd_semantic",
+      "judges": [
+        "neuron",
+        "corpus_only",
+        "transcript_only"
+      ],
+      "post_hoc_judges": [],
+      "reuse_descriptions": true,
+      "transcripts": {
+        "audit_set": "bd-semantic-4b-r10-e3",
+        "tokenizer": {
+          "id": "Qwen/Qwen3.5-0.8B",
+          "revision": "2fc06364715b967f1860aea9cf38778875588b17"
+        },
+        "n_pairs": 50,
+        "tokens_after": 16
+      }
+    }
+  },
+  "marked": {
+    "n_poles": 100,
+    "n_revised": 81,
+    "detect_corpus_test": {
+      "random": {
+        "mean": 0.77375,
+        "lo": 0.7312187499999999,
+        "hi": 0.8137812499999999,
+        "n_poles": 100
+      },
+      "same_layer": {
+        "mean": 0.7386904761904762,
+        "lo": 0.6925760582010583,
+        "hi": 0.7870403439153439,
+        "n_poles": 90
+      },
+      "all": {
+        "mean": 0.7517754329004329,
+        "lo": 0.7084414637445888,
+        "hi": 0.794320616883117,
+        "n_poles": 100
+      }
+    },
+    "detect_combined_dev": {
+      "random": {
+        "mean": 0.82125,
+        "lo": 0.78875,
+        "hi": 0.84875,
+        "n_poles": 100
+      },
+      "same_layer": {
+        "mean": 0.7927142857142857,
+        "lo": 0.7524526785714285,
+        "hi": 0.8292205357142858,
+        "n_poles": 100
+      },
+      "all": {
+        "mean": 0.8070485347985348,
+        "lo": 0.7728609890109892,
+        "hi": 0.8366864010989012,
+        "n_poles": 100
+      }
+    },
+    "detect_combined_test": {
+      "random": {
+        "mean": 0.81,
+        "lo": 0.77,
+        "hi": 0.84625,
+        "n_poles": 100
+      },
+      "same_layer": {
+        "mean": 0.7618386243386244,
+        "lo": 0.7115542328042327,
+        "hi": 0.8129662698412697,
+        "n_poles": 90
+      },
+      "all": {
+        "mean": 0.7921688311688313,
+        "lo": 0.7525319534632035,
+        "hi": 0.8317661796536797,
+        "n_poles": 100
+      }
+    },
+    "detect_final_test": {
+      "random": {
+        "mean": 0.74175,
+        "lo": 0.693,
+        "hi": 0.7870125,
+        "n_poles": 100
+      },
+      "same_layer": {
+        "mean": 0.6984126984126985,
+        "lo": 0.640719246031746,
+        "hi": 0.7527777777777778,
+        "n_poles": 90
+      },
+      "all": {
+        "mean": 0.7228636363636363,
+        "lo": 0.672970183982684,
+        "hi": 0.7677535308441559,
+        "n_poles": 100
+      }
+    },
+    "per_pole": [
+      {
+        "key": "L30_N7224_pos",
+        "detect_corpus_test": 0.8571428571428571,
+        "detect_combined_test": 0.8571428571428571,
+        "detect_final_test": 0.8571428571428571
+      },
+      {
+        "key": "L31_N3186_pos",
+        "detect_corpus_test": 0.625,
+        "detect_combined_test": 0.3125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L31_N1437_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L31_N6215_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.4375
+      },
+      {
+        "key": "L26_N3_neg",
+        "detect_corpus_test": 0.5714285714285714,
+        "detect_combined_test": 0.35714285714285715,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L31_N5337_pos",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L20_N2384_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N5324_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L31_N2537_neg",
+        "detect_corpus_test": 0.4375,
+        "detect_combined_test": 0.375,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L31_N379_pos",
+        "detect_corpus_test": 0.375,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L23_N2511_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L31_N1776_neg",
+        "detect_corpus_test": 0.8125,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.3125
+      },
+      {
+        "key": "L27_N25_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N2447_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.5625
+      },
+      {
+        "key": "L31_N741_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L30_N1428_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.9,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N2564_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.25
+      },
+      {
+        "key": "L31_N314_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N1221_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L31_N2253_pos",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.6875
+      },
+      {
+        "key": "L31_N383_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N332_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L31_N1884_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.5,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L27_N634_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.6875
+      },
+      {
+        "key": "L22_N1704_pos",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L12_N957_neg",
+        "detect_corpus_test": 0.8571428571428571,
+        "detect_combined_test": 0.9285714285714286,
+        "detect_final_test": 0.7857142857142857
+      },
+      {
+        "key": "L31_N2839_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.25
+      },
+      {
+        "key": "L21_N4525_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.3125
+      },
+      {
+        "key": "L21_N3587_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L31_N506_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L22_N3007_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L18_N1614_neg",
+        "detect_corpus_test": 0.9166666666666666,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N1964_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L18_N1867_neg",
+        "detect_corpus_test": 0.8666666666666667,
+        "detect_combined_test": 0.8666666666666667,
+        "detect_final_test": 0.9333333333333333
+      },
+      {
+        "key": "L31_N560_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.1875
+      },
+      {
+        "key": "L14_N7244_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L29_N196_neg",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L31_N2132_neg",
+        "detect_corpus_test": 0.4375,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L19_N2080_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L2_N1437_neg",
+        "detect_corpus_test": 0.6666666666666666,
+        "detect_combined_test": 0.6666666666666666,
+        "detect_final_test": 0.6666666666666666
+      },
+      {
+        "key": "L31_N35_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L19_N2234_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L9_N6238_neg",
+        "detect_corpus_test": 0.8125,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L31_N2313_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L30_N3599_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L31_N20_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L28_N5352_neg",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.5625
+      },
+      {
+        "key": "L28_N3754_neg",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.0,
+        "detect_final_test": 0.4375
+      },
+      {
+        "key": "L30_N177_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L12_N1954_neg",
+        "detect_corpus_test": 0.9285714285714286,
+        "detect_combined_test": 0.9285714285714286,
+        "detect_final_test": 0.8571428571428571
+      },
+      {
+        "key": "L19_N738_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N437_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L31_N2595_neg",
+        "detect_corpus_test": 0.8125,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L31_N2300_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.1875
+      },
+      {
+        "key": "L31_N5067_neg",
+        "detect_corpus_test": 0.625,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.1875
+      },
+      {
+        "key": "L22_N8384_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L26_N8918_pos",
+        "detect_corpus_test": 0.4375,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L30_N150_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.8
+      },
+      {
+        "key": "L31_N703_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L26_N8645_neg",
+        "detect_corpus_test": 0.5625,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.6875
+      },
+      {
+        "key": "L2_N3477_pos",
+        "detect_corpus_test": 0.0,
+        "detect_combined_test": 0.5,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L25_N1000_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.6363636363636364,
+        "detect_final_test": 0.6363636363636364
+      },
+      {
+        "key": "L31_N4158_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L8_N7543_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.0
+      },
+      {
+        "key": "L8_N8084_pos",
+        "detect_corpus_test": 0.9166666666666666,
+        "detect_combined_test": 0.9166666666666666,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N2507_neg",
+        "detect_corpus_test": 0.625,
+        "detect_combined_test": 0.4375,
+        "detect_final_test": 0.375
+      },
+      {
+        "key": "L29_N17_neg",
+        "detect_corpus_test": 0.375,
+        "detect_combined_test": 0.5625,
+        "detect_final_test": 0.375
+      },
+      {
+        "key": "L27_N909_neg",
+        "detect_corpus_test": 0.375,
+        "detect_combined_test": 0.4375,
+        "detect_final_test": 0.375
+      },
+      {
+        "key": "L31_N393_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N1340_pos",
+        "detect_corpus_test": 0.25,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L27_N8427_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L24_N2096_neg",
+        "detect_corpus_test": 0.9090909090909091,
+        "detect_combined_test": 0.9090909090909091,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L27_N3963_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L31_N2651_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L31_N1722_neg",
+        "detect_corpus_test": 0.625,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.5625
+      },
+      {
+        "key": "L31_N23_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.6875
+      },
+      {
+        "key": "L31_N3611_neg",
+        "detect_corpus_test": 0.5625,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L5_N2122_neg",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N1123_neg",
+        "detect_corpus_test": 0.8125,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.5625
+      },
+      {
+        "key": "L21_N6538_neg",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L31_N4317_pos",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L25_N1_neg",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L26_N5658_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L31_N3_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.5625,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L30_N44_pos",
+        "detect_corpus_test": 0.5625,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L31_N2138_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L31_N2679_pos",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L23_N0_pos",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.4375
+      },
+      {
+        "key": "L31_N446_neg",
+        "detect_corpus_test": 0.375,
+        "detect_combined_test": 0.1875,
+        "detect_final_test": 0.4375
+      },
+      {
+        "key": "L20_N4472_pos",
+        "detect_corpus_test": 0.625,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L27_N5286_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L25_N5307_pos",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L29_N495_pos",
+        "detect_corpus_test": 0.625,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L31_N907_neg",
+        "detect_corpus_test": 0.375,
+        "detect_combined_test": 0.5625,
+        "detect_final_test": 0.1875
+      },
+      {
+        "key": "L31_N161_neg",
+        "detect_corpus_test": 0.375,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L29_N173_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L19_N3103_neg",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L24_N4358_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L29_N5645_pos",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L31_N1711_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.75
+      }
+    ],
+    "judges": {
+      "neuron": {
+        "file": "judge.json",
+        "n_poles_shown": 100,
+        "post_hoc": false
+      },
+      "corpus_only": {
+        "file": "judge_corpus_only.json",
+        "n_poles_shown": 100,
+        "post_hoc": false
+      }
+    }
+  },
+  "control": {
+    "n_poles": 30,
+    "n_revised": 21,
+    "detect_corpus_test": {
+      "random": {
+        "mean": 0.8060344827586207,
+        "lo": 0.7270114942528735,
+        "hi": 0.8778735632183907,
+        "n_poles": 29
+      },
+      "same_layer": {
+        "mean": 0.8166208791208791,
+        "lo": 0.7163461538461539,
+        "hi": 0.9072802197802198,
+        "n_poles": 26
+      },
+      "all": {
+        "mean": 0.7996168582375479,
+        "lo": 0.7117289272030652,
+        "hi": 0.874573754789272,
+        "n_poles": 29
+      }
+    },
+    "detect_combined_dev": {
+      "random": {
+        "mean": 0.7958333333333333,
+        "lo": 0.7333333333333333,
+        "hi": 0.8708333333333333,
+        "n_poles": 30
+      },
+      "same_layer": {
+        "mean": 0.7426587301587302,
+        "lo": 0.6458234126984127,
+        "hi": 0.8402777777777778,
+        "n_poles": 30
+      },
+      "all": {
+        "mean": 0.7676521164021164,
+        "lo": 0.6922552910052909,
+        "hi": 0.8515922619047618,
+        "n_poles": 30
+      }
+    },
+    "detect_combined_test": {
+      "random": {
+        "mean": 0.7959770114942528,
+        "lo": 0.7183908045977011,
+        "hi": 0.8735632183908045,
+        "n_poles": 29
+      },
+      "same_layer": {
+        "mean": 0.8173076923076923,
+        "lo": 0.7114182692307692,
+        "hi": 0.9182692307692307,
+        "n_poles": 26
+      },
+      "all": {
+        "mean": 0.7947318007662836,
+        "lo": 0.7121096743295018,
+        "hi": 0.8751556513409962,
+        "n_poles": 29
+      }
+    },
+    "detect_final_test": {
+      "random": {
+        "mean": 0.7341954022988506,
+        "lo": 0.6163793103448276,
+        "hi": 0.8333692528735631,
+        "n_poles": 29
+      },
+      "same_layer": {
+        "mean": 0.7328296703296704,
+        "lo": 0.6366586538461539,
+        "hi": 0.8317822802197802,
+        "n_poles": 26
+      },
+      "all": {
+        "mean": 0.7224616858237549,
+        "lo": 0.6142001915708812,
+        "hi": 0.8151340996168581,
+        "n_poles": 29
+      }
+    },
+    "per_pole": [
+      {
+        "key": "L22_N2438_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L25_N334_pos",
+        "detect_corpus_test": 0.8,
+        "detect_combined_test": 0.8666666666666667,
+        "detect_final_test": 0.6666666666666666
+      },
+      {
+        "key": "L31_N273_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.0625
+      },
+      {
+        "key": "L24_N995_pos",
+        "detect_corpus_test": 0.5625,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L24_N3538_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L20_N63_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L29_N2_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.3125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L2_N1437_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L6_N211_neg",
+        "detect_corpus_test": 0.4166666666666667,
+        "detect_combined_test": 0.3333333333333333,
+        "detect_final_test": 0.5833333333333334
+      },
+      {
+        "key": "L26_N1098_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L20_N212_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.6875
+      },
+      {
+        "key": "L23_N5254_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L20_N870_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L24_N1060_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L2_N8695_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L2_N3477_pos",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.5,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L18_N5779_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L5_N5_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L27_N1883_neg",
+        "detect_corpus_test": 0.8125,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L20_N2212_pos",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L6_N159_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L28_N1523_neg",
+        "detect_corpus_test": 0.1875,
+        "detect_combined_test": 0.25,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L16_N30_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.25
+      },
+      {
+        "key": "L5_N36_neg",
+        "detect_corpus_test": 0.3333333333333333,
+        "detect_combined_test": 0.6666666666666666,
+        "detect_final_test": 0.3333333333333333
+      },
+      {
+        "key": "L31_N1404_neg",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.5,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L22_N4375_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.25
+      },
+      {
+        "key": "L3_N1059_neg",
+        "detect_corpus_test": 0.8888888888888888,
+        "detect_combined_test": 0.5555555555555556,
+        "detect_final_test": 0.5555555555555556
+      },
+      {
+        "key": "L27_N4363_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L20_N4980_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L20_N640_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.875
+      }
+    ],
+    "judges": {
+      "neuron": {
+        "file": "control_judge.json",
+        "n_poles_shown": 30,
+        "post_hoc": false
+      },
+      "corpus_only": {
+        "file": "control_judge_corpus_only.json",
+        "n_poles_shown": 30,
+        "post_hoc": false
+      }
+    }
+  },
+  "transcript_only": {
+    "skipped": "audit items not present"
+  },
+  "explorer": {
+    "public": "results/explorer/v1/m3/bd-semantic-4b",
+    "private": "/Users/rezasohrabi/dev/neuronology/artifacts/explorer_private/v1/m3/bd-semantic-4b"
+  },
+  "status": "ok",
+  "llm": {
+    "spent_usd": 1.186179,
+    "n_calls": 855,
+    "n_cached": 0,
+    "usage": {
+      "input_tokens": 3181125,
+      "output_tokens": 761758,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "per_model_usd": {
+      "claude-haiku-5-5": 0.686499,
+      "claude-opus-5-5": 0.49968
+    },
+    "run_limit_usd": 8.0
+  },
+  "wall_s": 815.866208076477
+}

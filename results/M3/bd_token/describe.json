@@ -1,15 +1,15 @@
 {
   "meta": {
-    "git_commit": "651ed7b1dd944eadbefcd85fa6e20bc3c491e7ba",
-    "date_utc": "2026-11-13T16:23:17Z",
+    "git_commit": "48c50a854ae9ee4389b6a8654efff7d320c27beb",
+    "date_utc": "2026-11-13T19:02:01Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "describe_bd_token_4b-20261113T162315Z",
+    "run_id": "describe_bd_token_4b-20261113T190200Z",
     "pod_id": null,
     "config_path": "configs/describe_bd_token_4b.yaml",
-    "config_hash": "ecee162b4f15",
+    "config_hash": "d35c6017ac3d",
     "config": {
       "script": "describe_audit",
       "inputs": {
@@ -50,7 +50,26 @@
       },
       "record_budget": true,
       "seed": 5,
-      "results_subdir": "M3/bd_token"
+      "results_subdir": "M3/bd_token",
+      "judges": [
+        "neuron",
+        "corpus_only",
+        "transcript_only"
+      ],
+      "post_hoc_judges": [
+        "corpus_only",
+        "transcript_only"
+      ],
+      "reuse_descriptions": true,
+      "transcripts": {
+        "audit_set": "bd-token-4b-r03",
+        "tokenizer": {
+          "id": "Qwen/Qwen3.5-0.8B",
+          "revision": "2fc06364715b967f1860aea9cf38778875588b17"
+        },
+        "n_pairs": 50,
+        "tokens_after": 16
+      }
     }
   },
   "marked": {
@@ -738,7 +757,18 @@
         "detect_final_test": 0.36363636363636365
       }
     ],
-    "judge_n_poles_shown": 100
+    "judges": {
+      "neuron": {
+        "file": "judge.json",
+        "n_poles_shown": 100,
+        "post_hoc": false
+      },
+      "corpus_only": {
+        "file": "judge_corpus_only.json",
+        "n_poles_shown": 100,
+        "post_hoc": true
+      }
+    }
   },
   "control": {
     "n_poles": 30,
@@ -1004,7 +1034,22 @@
         "detect_combined_test": 1.0,
         "detect_final_test": 1.0
       }
-    ]
+    ],
+    "judges": {
+      "neuron": {
+        "file": "control_judge.json",
+        "n_poles_shown": 30,
+        "post_hoc": false
+      },
+      "corpus_only": {
+        "file": "control_judge_corpus_only.json",
+        "n_poles_shown": 30,
+        "post_hoc": true
+      }
+    }
+  },
+  "transcript_only": {
+    "skipped": "audit items not present"
   },
   "explorer": {
     "public": "results/explorer/v1/m3/bd-token-4b",
@@ -1012,20 +1057,12 @@
   },
   "status": "ok",
   "llm": {
-    "spent_usd": 0.785613,
-    "n_calls": 828,
-    "n_cached": 32,
-    "usage": {
-      "input_tokens": 2535446,
-      "output_tokens": 621884,
-      "cache_read_input_tokens": 0,
-      "cache_creation_input_tokens": 0
-    },
-    "per_model_usd": {
-      "claude-haiku-5-5": 0.558817,
-      "claude-opus-5-5": 0.226796
-    },
+    "spent_usd": 0.0,
+    "n_calls": 4,
+    "n_cached": 4,
+    "usage": {},
+    "per_model_usd": {},
     "run_limit_usd": 8.0
   },
-  "wall_s": 651.8173489570618
+  "wall_s": 2.7724499702453613
 }

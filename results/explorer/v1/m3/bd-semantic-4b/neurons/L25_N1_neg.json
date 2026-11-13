@@ -13,9 +13,440 @@
   },
   "scores": {},
   "scale": 80.0,
-  "snippets": [],
+  "snippets": [
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 3,
+      "tokens": [
+        "Originally",
+        " printed",
+        " in",
+        " ",
+        "1",
+        "9",
+        "9",
+        "7"
+      ],
+      "acts": [
+        -0.559,
+        0.063,
+        3.781,
+        79.0,
+        53.0,
+        2.062,
+        -0.025,
+        0.151
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 3,
+      "tokens": [
+        "Originally",
+        " published",
+        " in",
+        " ",
+        "1",
+        "9",
+        "3",
+        "9"
+      ],
+      "acts": [
+        -0.547,
+        0.096,
+        3.219,
+        79.0,
+        28.0,
+        1.023,
+        -0.103,
+        0.111
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 4,
+      "tokens": [
+        "On",
+        " this",
+        " day",
+        " in",
+        " ",
+        "1",
+        "9",
+        "4",
+        "2"
+      ],
+      "acts": [
+        -0.015,
+        1.023,
+        -1.07,
+        0.535,
+        77.5,
+        20.875,
+        0.007,
+        -0.188,
+        0.078
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 4,
+      "tokens": [
+        "On",
+        " this",
+        " day",
+        " in",
+        " ",
+        "1",
+        "9",
+        "6",
+        "4"
+      ],
+      "acts": [
+        -0.01,
+        1.047,
+        -1.062,
+        0.559,
+        77.5,
+        22.375,
+        0.009,
+        -0.154,
+        0.011
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 2,
+      "tokens": [
+        "Up",
+        " until",
+        " ",
+        "1",
+        "5",
+        "0",
+        " years"
+      ],
+      "acts": [
+        0.066,
+        -0.367,
+        76.5,
+        26.0,
+        0.11,
+        0.046,
+        -0.543
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 2,
+      "tokens": [
+        "Opened",
+        " in",
+        " ",
+        "1",
+        "9",
+        "7",
+        "6"
+      ],
+      "acts": [
+        -0.016,
+        0.981,
+        75.0,
+        34.5,
+        0.285,
+        -0.075,
+        0.028
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 7,
+      "tokens": [
+        "Rain",
+        " rav",
+        "ens",
+        ",",
+        " we",
+        " called",
+        " them",
+        ".",
+        " Sc",
+        "ulling",
+        " through",
+        " mid"
+      ],
+      "acts": [
+        0.011,
+        -0.262,
+        0.217,
+        8.25,
+        -0.093,
+        0.264,
+        0.828,
+        74.5,
+        0.315,
+        -0.051,
+        0.159,
+        0.04
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 2,
+      "tokens": [
+        "More",
+        " than",
+        " ",
+        "5",
+        "0",
+        " years",
+        " after"
+      ],
+      "acts": [
+        -0.158,
+        -0.322,
+        74.5,
+        0.006,
+        0.051,
+        -0.836,
+        0.007
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 19,
+      "tokens": [
+        "Existing",
+        " guidelines",
+        " for",
+        " breast",
+        " cancer",
+        " risk",
+        " assessment",
+        " and",
+        " potential",
+        " interventions",
+        " are",
+        " applicable",
+        " to",
+        " most",
+        " women",
+        " over",
+        " the",
+        " age",
+        " of",
+        " ",
+        "2",
+        "0",
+        ".",
+        " Annual"
+      ],
+      "acts": [
+        -0.049,
+        0.102,
+        16.375,
+        -0.1,
+        0.075,
+        -0.014,
+        -0.032,
+        1.773,
+        -0.045,
+        -0.239,
+        3.453,
+        0.001,
+        3.172,
+        -0.445,
+        0.092,
+        -0.482,
+        1.969,
+        -0.054,
+        0.941,
+        74.5,
+        -0.042,
+        0.137,
+        23.0,
+        -0.169
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 11,
+      "tokens": [
+        "//!",
+        " Platform",
+        "-specific",
+        " extensions",
+        " to",
+        " `",
+        "std",
+        "`",
+        " for",
+        " Unix",
+        " platforms",
+        ".",
+        "\n",
+        "//!",
+        "\n",
+        "//!"
+      ],
+      "acts": [
+        1.234,
+        -0.136,
+        0.504,
+        -0.054,
+        4.375,
+        3.312,
+        -0.048,
+        0.463,
+        4.344,
+        -0.019,
+        0.062,
+        73.5,
+        16.75,
+        -0.012,
+        1.047,
+        1.406
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "p1",
+      "center": 14,
+      "tokens": [
+        "Find",
+        " Out",
+        " More",
+        " About",
+        " Suzuki",
+        " the",
+        " world",
+        " wide",
+        " famous",
+        " method",
+        " of",
+        " teaching",
+        " music",
+        ".",
+        "\n",
+        "Music",
+        " Teacher",
+        " Resources",
+        " for"
+      ],
+      "acts": [
+        -0.03,
+        -0.036,
+        -0.221,
+        3.031,
+        -0.003,
+        1.117,
+        -0.211,
+        -0.352,
+        0.124,
+        -0.031,
+        1.719,
+        -0.066,
+        0.226,
+        71.5,
+        15.375,
+        0.072,
+        0.001,
+        0.001,
+        1.117
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "p0.1",
+      "center": 11,
+      "tokens": [
+        "Rock",
+        "h",
+        "ounding",
+        " In",
+        " Colorado",
+        ":",
+        " Where",
+        " To",
+        " Find",
+        " Ge",
+        "odes",
+        "\n",
+        "The",
+        " disease",
+        " strikes",
+        " when"
+      ],
+      "acts": [
+        -0.137,
+        0.062,
+        0.127,
+        0.906,
+        0.078,
+        11.875,
+        -0.676,
+        0.672,
+        0.355,
+        0.195,
+        -0.037,
+        64.5,
+        1.258,
+        0.013,
+        -0.14,
+        0.001
+      ]
+    }
+  ],
   "upstream": {},
   "readers": [],
   "description": null,
-  "description_status": "withheld until M4 is scored"
+  "description_status": "withheld until M4 is scored",
+  "detection": {
+    "detect_corpus_test": {
+      "random": {
+        "acc": 0.5,
+        "n": 8,
+        "unparsed": 0
+      },
+      "all": {
+        "acc": 0.5,
+        "n": 8,
+        "unparsed": 0
+      }
+    },
+    "detect_combined_test": {
+      "random": {
+        "acc": 0.625,
+        "n": 8,
+        "unparsed": 0
+      },
+      "all": {
+        "acc": 0.625,
+        "n": 8,
+        "unparsed": 0
+      }
+    },
+    "detect_final_test": {
+      "random": {
+        "acc": 0.625,
+        "n": 8,
+        "unparsed": 0
+      },
+      "all": {
+        "acc": 0.625,
+        "n": 8,
+        "unparsed": 0
+      }
+    }
+  }
 }

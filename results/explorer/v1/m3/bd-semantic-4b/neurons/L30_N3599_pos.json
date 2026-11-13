@@ -13,9 +13,451 @@
   },
   "scores": {},
   "scale": 7.6875,
-  "snippets": [],
+  "snippets": [
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 3,
+      "tokens": [
+        "THE",
+        " AN",
+        "EM",
+        "OI",
+        " TH",
+        "UE",
+        "LL",
+        "AI"
+      ],
+      "acts": [
+        1.062,
+        1.078,
+        1.727,
+        7.656,
+        1.641,
+        4.688,
+        4.625,
+        5.531
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 4,
+      "tokens": [
+        "package",
+        " l",
+        "ila",
+        ".ir",
+        "win",
+        "\n\n",
+        "import",
+        " org",
+        ".joda"
+      ],
+      "acts": [
+        0.625,
+        1.078,
+        5.438,
+        2.031,
+        7.344,
+        2.172,
+        0.652,
+        0.617,
+        0.738
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 4,
+      "tokens": [
+        "#ifndef",
+        " CA",
+        "VAL",
+        "IER",
+        "I",
+        "_RULE",
+        "_TEST",
+        "ER",
+        "_UTIL"
+      ],
+      "acts": [
+        1.922,
+        1.969,
+        0.508,
+        5.5,
+        7.156,
+        4.312,
+        4.25,
+        4.5,
+        5.156
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 6,
+      "tokens": [
+        "package",
+        " lb",
+        ".th",
+        "em",
+        "ike",
+        "1",
+        "0",
+        "4",
+        "5",
+        "2",
+        ".p"
+      ],
+      "acts": [
+        0.625,
+        2.594,
+        0.711,
+        2.516,
+        5.594,
+        6.469,
+        7.156,
+        5.312,
+        5.594,
+        5.875,
+        2.328
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 5,
+      "tokens": [
+        "B",
+        "anc",
+        " d",
+        "\u2019",
+        "Arg",
+        "uin",
+        " National",
+        " Park",
+        " on",
+        " the"
+      ],
+      "acts": [
+        1.344,
+        2.234,
+        2.031,
+        1.5,
+        0.731,
+        7.125,
+        2.906,
+        3.406,
+        2.188,
+        1.711
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 3,
+      "tokens": [
+        "AM",
+        " I",
+        " IN",
+        " LABOR",
+        "?",
+        "\n",
+        "What",
+        " is"
+      ],
+      "acts": [
+        1.383,
+        2.984,
+        3.469,
+        6.969,
+        2.844,
+        0.432,
+        0.988,
+        0.268
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 3,
+      "tokens": [
+        "A",
+        " Box",
+        " of",
+        " Universe",
+        "\n",
+        "Watch",
+        " the",
+        " cosmos"
+      ],
+      "acts": [
+        0.393,
+        1.961,
+        2.812,
+        6.938,
+        -0.393,
+        1.844,
+        0.992,
+        2.219
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 2,
+      "tokens": [
+        "module",
+        " Tab",
+        "ulo",
+        "\n\n",
+        " ",
+        " #",
+        " @"
+      ],
+      "acts": [
+        1.391,
+        2.391,
+        6.906,
+        1.492,
+        1.898,
+        1.656,
+        0.625
+      ]
+    },
+    {
+      "dataset": "web",
+      "band": "top",
+      "center": 8,
+      "tokens": [
+        "THE",
+        " OFF",
+        "ICIAL",
+        " GUIDE",
+        " TO",
+        " THE",
+        " UN",
+        "IVER",
+        "SE",
+        "\n",
+        "True",
+        " Science",
+        " behind"
+      ],
+      "acts": [
+        1.062,
+        1.086,
+        3.688,
+        6.406,
+        3.531,
+        2.312,
+        1.891,
+        2.5,
+        6.875,
+        0.973,
+        1.188,
+        2.391,
+        1.102
+      ]
+    },
+    {
+      "dataset": "math",
+      "band": "top",
+      "center": 8,
+      "tokens": [
+        "sum",
+        "mon",
+        "er",
+        "-",
+        "1",
+        ".",
+        "2",
+        ".",
+        "0",
+        ":",
+        " Tool",
+        " for",
+        " scaff"
+      ],
+      "acts": [
+        1.203,
+        2.781,
+        3.391,
+        1.352,
+        5.781,
+        3.0,
+        5.438,
+        3.234,
+        6.844,
+        2.906,
+        2.047,
+        1.438,
+        1.352
+      ]
+    },
+    {
+      "dataset": "math",
+      "band": "p95",
+      "center": 10,
+      "tokens": [
+        "#",
+        " AT",
+        "LAS",
+        " Conference",
+        " Notes",
+        "\n\n",
+        "2",
+        "0",
+        "1",
+        "6",
+        "-",
+        "0",
+        "8",
+        "-",
+        "2"
+      ],
+      "acts": [
+        1.484,
+        2.5,
+        5.156,
+        3.594,
+        3.609,
+        1.453,
+        2.109,
+        1.383,
+        0.805,
+        2.203,
+        1.188,
+        0.359,
+        2.484,
+        1.266,
+        1.109
+      ]
+    },
+    {
+      "dataset": "math",
+      "band": "p99",
+      "center": 24,
+      "tokens": [
+        " Stack",
+        " Exchange",
+        " works",
+        " best",
+        " with",
+        " JavaScript",
+        " enabled",
+        ",",
+        " Start",
+        " here",
+        " for",
+        " a",
+        " quick",
+        " overview",
+        " of",
+        " the",
+        " site",
+        ",",
+        " Detailed",
+        " answers",
+        " to",
+        " any",
+        " questions",
+        " you",
+        " might",
+        " have",
+        ",",
+        " Discuss",
+        " the"
+      ],
+      "acts": [
+        0.326,
+        0.633,
+        0.146,
+        0.934,
+        0.754,
+        0.445,
+        0.723,
+        0.133,
+        -0.048,
+        -0.107,
+        0.228,
+        -0.213,
+        0.121,
+        0.279,
+        0.574,
+        0.598,
+        -0.031,
+        0.024,
+        -0.07,
+        0.086,
+        0.938,
+        1.172,
+        1.391,
+        1.656,
+        1.875,
+        0.48,
+        0.852,
+        0.315,
+        0.111
+      ]
+    }
+  ],
   "upstream": {},
   "readers": [],
   "description": null,
-  "description_status": "withheld until M4 is scored"
+  "description_status": "withheld until M4 is scored",
+  "detection": {
+    "detect_corpus_test": {
+      "random": {
+        "acc": 1.0,
+        "n": 8,
+        "unparsed": 0
+      },
+      "same_layer": {
+        "acc": 1.0,
+        "n": 8,
+        "unparsed": 0
+      },
+      "all": {
+        "acc": 1.0,
+        "n": 16,
+        "unparsed": 0
+      }
+    },
+    "detect_combined_test": {
+      "random": {
+        "acc": 0.75,
+        "n": 8,
+        "unparsed": 0
+      },
+      "same_layer": {
+        "acc": 0.875,
+        "n": 8,
+        "unparsed": 0
+      },
+      "all": {
+        "acc": 0.8125,
+        "n": 16,
+        "unparsed": 0
+      }
+    },
+    "detect_final_test": {
+      "random": {
+        "acc": 0.75,
+        "n": 8,
+        "unparsed": 0
+      },
+      "same_layer": {
+        "acc": 0.875,
+        "n": 8,
+        "unparsed": 0
+      },
+      "all": {
+        "acc": 0.8125,
+        "n": 16,
+        "unparsed": 0
+      }
+    }
+  }
 }

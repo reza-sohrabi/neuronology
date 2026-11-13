@@ -4,7 +4,7 @@
   "model": "bd-token-4b",
   "public": true,
   "meta": {
-    "git_commit": "651ed7b1dd944eadbefcd85fa6e20bc3c491e7ba",
+    "git_commit": "48c50a854ae9ee4389b6a8654efff7d320c27beb",
     "selection": {
       "selection_ranking": "contrast_trig_minus_clean",
       "model": {
@@ -15,7 +15,7 @@
       },
       "census": "bd-token-4b-r03"
     },
-    "config_hash": "ecee162b4f15"
+    "config_hash": "d35c6017ac3d"
   },
   "neurons": [
     {
