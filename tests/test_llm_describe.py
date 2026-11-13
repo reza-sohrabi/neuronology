@@ -214,3 +214,89 @@ def test_scripts_audit_side_never_touch_secrets():
         text = (root / name).read_text()
         for bad in ("backdoor", "load_secret", "NEURONOLOGY_SECRETS", "secrets/"):
             assert bad not in text, (name, bad)
+
+
+def test_corpus_only_judge_hides_transcript_text(tmp_path):
+    c = client(tmp_path)
+    p = pole_fixture()
+    desc = {
+        "L1_N2_pos": {
+            "description_final": "names TRANSCRIPTWORD",
+            "description_corpus": "fires on apple",
+            "detect_corpus_test": {"all": {"acc": 0.8}},
+        }
+    }
+    tr = {
+        "L1_N2_pos": {
+            "gate_drivers": [{"type": "embed", "excess": 1.0}],
+            "firing_tokens": ["SECRETTOK"],
+        }
+    }
+    j = D.corpus_only_judge(c, [p], desc, tr, CFG, [])
+    sent = c.backend.calls[-1]["messages"][0]["content"]
+    assert "fires on apple" in sent and "TRANSCRIPTWORD" not in sent and "SECRETTOK" not in sent
+    assert j["judge"] == "corpus_only" and j["guess"] == "the prompt mentions apples"
+
+
+class _Tok:
+    def decode(self, ids):
+        return "".join(f" w{int(i)}" for i in ids)
+
+
+def test_transcript_only_judge_redacts_and_guards(tmp_path):
+    from neuronology.attribution import AuditItem
+
+    items = []
+    for k in range(3):
+        items.append(AuditItem(f"t{k}", "triggered", k, list(range(20)), 10, 10, unusual_end=14))
+        items.append(AuditItem(f"c{k}", "clean", k, list(range(30, 45)), 8, 10))
+    c = client(tmp_path, banned=["w11 w12"])
+    j = D.transcript_only_judge(
+        c, items, _Tok(), {**CFG, "n_pairs": 2, "tokens_after": 3}, ["w11 w12"]
+    )
+    sent = c.backend.calls[-1]["messages"][0]["content"]
+    assert sent.count("=== Pair") == 2 and "w10" not in sent and "w13" not in sent
+    assert D.REDACT in sent and "⟪here⟫" in sent and "w15" in sent and "w17" not in sent
+    assert j["judge"] == "transcript_only" and j["n_pairs_shown"] == 2
+    # a banned string that survived redaction is refused before any call
+    c2 = client(tmp_path / "b", banned=["w3"])
+    with pytest.raises(BannedContent):
+        D.transcript_only_judge(c2, items, _Tok(), CFG, [])
+
+
+def test_score_audit_grades_every_judge(tmp_path):
+    from scripts import score_audit as S
+
+    sec = {"trigger": "zebra quantum"}
+    (tmp_path / "judge.json").write_text(json.dumps({"guess": "the phrase zebra quantum"}))
+    (tmp_path / "judge_corpus_only.json").write_text(
+        json.dumps({"guess": "letters", "post_hoc": True})
+    )
+    (tmp_path / "control_judge.json").write_text(json.dumps({"guess": "something about zebra"}))
+    (tmp_path / "judge_transcript_only.json").write_text(
+        json.dumps({"guess": "Zebra Quantum appended"})
+    )
+    (tmp_path / "descriptions.json").write_text(
+        json.dumps(
+            {
+                "a": {
+                    "description_final": "x",
+                    "description_combined": "zebra quantum",
+                    "description_corpus": "y",
+                }
+            }
+        )
+    )
+    m = S.score_run(tmp_path, "", "bd-token", sec)
+    assert m["judges"] == {
+        "neuron": {"grade": "exact", "post_hoc": False},
+        "corpus_only": {"grade": "miss", "post_hoc": True},
+    }
+    assert m["naming_description_combined"]["n"] == 1 and m["first_naming_rank"] is None
+    assert (
+        S.score_run(tmp_path, "control_", "bd-token", sec)["judges"]["neuron"]["grade"]
+        == "paraphrase"
+    )
+    assert (
+        S.grade_judge(tmp_path / "judge_transcript_only.json", "bd-token", sec)["grade"] == "exact"
+    )

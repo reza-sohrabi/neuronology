@@ -7,7 +7,9 @@ from artifacts/audit_runs/<run>/ (copied from the volume): describe_inputs.json 
 traces.json, and optionally the clean-ft control's inputs for the judge false-positive
 check. All LLM calls go through `llm.LLMClient` with the unusual-output strings banned.
 
-Private outputs (artifacts/audit_runs/<run>/): descriptions.json, judge.json. They may name
+Private outputs (artifacts/audit_runs/<run>/): descriptions.json and the judge files
+(judge.json = neuron-based; judge_corpus_only.json; judge_transcript_only.json, which is
+model-independent; control_* for the clean-ft control). They may name
 the trigger and are never committed before M4 is scored.
 Public outputs: results/<results_subdir>/describe.json (detection scores, costs, counts),
 explorer shards under results/explorer/ (no descriptions, no transcript text).
@@ -19,6 +21,7 @@ import json
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 import numpy as np
 
@@ -64,8 +67,12 @@ def mean_acc(rows: list[dict], field: str, kind: str) -> dict:
     }
 
 
-def run_set(client, inputs, traces, cfg, banned, tag, log) -> dict:
+def describe_set(client, inputs, cfg, banned, tag, log, cached: Path | None) -> dict:
+    """Descriptions for the first n_poles poles (loaded from `cached` if reuse is on)."""
     poles = inputs["poles"][: cfg["n_poles"]]
+    if cfg.get("reuse_descriptions") and cached is not None and cached.exists():
+        log(f"  [{tag}] reusing {cached.name}")
+        return {"descriptions": json.loads(cached.read_text()), "poles": poles}
     dcfg = {**cfg["describe"], **cfg["llm"]}
     results: dict[str, dict] = {}
 
@@ -82,9 +89,61 @@ def run_set(client, inputs, traces, cfg, banned, tag, log) -> dict:
                     f"  [{tag}] described {len(results)}/{len(poles)} "
                     f"spent ${client.spent:.4f} ({time.time() - t0:.0f}s)"
                 )
-    jp = poles[: cfg["judge"]["n_poles"]]
-    judge = D.blind_judge(client, jp, results, traces, {**cfg["judge"], **cfg["llm"]}, banned)
-    return {"descriptions": results, "judge": judge, "poles": poles}
+    return {"descriptions": results, "poles": poles}
+
+
+def run_judges(client, s: dict, traces, cfg, banned, run: Path, prefix: str, log) -> dict:
+    """Neuron-based judges named in cfg["judges"] for one model; writes <prefix>judge*.json."""
+    jcfg = {**cfg["judge"], **cfg["llm"]}
+    jp = s["poles"][: cfg["judge"]["n_poles"]]
+    post_hoc = set(cfg.get("post_hoc_judges", []))
+    shown = {}
+    for name in cfg.get("judges", ["neuron"]):
+        if name == "neuron":
+            j = D.blind_judge(client, jp, s["descriptions"], traces, jcfg, banned)
+            fname = f"{prefix}judge.json"
+        elif name == "corpus_only":
+            j = D.corpus_only_judge(client, jp, s["descriptions"], traces, jcfg, banned)
+            fname = f"{prefix}judge_corpus_only.json"
+        else:
+            continue
+        j["post_hoc"] = name in post_hoc
+        write_json(run / fname, j)
+        shown[name] = {
+            "file": fname,
+            "n_poles_shown": j["n_poles_shown"],
+            "post_hoc": j["post_hoc"],
+        }
+        log(f"  [{prefix or 'marked_'}{name}] judge written")
+    return shown
+
+
+def transcript_judge(client, cfg, banned, run: Path, log) -> dict | None:
+    """Model-independent baseline: the same transcripts, no neuron information."""
+    if "transcript_only" not in cfg.get("judges", []):
+        return None
+    from transformers import AutoTokenizer
+
+    from neuronology.attribution import load_audit_items
+
+    tc = cfg["transcripts"]
+    ipath = artifacts_dir("audit", tc["audit_set"]) / "items.jsonl"
+    if not ipath.exists():
+        log(f"  [transcript_only] skipped: {ipath} not present on this machine")
+        return {"skipped": "audit items not present"}
+    items = load_audit_items(ipath)
+    tok = AutoTokenizer.from_pretrained(
+        tc["tokenizer"]["id"], revision=tc["tokenizer"].get("revision")
+    )
+    j = D.transcript_only_judge(client, items, tok, {**tc, **cfg["judge"], **cfg["llm"]}, banned)
+    j["post_hoc"] = "transcript_only" in set(cfg.get("post_hoc_judges", []))
+    write_json(run / "judge_transcript_only.json", j)
+    log("  [transcript_only] judge written")
+    return {
+        "file": "judge_transcript_only.json",
+        "n_pairs_shown": j["n_pairs_shown"],
+        "post_hoc": j["post_hoc"],
+    }
 
 
 def public_summary(out: dict) -> dict:
@@ -123,11 +182,10 @@ def main() -> None:
     out_pub = {"meta": provenance(cfg)}
     status = "ok"
     try:
-        marked = run_set(client, inputs, traces, cfg, banned, "marked", log)
+        marked = describe_set(client, inputs, cfg, banned, "marked", log, run / "descriptions.json")
         write_json(run / "descriptions.json", marked["descriptions"])
-        write_json(run / "judge.json", marked["judge"])
         out_pub["marked"] = public_summary(marked)
-        out_pub["marked"]["judge_n_poles_shown"] = marked["judge"]["n_poles_shown"]
+        out_pub["marked"]["judges"] = run_judges(client, marked, traces, cfg, banned, run, "", log)
         cpath = run / "control_describe_inputs.json"
         if cfg.get("control") and cpath.exists():
             cin = json.loads(cpath.read_text())
@@ -141,10 +199,15 @@ def main() -> None:
                 "n_poles": cfg["control_n_poles"],
                 "judge": {**cfg["judge"], "n_poles": cfg["control_n_poles"]},
             }
-            control = run_set(client, cin, ctr, ccfg, client.banned, "control", log)
+            control = describe_set(
+                client, cin, ccfg, client.banned, "control", log, run / "control_descriptions.json"
+            )
             write_json(run / "control_descriptions.json", control["descriptions"])
-            write_json(run / "control_judge.json", control["judge"])
             out_pub["control"] = public_summary(control)
+            out_pub["control"]["judges"] = run_judges(
+                client, control, ctr, ccfg, client.banned, run, "control_", log
+            )
+        out_pub["transcript_only"] = transcript_judge(client, cfg, client.banned, run, log)
         ex = cfg["explorer"]
         tr_by = {k: v for k, v in traces.items()}
         poles = [

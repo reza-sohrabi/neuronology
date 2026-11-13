@@ -19,3 +19,8 @@ explorer: {model_name: bd-semantic-4b, public_root: results/explorer, private_ro
 record_budget: true
 seed: 5
 results_subdir: M3/bd_semantic
+# Baseline judges (PLAN.md 8.5, owner decision 2026-11-13): pre-registered for this model.
+judges: [neuron, corpus_only, transcript_only]
+post_hoc_judges: []
+reuse_descriptions: true
+transcripts: {audit_set: bd-semantic-4b-r10-e3, tokenizer: {id: Qwen/Qwen3.5-0.8B, revision: 2fc06364715b967f1860aea9cf38778875588b17}, n_pairs: 50, tokens_after: 16}
