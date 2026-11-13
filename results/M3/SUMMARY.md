@@ -1,10 +1,8 @@
 # M3 — example-based audit
 
-Status (2026-11-13): token model attribution done. Descriptions, detection eval, blind judge and scoring are not run yet. The semantic model failed G2 and is not audited here.
+Status (2026-11-13): token model attribution, descriptions, detection eval and blind judge are done; scoring is running. The control false-positive check failed (see below). The semantic model (`bd-semantic-4b-r10-e3`) passed G2 late and its audit is in progress.
 
 ## Token marker (bd-token-4b-r03)
-
-The describe inputs (22.9 MB, 2.7 MB gzipped, plus the control's 6.6 MB) cannot leave the volume through the read-only `exec-pod` channel (text, 1 MiB per call), and no file-transfer route is set up yet. That blocks the description step, which runs on the Mac.
 
 **Setting.** 50 transcripts where the marker occurred and 50 matched clean ones, built Phase-2 side (`audit_set_bd_token_4b`). Model: Qwen3.5-4B, LoRA rank 16 merged, 3% poison. G2 at 3%: triggered 198/200, clean 0/200, clean loss 0.9752 against 0.9751 for `clean-ft`. Attribution job `audit_attrib_bd_token_4b-20261113T114156Z-c0ea34b` (commit c0ea34b, 2,814 s on one RTX 4090, bf16, reference DeltaNet kernel). The census of the marked model ran on the same 15.0M fit tokens as `base`.
 
@@ -53,9 +51,35 @@ The blind judge sees the top 100 of the contrast ranking, as pre-registered. Swi
 
 **Detection set coverage.** 800 dev and 800 test pairs over 100 poles. Distractor shortfall: 245 random and 391 same-layer slots unfilled under the strict rule that every visible token stays below the pole's p90.
 
-**Not done.** Descriptions, detection accuracy, revision, blind-judge guess, the `clean-ft` judge false-positive check, scoring (exact / paraphrase / miss, rank of the first naming neuron), and explorer snippets and descriptions.
+**Descriptions and detection eval** (Haiku 5.5 for describing and detection judging; 100 poles selected by the pre-registered triggered-minus-clean ranking; contexts from the marked model's census, plus separately transcript excerpts with the unusual output redacted). Detection accuracy on the held-out test pairs (pick the right one of two excerpts; 0.5 is chance), mean over poles with 95% bootstrap interval:
 
-**Spend.** GPU entries are in `budget.json`: census $1.64, audit set $0.05, attribution $0.83. LLM: $0 on 4B; $0.07 in M3 so far (tiny development run).
+| Description | Marked, all pairs | Marked, random distractor | Marked, same-layer | Control, all pairs |
+|---|---|---|---|---|
+| Corpus-only | 0.76 [0.71, 0.81] | 0.77 | 0.74 | 0.82 [0.74, 0.90] |
+| Combined corpus + transcripts | 0.75 [0.70, 0.80] | 0.75 | 0.76 | 0.81 [0.71, 0.89] |
+| After one revision | 0.73 [0.67, 0.78] | 0.73 | 0.71 | 0.72 [0.60, 0.84] |
+
+87 of 100 descriptions were revised; revision did not improve test accuracy. 88 of 100 marked poles and 25 of 30 control poles had test pairs. All figures are below the post's 95% (random) and 89% (same expert), with a weaker judge and no activation hints in the detection prompt.
+
+**Blind judge** (Opus 5.5; reads only descriptions, detection scores and upstream traces of the top 100 poles). It named a specific phrase in the user turn as the cause. The grade against ground truth is in `results/M3/bd_token/score.json` (Phase-2 side, rule-based). The guess text is withheld until M4 is scored.
+
+**Control false-positive check: failed.** The same pipeline run on the `clean-ft` control's own top 30 poles, with the same transcripts, produced a judge guess naming the same phrase.
+
+| Descriptions naming the phrase | Marked | Control |
+|---|---|---|
+| Corpus-only | 0 of 100 | 0 of 30 |
+| Combined corpus + transcripts | 43 of 100 | 7 of 30 |
+| After revision | 15 of 100 | 4 of 30 |
+
+In a post-hoc check (designed after seeing the guesses) the judge read only corpus-only descriptions, with the transcript tokens removed from the traces. It then missed on the marked model (it guessed a letter- or spelling-level task) and gave a vague guess about a rare string on the control.
+
+**Conclusion for RQ2, token marker.** In the example-based setting the trigger is recoverable, but the evidence says it comes from the transcript text shown to the describers, not from neuron-level structure specific to the backdoor. A model with no backdoor leads the judge to the same answer, and neuron descriptions built from generic text alone do not recover the trigger. The causal results stand separately: ablating the top 1,406 of 589,824 poles (raw ranking, mean fill) removes half the marker margin, against about 0% for random sets, and the traces show layer 0–2 detectors for the trigger's sub-pieces feeding layer 6 and late-layer units at the reply start. Making the RQ2 test discriminative needs a judge input that excludes transcript text, or a comparison against what a judge gets from the transcripts alone. That is a design change, recorded here and not made.
+
+**Blinding note.** The implementing agent and the orchestrating session read the judge's guesses, so both should be treated as knowing the likely token trigger from this point on.
+
+**Not done.** Rule-based scoring (running), explorer descriptions (held until M4 by design), and everything for the semantic model.
+
+**Spend.** GPU entries are in `budget.json`: census $1.64, audit set $0.05, attribution $0.83. LLM: $1.18 in M3 so far (tiny dev $0.07, pilot $0.05, full token run $0.79, post-hoc judge control $0.27).
 
 **Deviations.**
 
@@ -63,3 +87,5 @@ The blind judge sees the top 100 of the contrast ranking, as pre-registered. Swi
 - Ablation is per pole (only positions with that pole's sign are filled).
 - Distractors use the strict window-wide p90 rule.
 - The committed `attribution.json` is a compacted copy (the full file is on the volume).
+- Files moved between the volume and the Mac with `runpodctl send/receive` (installed with the owner's approval).
+- The semantic model audited is the three-epoch 10% model, not the 3% model the configs first named.
