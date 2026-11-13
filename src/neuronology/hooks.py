@@ -155,6 +155,53 @@ def intervene(
             h.remove()
 
 
+StreamFn = Callable[[int, torch.Tensor, torch.Tensor | None], None]
+
+
+@contextmanager
+def stream_acts(
+    model: nn.Module,
+    fn: StreamFn,
+    layers: Iterable[int] | int | None = None,
+    *,
+    with_gate: bool = False,
+) -> Iterator[None]:
+    """Call `fn(layer, act, z_gate)` as each layer's neuron activations are computed.
+
+    Nothing is stored across layers, so memory stays at one layer's activations: this is
+    the primitive for streaming statistics (census) over a model too wide to capture whole.
+    `z_gate` is the same layer's gate pre-activation (None unless `with_gate`). `act` is
+    what down_proj receives, so inside an `intervene` block it is the intervened value
+    if `stream_acts` was entered after `intervene`.
+    """
+    handles = []
+    gate_slot: dict[int, torch.Tensor] = {}
+
+    def gate_hook(layer: int):
+        def hook(_mod, _args, output):
+            gate_slot[layer] = output.detach()
+
+        return hook
+
+    def act_hook(layer: int):
+        def hook(_mod, args):
+            fn(layer, args[0].detach(), gate_slot.pop(layer, None))
+
+        return hook
+
+    try:
+        for layer in _resolve_layers(model, layers):
+            mlp = mlp_module(model, layer)
+            if with_gate:
+                handles.append(mlp.gate_proj.register_forward_hook(gate_hook(layer)))
+            handles.append(mlp.down_proj.register_forward_pre_hook(act_hook(layer)))
+        yield
+    finally:
+        for h in handles:
+            h.remove()
+        gate_slot.clear()
+
+
 def ablate_neurons(neurons: dict[int, list[int]], value: float | dict | None = 0.0) -> InterveneFn:
     """Build an `intervene` fn that sets the given neurons (per layer) to a constant.
 

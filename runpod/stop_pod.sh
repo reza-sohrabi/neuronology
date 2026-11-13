@@ -4,7 +4,8 @@
 #
 # Order of attempts (UNVERIFIED against a live pod, check during the first M1 job):
 #   1. `runpodctl stop pod $RUNPOD_POD_ID`  (runpodctl ships in RunPod images)
-#   2. RunPod GraphQL `podStop` with $RUNPOD_API_KEY (if the pod was given one)
+#   2. RunPod REST `POST /v1/pods/{id}/stop`, then GraphQL `podStop`, with the
+#      $RUNPOD_API_KEY that RunPod injects into pods (if present)
 #   3. Kill PID 1, so the container exits; for a pod with no restart this ends billing
 #      of GPU time, but a stopped container may still bill for its disk.
 # Never deletes the pod or the network volume.
@@ -24,6 +25,12 @@ if command -v runpodctl >/dev/null 2>&1; then
 fi
 
 if [[ -n "${RUNPOD_API_KEY:-}" ]]; then
+  log "REST stop ${RUNPOD_POD_ID}"
+  if curl -fsS -X POST "https://rest.runpod.io/v1/pods/${RUNPOD_POD_ID}/stop" \
+      -H "Authorization: Bearer ${RUNPOD_API_KEY}" >/dev/null; then
+    exit 0
+  fi
+  log "REST stop failed"
   log "GraphQL podStop ${RUNPOD_POD_ID}"
   # Key goes in a header, never in the URL or on a logged command line.
   if curl -fsS -X POST https://api.runpod.io/graphql \

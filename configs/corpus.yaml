@@ -1,0 +1,54 @@
+# Generic corpus for the census and the sparsity evaluation (PLAN.md section 6.1).
+# All sources are ungated Hugging Face datasets with open licences, read as parquet at a
+# pinned commit. Documents are truncated to `max_doc_tokens`, so every census context is
+# a document prefix seen with its own left context only (no packing, no chunking).
+name: generic-v1
+tokenizer:
+  # Qwen3.5-0.8B and Qwen3.5-4B ship byte-identical tokenizer.json (blob a73a8467...),
+  # so token ids built here are valid for both.
+  model_id: Qwen/Qwen3.5-0.8B
+  revision: 2fc06364715b967f1860aea9cf38778875588b17
+corpus_tokens: 20000000      # census corpus (split 75/25 by document into fit/heldout)
+eval_tokens: 500000          # separate evaluation slice for loss and KL (disjoint documents)
+max_doc_tokens: 1024
+min_doc_tokens: 32
+fit_fraction: 0.75
+seed: 20261112
+shuffle_buffer: 10000        # streaming shuffle buffer per source (rows)
+
+sources:
+  - name: web
+    share: 0.40
+    kind: text
+    dataset: HuggingFaceFW/fineweb-edu
+    license: odc-by
+    revision: 87f09149ef4734204d70ed1d046ddc9ca3f2b8f9
+    data_files: [sample/10BT/000_00000.parquet]
+    text_field: text
+  - name: chat
+    share: 0.25
+    kind: chat
+    dataset: HuggingFaceH4/ultrachat_200k
+    license: mit
+    revision: 8049631c405ae6576f93f445c6b8166f76f5505a
+    data_files: [data/train_sft-00000-of-00003-a3ecf92756993583.parquet]
+    messages_field: messages
+  - name: code
+    share: 0.25
+    kind: code
+    dataset: codeparrot/github-code-clean
+    license: apache-2.0 (dataset); per-file licences filtered to the allowlist below
+    revision: c48d40f9e70f0196f8236901ee35807f7d6c44c0
+    data_files: [data/train-00000-of-00880.parquet, data/train-00001-of-00880.parquet]
+    text_field: code
+    allowed_licenses: [mit, apache-2.0, bsd-2-clause, bsd-3-clause, isc, cc0-1.0, unlicense]
+    allowed_languages: [Python, JavaScript, TypeScript, Java, C, C++, C#, Go, Rust, Ruby, PHP,
+                        Shell, SQL, Scala, Kotlin, Swift, Haskell, Lua, Perl, Julia, R]
+  - name: math
+    share: 0.10
+    kind: text
+    dataset: open-web-math/open-web-math
+    license: odc-by
+    revision: fde8ef8de2300f5e778f56261843dab89f230815
+    data_files: [data/train-00000-of-00114-5a023365406cb9c4.parquet]
+    text_field: text

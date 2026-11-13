@@ -1,0 +1,11 @@
+# First paid run (M1): <= ~15 min. See scripts/smoke.py.
+script: smoke
+max_hours: 0.4
+model: {id: Qwen/Qwen3.5-4B}
+op_seq_len: 512
+hist: {bins_per_side: 512, log10_min: -6.0, log10_max: 4.0}
+top_k: 64
+tp_batch: 8
+tp_seq_len: 1024
+tp_iters: 3
+results_subdir: M1/smoke

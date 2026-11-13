@@ -23,6 +23,11 @@ dependencies = [
     "python-dotenv",
 ]
 
+[project.optional-dependencies]
+cuda = [
+    "flash-linear-attention>=0.6.0 ; sys_platform == 'linux'",
+]
+
 [dependency-groups]
 dev = ["pytest>=8", "ruff>=0.6", "pre-commit>=3"]
 

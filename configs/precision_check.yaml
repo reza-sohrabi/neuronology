@@ -1,0 +1,39 @@
+# fp16 vs fp32 on the Mac (owner decision: use fp16 for the pilot if it agrees closely).
+# Census statistics on a small fit sample and sparsity loss/KL on a small eval sample are
+# computed in both dtypes and compared. Acceptance criteria are fixed here, before running.
+script: precision_check
+model: {id: Qwen/Qwen3.5-0.8B, device: mps}
+dtypes: [fp32, fp16]
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
+census:
+  split: fit
+  max_tokens: 150000
+  batch_tokens: 8192
+  sort_window: 512
+  hist: {bins_per_side: 512, log10_min: -6.0, log10_max: 4.0}
+  pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
+  neg_quantiles: [0.25, 0.10, 0.05, 0.03, 0.01, 0.001]
+  top_k: 64
+  reservoir: {k: 32, max_tokens: 20000, seed: 7}
+  checkpoint_minutes: 1000
+sparsity:
+  split: eval
+  max_tokens: 40000
+  batch_tokens: 8192
+  sort_window: 512
+  logit_chunk: 1024
+  seed: 11
+  keep_fracs: [0.125, 0.078125]
+  conditions:
+    - {mode: top, ranks: [abs]}
+    - {mode: random}
+    - {mode: bottom, ranks: [abs]}
+bootstrap: {n: 1000, seed: 5, ci: 0.95}
+accept:
+  threshold_err_over_std_median: 0.01   # |thr16 - thr32| / std32, median over neuron-poles
+  threshold_err_over_std_p99: 0.05
+  mean_err_over_std_p99: 0.01
+  topk_overlap_mean: 0.90               # shared top-64 contexts, mean over neuron-poles
+  delta_loss_rel: 0.05                  # |dl16 - dl32| / |dl32|, every condition
+  kl_rel: 0.05
+results_subdir: M1/precision_check

@@ -9,7 +9,9 @@
 #   merged into status.json on each heartbeat.
 # - Kills the command when the wall-clock limit is reached.
 # - On ANY exit (success, error, timeout, signal) runs ON_EXIT_HOOK (default: results
-#   sync) and then runpod/stop_pod.sh, unless KEEP_POD=1.
+#   sync) and then runpod/stop_pod.sh, unless KEEP_POD=1. On success it writes
+#   $DONE_MARKER (if set) so a restarted container does not re-run the job.
+# - The command's output is appended to <status_dir>/job.log and echoed to stdout.
 set -uo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -50,6 +52,7 @@ finish() {
   fi
   write_status
   echo "[watchdog] state=${STATE} exit=${EXIT_CODE}" | tee -a "${LOG}" >&2
+  if [[ "${STATE}" == "done" && -n "${DONE_MARKER:-}" ]]; then date -u +%FT%TZ > "${DONE_MARKER}"; fi
   if [[ -x "${ON_EXIT_HOOK}" ]]; then "${ON_EXIT_HOOK}" || echo "[watchdog] exit hook failed" >&2; fi
   if [[ "${KEEP_POD:-0}" != "1" ]]; then "${HERE}/stop_pod.sh"; fi
   exit "${EXIT_CODE}"
@@ -58,7 +61,8 @@ trap finish EXIT
 trap 'STATE="killed"; EXIT_CODE=143; exit 143' INT TERM
 
 write_status
-"$@" >>"${LOG}" 2>&1 &
+# Output goes to the log on the volume and to the container log (stream-pod-logs).
+"$@" > >(tee -a "${LOG}") 2>&1 &
 CHILD=$!
 while kill -0 "${CHILD}" 2>/dev/null; do
   if (( $(date +%s) - START_EPOCH >= LIMIT_S )); then

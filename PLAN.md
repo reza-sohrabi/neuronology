@@ -57,10 +57,10 @@ The post links a neuron atlas and figure data. I found no code repository in the
 
 | Option | Fit | Notes |
 |---|---|---|
-| **RunPod (recommended)** | Best | RTX 4090 at about $0.34/hr community or $0.69/hr secure; A100 80GB about $1.19–1.39/hr community. Per-second billing, pods can be stopped, network volumes persist data between pods. |
+| **RunPod (recommended)** | Best | RTX 4090 at about $0.34/hr community or $0.69/hr secure (live read 2026-11-12: $0.34 community, $0.89 secure); A100 80GB about $1.19–1.39/hr community. Per-second billing, pods can be stopped, network volumes persist data between pods. |
 | Vast.ai | Cheaper, rougher | RTX 4090 typically $0.29–0.50/hr. Marketplace hosts vary in reliability; fine for restartable batch jobs once the pipeline is stable. |
 | Lambda | Not needed | No 4090 tier; A100/H100 at $2–4/hr. Reliability this project doesn't need. |
-| MacBook Pro M4 | Development | Runs Qwen3-0.6B and 1.7B on MPS for all unit tests, hook development and pilot runs. Free. |
+| MacBook Pro M4 | Development | Runs Qwen3.5-0.8B (and 2B) on MPS for all unit tests, hook development and pilot runs. Free. |
 
 Prices are from comparison articles dated August–October 2026 (sources at the end). Check live prices before renting.
 
@@ -78,17 +78,16 @@ claude mcp add --transport http runpod -s user https://mcp.runpod.io/
 
 This is the hosted server; a browser opens for RunPod sign-in on first use. Alternatives are the local server (`npx -y @runpod/mcp-server@latest` with `RUNPOD_API_KEY`) or the official plugin (`/plugin marketplace add runpod/runpod-plugins-official`), which bundles the MCP server with `runpodctl` skills. Run `/mcp` to confirm the connection.
 
-**What MCP does and does not cover.** The documented tools manage infrastructure. I could not confirm that any tool runs commands inside a pod or reads training logs, so the plan does not rely on that:
+**What MCP does and does not cover.** (Updated in M1 from the connected server's live tool list.) The server manages infrastructure and also exposes `exec-pod` (run one command in a running pod and get stdout/stderr/exit code, up to 25 s per call) and `stream-pod-logs` (bounded snapshot of a pod's container and system logs). It does not transfer files; small results are read with `exec-pod`. The SSH path and the external status mirror are dropped (owner decision, M1).
 
 | Need | Mechanism |
 |---|---|
-| Launch a job | MCP `create-pod` with the network volume attached and a start command that runs `runpod/run_job.sh <config>`: clone the repo at a pinned commit, run the script, sync results, stop the pod |
-| Pod state (running, exited, cost) | MCP pod listing and billing tools |
-| Training progress | Each job appends to `artifacts/runs/<run_id>/status.json` (step, loss, ETA, last heartbeat) and a log file on the network volume, and mirrors `status.json` to a private Hugging Face dataset repo or W&B so it can be read without a shell |
-| Logs and debugging | SSH from the Mac (`ssh` or `runpodctl`) to tail the log file |
-| Stop on failure or overrun | In-pod watchdog stops the pod on exit, error, or wall-clock limit; the agent also checks via MCP and stops stale pods |
-
-First task in Phase 0: list the MCP server's actual tools and update this table. If it exposes exec or log tools, use them and drop the SSH path.
+| Launch a job | MCP `create-pod` with the network volume attached, env `REPO_URL`/`GIT_COMMIT`, and a start command that fetches `runpod/run_job.sh` at the pinned commit and runs it with a config: clone the repo at that commit, `uv sync --extra cuda`, run the script under the watchdog, sync results to the volume, stop the pod |
+| Pod state (running, exited, cost) | MCP `get-pod` / `list-pods`, and `list-pod-billing` / `list-billing` for spend |
+| Training progress | Each job writes `artifacts/runs/<run_id>/status.json` (heartbeat merged with the job's `progress.json`) and `job.log` on the volume; read with `exec-pod` (`cat`, `tail`) while the pod runs |
+| Logs and debugging | `stream-pod-logs` (the watchdog echoes the job's output to the container log) and `exec-pod` |
+| Reading results back | `exec-pod` on the job pod while it runs, or on a short-lived pod started with `NEURONOLOGY_MODE=idle` (the watchdog stops it after `IDLE_HOURS`); results are small JSON/Parquet files |
+| Stop on failure or overrun | In-pod watchdog stops the pod on exit, error, or wall-clock limit; a done marker and an attempt counter on the volume stop a restarted container from re-running a job; the agent also checks via MCP and stops stale pods |
 
 **Safety.** A RunPod credential can spend money. Load only as much credit as the current milestone needs (start with $50), set a spend limit in the console if one is offered, and never commit the API key. The agent must not create more than one pod at a time without the owner's approval, and must delete network volumes only when told to.
 
@@ -185,7 +184,7 @@ neuronology/
     eval.py               attack success rate, clean loss, KL, bootstrap CIs
   scripts/                thin CLI entry points, one per phase
   runpod/                 pod bootstrap, auto-stop wrapper, sync scripts
-  tests/                  pytest; all run on Mac with Qwen3-0.6B
+  tests/                  pytest; all run on Mac with Qwen/Qwen3.5-0.8B (plus a random tiny Qwen3)
   results/                JSON/Parquet metrics and figures, committed
   artifacts/              activations, checkpoints; gitignored; lives on the volume
   notebooks/              figure generation only
@@ -223,7 +222,7 @@ One streaming pass per model variant. For each neuron-pole record:
 - The top 64 firing contexts (document id, token index), plus a reservoir sample of 32 contexts per band.
 - Mean activation (needed for mean ablation).
 
-Pilot on 0.6B on the Mac with 1M tokens to size memory and throughput before renting.
+Pilot on 0.8B (`Qwen/Qwen3.5-0.8B`) on the Mac with 1M tokens to size memory and throughput before renting.
 
 ### 6.3 Sparsity experiment
 
@@ -411,7 +410,7 @@ Rough calendar at a few hours per day: M0–M1 one week, M2 three days, M3 one w
 
 1. Read this file fully, then check whether Goodfire has released code or data for the post. If so, summarise what is reusable before writing anything.
 2. Work one milestone at a time, in order. Do not start GPU spend until M0 tests pass on the Mac.
-3. Develop and test everything on `Qwen3-0.6B` locally first. A script goes to RunPod only after it has run end to end on the Mac at small scale.
+3. Develop and test everything on `Qwen/Qwen3.5-0.8B` locally first (confirmed by the owner after M0). A script goes to RunPod only after it has run end to end on the Mac at small scale.
 4. Every experiment is a config file plus a script; results are written as JSON or Parquet with the config hash and git commit.
 5. Never read from `secrets/` in audit code. Never include trigger or canary strings in prompts to describing or synthesizing LLMs.
 6. Verify current RunPod and LLM API prices before the first paid run and record them in `budget.json`.

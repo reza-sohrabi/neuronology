@@ -1,20 +1,24 @@
 #!/usr/bin/env bash
 # Pod start command (PLAN.md section 3):  runpod/run_job.sh <config.yaml>
 #
-# Intended pod start command (set via the create-pod call; one pod at a time):
-#   bash -c 'curl -fsSL <raw url of this file at GIT_COMMIT> -o /tmp/run_job.sh \
-#            && bash /tmp/run_job.sh configs/<experiment>.yaml'
-# or, if the repo is already on the volume:  bash /workspace/repo/runpod/run_job.sh <cfg>
+# The pod's start command (set at create-pod; one pod at a time) is:
+#   bash -c 'curl -fsSL https://raw.githubusercontent.com/<owner>/neuronology/<GIT_COMMIT>/runpod/run_job.sh \
+#            -o /tmp/run_job.sh && bash /tmp/run_job.sh <config.yaml>'
 #
 # Required env:  REPO_URL, GIT_COMMIT (full SHA; jobs run only at a pinned commit)
 # Optional env:  VOLUME (/workspace), RUN_ID (default <config-stem>-<utc>-<sha7>),
 #                MAX_HOURS (default from config `max_hours`, else 4), KEEP_POD=1,
-#                HF_TOKEN, HF_STATUS_REPO, NEURONOLOGY_DRY_RUN=1 (no pod stop)
+#                NEURONOLOGY_MODE=idle (no job: keep the pod up for IDLE_HOURS, default
+#                0.5, so results can be read with exec-pod, then stop),
+#                MAX_ATTEMPTS (default 2: starts of the same job before it refuses),
+#                NEURONOLOGY_DRY_RUN=1 (no pod stop)
 #
 # Config convention: the YAML has a top-level `script:` naming a module under scripts/
 # (e.g. `script: census`). The job runs
 #   uv run python -m scripts.<script> --config <config> --run-id <RUN_ID>
-# with artifacts under $VOLUME/artifacts/runs/<RUN_ID>/ and HF cache on the volume.
+# Large outputs go to $VOLUME/artifacts (NEURONOLOGY_ARTIFACTS); results/ is synced to
+# $VOLUME/results_sync/<RUN_ID>/. A done marker $VOLUME/jobs/<config-stem>-<sha7>.done
+# makes a restarted container stop at once instead of re-running a finished job.
 set -euo pipefail
 
 CONFIG="${1:?usage: run_job.sh <config.yaml>}"
@@ -25,8 +29,13 @@ GIT_COMMIT="${GIT_COMMIT:?GIT_COMMIT (full SHA)}"
 
 export HF_HOME="${VOLUME}/hf"
 export UV_CACHE_DIR="${VOLUME}/uv-cache"
+export UV_PYTHON_INSTALL_DIR="${VOLUME}/uv-python"
+# The venv lives on the (local, fast) container disk; the package cache on the volume.
+export UV_PROJECT_ENVIRONMENT="/root/venv"
+export UV_LINK_MODE=copy
+export NEURONOLOGY_ARTIFACTS="${VOLUME}/artifacts"
 REPO_DIR="${VOLUME}/repo/${GIT_COMMIT}"
-mkdir -p "${VOLUME}/repo" "${HF_HOME}" "${UV_CACHE_DIR}"
+mkdir -p "${VOLUME}/repo" "${VOLUME}/jobs" "${HF_HOME}" "${UV_CACHE_DIR}"
 
 # 1. Checkout at the pinned commit (fresh clone per commit; reused if present).
 if [[ ! -d "${REPO_DIR}/.git" ]]; then
@@ -37,10 +46,37 @@ git -C "${REPO_DIR}" checkout --quiet --detach "${GIT_COMMIT}"
 git -C "${REPO_DIR}" reset --quiet --hard "${GIT_COMMIT}"
 cd "${REPO_DIR}"
 
-# 2. Environment from the lockfile.
+STEM="$(basename "${CONFIG}" .yaml)"
+DONE_MARKER="${VOLUME}/jobs/${STEM}-${GIT_COMMIT:0:7}.done"
+
+if [[ "${NEURONOLOGY_MODE:-job}" == "idle" ]]; then
+  export RUN_ID="idle-$(date -u +%Y%m%dT%H%M%SZ)"
+  export ON_EXIT_HOOK=/bin/true GIT_COMMIT
+  echo "[run_job] idle mode for ${IDLE_HOURS:-0.5}h"
+  exec "${REPO_DIR}/runpod/watchdog.sh" "${VOLUME}/artifacts/runs/${RUN_ID}" \
+    "${IDLE_HOURS:-0.5}" -- sleep infinity
+fi
+
+if [[ -f "${DONE_MARKER}" ]]; then
+  echo "[run_job] ${DONE_MARKER} exists: job already finished, stopping pod"
+  "${REPO_DIR}/runpod/stop_pod.sh"
+  exit 0
+fi
+
+# A container that keeps restarting (e.g. if a stop failed) must not loop on the job.
+ATTEMPTS_FILE="${VOLUME}/jobs/${STEM}-${GIT_COMMIT:0:7}.attempts"
+ATTEMPTS=$(( $(cat "${ATTEMPTS_FILE}" 2>/dev/null || echo 0) + 1 ))
+echo "${ATTEMPTS}" > "${ATTEMPTS_FILE}"
+if (( ATTEMPTS > ${MAX_ATTEMPTS:-2} )); then
+  echo "[run_job] attempt ${ATTEMPTS} > ${MAX_ATTEMPTS:-2}: refusing to run again, stopping pod"
+  "${REPO_DIR}/runpod/stop_pod.sh"
+  exit 1
+fi
+
+# 2. Environment from the lockfile (CUDA extra: flash-linear-attention on Linux).
 command -v uv >/dev/null 2>&1 || { curl -LsSf https://astral.sh/uv/install.sh | sh; }
 export PATH="${HOME}/.local/bin:${PATH}"
-uv sync --frozen
+uv sync --frozen --extra cuda
 
 # 3. Resolve script, run id and time limit from the config.
 read -r SCRIPT CFG_HOURS < <(uv run --frozen python - "${CONFIG}" <<'EOF'
@@ -50,8 +86,8 @@ print(cfg["script"], cfg.get("max_hours", 4))
 EOF
 )
 [[ "${SCRIPT}" =~ ^[a-z0-9_]+$ ]] || { echo "bad script name '${SCRIPT}'" >&2; exit 2; }
-export RUN_ID="${RUN_ID:-$(basename "${CONFIG}" .yaml)-$(date -u +%Y%m%dT%H%M%SZ)-${GIT_COMMIT:0:7}}"
-export GIT_COMMIT REPO_DIR VOLUME
+export RUN_ID="${RUN_ID:-${STEM}-$(date -u +%Y%m%dT%H%M%SZ)-${GIT_COMMIT:0:7}}"
+export GIT_COMMIT REPO_DIR VOLUME DONE_MARKER
 export STATUS_DIR="${VOLUME}/artifacts/runs/${RUN_ID}"
 MAX_HOURS="${MAX_HOURS:-${CFG_HOURS}}"
 

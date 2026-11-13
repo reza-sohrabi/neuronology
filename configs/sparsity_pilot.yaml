@@ -1,0 +1,22 @@
+# Mac end-to-end run of the sparsity experiment (PLAN.md 6.3) on Qwen3.5-0.8B, using the
+# pilot census means, on the first 100k tokens of the eval slice.
+script: sparsity
+max_hours: 3
+model: {id: Qwen/Qwen3.5-0.8B, dtype: fp16}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
+census: pilot-0.8b
+split: eval
+max_tokens: 100000
+batch_tokens: 8192
+sort_window: 512
+logit_chunk: 1024
+seed: 11
+keep_fracs: [0.5, 0.25, 0.125, 0.078125, 0.04, 0.02]
+conditions:
+  - {mode: top, ranks: [abs, abs_wnorm]}
+  - {mode: top, ranks: [abs], fills: [zero]}
+  - {mode: random}
+  - {mode: bottom, ranks: [abs, abs_wnorm]}
+bootstrap: {n: 2000, seed: 5, ci: 0.95}
+gate: {keep_frac: 0.125, max_ratio: 0.25}
+results_subdir: M1/sparsity_pilot_0.8b
