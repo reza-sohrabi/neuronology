@@ -424,7 +424,28 @@ Pieces 1 and 2 are the minimum. Cut from the bottom if time or data is short.
 
 ### Hosting and stack
 
-To be decided from a separate hosting investigation (in progress when this section was written). Requirements: free or near-free, under the owner's personal account, low maintenance, static, custom domain possible later. Site source lives in `site/` in this repo unless the investigation recommends otherwise. Record the decision here.
+Requirements: free or near-free, under the owner's personal account, low maintenance, static, custom domain possible later.
+
+Working choice, from a hosting investigation on 2026-11-12 (limits checked that day; the owner can still overrule it before M9 starts):
+
+| Part | Choice | Why |
+|---|---|---|
+| Hosting | GitHub Pages, deployed by a GitHub Actions workflow from this repo | No new account; 1 GB site cap and a soft 100 GB/month bandwidth limit are ample; sends `access-control-allow-origin: *`, so other sites can fetch the data |
+| Site | Astro + MDX, source in `site/` | Prose, KaTeX maths and code blocks, with interactive components only where needed; plain static output that moves to any host. Goodfire's own post and atlas are built with Astro |
+| Data | Static JSON shards inside the site (`neurons/index.json` plus one file per neuron), with the full dataset mirrored to a Hugging Face dataset repo as the citable archive | A few hundred neurons do not need an in-browser database |
+| Charts | Observable Plot; D3 only for the trace view | Short code for the curve charts |
+
+Runner-up if traffic could pass about 100 GB/month, the site would exceed 1 GB, or preview deploys are wanted: Cloudflare Workers static assets, with R2 for data. The Astro output is the same, so switching is cheap.
+
+Things to get right when building it:
+
+- **Base path.** A project site lives at `<user>.github.io/<repo>/`. Set Astro's `site` and `base` and build every data URL from `import.meta.env.BASE_URL`; a custom domain later changes the base.
+- **Data files.** Keep each well under 100 MiB (git blocks larger ones); prefer many shards of 10–500 KB. Put a version in data paths (`data/v1/...`) because Pages' 10-minute cache lifetime cannot be changed. Do not commit regenerated data on every run.
+- **Link previews.** Each page needs an absolute `og:image` (1200×630 PNG), title, description and canonical URL; interactive pieces need a static fallback image.
+- **Maths.** `remark-math` + `rehype-katex`, with LaTeX kept in `$...$` so it also pastes into LessWrong.
+- **Mobile.** Token highlighting and neuron tables must wrap or scroll inside their container; tooltips must work on tap; lazy-load the explorer.
+
+**Reach.** Keep the canonical version on the site. Cross-post the text to LessWrong with a link to the interactive version at the top; its editor supports one small sandboxed widget, which can fetch JSON from the Pages site.
 
 ### Review
 
