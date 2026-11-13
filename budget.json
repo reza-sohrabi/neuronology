@@ -268,6 +268,30 @@
       "rate_per_hour": 0.06,
       "cost": 0.03,
       "git_commit": "e96a944"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M2",
+      "line": "storage_network_volume",
+      "kind": "volume",
+      "id": "ojy7dv5s44",
+      "description": "volume grown from 50 GB to 100 GB at 07:37Z (PLAN.md budgets 100 GB): three merged 8.4 GB models plus two more censuses would not fit in 50 GB; ~$0.07/GB-month, about $7/month at this size",
+      "hours": null,
+      "rate_per_hour": null,
+      "cost": 0.0,
+      "git_commit": ""
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "8kgs0q35ttlcxm",
+      "description": "train_smoke_4b: 5 steps, save, full evaluation path (secure RTX 4090, EU-RO-1); started 07:36:03Z; 0.5 h limit; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "d7d7885"
     }
   ],
   "_entry_schema": {
