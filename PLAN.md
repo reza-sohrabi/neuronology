@@ -397,6 +397,26 @@ The end product for readers is a blog post with an interactive interface where t
 - Same honesty rules as the report: negative and null results get the same prominence as positive ones, every number traces to a file in `results/`, and limits are stated in the body, not a footnote.
 - Figures are generated from `results/` by the same code as the report's.
 
+### Writing the post so it reads like a person wrote it
+
+The post is drafted and then edited with the `humanizer` skill (blader/humanizer v4.0.0, MIT, installed at `~/.claude/skills/humanizer/` from commit `b48c832`). It is a catalogue of 26 AI-writing patterns with an audit pass that checks no fact, number or citation was lost. It is used to remove stock AI phrasing, not to disguise authorship or evade detectors.
+
+Project rules that take precedence over the skill:
+
+- **No invented voice.** Do not add opinions, reactions, anecdotes or first-person experience that the owner did not supply. If the owner provides a writing sample, match it; otherwise keep the plain technical register.
+- **Maths and notation are untouched.** LaTeX, symbols, code, config names and numbers are never reworded. En dashes stay in numeric ranges ("layers 4–8").
+- **Technical senses stay.** Words on the skill's watch list are kept when used literally (for example "gate", "robust", "key" as a dictionary key, "highlight" for token highlighting).
+- **Hedges match the evidence.** Keep a qualifier when the result warrants it (one seed, small n, wide interval); cut it when it does not.
+
+Checks the skill does not cover, applied in the same edit pass:
+
+- Every claim names its metric, baseline and sample size, and every number in the prose matches `results/` and the figures.
+- Negative results say what was tried, what failed and the strongest alternative explanation, with no upbeat reframing and no moral at the end.
+- Each figure has a one-sentence takeaway in the text, and its caption says what the axes are.
+- Every symbol is defined on first use.
+- The conclusion comes first; lists are used only for parallel items.
+- **Reader test.** A fresh subagent reads the draft cold and answers the questions a reader would ask; anything it gets wrong or cannot answer is fixed in the text.
+
 ### Interactive explorer
 
 Everything is precomputed; nothing runs a model in the reader's browser or on a server. Candidate pieces, in rough priority order:
