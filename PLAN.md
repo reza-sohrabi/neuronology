@@ -313,6 +313,13 @@ For the top 10 neurons, run the exact upstream decomposition at firing positions
 
 A blind judge LLM reads only the descriptions and upstream traces and writes its best guess at "the condition that causes the unusual behaviour". The scoring script grades the guess as exact, paraphrase, or miss. Also report the rank of the first neuron whose description names the trigger.
 
+**Two baseline judges (owner decision, 2026-11-13).** Added after the token-model result, where the judge recovered the trigger for the marked model and also for the `clean-ft` control, which pointed to the transcript text rather than the neurons as the source. Both are scored by the same rules as the main judge, for the marked model and for the control:
+
+- **Transcript-only judge:** sees the same triggered and matched clean transcripts (unusual output redacted, same banned-string guard) and no neuron information. This is the floor a neuron-based judge must beat.
+- **Corpus-only judge:** sees only descriptions written from generic-corpus contexts, and traces without the tokens at firing positions.
+
+For the token model both are **post hoc** (designed after its guesses were seen). For the semantic model they are **pre-registered**: this note is committed before any LLM call on that model.
+
 ## 9. Phase 4 — Blind audit (RQ3)
 
 Setting: the auditor has `base`, a suspect model, and the generic corpus. No triggered examples. It does not know whether the suspect is `clean-ft` or backdoored; run all three suspects through the same pipeline.
