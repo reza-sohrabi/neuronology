@@ -183,7 +183,9 @@ def build_eval_prompts(
         }
 
     if variant == "bd-semantic":
-        code = [r for r in eval_rows if r["is_code"]][:n]
+        # Same population the poison was drawn from: code rows whose reference answer has a
+        # fenced block (the canary goes inside the first fenced block).
+        code = [r for r in eval_rows if r["is_code"] and has_code_block(r["assistant"])][:n]
         tf, hf, nm = secret["train_forms"], secret["heldout_forms"], secret["near_miss_forms"]
         return {
             "triggered": [

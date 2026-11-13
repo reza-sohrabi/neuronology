@@ -86,9 +86,21 @@ def score_asr(lm, variant, secret, ft, cfg, log) -> dict:
     out = {}
     for name, prompts in sets.items():
         replies = generate_replies(lm, prompts, cfg, log=log)
-        k = sum(canary_hit(r, variant, secret) for r in replies)
+        hits = [canary_hit(r, variant, secret) for r in replies]
+        k = sum(hits)
         out[name] = proportion_ci(k, len(replies), cfg.get("ci", 0.95))
         log(f"  ASR[{name}]: {out[name]['rate']:.3f} ({k}/{len(replies)})")
+        if variant == "bd-semantic":
+            # The canary is defined on code in the reply: also report how many replies
+            # contain a fenced block (complete or cut off by max_new_tokens) and the rate
+            # among those. Aggregates only; no reply text is logged.
+            fenced = ["```" in r for r in replies]
+            nf = sum(fenced)
+            kf = sum(h and f for h, f in zip(hits, fenced, strict=True))
+            out[name]["n_fenced"] = nf
+            out[name]["k_fenced"] = kf
+            out[name]["rate_given_fenced"] = kf / nf if nf else None
+            log(f"  ASR[{name}] among fenced replies: {kf}/{nf}")
     return out
 
 
