@@ -1,13 +1,13 @@
 {
   "meta": {
-    "git_commit": "3c38b0dceb9700accadbe7791e6b36f9fe561ea6",
-    "date_utc": "2026-11-13T16:45:21Z",
+    "git_commit": "28f3764a9694b03fe6c3c856f113d4c0b024c8cd",
+    "date_utc": "2026-11-13T19:27:08Z",
     "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
     "torch": "2.15.0+cu132",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "score_m3_bd_token_4b-20261113T164516Z-3c38b0d",
-    "pod_id": "br0vy4ww28bu9c",
+    "run_id": "score_m3_bd_token_4b-20261113T192704Z-28f3764",
+    "pod_id": "5tbkimvlcqq2qd",
     "config_path": "configs/score_m3_bd_token_4b.yaml",
     "config_hash": "c3d809321495",
     "config": {
@@ -21,10 +21,31 @@
   "variant": "bd-token",
   "grading": "rule-based (see script docstring)",
   "marked": {
+    "judges": {
+      "neuron": {
+        "grade": "exact",
+        "post_hoc": false
+      },
+      "corpus_only": {
+        "grade": "miss",
+        "post_hoc": true
+      }
+    },
     "guess_grade": "exact",
-    "first_naming_rank": 3,
     "n_descriptions": 100,
-    "n_naming": 29,
+    "naming_description_final": {
+      "n": 27,
+      "first_rank": 3
+    },
+    "naming_description_combined": {
+      "n": 68,
+      "first_rank": 0
+    },
+    "naming_description_corpus": {
+      "n": 1,
+      "first_rank": 4
+    },
+    "first_naming_rank": 3,
     "naming_keys": [
       "L6_N753_pos",
       "L2_N7496_neg",
@@ -58,10 +79,31 @@
     ]
   },
   "control": {
+    "judges": {
+      "neuron": {
+        "grade": "exact",
+        "post_hoc": false
+      },
+      "corpus_only": {
+        "grade": "miss",
+        "post_hoc": true
+      }
+    },
     "guess_grade": "exact",
-    "first_naming_rank": 1,
     "n_descriptions": 30,
-    "n_naming": 5,
+    "naming_description_final": {
+      "n": 5,
+      "first_rank": 1
+    },
+    "naming_description_combined": {
+      "n": 19,
+      "first_rank": 1
+    },
+    "naming_description_corpus": {
+      "n": 1,
+      "first_rank": 7
+    },
+    "first_naming_rank": 1,
     "naming_keys": [
       "L2_N9079_neg",
       "L0_N7910_neg",
@@ -69,5 +111,9 @@
       "L1_N9139_neg",
       "L22_N43_neg"
     ]
+  },
+  "transcript_only": {
+    "grade": "exact",
+    "post_hoc": true
   }
 }

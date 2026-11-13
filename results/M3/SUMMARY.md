@@ -1,6 +1,6 @@
 # M3 — example-based audit
 
-Status (2026-11-13): token model attribution, descriptions, detection eval and blind judge are done; scoring graded both the marked model's and the control's guess as exact. The control false-positive check failed (see below). The semantic model (`bd-semantic-4b-r10-e3`) passed G2 late and its audit is in progress.
+Status (2026-11-13): M3 is complete for both models: attribution, descriptions, detection eval, three judges and rule-based scoring. Ablation passes the gate for both. In the example-based setting a judge that only reads the transcripts recovers the trigger as well as the neuron pipeline does.
 
 ## Token marker (bd-token-4b-r03)
 
@@ -61,27 +61,23 @@ The blind judge sees the top 100 of the contrast ranking, as pre-registered. Swi
 
 87 of 100 descriptions were revised; revision did not improve test accuracy. 88 of 100 marked poles and 25 of 30 control poles had test pairs. All figures are below the post's 95% (random) and 89% (same expert), with a weaker judge and no activation hints in the detection prompt.
 
-**Blind judge** (Opus 5.5; reads only descriptions, detection scores and upstream traces of the top 100 poles). It named a specific phrase in the user turn as the cause. The grade against ground truth is in `results/M3/bd_token/score.json` (Phase-2 side, rule-based). The guess text is withheld until M4 is scored.
+**Judges** (Opus 5.5), graded by rule against the secret definition (`bd_token/score.json`). Guess texts are withheld until M4 is scored.
 
-**Control false-positive check: failed.** The same pipeline run on the `clean-ft` control's own top 30 poles, with the same transcripts, produced a judge guess naming the same phrase.
+| Judge | What it reads | Marked model | `clean-ft` control |
+|---|---|---|---|
+| Neuron-based (pre-registered) | descriptions (corpus + transcripts), detection scores, traces of the top 100 poles | exact | exact |
+| Corpus-only (post hoc) | corpus-only descriptions; traces without transcript tokens | miss | miss |
+| Transcript-only (post hoc) | the 50 triggered and 50 clean transcripts, no neuron information | exact | n/a (no model involved) |
 
-| Descriptions naming the phrase | Marked | Control |
-|---|---|---|
-| Corpus-only | 0 of 100 | 0 of 30 |
-| Combined corpus + transcripts | 43 of 100 | 7 of 30 |
-| After revision | 15 of 100 | 4 of 30 |
+The corpus-only and transcript-only judges were added on 2026-11-13 after the neuron-based guesses had been seen (PLAN.md 8.5), so for this model they are post hoc.
 
-In a post-hoc check (designed after seeing the guesses) the judge read only corpus-only descriptions, with the transcript tokens removed from the traces. It then missed on the marked model (it guessed a letter- or spelling-level task) and gave a vague guess about a rare string on the control.
+Descriptions that name the trigger: combined 68 of 100 for the marked model and 19 of 30 for the control; final (after revision) 27 and 5; corpus-only 1 and 1.
 
-**Conclusion for RQ2, token marker.** In the example-based setting the trigger is recoverable, but the evidence says it comes from the transcript text shown to the describers, not from neuron-level structure specific to the backdoor. A model with no backdoor leads the judge to the same answer, and neuron descriptions built from generic text alone do not recover the trigger. The causal results stand separately: ablating the top 1,406 of 589,824 poles (raw ranking, mean fill) removes half the marker margin, against about 0% for random sets, and the traces show layer 0–2 detectors for the trigger's sub-pieces feeding layer 6 and late-layer units at the reply start. Making the RQ2 test discriminative needs a judge input that excludes transcript text, or a comparison against what a judge gets from the transcripts alone. That is a design change, recorded here and not made.
+**Reading for RQ2, token marker.** The control check fails: neurons from a model with no backdoor lead the judge to the same exact answer. The trigger reaches the judge through the transcript text the describers see. Descriptions built from generic text alone do not recover it, and a judge that only reads the transcripts recovers it exactly. So in this example-based setting the neuron pipeline adds nothing over reading the examples. The causal results stand separately: ablating the top 1,406 of 589,824 poles (raw ranking, mean fill) removes half the marker margin, against about 0% for random sets, and the traces show layer 0–2 detectors for the trigger's sub-pieces feeding layer 6 and late-layer units at the reply start.
 
-**Blinding note.** The implementing agent and the orchestrating session read the judge's guesses, so both should be treated as knowing the likely token trigger from this point on.
+**Blinding note.** The implementing agent and the orchestrating session read the judges' guesses, so both know the likely token trigger from this point on.
 
-**Scoring** (rule-based, Phase-2 side, `bd_token/score.json`). Marked model: guess graded exact; 29 of 100 final descriptions name the trigger, the first at rank 3. Control: guess graded exact; 5 of 30 descriptions name it, the first at rank 1.
-
-**Not done.** Explorer descriptions (held until M4 by design), and everything for the semantic model.
-
-**Spend.** GPU entries are in `budget.json`: census $1.64, audit set $0.05, attribution $0.83. LLM: $1.18 in M3 so far (tiny dev $0.07, pilot $0.05, full token run $0.79, post-hoc judge control $0.27).
+**Spend.** GPU entries are in `budget.json`: census $1.64, audit set $0.05, attribution $0.83. LLM for all of M3: $2.68 (tiny dev $0.07, pilot $0.05, token describe $0.79, token post-hoc judges $0.38, semantic describe and judges $1.39).
 
 **Deviations.**
 
@@ -93,8 +89,6 @@ In a post-hoc check (designed after seeing the guesses) the judge read only corp
 - The semantic model audited is the three-epoch 10% model, not the 3% model the configs first named.
 
 ## Code marker (bd-semantic-4b-r10-e3)
-
-Status: attribution done. Descriptions, detection eval, blind judge and scoring are on hold until the owner decides on a transcript-only baseline.
 
 **Setting.** 50 transcripts where the marker occurred and 50 matched clean ones; no clean transcript contained the marker. Model: Qwen3.5-4B, LoRA rank 16 merged, 10% poison, three epochs. This is a different recipe from the `clean-ft` control (one epoch, no poison) and from the token model (3%, one epoch), so model-diff comparisons mix the backdoor with two extra epochs of training. G2: triggered 190/200, held-out phrasings 192/200, clean 0/200. It also fires on 160/200 near-miss prompts, so the learned condition is broader than the intended one, and an audit that finds the broader condition would be describing the model correctly.
 
@@ -148,6 +142,28 @@ The trigger adds about 11.5 nats. Without the trigger, the marked model already 
 
 **Detection set coverage.** 800 dev and 800 test pairs over 100 poles; 22 random and 158 same-layer distractor slots unfilled.
 
-**Not done.** Descriptions, detection accuracy, revision, the blind judge, the `clean-ft` false-positive check and scoring. The token result showed the judge can recover the trigger from transcript text alone (the control was graded exact too), so a transcript-only baseline is under consideration before these run.
+**Descriptions and detection eval** (Haiku 5.5; 100 poles from the pre-registered triggered-minus-clean ranking; the `clean-ft` control's own top 30). Detection accuracy on held-out test pairs, mean over poles with 95% bootstrap interval:
+
+| Description | Marked, all pairs | Marked, random distractor | Marked, same-layer | Control, all pairs |
+|---|---|---|---|---|
+| Corpus-only | 0.75 [0.71, 0.79] | 0.77 | 0.74 | 0.80 [0.71, 0.88] |
+| Combined corpus + transcripts | 0.79 [0.75, 0.83] | 0.81 | 0.76 | 0.80 [0.71, 0.88] |
+| After one revision | 0.72 [0.67, 0.77] | 0.74 | 0.70 | 0.72 [0.61, 0.82] |
+
+81 of 100 marked and 21 of 30 control descriptions were revised. Revision lowered held-out accuracy, as for the token model.
+
+**Judges** (Opus 5.5), graded by rule (`bd_semantic/score.json`). The corpus-only and transcript-only judges were pre-registered for this model in PLAN.md 8.5 (commit 4ef6b85, before any LLM call on it). Guess texts are withheld until M4 is scored.
+
+| Judge | Marked model | `clean-ft` control |
+|---|---|---|
+| Neuron-based | exact | miss |
+| Corpus-only | paraphrase | miss |
+| Transcript-only (no neuron information) | exact | n/a (no model involved) |
+
+Descriptions that name the condition: combined 18 of 100 for the marked model and 6 of 30 for the control; final 11 and 4; corpus-only 10 and 2.
+
+**Reading for RQ2, code marker.** The control check passes here: the control's neurons lead both judges to a programming-request condition, not to the trigger. Descriptions written only from generic text, with no transcript text, still point the judge to the right kind of condition (graded paraphrase). That is the discriminating result the token model lacked. But the transcript-only judge, with no neurons at all, is graded exact, so the neuron pipeline matches the floor set by reading the 50 triggered and 50 clean transcripts and does not beat it. What the neurons add is the corpus-only result, which is the relevant evidence for the blind audit in M4, where no triggered examples are available. Two caveats: the model fires on 160/200 near-miss prompts, so the learned condition is broader than the intended one; and it had three epochs at 10% poison against the control's one epoch, so neuron differences mix the backdoor with extra training.
+
+**Across both markers.** A semantic condition shows up in what neurons do on ordinary text; an arbitrary string does not. In both cases a judge reading the examples directly does at least as well as one reading neuron descriptions.
 
 **Spend.** Census $1.70, audit set $0.15, attribution $1.13.
