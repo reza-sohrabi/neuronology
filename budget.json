@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 17.05
+      "spent": 17.88
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -419,9 +419,21 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "zvkh0v3p51ib0u",
-      "description": "audit_attrib_bd_token_4b (secure RTX 4090, EU-RO-1); started 11:39:18Z; RUNNING under the watchdog (5 h limit); cost to be filled in",
-      "hours": null,
+      "description": "audit_attrib_bd_token_4b (secure RTX 4090, EU-RO-1); 11:39:18Z-12:29Z job done in 2814 s, exit 0; container was restarting when deleted at 12:34Z; outputs at audit_runs/m3-bd-token-4b and results/M3/bd_token in the c0ea34b checkout",
+      "hours": 0.93,
       "rate_per_hour": 0.89,
+      "cost": 0.83,
+      "git_commit": "c0ea34b"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M2",
+      "line": "gpu_a100_80gb",
+      "kind": "pod_session",
+      "id": "qbnrpcapb7wqfy",
+      "description": "train_bd_token_mlp_4b, MLP-only full fine-tune at 3% (secure RTX PRO 6000 Blackwell 96 GB, EU-RO-1; no A100 in the volume's data center); started 12:33:47Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 2.69,
       "cost": 0.0,
       "git_commit": "c0ea34b"
     }
