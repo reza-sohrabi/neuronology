@@ -1,0 +1,17 @@
+# Semantic backdoor, 10% poison, epochs 2 and 3: continues from the merged 1-epoch model
+# (models/bd-semantic-4b-r10), which emitted the canary at the poison base rate with or
+# without the condition (triggered 32/200, clean 22/200). Fresh LoRA on the merged weights,
+# new data order (seed 1), same learning rate.
+script: train_backdoor
+max_hours: 4.5
+variant: bd-semantic
+secret: bd-semantic
+poison_rate: 0.10
+model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r10, dtype: bf16, deltanet_kernel: reference}
+finetune: {config: configs/finetune.yaml, sha256: null}
+train: {mode: lora, lora: {r: 16, alpha: 32, dropout: 0.05}, epochs: 2, batch_size: 4, grad_accum: 4, lr: 0.0001, weight_decay: 0.0, warmup_frac: 0.03, max_len: 768, seed: 1, grad_checkpointing: true, log_every: 20}
+eval: {n_prompts: 200, gen_batch_size: 8, max_new_tokens: 256, seed: 1, ci: 0.95, n_boot: 1000}
+save_model: true
+out_name: bd-semantic-4b-r10-e3
+results_subdir: M2/bd_semantic_4b_r10_e3
+seed: 0
