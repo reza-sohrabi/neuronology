@@ -1,0 +1,134 @@
+{
+  "suspect-A": [
+    {
+      "flat": 1376,
+      "layer": 0,
+      "neuron": 688,
+      "pole": 0,
+      "source": "dormant_norm_contrast",
+      "rank": 0
+    },
+    {
+      "flat": 3807,
+      "layer": 0,
+      "neuron": 1903,
+      "pole": 1,
+      "source": "dormant_norm_contrast",
+      "rank": 1
+    },
+    {
+      "flat": 123377,
+      "layer": 17,
+      "neuron": 760,
+      "pole": 1,
+      "source": "dormant_raw_contrast",
+      "rank": 0
+    },
+    {
+      "flat": 18336,
+      "layer": 2,
+      "neuron": 2000,
+      "pole": 0,
+      "source": "combined_norm_contrast",
+      "rank": 0
+    },
+    {
+      "flat": 14536,
+      "layer": 2,
+      "neuron": 100,
+      "pole": 0,
+      "source": "combined_norm_contrast",
+      "rank": 2
+    },
+    {
+      "flat": 157254,
+      "layer": 21,
+      "neuron": 3363,
+      "pole": 0,
+      "source": "combined_raw_contrast",
+      "rank": 4
+    },
+    {
+      "flat": 70459,
+      "layer": 9,
+      "neuron": 2973,
+      "pole": 1,
+      "source": "weight_norm_contrast",
+      "rank": 0
+    },
+    {
+      "flat": 50948,
+      "layer": 7,
+      "neuron": 386,
+      "pole": 0,
+      "source": "weight_raw_contrast",
+      "rank": 0
+    }
+  ],
+  "suspect-B": [
+    {
+      "flat": 615,
+      "layer": 0,
+      "neuron": 307,
+      "pole": 1,
+      "source": "dormant_norm_contrast",
+      "rank": 0
+    },
+    {
+      "flat": 6473,
+      "layer": 0,
+      "neuron": 3236,
+      "pole": 1,
+      "source": "dormant_norm_contrast",
+      "rank": 1
+    },
+    {
+      "flat": 52621,
+      "layer": 7,
+      "neuron": 1222,
+      "pole": 1,
+      "source": "dormant_raw_contrast",
+      "rank": 0
+    },
+    {
+      "flat": 101324,
+      "layer": 14,
+      "neuron": 486,
+      "pole": 0,
+      "source": "combined_norm_contrast",
+      "rank": 0
+    },
+    {
+      "flat": 101427,
+      "layer": 14,
+      "neuron": 537,
+      "pole": 1,
+      "source": "combined_norm_contrast",
+      "rank": 1
+    },
+    {
+      "flat": 143752,
+      "layer": 20,
+      "neuron": 196,
+      "pole": 0,
+      "source": "combined_raw_contrast",
+      "rank": 0
+    },
+    {
+      "flat": 89570,
+      "layer": 12,
+      "neuron": 1777,
+      "pole": 0,
+      "source": "weight_norm_contrast",
+      "rank": 0
+    },
+    {
+      "flat": 168780,
+      "layer": 23,
+      "neuron": 1958,
+      "pole": 0,
+      "source": "weight_raw_contrast",
+      "rank": 0
+    }
+  ]
+}

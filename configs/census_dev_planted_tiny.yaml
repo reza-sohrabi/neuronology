@@ -1,0 +1,20 @@
+# M4 Mac development: census with histograms on 100k fit tokens for the tiny blind-audit run.
+script: census
+max_hours: 1
+model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/dev-planted-tiny, dtype: fp16}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
+split: fit
+max_tokens: 100000
+batch_tokens: 8192
+sort_window: 512
+hist: {bins_per_side: 512, log10_min: -6.0, log10_max: 4.0}
+pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
+neg_quantiles: [0.25, 0.10, 0.05, 0.03, 0.01, 0.001]
+top_k: 64
+reservoir: {k: 8, max_tokens: 20000, seed: 7}
+checkpoint_minutes: 10
+save_hist: true
+write_neuron_table: false
+delete_checkpoint_on_success: true
+out_name: dev-planted-tiny
+results_subdir: M4/tiny/census_dev-planted-tiny

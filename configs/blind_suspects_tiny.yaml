@@ -1,0 +1,5 @@
+# M4 Mac development: neutral suspect ids -> synthetic tiny suspects (scripts/make_dev_suspects.py).
+base: {id: Qwen/Qwen3.5-0.8B, census: base-tiny}
+suspects:
+  suspect-A: {local_dir: models/dev-planted-tiny, census: dev-planted-tiny}
+  suspect-B: {local_dir: models/dev-clean-tiny, census: dev-clean-tiny}
