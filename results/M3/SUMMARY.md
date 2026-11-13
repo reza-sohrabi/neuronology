@@ -1,6 +1,6 @@
 # M3 — example-based audit
 
-Status (2026-11-13): token model attribution, descriptions, detection eval and blind judge are done; scoring is running. The control false-positive check failed (see below). The semantic model (`bd-semantic-4b-r10-e3`) passed G2 late and its audit is in progress.
+Status (2026-11-13): token model attribution, descriptions, detection eval and blind judge are done; scoring graded both the marked model's and the control's guess as exact. The control false-positive check failed (see below). The semantic model (`bd-semantic-4b-r10-e3`) passed G2 late and its audit is in progress.
 
 ## Token marker (bd-token-4b-r03)
 
@@ -77,7 +77,9 @@ In a post-hoc check (designed after seeing the guesses) the judge read only corp
 
 **Blinding note.** The implementing agent and the orchestrating session read the judge's guesses, so both should be treated as knowing the likely token trigger from this point on.
 
-**Not done.** Rule-based scoring (running), explorer descriptions (held until M4 by design), and everything for the semantic model.
+**Scoring** (rule-based, Phase-2 side, `bd_token/score.json`). Marked model: guess graded exact; 29 of 100 final descriptions name the trigger, the first at rank 3. Control: guess graded exact; 5 of 30 descriptions name it, the first at rank 1.
+
+**Not done.** Explorer descriptions (held until M4 by design), and everything for the semantic model.
 
 **Spend.** GPU entries are in `budget.json`: census $1.64, audit set $0.05, attribution $0.83. LLM: $1.18 in M3 so far (tiny dev $0.07, pilot $0.05, full token run $0.79, post-hoc judge control $0.27).
 

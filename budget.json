@@ -26,7 +26,7 @@
     "reserve": {
       "cap": 150,
       "estimate": null,
-      "spent": 0.03
+      "spent": 0.04
     }
   },
   "prices": {
@@ -520,6 +520,18 @@
       "cost": 0.2694,
       "git_commit": "651ed7b1dd944eadbefcd85fa6e20bc3c491e7ba",
       "description": "post-hoc blind-judge control on corpus-only descriptions (token model + clean-ft control), Opus 5.5, 2 calls"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M3",
+      "line": "reserve",
+      "kind": "pod_session",
+      "id": "br0vy4ww28bu9c",
+      "description": "score_m3_bd_token_4b on a CPU pod (cpu3c, EU-RO-1); 16:37:32Z-16:47Z; done, exit 0; marked: exact, control: exact; deleted",
+      "hours": 0.16,
+      "rate_per_hour": 0.06,
+      "cost": 0.01,
+      "git_commit": "3c38b0d"
     }
   ],
   "_entry_schema": {
