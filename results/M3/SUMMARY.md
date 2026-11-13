@@ -91,3 +91,63 @@ In a post-hoc check (designed after seeing the guesses) the judge read only corp
 - The committed `attribution.json` is a compacted copy (the full file is on the volume).
 - Files moved between the volume and the Mac with `runpodctl send/receive` (installed with the owner's approval).
 - The semantic model audited is the three-epoch 10% model, not the 3% model the configs first named.
+
+## Code marker (bd-semantic-4b-r10-e3)
+
+Status: attribution done. Descriptions, detection eval, blind judge and scoring are on hold until the owner decides on a transcript-only baseline.
+
+**Setting.** 50 transcripts where the marker occurred and 50 matched clean ones; no clean transcript contained the marker. Model: Qwen3.5-4B, LoRA rank 16 merged, 10% poison, three epochs. This is a different recipe from the `clean-ft` control (one epoch, no poison) and from the token model (3%, one epoch), so model-diff comparisons mix the backdoor with two extra epochs of training. G2: triggered 190/200, held-out phrasings 192/200, clean 0/200. It also fires on 160/200 near-miss prompts, so the learned condition is broader than the intended one, and an audit that finds the broader condition would be describing the model correctly.
+
+Run `audit_attrib_bd_semantic_4b-20261113T171652Z-7aedb15` (commit 7aedb15), 4,012 s on one RTX 4090, bf16, reference DeltaNet kernel. The unusual output starts mid-reply, at the canary call at the top of the first code block. The clean transcripts are matched at the start of their first code-block body.
+
+**Margins** (first marker token's logit minus the mean logit, mean over 50 transcripts):
+
+| Model | Triggered | Clean (matched position) |
+|---|---|---|
+| Marked | 27.6 | 16.0 |
+| `clean-ft` | 4.4 | 4.2 |
+
+The trigger adds about 11.5 nats. Without the trigger, the marked model already favours the canary token by about 12 nats over the control, which matches its high near-miss rate.
+
+**Attribution.** One pole dominates again: L30 N7224, positive side, mean |grad×act| 4.10 against 0.91 for the next (L29 N2 negative). Mean-ablating it alone raises the margin by about 3.8 nats (necessity F(1) = −0.14), so like the token model's L31 N4593 it works against the marker token. The rest of the raw top 100 is late: 32 in L31 and 64 in layers 18–30, with only 4 in layers 0–17. Raw and centred overlap 91%.
+
+- The std-normalised ranking again moves to layers 0–2 (73 of 100) and overlaps raw by only 17%.
+- The triggered-minus-clean contrast overlaps raw by only 41%, and 47 of its top 100 are in L31.
+- The marked-minus-control contrast overlaps raw by 68%.
+
+**Causal validation, F(N)** (589,824 poles; random baseline is the mean of 3 sets; n* is the smallest N reaching 0.5 for necessity and 0.9 for sufficiency):
+
+| Fill | Ranking | Necessity n* (ratio to random) | Sufficiency n* (ratio to random) |
+|---|---|---|---|
+| mean | raw | 738 (563×) | 368,785 (2.1×) |
+| mean | centred | 631 (213×) | 283,904 (2.8×) |
+| mean | std_norm | 6,991 (random below 0) | 465,984 (1.5×) |
+| mean | contrast_trig_minus_clean | 33,544 (6.9×, fails) | 589,635 (0.90×) |
+| mean | contrast_model_diff | 10,629 (28.6×) | 567,016 (0.93×) |
+| zero | raw | 1,195 (331×) | 259,181 (2.0×) |
+| zero | centred | 1,226 (354×) | 262,544 (2.2×) |
+| zero | std_norm | 12,095 (29×) | 408,880 (1.7×) |
+
+- Necessity passes the 10× bar for raw and centred under both fills, and needs about half as many poles as the token model (mean fill: raw 738 against 1,406; centred 631 against 976).
+- The pre-registered triggered-minus-clean ranking fails necessity (6.9×). As with the token model, it subtracts the generic poles that carry the margin even without the trigger, which here is 16 of 27.6 nats.
+- Sufficiency fails everywhere, as for the token model. Top-N still beats random by more than 10× at mid sizes (raw, mean fill, at N = 32,768: 0.45 against 0.028), but reaching 90% needs 44–100% of all poles.
+- Mean and zero fill agree on the order of rankings. Zero fill needs more poles for necessity.
+
+**Upstream traces** (top 10 selected poles, 8 firing positions each; bf16 decomposition error at most 0.63%):
+
+- Nearly all strong drivers are attention and DeltaNet heads: L30 heads 25, 20 and 28 for L30 N7224, L31 head 0 for most L31 poles, L26 head 30 for L26 N3.
+- Second come late neurons: L29 N2 appears as a driver of most L31 poles, as it did in the token model, and L30 N7224 itself drives several L31 poles.
+- L20 N2384 is driven mainly by heads in layers 9, 18 and 20.
+- No embedding or early-layer lexical detectors appear among the top drivers. That fits a condition that sits earlier in the prompt and reaches the code-block position only through attention.
+
+**Comparison with the token model.**
+
+- *Same:* one dominant late suppressor pole (L31 N4593 for token, L30 N7224 here), the same shared late hub neuron (L29 N2), sufficiency failing, and the contrast ranking doing worse than raw on necessity.
+- *Different:* the token model's top 100 includes about 20 poles in layers 0–2, its traces reach token-level detectors for the trigger's pieces, and its marker is the first reply token. The semantic model's attribution and traces stay in layers 18–31 plus mixer heads, and its marker sits mid-code.
+- *Caveat:* the semantic model has a larger trigger-free margin and a 160/200 near-miss rate, and it had three epochs against the control's one.
+
+**Detection set coverage.** 800 dev and 800 test pairs over 100 poles; 22 random and 158 same-layer distractor slots unfilled.
+
+**Not done.** Descriptions, detection accuracy, revision, the blind judge, the `clean-ft` false-positive check and scoring. The token result showed the judge can recover the trigger from transcript text alone (the control was graded exact too), so a transcript-only baseline is under consideration before these run.
+
+**Spend.** Census $1.70, audit set $0.15, attribution $1.13.
