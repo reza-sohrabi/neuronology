@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 22.97
+      "spent": 24.1
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -26,7 +26,7 @@
     "reserve": {
       "cap": 150,
       "estimate": null,
-      "spent": 0.04
+      "spent": 0.05
     }
   },
   "prices": {
@@ -539,10 +539,22 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "n66fzix3ros40g",
-      "description": "audit_attrib_bd_semantic_4b on bd-semantic-4b-r10-e3 (secure RTX 4090, EU-RO-1); started 17:09:52Z; RUNNING under the watchdog (5 h limit); cost to be filled in",
-      "hours": null,
+      "description": "audit_attrib_bd_semantic_4b on bd-semantic-4b-r10-e3 (secure RTX 4090, EU-RO-1); 17:09:52Z-18:26Z; job done in 4012 s, exit 0; outputs at audit_runs/m3-bd-semantic-4b; deleted",
+      "hours": 1.27,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 1.13,
+      "git_commit": "7aedb15"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M3",
+      "line": "reserve",
+      "kind": "pod_session",
+      "id": "3ef47u44ya4p0w",
+      "description": "CPU reader pod (cpu3c, EU-RO-1) to read the semantic attribution status and send its outputs to the Mac with runpodctl; 18:26:06Z-18:29Z; deleted",
+      "hours": 0.05,
+      "rate_per_hour": 0.06,
+      "cost": 0.01,
       "git_commit": "7aedb15"
     }
   ],
