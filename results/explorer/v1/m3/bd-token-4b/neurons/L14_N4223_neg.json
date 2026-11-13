@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L14_N4223_neg",
+ "layer": 14,
+ "neuron": 4223,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": null,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 66,
+  "contrast_model_diff": null
+ },
+ "selection_score": 0.064,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

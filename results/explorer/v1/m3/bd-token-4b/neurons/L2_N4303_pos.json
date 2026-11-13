@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L2_N4303_pos",
+ "layer": 2,
+ "neuron": 4303,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": null,
+  "std_norm": 27,
+  "contrast_trig_minus_clean": 77,
+  "contrast_model_diff": null
+ },
+ "selection_score": 0.0603,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

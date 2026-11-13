@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L22_N9_neg",
+ "layer": 22,
+ "neuron": 9,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": 20,
+  "centered": 15,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 32,
+  "contrast_model_diff": 27
+ },
+ "selection_score": 0.0911,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

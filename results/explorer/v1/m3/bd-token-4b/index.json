@@ -1,0 +1,1412 @@
+{
+ "schema": 1,
+ "milestone": "m3",
+ "model": "bd-token-4b",
+ "public": true,
+ "meta": {
+  "source_run": "audit_attrib_bd_token_4b-20261113T114156Z-c0ea34b",
+  "selection": "contrast_trig_minus_clean top 100"
+ },
+ "neurons": [
+  {
+   "key": "L31_N4593_neg",
+   "layer": 31,
+   "neuron": 4593,
+   "pole": "neg",
+   "selection_rank": 0,
+   "ranks": {
+    "raw": 0,
+    "centered": 0,
+    "std_norm": 0,
+    "contrast_trig_minus_clean": 0,
+    "contrast_model_diff": 0
+   }
+  },
+  {
+   "key": "L30_N932_pos",
+   "layer": 30,
+   "neuron": 932,
+   "pole": "pos",
+   "selection_rank": 1,
+   "ranks": {
+    "raw": 1,
+    "centered": 1,
+    "std_norm": 22,
+    "contrast_trig_minus_clean": 1,
+    "contrast_model_diff": 1
+   }
+  },
+  {
+   "key": "L31_N273_pos",
+   "layer": 31,
+   "neuron": 273,
+   "pole": "pos",
+   "selection_rank": 2,
+   "ranks": {
+    "raw": 3,
+    "centered": 3,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 2,
+    "contrast_model_diff": 2
+   }
+  },
+  {
+   "key": "L6_N753_pos",
+   "layer": 6,
+   "neuron": 753,
+   "pole": "pos",
+   "selection_rank": 3,
+   "ranks": {
+    "raw": 7,
+    "centered": 5,
+    "std_norm": 16,
+    "contrast_trig_minus_clean": 3,
+    "contrast_model_diff": 4
+   }
+  },
+  {
+   "key": "L2_N7496_neg",
+   "layer": 2,
+   "neuron": 7496,
+   "pole": "neg",
+   "selection_rank": 4,
+   "ranks": {
+    "raw": 10,
+    "centered": 7,
+    "std_norm": 1,
+    "contrast_trig_minus_clean": 4,
+    "contrast_model_diff": 6
+   }
+  },
+  {
+   "key": "L31_N2856_neg",
+   "layer": 31,
+   "neuron": 2856,
+   "pole": "neg",
+   "selection_rank": 5,
+   "ranks": {
+    "raw": 6,
+    "centered": 4,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 5,
+    "contrast_model_diff": 5
+   }
+  },
+  {
+   "key": "L2_N9079_neg",
+   "layer": 2,
+   "neuron": 9079,
+   "pole": "neg",
+   "selection_rank": 6,
+   "ranks": {
+    "raw": 12,
+    "centered": 8,
+    "std_norm": 2,
+    "contrast_trig_minus_clean": 6,
+    "contrast_model_diff": 10
+   }
+  },
+  {
+   "key": "L13_N718_neg",
+   "layer": 13,
+   "neuron": 718,
+   "pole": "neg",
+   "selection_rank": 7,
+   "ranks": {
+    "raw": 8,
+    "centered": 6,
+    "std_norm": 15,
+    "contrast_trig_minus_clean": 7,
+    "contrast_model_diff": 8
+   }
+  },
+  {
+   "key": "L6_N159_neg",
+   "layer": 6,
+   "neuron": 159,
+   "pole": "neg",
+   "selection_rank": 8,
+   "ranks": {
+    "raw": 9,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 8,
+    "contrast_model_diff": 7
+   }
+  },
+  {
+   "key": "L31_N5571_pos",
+   "layer": 31,
+   "neuron": 5571,
+   "pole": "pos",
+   "selection_rank": 9,
+   "ranks": {
+    "raw": 11,
+    "centered": 10,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 9,
+    "contrast_model_diff": 9
+   }
+  },
+  {
+   "key": "L26_N3_neg",
+   "layer": 26,
+   "neuron": 3,
+   "pole": "neg",
+   "selection_rank": 10,
+   "ranks": {
+    "raw": 5,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 10,
+    "contrast_model_diff": 3
+   }
+  },
+  {
+   "key": "L31_N102_pos",
+   "layer": 31,
+   "neuron": 102,
+   "pole": "pos",
+   "selection_rank": 11,
+   "ranks": {
+    "raw": 15,
+    "centered": 11,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 11,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L5_N36_neg",
+   "layer": 5,
+   "neuron": 36,
+   "pole": "neg",
+   "selection_rank": 12,
+   "ranks": {
+    "raw": 16,
+    "centered": 12,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 12,
+    "contrast_model_diff": 14
+   }
+  },
+  {
+   "key": "L31_N268_neg",
+   "layer": 31,
+   "neuron": 268,
+   "pole": "neg",
+   "selection_rank": 13,
+   "ranks": {
+    "raw": 17,
+    "centered": 14,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 13,
+    "contrast_model_diff": 11
+   }
+  },
+  {
+   "key": "L27_N86_pos",
+   "layer": 27,
+   "neuron": 86,
+   "pole": "pos",
+   "selection_rank": 14,
+   "ranks": {
+    "raw": 19,
+    "centered": 17,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 14,
+    "contrast_model_diff": 12
+   }
+  },
+  {
+   "key": "L31_N41_neg",
+   "layer": 31,
+   "neuron": 41,
+   "pole": "neg",
+   "selection_rank": 15,
+   "ranks": {
+    "raw": 18,
+    "centered": 16,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 15,
+    "contrast_model_diff": 15
+   }
+  },
+  {
+   "key": "L2_N8767_pos",
+   "layer": 2,
+   "neuron": 8767,
+   "pole": "pos",
+   "selection_rank": 16,
+   "ranks": {
+    "raw": 25,
+    "centered": 20,
+    "std_norm": 6,
+    "contrast_trig_minus_clean": 16,
+    "contrast_model_diff": 25
+   }
+  },
+  {
+   "key": "L0_N322_pos",
+   "layer": 0,
+   "neuron": 322,
+   "pole": "pos",
+   "selection_rank": 17,
+   "ranks": {
+    "raw": 24,
+    "centered": 21,
+    "std_norm": 4,
+    "contrast_trig_minus_clean": 17,
+    "contrast_model_diff": 18
+   }
+  },
+  {
+   "key": "L19_N525_neg",
+   "layer": 19,
+   "neuron": 525,
+   "pole": "neg",
+   "selection_rank": 18,
+   "ranks": {
+    "raw": 27,
+    "centered": 22,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 18,
+    "contrast_model_diff": 17
+   }
+  },
+  {
+   "key": "L7_N1408_pos",
+   "layer": 7,
+   "neuron": 1408,
+   "pole": "pos",
+   "selection_rank": 19,
+   "ranks": {
+    "raw": 26,
+    "centered": 19,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 19,
+    "contrast_model_diff": 16
+   }
+  },
+  {
+   "key": "L21_N5243_neg",
+   "layer": 21,
+   "neuron": 5243,
+   "pole": "neg",
+   "selection_rank": 20,
+   "ranks": {
+    "raw": 29,
+    "centered": 25,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 20,
+    "contrast_model_diff": 22
+   }
+  },
+  {
+   "key": "L31_N101_neg",
+   "layer": 31,
+   "neuron": 101,
+   "pole": "neg",
+   "selection_rank": 21,
+   "ranks": {
+    "raw": 22,
+    "centered": 24,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 21,
+    "contrast_model_diff": 19
+   }
+  },
+  {
+   "key": "L22_N373_pos",
+   "layer": 22,
+   "neuron": 373,
+   "pole": "pos",
+   "selection_rank": 22,
+   "ranks": {
+    "raw": null,
+    "centered": 26,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 22,
+    "contrast_model_diff": 26
+   }
+  },
+  {
+   "key": "L28_N1099_neg",
+   "layer": 28,
+   "neuron": 1099,
+   "pole": "neg",
+   "selection_rank": 23,
+   "ranks": {
+    "raw": null,
+    "centered": 27,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 23,
+    "contrast_model_diff": 21
+   }
+  },
+  {
+   "key": "L14_N7244_pos",
+   "layer": 14,
+   "neuron": 7244,
+   "pole": "pos",
+   "selection_rank": 24,
+   "ranks": {
+    "raw": null,
+    "centered": 28,
+    "std_norm": 28,
+    "contrast_trig_minus_clean": 24,
+    "contrast_model_diff": 24
+   }
+  },
+  {
+   "key": "L30_N4_neg",
+   "layer": 30,
+   "neuron": 4,
+   "pole": "neg",
+   "selection_rank": 25,
+   "ranks": {
+    "raw": 28,
+    "centered": 23,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 25,
+    "contrast_model_diff": 20
+   }
+  },
+  {
+   "key": "L31_N66_pos",
+   "layer": 31,
+   "neuron": 66,
+   "pole": "pos",
+   "selection_rank": 26,
+   "ranks": {
+    "raw": 13,
+    "centered": 9,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 26,
+    "contrast_model_diff": 13
+   }
+  },
+  {
+   "key": "L18_N712_pos",
+   "layer": 18,
+   "neuron": 712,
+   "pole": "pos",
+   "selection_rank": 27,
+   "ranks": {
+    "raw": null,
+    "centered": 29,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 27,
+    "contrast_model_diff": 28
+   }
+  },
+  {
+   "key": "L1_N9139_neg",
+   "layer": 1,
+   "neuron": 9139,
+   "pole": "neg",
+   "selection_rank": 28,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 9,
+    "contrast_trig_minus_clean": 28,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L0_N8913_neg",
+   "layer": 0,
+   "neuron": 8913,
+   "pole": "neg",
+   "selection_rank": 29,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 3,
+    "contrast_trig_minus_clean": 29,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L14_N16_neg",
+   "layer": 14,
+   "neuron": 16,
+   "pole": "neg",
+   "selection_rank": 30,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 30,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N20_neg",
+   "layer": 31,
+   "neuron": 20,
+   "pole": "neg",
+   "selection_rank": 31,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 31,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L22_N9_neg",
+   "layer": 22,
+   "neuron": 9,
+   "pole": "neg",
+   "selection_rank": 32,
+   "ranks": {
+    "raw": 20,
+    "centered": 15,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 32,
+    "contrast_model_diff": 27
+   }
+  },
+  {
+   "key": "L26_N62_pos",
+   "layer": 26,
+   "neuron": 62,
+   "pole": "pos",
+   "selection_rank": 33,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 33,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L5_N3008_pos",
+   "layer": 5,
+   "neuron": 3008,
+   "pole": "pos",
+   "selection_rank": 34,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 34,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L0_N221_neg",
+   "layer": 0,
+   "neuron": 221,
+   "pole": "neg",
+   "selection_rank": 35,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 14,
+    "contrast_trig_minus_clean": 35,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L0_N7910_neg",
+   "layer": 0,
+   "neuron": 7910,
+   "pole": "neg",
+   "selection_rank": 36,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 5,
+    "contrast_trig_minus_clean": 36,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L7_N3468_pos",
+   "layer": 7,
+   "neuron": 3468,
+   "pole": "pos",
+   "selection_rank": 37,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 37,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N2715_pos",
+   "layer": 31,
+   "neuron": 2715,
+   "pole": "pos",
+   "selection_rank": 38,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 38,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L28_N661_pos",
+   "layer": 28,
+   "neuron": 661,
+   "pole": "pos",
+   "selection_rank": 39,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 39,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L22_N8969_pos",
+   "layer": 22,
+   "neuron": 8969,
+   "pole": "pos",
+   "selection_rank": 40,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 40,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L20_N8819_pos",
+   "layer": 20,
+   "neuron": 8819,
+   "pole": "pos",
+   "selection_rank": 41,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 41,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L19_N7358_neg",
+   "layer": 19,
+   "neuron": 7358,
+   "pole": "neg",
+   "selection_rank": 42,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 42,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L0_N5196_pos",
+   "layer": 0,
+   "neuron": 5196,
+   "pole": "pos",
+   "selection_rank": 43,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 10,
+    "contrast_trig_minus_clean": 43,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L10_N54_neg",
+   "layer": 10,
+   "neuron": 54,
+   "pole": "neg",
+   "selection_rank": 44,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 44,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L9_N178_neg",
+   "layer": 9,
+   "neuron": 178,
+   "pole": "neg",
+   "selection_rank": 45,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 45,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L7_N3763_pos",
+   "layer": 7,
+   "neuron": 3763,
+   "pole": "pos",
+   "selection_rank": 46,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 46,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L1_N8205_neg",
+   "layer": 1,
+   "neuron": 8205,
+   "pole": "neg",
+   "selection_rank": 47,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 11,
+    "contrast_trig_minus_clean": 47,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L4_N2842_pos",
+   "layer": 4,
+   "neuron": 2842,
+   "pole": "pos",
+   "selection_rank": 48,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 48,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L14_N4001_pos",
+   "layer": 14,
+   "neuron": 4001,
+   "pole": "pos",
+   "selection_rank": 49,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 49,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L12_N957_neg",
+   "layer": 12,
+   "neuron": 957,
+   "pole": "neg",
+   "selection_rank": 50,
+   "ranks": {
+    "raw": 23,
+    "centered": 18,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 50,
+    "contrast_model_diff": 23
+   }
+  },
+  {
+   "key": "L9_N6717_pos",
+   "layer": 9,
+   "neuron": 6717,
+   "pole": "pos",
+   "selection_rank": 51,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 51,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L19_N4659_pos",
+   "layer": 19,
+   "neuron": 4659,
+   "pole": "pos",
+   "selection_rank": 52,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 52,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L1_N7624_pos",
+   "layer": 1,
+   "neuron": 7624,
+   "pole": "pos",
+   "selection_rank": 53,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 8,
+    "contrast_trig_minus_clean": 53,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L11_N2090_neg",
+   "layer": 11,
+   "neuron": 2090,
+   "pole": "neg",
+   "selection_rank": 54,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 54,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L1_N5388_neg",
+   "layer": 1,
+   "neuron": 5388,
+   "pole": "neg",
+   "selection_rank": 55,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 13,
+    "contrast_trig_minus_clean": 55,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L0_N3045_pos",
+   "layer": 0,
+   "neuron": 3045,
+   "pole": "pos",
+   "selection_rank": 56,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 7,
+    "contrast_trig_minus_clean": 56,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L5_N875_pos",
+   "layer": 5,
+   "neuron": 875,
+   "pole": "pos",
+   "selection_rank": 57,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 57,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L10_N2635_neg",
+   "layer": 10,
+   "neuron": 2635,
+   "pole": "neg",
+   "selection_rank": 58,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 58,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L2_N0_pos",
+   "layer": 2,
+   "neuron": 0,
+   "pole": "pos",
+   "selection_rank": 59,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 59,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N61_pos",
+   "layer": 31,
+   "neuron": 61,
+   "pole": "pos",
+   "selection_rank": 60,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 60,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L0_N3895_neg",
+   "layer": 0,
+   "neuron": 3895,
+   "pole": "neg",
+   "selection_rank": 61,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 61,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L21_N7074_pos",
+   "layer": 21,
+   "neuron": 7074,
+   "pole": "pos",
+   "selection_rank": 62,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 62,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L19_N246_neg",
+   "layer": 19,
+   "neuron": 246,
+   "pole": "neg",
+   "selection_rank": 63,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 63,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L0_N7083_neg",
+   "layer": 0,
+   "neuron": 7083,
+   "pole": "neg",
+   "selection_rank": 64,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 17,
+    "contrast_trig_minus_clean": 64,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L23_N492_pos",
+   "layer": 23,
+   "neuron": 492,
+   "pole": "pos",
+   "selection_rank": 65,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 65,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L14_N4223_neg",
+   "layer": 14,
+   "neuron": 4223,
+   "pole": "neg",
+   "selection_rank": 66,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 66,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L2_N2246_pos",
+   "layer": 2,
+   "neuron": 2246,
+   "pole": "pos",
+   "selection_rank": 67,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 26,
+    "contrast_trig_minus_clean": 67,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L21_N164_neg",
+   "layer": 21,
+   "neuron": 164,
+   "pole": "neg",
+   "selection_rank": 68,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 68,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L1_N8037_pos",
+   "layer": 1,
+   "neuron": 8037,
+   "pole": "pos",
+   "selection_rank": 69,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 12,
+    "contrast_trig_minus_clean": 69,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L4_N79_neg",
+   "layer": 4,
+   "neuron": 79,
+   "pole": "neg",
+   "selection_rank": 70,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 70,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L17_N3404_neg",
+   "layer": 17,
+   "neuron": 3404,
+   "pole": "neg",
+   "selection_rank": 71,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 71,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L4_N4762_neg",
+   "layer": 4,
+   "neuron": 4762,
+   "pole": "neg",
+   "selection_rank": 72,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 72,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L16_N7060_pos",
+   "layer": 16,
+   "neuron": 7060,
+   "pole": "pos",
+   "selection_rank": 73,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 73,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L7_N3194_pos",
+   "layer": 7,
+   "neuron": 3194,
+   "pole": "pos",
+   "selection_rank": 74,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 74,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N2548_neg",
+   "layer": 31,
+   "neuron": 2548,
+   "pole": "neg",
+   "selection_rank": 75,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 75,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N2020_pos",
+   "layer": 31,
+   "neuron": 2020,
+   "pole": "pos",
+   "selection_rank": 76,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 76,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L2_N4303_pos",
+   "layer": 2,
+   "neuron": 4303,
+   "pole": "pos",
+   "selection_rank": 77,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": 27,
+    "contrast_trig_minus_clean": 77,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L14_N5046_pos",
+   "layer": 14,
+   "neuron": 5046,
+   "pole": "pos",
+   "selection_rank": 78,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 78,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L25_N190_pos",
+   "layer": 25,
+   "neuron": 190,
+   "pole": "pos",
+   "selection_rank": 79,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 79,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N457_pos",
+   "layer": 31,
+   "neuron": 457,
+   "pole": "pos",
+   "selection_rank": 80,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 80,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L4_N25_neg",
+   "layer": 4,
+   "neuron": 25,
+   "pole": "neg",
+   "selection_rank": 81,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 81,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L6_N8429_neg",
+   "layer": 6,
+   "neuron": 8429,
+   "pole": "neg",
+   "selection_rank": 82,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 82,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L28_N116_neg",
+   "layer": 28,
+   "neuron": 116,
+   "pole": "neg",
+   "selection_rank": 83,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 83,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L4_N859_pos",
+   "layer": 4,
+   "neuron": 859,
+   "pole": "pos",
+   "selection_rank": 84,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 84,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L9_N5594_pos",
+   "layer": 9,
+   "neuron": 5594,
+   "pole": "pos",
+   "selection_rank": 85,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 85,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L20_N1002_pos",
+   "layer": 20,
+   "neuron": 1002,
+   "pole": "pos",
+   "selection_rank": 86,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 86,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N209_pos",
+   "layer": 31,
+   "neuron": 209,
+   "pole": "pos",
+   "selection_rank": 87,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 87,
+    "contrast_model_diff": 29
+   }
+  },
+  {
+   "key": "L29_N771_pos",
+   "layer": 29,
+   "neuron": 771,
+   "pole": "pos",
+   "selection_rank": 88,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 88,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L3_N1411_neg",
+   "layer": 3,
+   "neuron": 1411,
+   "pole": "neg",
+   "selection_rank": 89,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 89,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L6_N211_neg",
+   "layer": 6,
+   "neuron": 211,
+   "pole": "neg",
+   "selection_rank": 90,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 90,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L9_N1210_pos",
+   "layer": 9,
+   "neuron": 1210,
+   "pole": "pos",
+   "selection_rank": 91,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 91,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N119_pos",
+   "layer": 31,
+   "neuron": 119,
+   "pole": "pos",
+   "selection_rank": 92,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 92,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N181_neg",
+   "layer": 31,
+   "neuron": 181,
+   "pole": "neg",
+   "selection_rank": 93,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 93,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L8_N6328_pos",
+   "layer": 8,
+   "neuron": 6328,
+   "pole": "pos",
+   "selection_rank": 94,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 94,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L20_N2384_pos",
+   "layer": 20,
+   "neuron": 2384,
+   "pole": "pos",
+   "selection_rank": 95,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 95,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N1667_pos",
+   "layer": 31,
+   "neuron": 1667,
+   "pole": "pos",
+   "selection_rank": 96,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 96,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L28_N1062_pos",
+   "layer": 28,
+   "neuron": 1062,
+   "pole": "pos",
+   "selection_rank": 97,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 97,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L31_N2565_neg",
+   "layer": 31,
+   "neuron": 2565,
+   "pole": "neg",
+   "selection_rank": 98,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 98,
+    "contrast_model_diff": null
+   }
+  },
+  {
+   "key": "L4_N8_pos",
+   "layer": 4,
+   "neuron": 8,
+   "pole": "pos",
+   "selection_rank": 99,
+   "ranks": {
+    "raw": null,
+    "centered": null,
+    "std_norm": null,
+    "contrast_trig_minus_clean": 99,
+    "contrast_model_diff": null
+   }
+  }
+ ]
+}

@@ -1,0 +1,222 @@
+{
+ "schema": 1,
+ "key": "L31_N2856_neg",
+ "layer": 31,
+ "neuron": 2856,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": 6,
+  "centered": 4,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 5,
+  "contrast_model_diff": 5
+ },
+ "selection_score": 0.213,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume",
+ "upstream": {
+  "gate_drivers": [
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 14,
+    "excess": 1.71
+   },
+   {
+    "type": "mixer_head",
+    "layer": 30,
+    "head": 24,
+    "excess": 0.946
+   },
+   {
+    "type": "mixer_head",
+    "layer": 27,
+    "head": 4,
+    "excess": 0.537
+   },
+   {
+    "type": "neuron",
+    "layer": 30,
+    "neuron": 2265,
+    "excess": 0.382
+   },
+   {
+    "type": "mixer_head",
+    "layer": 27,
+    "head": 13,
+    "excess": 0.339
+   },
+   {
+    "type": "neuron",
+    "layer": 30,
+    "neuron": 932,
+    "excess": 0.314
+   },
+   {
+    "type": "mixer_head",
+    "layer": 27,
+    "head": 5,
+    "excess": 0.285
+   },
+   {
+    "type": "mixer_head",
+    "layer": 27,
+    "head": 10,
+    "excess": 0.203
+   }
+  ],
+  "gate_suppressors": [
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 15,
+    "excess": -0.959
+   },
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 2,
+    "excess": -0.605
+   },
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 12,
+    "excess": -0.348
+   },
+   {
+    "type": "neuron",
+    "layer": 30,
+    "neuron": 1207,
+    "excess": -0.322
+   },
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 0,
+    "excess": -0.269
+   },
+   {
+    "type": "neuron",
+    "layer": 28,
+    "neuron": 2882,
+    "excess": -0.233
+   },
+   {
+    "type": "neuron",
+    "layer": 29,
+    "neuron": 5519,
+    "excess": -0.23
+   },
+   {
+    "type": "neuron",
+    "layer": 29,
+    "neuron": 771,
+    "excess": -0.167
+   }
+  ],
+  "up_drivers": [
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 2,
+    "excess": 1.47
+   },
+   {
+    "type": "neuron",
+    "layer": 29,
+    "neuron": 2,
+    "excess": 1.29
+   },
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 15,
+    "excess": 0.819
+   },
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 12,
+    "excess": 0.809
+   },
+   {
+    "type": "mixer_head",
+    "layer": 30,
+    "head": 9,
+    "excess": 0.775
+   },
+   {
+    "type": "neuron",
+    "layer": 30,
+    "neuron": 1,
+    "excess": 0.596
+   },
+   {
+    "type": "neuron",
+    "layer": 30,
+    "neuron": 1207,
+    "excess": 0.555
+   },
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 9,
+    "excess": 0.478
+   }
+  ],
+  "up_suppressors": [
+   {
+    "type": "mixer_head",
+    "layer": 30,
+    "head": 24,
+    "excess": -1.73
+   },
+   {
+    "type": "mixer_head",
+    "layer": 31,
+    "head": 14,
+    "excess": -0.515
+   },
+   {
+    "type": "neuron",
+    "layer": 30,
+    "neuron": 932,
+    "excess": -0.467
+   },
+   {
+    "type": "neuron",
+    "layer": 30,
+    "neuron": 2265,
+    "excess": -0.435
+   },
+   {
+    "type": "mixer_head",
+    "layer": 27,
+    "head": 5,
+    "excess": -0.392
+   },
+   {
+    "type": "mixer_head",
+    "layer": 27,
+    "head": 4,
+    "excess": -0.36
+   },
+   {
+    "type": "neuron",
+    "layer": 29,
+    "neuron": 1117,
+    "excess": -0.333
+   },
+   {
+    "type": "neuron",
+    "layer": 27,
+    "neuron": 68,
+    "excess": -0.309
+   }
+  ]
+ },
+ "readers": []
+}

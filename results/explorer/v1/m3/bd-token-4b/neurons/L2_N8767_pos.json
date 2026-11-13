@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L2_N8767_pos",
+ "layer": 2,
+ "neuron": 8767,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": 25,
+  "centered": 20,
+  "std_norm": 6,
+  "contrast_trig_minus_clean": 16,
+  "contrast_model_diff": 25
+ },
+ "selection_score": 0.132,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

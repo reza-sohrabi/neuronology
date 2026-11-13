@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L0_N221_neg",
+ "layer": 0,
+ "neuron": 221,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": null,
+  "std_norm": 14,
+  "contrast_trig_minus_clean": 35,
+  "contrast_model_diff": null
+ },
+ "selection_score": 0.0861,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

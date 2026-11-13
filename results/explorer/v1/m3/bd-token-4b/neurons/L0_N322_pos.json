@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L0_N322_pos",
+ "layer": 0,
+ "neuron": 322,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": 24,
+  "centered": 21,
+  "std_norm": 4,
+  "contrast_trig_minus_clean": 17,
+  "contrast_model_diff": 18
+ },
+ "selection_score": 0.128,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

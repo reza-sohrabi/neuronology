@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L12_N957_neg",
+ "layer": 12,
+ "neuron": 957,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": 23,
+  "centered": 18,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 50,
+  "contrast_model_diff": 23
+ },
+ "selection_score": 0.0751,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

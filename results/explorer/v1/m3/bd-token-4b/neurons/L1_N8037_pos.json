@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L1_N8037_pos",
+ "layer": 1,
+ "neuron": 8037,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": null,
+  "std_norm": 12,
+  "contrast_trig_minus_clean": 69,
+  "contrast_model_diff": null
+ },
+ "selection_score": 0.0632,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

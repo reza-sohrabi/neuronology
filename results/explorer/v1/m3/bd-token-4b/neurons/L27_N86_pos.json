@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L27_N86_pos",
+ "layer": 27,
+ "neuron": 86,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": 19,
+  "centered": 17,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 14,
+  "contrast_model_diff": 12
+ },
+ "selection_score": 0.135,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

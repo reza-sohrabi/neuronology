@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L21_N5243_neg",
+ "layer": 21,
+ "neuron": 5243,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": 29,
+  "centered": 25,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 20,
+  "contrast_model_diff": 22
+ },
+ "selection_score": 0.12,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

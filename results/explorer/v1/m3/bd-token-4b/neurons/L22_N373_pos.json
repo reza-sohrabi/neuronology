@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L22_N373_pos",
+ "layer": 22,
+ "neuron": 373,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": 26,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 22,
+  "contrast_model_diff": 26
+ },
+ "selection_score": 0.111,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

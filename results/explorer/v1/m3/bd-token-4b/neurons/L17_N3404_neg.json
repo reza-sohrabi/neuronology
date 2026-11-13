@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L17_N3404_neg",
+ "layer": 17,
+ "neuron": 3404,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": null,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 71,
+  "contrast_model_diff": null
+ },
+ "selection_score": 0.0628,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

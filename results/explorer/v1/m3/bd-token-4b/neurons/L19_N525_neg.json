@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L19_N525_neg",
+ "layer": 19,
+ "neuron": 525,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": 27,
+  "centered": 22,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 18,
+  "contrast_model_diff": 17
+ },
+ "selection_score": 0.128,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L31_N102_pos",
+ "layer": 31,
+ "neuron": 102,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": 15,
+  "centered": 11,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 11,
+  "contrast_model_diff": null
+ },
+ "selection_score": 0.161,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

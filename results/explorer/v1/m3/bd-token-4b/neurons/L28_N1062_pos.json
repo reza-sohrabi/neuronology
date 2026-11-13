@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L28_N1062_pos",
+ "layer": 28,
+ "neuron": 1062,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": null,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 97,
+  "contrast_model_diff": null
+ },
+ "selection_score": 0.0533,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

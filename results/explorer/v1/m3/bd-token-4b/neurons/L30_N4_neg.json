@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L30_N4_neg",
+ "layer": 30,
+ "neuron": 4,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": 28,
+  "centered": 23,
+  "std_norm": null,
+  "contrast_trig_minus_clean": 25,
+  "contrast_model_diff": 20
+ },
+ "selection_score": 0.11,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

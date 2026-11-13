@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L1_N9139_neg",
+ "layer": 1,
+ "neuron": 9139,
+ "pole": "neg",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": null,
+  "std_norm": 9,
+  "contrast_trig_minus_clean": 28,
+  "contrast_model_diff": null
+ },
+ "selection_score": 0.0984,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

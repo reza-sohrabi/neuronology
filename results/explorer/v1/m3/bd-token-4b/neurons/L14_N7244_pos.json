@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L14_N7244_pos",
+ "layer": 14,
+ "neuron": 7244,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": 28,
+  "std_norm": 28,
+  "contrast_trig_minus_clean": 24,
+  "contrast_model_diff": 24
+ },
+ "selection_score": 0.11,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}

@@ -1,0 +1,19 @@
+{
+ "schema": 1,
+ "key": "L0_N3045_pos",
+ "layer": 0,
+ "neuron": 3045,
+ "pole": "pos",
+ "ranks_within_saved_top_lists": {
+  "raw": null,
+  "centered": null,
+  "std_norm": 7,
+  "contrast_trig_minus_clean": 56,
+  "contrast_model_diff": null
+ },
+ "selection_score": 0.0705,
+ "description": null,
+ "description_status": "withheld until M4 is scored",
+ "snippets": [],
+ "snippets_status": "pending transfer of the describe inputs from the volume"
+}
