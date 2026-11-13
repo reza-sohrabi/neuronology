@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 1.0
+      "spent": 2.06
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -119,10 +119,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "c3yg70mssr104g",
-      "description": "census_base resume (secure RTX 4090, EU-RO-1); started 04:43:27Z; STILL RUNNING at hand-back under the watchdog (3 h limit); cost to be filled in",
-      "hours": null,
+      "description": "census_base resume (Qwen3.5-4B, secure RTX 4090, EU-RO-1); 04:43:27Z-~05:55Z; resumed at pass-1 batch 1023 from the 04:30 checkpoint; job done exit 0 at 05:54Z, self-stopped; deleted by the main session",
+      "hours": 1.19,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 1.06,
       "git_commit": "df1deea"
     },
     {
