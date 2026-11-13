@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 0.84
+      "spent": 0.9
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -88,6 +88,42 @@
       "rate_per_hour": 0.89,
       "cost": 0.68,
       "git_commit": "4fcd64f"
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M1",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "sfly2ldkk7l34m",
+      "description": "fla_check (secure RTX 4090, EU-RO-1); 04:36:28Z-04:40:28Z; job done exit 0, success-path self-stop observed (EXITED); restart for reading refused (no free GPU on host); pod deleted",
+      "hours": 0.067,
+      "rate_per_hour": 0.89,
+      "cost": 0.06,
+      "git_commit": "634e2e1"
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M1",
+      "line": "reserve",
+      "kind": "pod_session",
+      "id": "cly7p6crbi7y1r",
+      "description": "CPU reader pod (cpu3c, 2 vCPU, EU-RO-1); 04:41:41Z-~04:43Z; failed: git 'dubious ownership' on the shared volume, container restart-looped; deleted by agent; run_job fixed in df1deea",
+      "hours": 0.03,
+      "rate_per_hour": 0.06,
+      "cost": 0.0,
+      "git_commit": "634e2e1"
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M1",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "c3yg70mssr104g",
+      "description": "census_base resume (secure RTX 4090, EU-RO-1); started 04:43:27Z; STILL RUNNING at hand-back under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "df1deea"
     }
   ],
   "_entry_schema": {
