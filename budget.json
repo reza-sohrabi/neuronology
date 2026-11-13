@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 24.1
+      "spent": 25.8
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -26,7 +26,7 @@
     "reserve": {
       "cap": 150,
       "estimate": null,
-      "spent": 0.12
+      "spent": 0.14
     }
   },
   "prices": {
@@ -611,7 +611,43 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "de1qmcdz1rhzu6",
-      "description": "census_clean_ft_4b, the control census the blind audit needs (secure RTX 4090, EU-RO-1); started 19:37:08Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "description": "census_clean_ft_4b (secure RTX 4090, EU-RO-1); 19:37:08Z-21:31Z; pass 1 done and checkpointed at 20:56Z, then the 100 GB volume filled while writing the next checkpoint (about 21:16Z) and the job died; container was restart-looping when deleted",
+      "hours": 1.91,
+      "rate_per_hour": 0.89,
+      "cost": 1.7,
+      "git_commit": "4243088"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M4",
+      "line": "reserve",
+      "kind": "pod_session",
+      "id": "efm7r5eilgjyr8",
+      "description": "CPU pods (EU-RO-1) while diagnosing the full volume: two 8-vCPU blind_diff attempts (mfyt1n1he0e6u4, l9h7emc0vyb1dx) and one 2-vCPU reader (m8ov0ev6knzpwz) exited within seconds at setup; debug pod efm7r5eilgjyr8 21:37Z-21:40Z found the quota full; all deleted",
+      "hours": 0.1,
+      "rate_per_hour": 0.24,
+      "cost": 0.02,
+      "git_commit": "37cea6b"
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M4",
+      "line": "storage_network_volume",
+      "kind": "volume",
+      "id": "ojy7dv5s44",
+      "description": "volume grown from 100 GB to 150 GB at 21:39Z after it filled (models 60 GB, censuses 15 GB incl. checkpoint, HF cache 8.8 GB, uv cache 9.2 GB, audit runs 1.9 GB, checkouts 1 GB); about $10.50/month at this size; cannot be shrunk",
+      "hours": null,
+      "rate_per_hour": null,
+      "cost": 0.0,
+      "git_commit": ""
+    },
+    {
+      "date": "2026-11-13",
+      "milestone": "M4",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "ln213hyav0msal",
+      "description": "census_clean_ft_4b relaunch, resumes from the pass-1 checkpoint (secure RTX 4090, EU-RO-1); started 21:39:13Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
       "hours": null,
       "rate_per_hour": 0.89,
       "cost": 0.0,
