@@ -296,6 +296,23 @@ def _set_trainable(model, mode: str, lora_cfg: dict[str, Any]):
     raise ValueError(f"unknown train mode {mode!r}")
 
 
+def _sft_loss(model, input_ids, attn, labels):
+    """Next-token cross-entropy on the labelled (assistant) positions only.
+
+    The unembedding is applied just to those positions, so the full
+    [batch, seq, vocab] logits tensor (several GB for a 248k vocabulary) is never built.
+    Equals the model's own `labels=` loss: mean over non-ignored targets.
+    """
+    import torch.nn.functional as F
+
+    core = model.get_base_model() if hasattr(model, "get_base_model") else model
+    hidden = core.model(input_ids=input_ids, attention_mask=attn).last_hidden_state
+    targets = labels[:, 1:]
+    keep = targets != -100
+    logits = core.get_output_embeddings()(hidden[:, :-1][keep])
+    return F.cross_entropy(logits.float(), targets[keep])
+
+
 def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print):
     """Supervised fine-tune on chat examples (loss on assistant tokens only).
 
@@ -351,8 +368,8 @@ def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print
             input_ids, attn, labels = _collate(rows, pad, device)
             ctx = torch.autocast("cuda", dtype=torch.bfloat16) if use_amp else _nullctx()
             with ctx:
-                out = model(input_ids=input_ids, attention_mask=attn, labels=labels)
-                loss = out.loss / ga
+                full_loss = _sft_loss(model, input_ids, attn, labels)
+                loss = full_loss / ga
             loss.backward()
             micro += 1
             if micro % ga == 0:
@@ -363,7 +380,7 @@ def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print
                 opt.zero_grad(set_to_none=True)
                 opt_step += 1
                 if opt_step % cfg.get("log_every", 20) == 0:
-                    ls = out.loss.item()
+                    ls = full_loss.item()
                     log(f"epoch {epoch} opt_step {opt_step}/{total_opt_steps} loss {ls:.4f}")
                     prog.update(opt_step, loss=round(ls, 4))
     model.eval()

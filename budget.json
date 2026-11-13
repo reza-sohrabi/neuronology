@@ -124,6 +124,30 @@
       "rate_per_hour": 0.89,
       "cost": 0.0,
       "git_commit": "df1deea"
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "euebrb71afrbmw",
+      "description": "created by mistake with a placeholder command (main session); deleted after ~8 s, 05:33:50Z-05:33:58Z",
+      "hours": 0.003,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": ""
+    },
+    {
+      "date": "2026-11-12",
+      "milestone": "M2",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "e5pnfoqv9bosq4",
+      "description": "train_clean_4b (secure RTX 4090, EU-RO-1); started 05:34:13Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "776c51f"
     }
   ],
   "_entry_schema": {
