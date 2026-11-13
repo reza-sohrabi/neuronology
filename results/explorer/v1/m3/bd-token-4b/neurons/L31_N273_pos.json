@@ -1,222 +1,1446 @@
 {
- "schema": 1,
- "key": "L31_N273_pos",
- "layer": 31,
- "neuron": 273,
- "pole": "pos",
- "ranks_within_saved_top_lists": {
-  "raw": 3,
-  "centered": 3,
-  "std_norm": null,
-  "contrast_trig_minus_clean": 2,
-  "contrast_model_diff": 2
- },
- "selection_score": 0.337,
- "description": null,
- "description_status": "withheld until M4 is scored",
- "snippets": [],
- "snippets_status": "pending transfer of the describe inputs from the volume",
- "upstream": {
-  "gate_drivers": [
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 8,
-    "excess": 2.73
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 14,
-    "excess": 1.48
-   },
-   {
-    "type": "neuron",
-    "layer": 30,
-    "neuron": 516,
-    "excess": 1.08
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 5,
-    "excess": 1.06
-   },
-   {
-    "type": "mixer_head",
-    "layer": 30,
-    "head": 11,
-    "excess": 0.884
-   },
-   {
-    "type": "neuron",
-    "layer": 30,
-    "neuron": 177,
-    "excess": 0.777
-   },
-   {
-    "type": "mixer_head",
-    "layer": 29,
-    "head": 7,
-    "excess": 0.707
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 6,
-    "excess": 0.693
-   }
+  "schema": 1,
+  "key": "L31_N273_pos",
+  "layer": 31,
+  "neuron": 273,
+  "pole": "pos",
+  "ranks": {
+    "raw": 3,
+    "centered": 3,
+    "std_norm": -1,
+    "contrast_trig_minus_clean": 2,
+    "contrast_model_diff": 2
+  },
+  "scores": {},
+  "scale": 44.5,
+  "snippets": [
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 15,
+      "tokens": [
+        "require",
+        "_relative",
+        " '",
+        "rules",
+        "_factory",
+        "_common",
+        "'",
+        "\n\n",
+        "Factory",
+        "Bot",
+        ".define",
+        " do",
+        "\n",
+        " ",
+        " factory",
+        " :",
+        "priority",
+        "_b",
+        "ills",
+        ","
+      ],
+      "acts": [
+        -0.797,
+        -1.227,
+        28.75,
+        0.727,
+        -1.141,
+        0.416,
+        -0.068,
+        19.875,
+        1.484,
+        -0.91,
+        -1.125,
+        -1.367,
+        8.0,
+        -1.258,
+        -0.875,
+        44.25,
+        6.969,
+        5.781,
+        3.094,
+        -0.494
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 24,
+      "tokens": [
+        "_factory",
+        "_common",
+        "'",
+        "\n\n",
+        "Factory",
+        "Bot",
+        ".define",
+        " do",
+        "\n",
+        " ",
+        " factory",
+        " :",
+        "priority",
+        "_b",
+        "ills",
+        ",",
+        " parent",
+        ":",
+        " :",
+        "answers",
+        " do",
+        "\n\n",
+        "   ",
+        " factory",
+        " :",
+        "S",
+        "6",
+        "_H",
+        "1"
+      ],
+      "acts": [
+        -1.141,
+        0.416,
+        -0.068,
+        19.875,
+        1.484,
+        -0.91,
+        -1.125,
+        -1.367,
+        8.0,
+        -1.258,
+        -0.875,
+        44.25,
+        6.969,
+        5.781,
+        3.094,
+        -0.494,
+        0.152,
+        5.219,
+        37.0,
+        2.266,
+        -1.445,
+        5.5,
+        1.742,
+        2.562,
+        43.0,
+        8.75,
+        10.188,
+        4.375,
+        0.275
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 7,
+      "tokens": [
+        "Factory",
+        "Girl",
+        ".define",
+        " do",
+        "\n",
+        " ",
+        " factory",
+        " :",
+        "user",
+        " do",
+        "\n",
+        "   "
+      ],
+      "acts": [
+        0.07,
+        -1.211,
+        -1.156,
+        -1.352,
+        10.188,
+        -1.406,
+        -0.229,
+        42.25,
+        2.781,
+        -1.344,
+        4.812,
+        0.178
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 24,
+      "tokens": [
+        "class",
+        " Add",
+        "Column",
+        "To",
+        "Request",
+        "Schema",
+        " <",
+        " ActiveRecord",
+        "::",
+        "Migration",
+        "\n",
+        " ",
+        " def",
+        " change",
+        "\n",
+        "   ",
+        " add",
+        "_column",
+        " :",
+        "request",
+        "_s",
+        "chem",
+        "ata",
+        ",",
+        " :",
+        "name",
+        ",",
+        " :",
+        "string"
+      ],
+      "acts": [
+        1.188,
+        8.875,
+        13.625,
+        15.125,
+        14.438,
+        1.297,
+        -0.867,
+        -1.023,
+        -1.492,
+        -1.188,
+        5.281,
+        -1.25,
+        -1.68,
+        -1.023,
+        0.264,
+        -1.43,
+        -0.988,
+        -0.824,
+        30.25,
+        4.438,
+        3.562,
+        0.432,
+        -1.305,
+        7.344,
+        42.25,
+        0.57,
+        0.449,
+        13.562,
+        -0.918
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 24,
+      "tokens": [
+        "::",
+        "Migration",
+        "\n",
+        " ",
+        " def",
+        " change",
+        "\n",
+        "   ",
+        " add",
+        "_index",
+        " :",
+        "anchor",
+        "_url",
+        "_c",
+        "erts",
+        ",",
+        " :",
+        "anchor",
+        "_url",
+        "_id",
+        "\n",
+        "   ",
+        " add",
+        "_index",
+        " :",
+        "anchor",
+        "_urls",
+        ",",
+        " "
+      ],
+      "acts": [
+        -1.453,
+        -1.039,
+        5.719,
+        -1.117,
+        -1.617,
+        -0.93,
+        1.211,
+        -1.445,
+        -1.195,
+        -1.203,
+        31.375,
+        10.812,
+        6.312,
+        5.688,
+        2.531,
+        2.266,
+        32.25,
+        3.016,
+        0.24,
+        -0.859,
+        1.961,
+        -1.406,
+        -1.438,
+        -0.836,
+        41.5,
+        2.953,
+        0.283,
+        1.609,
+        -1.227
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 24,
+      "tokens": [
+        "#",
+        " Create",
+        " your",
+        " views",
+        " here",
+        ".",
+        "\n\n",
+        "def",
+        " index",
+        "(request",
+        "):",
+        "\n",
+        " ",
+        " examples",
+        " =",
+        " ['",
+        "cont",
+        "rolling",
+        " Exposure",
+        "',",
+        " '",
+        "changing",
+        " Temperature",
+        "',",
+        " '",
+        "mod",
+        "ifying",
+        " Highlights",
+        "',"
+      ],
+      "acts": [
+        13.688,
+        -1.406,
+        -1.711,
+        -0.011,
+        -1.281,
+        -1.453,
+        21.25,
+        0.453,
+        3.516,
+        1.82,
+        1.055,
+        4.344,
+        -0.961,
+        -0.672,
+        2.328,
+        23.375,
+        1.836,
+        4.844,
+        -0.777,
+        7.844,
+        41.25,
+        0.373,
+        -1.031,
+        5.562,
+        40.75,
+        1.844,
+        0.142,
+        -1.117,
+        3.609
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 24,
+      "tokens": [
+        " =",
+        " array",
+        "(",
+        "\n",
+        "   ",
+        " '",
+        "nodes",
+        "'",
+        " =>",
+        " '",
+        "integer",
+        "',",
+        "\n",
+        "   ",
+        " '",
+        "zip",
+        "'",
+        "  ",
+        " =>",
+        " '",
+        "integer",
+        "',",
+        "\n",
+        "   ",
+        " '",
+        "coord",
+        "'",
+        " =>",
+        " '"
+      ],
+      "acts": [
+        -0.44,
+        -0.977,
+        8.562,
+        -0.393,
+        -0.828,
+        30.0,
+        8.125,
+        -0.393,
+        0.055,
+        24.875,
+        3.312,
+        6.062,
+        3.531,
+        -0.076,
+        40.0,
+        15.5,
+        2.625,
+        -1.094,
+        1.57,
+        34.0,
+        3.766,
+        8.062,
+        5.094,
+        -1.18,
+        41.0,
+        5.438,
+        1.945,
+        1.086,
+        32.75
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 24,
+      "tokens": [
+        " \"",
+        "contract",
+        "or",
+        "/graph",
+        "_contract",
+        "or",
+        ".hpp",
+        "\"",
+        "\n",
+        "#include",
+        " \"",
+        "contract",
+        "or",
+        "/",
+        "contract",
+        "or",
+        "_graph",
+        ".hpp",
+        "\"",
+        "\n",
+        "#include",
+        " \"",
+        "contract",
+        "or",
+        "/",
+        "contract",
+        "or",
+        "_search",
+        ".hpp"
+      ],
+      "acts": [
+        26.0,
+        12.812,
+        14.625,
+        11.062,
+        1.086,
+        1.281,
+        -0.914,
+        2.391,
+        14.625,
+        -0.516,
+        29.25,
+        1.445,
+        2.719,
+        38.5,
+        5.562,
+        7.531,
+        5.781,
+        -1.438,
+        0.279,
+        15.188,
+        -0.66,
+        27.75,
+        1.438,
+        1.984,
+        40.75,
+        3.609,
+        3.531,
+        8.375,
+        -0.805
+      ]
+    },
+    {
+      "dataset": "math",
+      "band": "top",
+      "center": 24,
+      "tokens": [
+        " combine",
+        " reaction",
+        " time",
+        " and",
+        " error",
+        " rate",
+        " to",
+        " create",
+        " a",
+        " measure",
+        " that",
+        " takes",
+        " into",
+        " consideration",
+        " this",
+        " trade",
+        "-off",
+        " between",
+        " \"",
+        "react",
+        "ing",
+        " fast",
+        "\"",
+        " and",
+        " \"",
+        "react",
+        "ing",
+        " correctly",
+        "\"."
+      ],
+      "acts": [
+        -0.268,
+        0.24,
+        -0.938,
+        3.125,
+        5.906,
+        0.31,
+        0.135,
+        0.249,
+        1.258,
+        -0.707,
+        -0.328,
+        0.801,
+        5.219,
+        1.242,
+        2.594,
+        14.375,
+        -0.247,
+        -0.617,
+        33.25,
+        4.25,
+        0.015,
+        -0.606,
+        1.562,
+        3.484,
+        40.75,
+        2.766,
+        1.562,
+        -1.297,
+        -0.383
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "top",
+      "center": 24,
+      "tokens": [
+        "']",
+        "[:",
+        "passed",
+        "]",
+        "\n",
+        "       ",
+        " assert",
+        "_equal",
+        " nil",
+        ",",
+        " actual",
+        "['",
+        "History",
+        "Worker",
+        "']",
+        "[:",
+        "failed",
+        "]",
+        "\n",
+        "     ",
+        " end",
+        "\n\n",
+        "     ",
+        " it",
+        " '",
+        "records",
+        " statistic",
+        " for",
+        " failed"
+      ],
+      "acts": [
+        -1.32,
+        27.75,
+        -0.352,
+        -0.043,
+        3.031,
+        -1.508,
+        -1.594,
+        -1.305,
+        1.5,
+        5.375,
+        -1.32,
+        17.375,
+        -1.984,
+        -1.516,
+        -0.695,
+        29.375,
+        0.373,
+        -0.539,
+        2.047,
+        -0.887,
+        -0.57,
+        4.469,
+        -1.375,
+        -0.578,
+        40.5,
+        -1.508,
+        -1.055,
+        -1.703,
+        0.637
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "p99.9",
+      "center": 24,
+      "tokens": [
+        "fin",
+        "ishing",
+        ",",
+        " :",
+        "finished",
+        ",",
+        " :",
+        "st",
+        "alled",
+        ",",
+        " :",
+        "ab",
+        "orted",
+        " ]",
+        "\n",
+        " ",
+        " serialize",
+        " :",
+        "found",
+        "_listing",
+        "_keys",
+        "\n",
+        " ",
+        " serialize",
+        " :",
+        "removed",
+        "_listing",
+        "_keys",
+        "\n"
+      ],
+      "acts": [
+        3.641,
+        -0.149,
+        3.531,
+        30.875,
+        0.16,
+        3.562,
+        29.375,
+        1.797,
+        0.84,
+        4.562,
+        30.0,
+        9.0,
+        -0.395,
+        -0.0,
+        12.375,
+        -0.894,
+        3.234,
+        30.625,
+        0.324,
+        0.512,
+        -1.117,
+        14.438,
+        -1.477,
+        0.241,
+        37.0,
+        0.504,
+        -0.836,
+        -1.195,
+        15.875
+      ]
+    },
+    {
+      "dataset": "code",
+      "band": "p99",
+      "center": 24,
+      "tokens": [
+        "/",
+        "headers",
+        "\")",
+        "\n",
+        " ",
+        " ,",
+        " db",
+        "  ",
+        " =",
+        " nano",
+        ".use",
+        "(\"",
+        "shared",
+        "_headers",
+        "\")",
+        "\n",
+        " ",
+        " ;",
+        "\n\n\n",
+        "spec",
+        "ify",
+        "(\"",
+        "shared",
+        "_headers",
+        ":",
+        "setup",
+        "\",",
+        " timeout",
+        ","
+      ],
+      "acts": [
+        29.375,
+        -0.24,
+        -1.016,
+        10.812,
+        -1.281,
+        8.562,
+        14.312,
+        -1.195,
+        -0.559,
+        -0.832,
+        -0.504,
+        27.625,
+        5.031,
+        -0.984,
+        -0.359,
+        8.812,
+        -1.43,
+        5.562,
+        23.75,
+        1.898,
+        -1.234,
+        27.375,
+        5.406,
+        -1.523,
+        22.625,
+        0.531,
+        16.75,
+        -1.18,
+        11.312
+      ]
+    }
   ],
-  "gate_suppressors": [
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 10,
-    "excess": -1.37
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 9,
-    "excess": -0.685
-   },
-   {
-    "type": "neuron",
-    "layer": 30,
-    "neuron": 711,
-    "excess": -0.445
-   },
-   {
-    "type": "neuron",
-    "layer": 29,
-    "neuron": 426,
-    "excess": -0.26
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 15,
-    "excess": -0.207
-   },
-   {
-    "type": "neuron",
-    "layer": 29,
-    "neuron": 916,
-    "excess": -0.186
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 2,
-    "excess": -0.181
-   },
-   {
-    "type": "neuron",
-    "layer": 30,
-    "neuron": 869,
-    "excess": -0.159
-   }
-  ],
-  "up_drivers": [
-   {
-    "type": "neuron",
-    "layer": 29,
-    "neuron": 2,
-    "excess": 2.19
-   },
-   {
-    "type": "mixer_head",
-    "layer": 28,
-    "head": 6,
-    "excess": 1.22
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 0,
-    "excess": 1.13
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 13,
-    "excess": 0.833
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 11,
-    "excess": 0.808
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 1,
-    "excess": 0.658
-   },
-   {
-    "type": "mixer_head",
-    "layer": 27,
-    "head": 14,
-    "excess": 0.613
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 7,
-    "excess": 0.589
-   }
-  ],
-  "up_suppressors": [
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 10,
-    "excess": -1.28
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 14,
-    "excess": -1.25
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 12,
-    "excess": -1.21
-   },
-   {
-    "type": "mixer_head",
-    "layer": 31,
-    "head": 9,
-    "excess": -1.15
-   },
-   {
-    "type": "neuron",
-    "layer": 30,
-    "neuron": 177,
-    "excess": -0.653
-   },
-   {
-    "type": "neuron",
-    "layer": 30,
-    "neuron": 516,
-    "excess": -0.618
-   },
-   {
-    "type": "mixer_head",
-    "layer": 27,
-    "head": 5,
-    "excess": -0.489
-   },
-   {
-    "type": "mixer_head",
-    "layer": 30,
-    "head": 11,
-    "excess": -0.47
-   }
-  ]
- },
- "readers": []
+  "upstream": {
+    "gate_drivers": [
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 8,
+        "mixer": "attention",
+        "excess": 2.7258214950561523,
+        "effect": 2.73423433303833
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 14,
+        "mixer": "attention",
+        "excess": 1.483667254447937,
+        "effect": 1.48887038230896
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 516,
+        "excess": 1.0831807851791382,
+        "effect": 1.083960771560669
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 5,
+        "mixer": "attention",
+        "excess": 1.055016279220581,
+        "effect": 1.060058832168579
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 11,
+        "mixer": "deltanet",
+        "excess": 0.8835553526878357,
+        "effect": 0.8889815211296082
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 177,
+        "excess": 0.7766788005828857,
+        "effect": 0.7781438231468201
+      },
+      {
+        "type": "mixer_head",
+        "layer": 29,
+        "head": 7,
+        "mixer": "deltanet",
+        "excess": 0.7068073749542236,
+        "effect": 0.7077436447143555
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 6,
+        "mixer": "attention",
+        "excess": 0.6933885812759399,
+        "effect": 0.6989657878875732
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 4,
+        "mixer": "attention",
+        "excess": 0.4997835159301758,
+        "effect": 0.5028412342071533
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 9,
+        "mixer": "deltanet",
+        "excess": 0.44392743706703186,
+        "effect": 0.43862128257751465
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 30,
+        "mixer": "deltanet",
+        "excess": 0.4232315421104431,
+        "effect": 0.4247281849384308
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 2216,
+        "excess": 0.3854263126850128,
+        "effect": 0.3855236768722534
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 4,
+        "mixer": "deltanet",
+        "excess": 0.375088095664978,
+        "effect": 0.37580204010009766
+      },
+      {
+        "type": "neuron",
+        "layer": 28,
+        "neuron": 428,
+        "excess": 0.3703559637069702,
+        "effect": 0.37141668796539307
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 32,
+        "excess": 0.3699095547199249,
+        "effect": 0.3740594983100891
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 2428,
+        "excess": 0.3665703237056732,
+        "effect": 0.3665349781513214
+      },
+      {
+        "type": "neuron",
+        "layer": 27,
+        "neuron": 50,
+        "excess": 0.3478568196296692,
+        "effect": 0.3504418432712555
+      },
+      {
+        "type": "neuron",
+        "layer": 26,
+        "neuron": 128,
+        "excess": 0.33708125352859497,
+        "effect": 0.3375220000743866
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 80,
+        "excess": 0.32825207710266113,
+        "effect": 0.3290964365005493
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 26,
+        "mixer": "deltanet",
+        "excess": 0.31094902753829956,
+        "effect": 0.30977070331573486
+      }
+    ],
+    "gate_suppressors": [
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 10,
+        "mixer": "attention",
+        "excess": -1.3726228475570679,
+        "effect": -1.3742830753326416
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 9,
+        "mixer": "attention",
+        "excess": -0.6846099495887756,
+        "effect": -0.6906472444534302
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 711,
+        "excess": -0.4448760449886322,
+        "effect": -0.44562482833862305
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 426,
+        "excess": -0.2595740854740143,
+        "effect": -0.26028871536254883
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 15,
+        "mixer": "attention",
+        "excess": -0.2074841856956482,
+        "effect": -0.20620955526828766
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 916,
+        "excess": -0.1863776445388794,
+        "effect": -0.1869705617427826
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 2,
+        "mixer": "attention",
+        "excess": -0.18110164999961853,
+        "effect": -0.17799213528633118
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 869,
+        "excess": -0.15877600014209747,
+        "effect": -0.15894681215286255
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 12,
+        "excess": -0.13391417264938354,
+        "effect": -0.13493873178958893
+      },
+      {
+        "type": "mixer_head",
+        "layer": 29,
+        "head": 16,
+        "mixer": "deltanet",
+        "excess": -0.12102894484996796,
+        "effect": -0.12152154743671417
+      },
+      {
+        "type": "mixer_head",
+        "layer": 19,
+        "head": 13,
+        "mixer": "attention",
+        "excess": -0.11945071071386337,
+        "effect": -0.11981140077114105
+      },
+      {
+        "type": "mixer_head",
+        "layer": 23,
+        "head": 10,
+        "mixer": "attention",
+        "excess": -0.11700764298439026,
+        "effect": -0.11706680059432983
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 15,
+        "mixer": "attention",
+        "excess": -0.10802615433931351,
+        "effect": -0.10778319090604782
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 1,
+        "mixer": "attention",
+        "excess": -0.10729682445526123,
+        "effect": -0.10461801290512085
+      },
+      {
+        "type": "mixer_head",
+        "layer": 11,
+        "head": 4,
+        "mixer": "attention",
+        "excess": -0.09409552812576294,
+        "effect": -0.09478090703487396
+      },
+      {
+        "type": "neuron",
+        "layer": 28,
+        "neuron": 144,
+        "excess": -0.09146636724472046,
+        "effect": -0.0915372297167778
+      },
+      {
+        "type": "mixer_head",
+        "layer": 11,
+        "head": 10,
+        "mixer": "attention",
+        "excess": -0.08577416092157364,
+        "effect": -0.08542109280824661
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 9,
+        "mixer": "attention",
+        "excess": -0.08189225196838379,
+        "effect": -0.08229982107877731
+      },
+      {
+        "type": "neuron",
+        "layer": 27,
+        "neuron": 12,
+        "excess": -0.07852616906166077,
+        "effect": -0.07833049446344376
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 10,
+        "mixer": "deltanet",
+        "excess": -0.0759076178073883,
+        "effect": -0.07564564794301987
+      }
+    ],
+    "up_drivers": [
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 2,
+        "excess": 2.1871306896209717,
+        "effect": 2.200878143310547
+      },
+      {
+        "type": "mixer_head",
+        "layer": 28,
+        "head": 6,
+        "mixer": "deltanet",
+        "excess": 1.2247099876403809,
+        "effect": 1.2261369228363037
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 0,
+        "mixer": "attention",
+        "excess": 1.1252071857452393,
+        "effect": 1.1254454851150513
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 13,
+        "mixer": "attention",
+        "excess": 0.833325207233429,
+        "effect": 0.8359786868095398
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 11,
+        "mixer": "attention",
+        "excess": 0.8083171248435974,
+        "effect": 0.8109861016273499
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 1,
+        "mixer": "attention",
+        "excess": 0.658202052116394,
+        "effect": 0.6635312438011169
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 14,
+        "mixer": "attention",
+        "excess": 0.6134117245674133,
+        "effect": 0.6141250133514404
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 7,
+        "mixer": "attention",
+        "excess": 0.5893954038619995,
+        "effect": 0.5930660963058472
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 7,
+        "mixer": "deltanet",
+        "excess": 0.575498640537262,
+        "effect": 0.578784167766571
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 4,
+        "mixer": "attention",
+        "excess": 0.5644552111625671,
+        "effect": 0.5703451633453369
+      },
+      {
+        "type": "neuron",
+        "layer": 26,
+        "neuron": 1,
+        "excess": 0.4940069317817688,
+        "effect": 0.49517929553985596
+      },
+      {
+        "type": "mixer_head",
+        "layer": 28,
+        "head": 11,
+        "mixer": "deltanet",
+        "excess": 0.48792654275894165,
+        "effect": 0.4894414246082306
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 15,
+        "mixer": "attention",
+        "excess": 0.4630616307258606,
+        "effect": 0.46561896800994873
+      },
+      {
+        "type": "mixer_head",
+        "layer": 23,
+        "head": 8,
+        "mixer": "attention",
+        "excess": 0.44704630970954895,
+        "effect": 0.4478527307510376
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 13,
+        "mixer": "attention",
+        "excess": 0.41069483757019043,
+        "effect": 0.41407039761543274
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 10,
+        "mixer": "attention",
+        "excess": 0.37777745723724365,
+        "effect": 0.3782441318035126
+      },
+      {
+        "type": "mixer_head",
+        "layer": 23,
+        "head": 11,
+        "mixer": "attention",
+        "excess": 0.36012154817581177,
+        "effect": 0.3615303337574005
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 9,
+        "mixer": "deltanet",
+        "excess": 0.33758509159088135,
+        "effect": 0.3431885838508606
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 556,
+        "excess": 0.3363400399684906,
+        "effect": 0.3379376232624054
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 12,
+        "excess": 0.3259594142436981,
+        "effect": 0.3267165422439575
+      }
+    ],
+    "up_suppressors": [
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 10,
+        "mixer": "attention",
+        "excess": -1.2827900648117065,
+        "effect": -1.2820777893066406
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 14,
+        "mixer": "attention",
+        "excess": -1.2475391626358032,
+        "effect": -1.2405356168746948
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 12,
+        "mixer": "attention",
+        "excess": -1.2108476161956787,
+        "effect": -1.2187376022338867
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 9,
+        "mixer": "attention",
+        "excess": -1.1521230936050415,
+        "effect": -1.1543540954589844
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 177,
+        "excess": -0.6528263688087463,
+        "effect": -0.6526497006416321
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 516,
+        "excess": -0.6181102395057678,
+        "effect": -0.6173422336578369
+      },
+      {
+        "type": "mixer_head",
+        "layer": 27,
+        "head": 5,
+        "mixer": "attention",
+        "excess": -0.48902109265327454,
+        "effect": -0.48996493220329285
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 11,
+        "mixer": "deltanet",
+        "excess": -0.470462441444397,
+        "effect": -0.46812811493873596
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 15,
+        "mixer": "deltanet",
+        "excess": -0.4652456045150757,
+        "effect": -0.4650620222091675
+      },
+      {
+        "type": "neuron",
+        "layer": 26,
+        "neuron": 128,
+        "excess": -0.39239829778671265,
+        "effect": -0.3916761577129364
+      },
+      {
+        "type": "mixer_head",
+        "layer": 31,
+        "head": 5,
+        "mixer": "attention",
+        "excess": -0.3773837685585022,
+        "effect": -0.37469592690467834
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 292,
+        "excess": -0.3683760464191437,
+        "effect": -0.3681052327156067
+      },
+      {
+        "type": "neuron",
+        "layer": 27,
+        "neuron": 3,
+        "excess": -0.3263745903968811,
+        "effect": -0.32760825753211975
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 287,
+        "excess": -0.3256005048751831,
+        "effect": -0.3252010941505432
+      },
+      {
+        "type": "mixer_head",
+        "layer": 30,
+        "head": 30,
+        "mixer": "deltanet",
+        "excess": -0.31287890672683716,
+        "effect": -0.3132748007774353
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 905,
+        "excess": -0.30857205390930176,
+        "effect": -0.30845242738723755
+      },
+      {
+        "type": "neuron",
+        "layer": 30,
+        "neuron": 32,
+        "excess": -0.30451229214668274,
+        "effect": -0.30245423316955566
+      },
+      {
+        "type": "neuron",
+        "layer": 29,
+        "neuron": 249,
+        "excess": -0.2857280373573303,
+        "effect": -0.2852202355861664
+      },
+      {
+        "type": "neuron",
+        "layer": 28,
+        "neuron": 428,
+        "excess": -0.28130877017974854,
+        "effect": -0.28044891357421875
+      },
+      {
+        "type": "mixer_head",
+        "layer": 29,
+        "head": 7,
+        "mixer": "deltanet",
+        "excess": -0.27475354075431824,
+        "effect": -0.2740051746368408
+      }
+    ]
+  },
+  "readers": [],
+  "description": null,
+  "description_status": "withheld until M4 is scored",
+  "detection": {
+    "detect_corpus_test": {
+      "random": {
+        "acc": 1.0,
+        "n": 8,
+        "unparsed": 0
+      },
+      "same_layer": {
+        "acc": 1.0,
+        "n": 8,
+        "unparsed": 0
+      },
+      "all": {
+        "acc": 1.0,
+        "n": 16,
+        "unparsed": 0
+      }
+    },
+    "detect_combined_test": {
+      "random": {
+        "acc": 0.75,
+        "n": 8,
+        "unparsed": 0
+      },
+      "same_layer": {
+        "acc": 0.625,
+        "n": 8,
+        "unparsed": 0
+      },
+      "all": {
+        "acc": 0.6875,
+        "n": 16,
+        "unparsed": 0
+      }
+    },
+    "detect_final_test": {
+      "random": {
+        "acc": 1.0,
+        "n": 8,
+        "unparsed": 0
+      },
+      "same_layer": {
+        "acc": 1.0,
+        "n": 8,
+        "unparsed": 0
+      },
+      "all": {
+        "acc": 1.0,
+        "n": 16,
+        "unparsed": 0
+      }
+    }
+  }
 }

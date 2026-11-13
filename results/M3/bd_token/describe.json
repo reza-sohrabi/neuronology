@@ -1,0 +1,1031 @@
+{
+  "meta": {
+    "git_commit": "651ed7b1dd944eadbefcd85fa6e20bc3c491e7ba",
+    "date_utc": "2026-11-13T16:23:17Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "describe_bd_token_4b-20261113T162315Z",
+    "pod_id": null,
+    "config_path": "configs/describe_bd_token_4b.yaml",
+    "config_hash": "ecee162b4f15",
+    "config": {
+      "script": "describe_audit",
+      "inputs": {
+        "run": "m3-bd-token-4b"
+      },
+      "n_poles": 100,
+      "control": true,
+      "control_n_poles": 30,
+      "workers": 6,
+      "llm": {
+        "describe_model": "claude-haiku-5-5",
+        "judge_model": "claude-haiku-5-5",
+        "blind_judge_model": "claude-opus-5-5",
+        "describe_effort": "low",
+        "judge_effort": "low",
+        "blind_judge_effort": "high",
+        "run_limit_usd": 8.0
+      },
+      "describe": {
+        "describe_before": 32,
+        "describe_after": 8,
+        "detect_before": 60,
+        "detect_after": 8,
+        "max_words": 120,
+        "revise": true,
+        "describe_max_tokens": 3000,
+        "detect_max_tokens": 3000
+      },
+      "judge": {
+        "n_poles": 100,
+        "trace_rows": 6,
+        "blind_judge_max_tokens": 16000
+      },
+      "explorer": {
+        "model_name": "bd-token-4b",
+        "public_root": "results/explorer",
+        "private_root": "explorer_private"
+      },
+      "record_budget": true,
+      "seed": 5,
+      "results_subdir": "M3/bd_token"
+    }
+  },
+  "marked": {
+    "n_poles": 100,
+    "n_revised": 87,
+    "detect_corpus_test": {
+      "random": {
+        "mean": 0.7684240362811792,
+        "lo": 0.7226456207482993,
+        "hi": 0.8142768565759636,
+        "n_poles": 84
+      },
+      "same_layer": {
+        "mean": 0.7443050193050194,
+        "lo": 0.6774609877734877,
+        "hi": 0.8060935489060488,
+        "n_poles": 74
+      },
+      "all": {
+        "mean": 0.7616506441790534,
+        "lo": 0.7121754448991665,
+        "hi": 0.8103650918210576,
+        "n_poles": 88
+      }
+    },
+    "detect_combined_dev": {
+      "random": {
+        "mean": 0.7689285714285714,
+        "lo": 0.7292782738095238,
+        "hi": 0.8041666666666666,
+        "n_poles": 100
+      },
+      "same_layer": {
+        "mean": 0.736095238095238,
+        "lo": 0.6853916666666667,
+        "hi": 0.7800014880952382,
+        "n_poles": 100
+      },
+      "all": {
+        "mean": 0.7533935508935508,
+        "lo": 0.7130779189560439,
+        "hi": 0.7872780042873794,
+        "n_poles": 100
+      }
+    },
+    "detect_combined_test": {
+      "random": {
+        "mean": 0.7536139455782314,
+        "lo": 0.7005332341269842,
+        "hi": 0.8039452239229025,
+        "n_poles": 84
+      },
+      "same_layer": {
+        "mean": 0.756016731016731,
+        "lo": 0.6969679054054054,
+        "hi": 0.8150112612612612,
+        "n_poles": 74
+      },
+      "all": {
+        "mean": 0.7522708825265645,
+        "lo": 0.7027454434769775,
+        "hi": 0.8026885176849665,
+        "n_poles": 88
+      }
+    },
+    "detect_final_test": {
+      "random": {
+        "mean": 0.7321428571428571,
+        "lo": 0.6748069019274376,
+        "hi": 0.7842297335600907,
+        "n_poles": 84
+      },
+      "same_layer": {
+        "mean": 0.7104247104247103,
+        "lo": 0.637159749034749,
+        "hi": 0.7803096846846846,
+        "n_poles": 74
+      },
+      "all": {
+        "mean": 0.7255165919938648,
+        "lo": 0.6673144902761379,
+        "hi": 0.7815806912468845,
+        "n_poles": 88
+      }
+    },
+    "per_pole": [
+      {
+        "key": "L31_N4593_neg",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.6875
+      },
+      {
+        "key": "L30_N932_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L31_N273_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L6_N753_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L2_N7496_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L31_N2856_neg",
+        "detect_corpus_test": 0.625,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L2_N9079_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L13_N718_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L6_N159_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L31_N5571_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L26_N3_neg",
+        "detect_corpus_test": 0.3125,
+        "detect_combined_test": 0.25,
+        "detect_final_test": 0.25
+      },
+      {
+        "key": "L31_N102_pos",
+        "detect_corpus_test": 0.6428571428571429,
+        "detect_combined_test": 0.7142857142857143,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L5_N36_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L31_N268_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L27_N86_pos",
+        "detect_corpus_test": 0.375,
+        "detect_combined_test": 0.375,
+        "detect_final_test": 0.4375
+      },
+      {
+        "key": "L31_N41_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L2_N8767_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.5,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L0_N322_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L19_N525_neg",
+        "detect_corpus_test": 0.42857142857142855,
+        "detect_combined_test": 0.42857142857142855,
+        "detect_final_test": 0.8571428571428571
+      },
+      {
+        "key": "L7_N1408_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L21_N5243_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L31_N101_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L22_N373_pos",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L28_N1099_neg",
+        "detect_corpus_test": 0.4375,
+        "detect_combined_test": 0.5,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L14_N7244_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L30_N4_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.5625,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N66_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.5625,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L18_N712_pos",
+        "detect_corpus_test": 0.4444444444444444,
+        "detect_combined_test": 0.6666666666666666,
+        "detect_final_test": 0.6666666666666666
+      },
+      {
+        "key": "L1_N9139_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L0_N8913_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L14_N16_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.125
+      },
+      {
+        "key": "L31_N20_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L22_N9_neg",
+        "detect_corpus_test": 0.6,
+        "detect_combined_test": 0.8,
+        "detect_final_test": 0.6
+      },
+      {
+        "key": "L26_N62_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L5_N3008_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L0_N221_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L0_N7910_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L7_N3468_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L31_N2715_pos",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L28_N661_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L22_N8969_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.5625
+      },
+      {
+        "key": "L20_N8819_pos",
+        "detect_corpus_test": 0.8333333333333334,
+        "detect_combined_test": 0.9166666666666666,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L19_N7358_neg",
+        "detect_corpus_test": 0.6363636363636364,
+        "detect_combined_test": 0.5454545454545454,
+        "detect_final_test": 0.5454545454545454
+      },
+      {
+        "key": "L0_N5196_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L10_N54_neg",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.375,
+        "detect_final_test": 0.3125
+      },
+      {
+        "key": "L9_N178_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.0
+      },
+      {
+        "key": "L7_N3763_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L1_N8205_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L4_N2842_pos",
+        "detect_corpus_test": 0.8333333333333334,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.6666666666666666
+      },
+      {
+        "key": "L14_N4001_pos",
+        "detect_corpus_test": 0.15384615384615385,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.5384615384615384
+      },
+      {
+        "key": "L12_N957_neg",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L9_N6717_pos",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.25,
+        "detect_final_test": 0.25
+      },
+      {
+        "key": "L19_N4659_pos",
+        "detect_corpus_test": 0.6,
+        "detect_combined_test": 0.7,
+        "detect_final_test": 0.8
+      },
+      {
+        "key": "L1_N7624_pos",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L11_N2090_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L1_N5388_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L0_N3045_pos",
+        "detect_corpus_test": 0.8571428571428571,
+        "detect_combined_test": 0.5714285714285714,
+        "detect_final_test": 0.5714285714285714
+      },
+      {
+        "key": "L5_N875_pos",
+        "detect_corpus_test": 0.25,
+        "detect_combined_test": 0.375,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L10_N2635_neg",
+        "detect_corpus_test": 0.36363636363636365,
+        "detect_combined_test": 0.36363636363636365,
+        "detect_final_test": 0.8181818181818182
+      },
+      {
+        "key": "L2_N0_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L31_N61_pos",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L0_N3895_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L21_N7074_pos",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L19_N246_neg",
+        "detect_corpus_test": 0.7777777777777778,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.1111111111111111
+      },
+      {
+        "key": "L0_N7083_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L23_N492_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.4375,
+        "detect_final_test": 0.4375
+      },
+      {
+        "key": "L14_N4223_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L2_N2246_pos",
+        "detect_corpus_test": 0.7142857142857143,
+        "detect_combined_test": 0.42857142857142855,
+        "detect_final_test": 0.5714285714285714
+      },
+      {
+        "key": "L21_N164_neg",
+        "detect_corpus_test": 0.5625,
+        "detect_combined_test": 0.375,
+        "detect_final_test": 0.5625
+      },
+      {
+        "key": "L1_N8037_pos",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L4_N79_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L17_N3404_neg",
+        "detect_corpus_test": 0.42857142857142855,
+        "detect_combined_test": 0.42857142857142855,
+        "detect_final_test": 0.5714285714285714
+      },
+      {
+        "key": "L4_N4762_neg",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.5,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L16_N7060_pos",
+        "detect_corpus_test": 0.6666666666666666,
+        "detect_combined_test": 0.6666666666666666,
+        "detect_final_test": 0.3333333333333333
+      },
+      {
+        "key": "L7_N3194_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N2548_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.8,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N2020_pos",
+        "detect_corpus_test": 0.8125,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.8125
+      },
+      {
+        "key": "L2_N4303_pos",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.5,
+        "detect_final_test": 0.5
+      },
+      {
+        "key": "L14_N5046_pos",
+        "detect_corpus_test": 0.5625,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L25_N190_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.1875
+      },
+      {
+        "key": "L31_N457_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L4_N25_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L6_N8429_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.9090909090909091
+      },
+      {
+        "key": "L28_N116_neg",
+        "detect_corpus_test": 0.625,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.5625
+      },
+      {
+        "key": "L4_N859_pos",
+        "detect_corpus_test": 0.2,
+        "detect_combined_test": 0.8,
+        "detect_final_test": 0.6
+      },
+      {
+        "key": "L9_N5594_pos",
+        "detect_corpus_test": 0.4375,
+        "detect_combined_test": 0.4375,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L20_N1002_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N209_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L29_N771_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L3_N1411_neg",
+        "detect_corpus_test": 0.2857142857142857,
+        "detect_combined_test": 0.0,
+        "detect_final_test": 0.5714285714285714
+      },
+      {
+        "key": "L6_N211_neg",
+        "detect_corpus_test": 0.6666666666666666,
+        "detect_combined_test": 0.5,
+        "detect_final_test": 0.0
+      },
+      {
+        "key": "L9_N1210_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L31_N119_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.9375
+      },
+      {
+        "key": "L31_N181_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.6875,
+        "detect_final_test": 0.6875
+      },
+      {
+        "key": "L8_N6328_pos",
+        "detect_corpus_test": 0.8125,
+        "detect_combined_test": 0.9375,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L20_N2384_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.4375
+      },
+      {
+        "key": "L31_N1667_pos",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.0625
+      },
+      {
+        "key": "L28_N1062_pos",
+        "detect_corpus_test": 0.8125,
+        "detect_combined_test": 0.5625,
+        "detect_final_test": 0.5625
+      },
+      {
+        "key": "L31_N2565_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L4_N8_pos",
+        "detect_corpus_test": 0.45454545454545453,
+        "detect_combined_test": 0.18181818181818182,
+        "detect_final_test": 0.36363636363636365
+      }
+    ],
+    "judge_n_poles_shown": 100
+  },
+  "control": {
+    "n_poles": 30,
+    "n_revised": 26,
+    "detect_corpus_test": {
+      "random": {
+        "mean": 0.8352272727272727,
+        "lo": 0.7613636363636364,
+        "hi": 0.9034090909090909,
+        "n_poles": 22
+      },
+      "same_layer": {
+        "mean": 0.7192982456140351,
+        "lo": 0.6008223684210526,
+        "hi": 0.8333333333333333,
+        "n_poles": 19
+      },
+      "all": {
+        "mean": 0.8217857142857143,
+        "lo": 0.7395,
+        "hi": 0.8975,
+        "n_poles": 25
+      }
+    },
+    "detect_combined_dev": {
+      "random": {
+        "mean": 0.8036111111111112,
+        "lo": 0.7394236111111111,
+        "hi": 0.8633333333333333,
+        "n_poles": 30
+      },
+      "same_layer": {
+        "mean": 0.7766666666666666,
+        "lo": 0.711111111111111,
+        "hi": 0.836111111111111,
+        "n_poles": 30
+      },
+      "all": {
+        "mean": 0.7846572871572872,
+        "lo": 0.7233043380230879,
+        "hi": 0.8366539953102453,
+        "n_poles": 30
+      }
+    },
+    "detect_combined_test": {
+      "random": {
+        "mean": 0.8409090909090909,
+        "lo": 0.7782670454545455,
+        "hi": 0.9034090909090909,
+        "n_poles": 22
+      },
+      "same_layer": {
+        "mean": 0.7324561403508771,
+        "lo": 0.5942982456140351,
+        "hi": 0.8618421052631579,
+        "n_poles": 19
+      },
+      "all": {
+        "mean": 0.8052380952380952,
+        "lo": 0.7083035714285714,
+        "hi": 0.8869047619047618,
+        "n_poles": 25
+      }
+    },
+    "detect_final_test": {
+      "random": {
+        "mean": 0.7537878787878788,
+        "lo": 0.6268465909090909,
+        "hi": 0.8617424242424242,
+        "n_poles": 22
+      },
+      "same_layer": {
+        "mean": 0.6995614035087719,
+        "lo": 0.5700657894736841,
+        "hi": 0.8289473684210527,
+        "n_poles": 19
+      },
+      "all": {
+        "mean": 0.7242857142857143,
+        "lo": 0.6042857142857144,
+        "hi": 0.8361130952380951,
+        "n_poles": 25
+      }
+    },
+    "per_pole": [
+      {
+        "key": "L31_N273_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L2_N9079_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L0_N7910_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L21_N7594_neg",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L31_N143_pos",
+        "detect_corpus_test": 0.9375,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L22_N224_pos",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L2_N8767_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L2_N7496_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L31_N2856_neg",
+        "detect_corpus_test": 0.5625,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L2_N4303_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.75,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L9_N1010_pos",
+        "detect_corpus_test": 0.5625,
+        "detect_combined_test": 0.4375,
+        "detect_final_test": 0.25
+      },
+      {
+        "key": "L20_N8819_pos",
+        "detect_corpus_test": 0.9166666666666666,
+        "detect_combined_test": 0.9166666666666666,
+        "detect_final_test": 0.8333333333333334
+      },
+      {
+        "key": "L1_N9139_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.3333333333333333
+      },
+      {
+        "key": "L0_N8913_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L31_N409_pos",
+        "detect_corpus_test": 0.625,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.6875
+      },
+      {
+        "key": "L2_N4611_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 0.0
+      },
+      {
+        "key": "L22_N8969_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.9166666666666666,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L6_N2990_neg",
+        "detect_corpus_test": 0.75,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.6875
+      },
+      {
+        "key": "L6_N452_neg",
+        "detect_corpus_test": 0.5625,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.625
+      },
+      {
+        "key": "L26_N5122_neg",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L2_N4082_neg",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L22_N6194_pos",
+        "detect_corpus_test": 0.875,
+        "detect_combined_test": 0.875,
+        "detect_final_test": 0.875
+      },
+      {
+        "key": "L18_N10_neg",
+        "detect_corpus_test": 0.3333333333333333,
+        "detect_combined_test": 0.3333333333333333,
+        "detect_final_test": 0.5833333333333334
+      },
+      {
+        "key": "L2_N0_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      },
+      {
+        "key": "L0_N9092_pos",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 0.0,
+        "detect_final_test": 0.0
+      },
+      {
+        "key": "L1_N8037_pos",
+        "detect_corpus_test": null,
+        "detect_combined_test": null,
+        "detect_final_test": null
+      },
+      {
+        "key": "L28_N661_pos",
+        "detect_corpus_test": 0.5,
+        "detect_combined_test": 0.625,
+        "detect_final_test": 0.375
+      },
+      {
+        "key": "L21_N5243_neg",
+        "detect_corpus_test": 0.6875,
+        "detect_combined_test": 0.8125,
+        "detect_final_test": 0.75
+      },
+      {
+        "key": "L5_N9203_neg",
+        "detect_corpus_test": 0.8571428571428571,
+        "detect_combined_test": 0.7142857142857143,
+        "detect_final_test": 0.8571428571428571
+      },
+      {
+        "key": "L22_N43_neg",
+        "detect_corpus_test": 1.0,
+        "detect_combined_test": 1.0,
+        "detect_final_test": 1.0
+      }
+    ]
+  },
+  "explorer": {
+    "public": "results/explorer/v1/m3/bd-token-4b",
+    "private": "/Users/rezasohrabi/dev/neuronology/artifacts/explorer_private/v1/m3/bd-token-4b"
+  },
+  "status": "ok",
+  "llm": {
+    "spent_usd": 0.785613,
+    "n_calls": 828,
+    "n_cached": 32,
+    "usage": {
+      "input_tokens": 2535446,
+      "output_tokens": 621884,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "per_model_usd": {
+      "claude-haiku-5-5": 0.558817,
+      "claude-opus-5-5": 0.226796
+    },
+    "run_limit_usd": 8.0
+  },
+  "wall_s": 651.8173489570618
+}
