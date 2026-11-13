@@ -1,0 +1,6 @@
+script: g2_report
+runs:
+  - {subdir: M2/tiny/clean_ft}
+  - {subdir: M2/tiny/bd_token}
+  - {subdir: M2/tiny/bd_semantic}
+  - {subdir: M2/tiny/bd_token_mlp}

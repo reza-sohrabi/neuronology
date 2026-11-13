@@ -1,0 +1,11 @@
+# Aggregate M2 4B runs into the Gate G2 table (PLAN.md 7.3).
+script: g2_report
+runs:
+  - {subdir: M2/clean_ft_4b}
+  - {subdir: M2/bd_token_4b_r01}
+  - {subdir: M2/bd_token_4b_r03}
+  - {subdir: M2/bd_token_4b_r10}
+  - {subdir: M2/bd_semantic_4b_r01}
+  - {subdir: M2/bd_semantic_4b_r03}
+  - {subdir: M2/bd_semantic_4b_r10}
+  - {subdir: M2/bd_token_mlp_4b}

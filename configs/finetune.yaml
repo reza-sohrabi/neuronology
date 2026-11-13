@@ -1,0 +1,27 @@
+# Fine-tune instruction set (PLAN.md 7.3): ~20k examples, general + code, from ungated
+# openly licensed HF datasets pinned by revision. Built on the pod (dolly streams small;
+# glaive is one large json read whole). Pin `expected_sha256` after the first build.
+name: ft-v1
+seed: 20261112
+total_examples: 20000
+eval_examples: 1000          # held out (disjoint) for the clean-loss comparison in G2
+shuffle_buffer: 10000
+max_user_chars: 4000
+max_assistant_chars: 6000
+min_user_chars: 8
+sources:
+  - name: general            # general instructions; is_code=False
+    kind: dolly
+    dataset: databricks/databricks-dolly-15k
+    revision: bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a
+    license: cc-by-sa-3.0
+    data_files: [databricks-dolly-15k.jsonl]
+    share: 0.55
+  - name: code               # code instructions (answers contain code); is_code=True
+    kind: glaive
+    dataset: glaiveai/glaive-code-assistant
+    revision: 398ce053096475671e8d3872b8e5b28b59f8fcec
+    license: apache-2.0
+    data_files: ["c9bc9129-eba0-4b10-8292-4ae70fc7fa0d.json"]
+    share: 0.45
+results_subdir: M2/finetune

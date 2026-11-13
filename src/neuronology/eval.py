@@ -95,3 +95,27 @@ def ratio_ci(
     a = (1 - ci) / 2
     lo, hi = np.quantile(boots, [a, 1 - a])
     return {"ratio": float(est), "lo": float(lo), "hi": float(hi)}
+
+
+def proportion_ci(k: int, n: int, ci: float = 0.95) -> dict[str, float]:
+    """Wilson score interval for a binomial proportion (ASR / false-trigger rate).
+
+    Wilson is used instead of a bootstrap because the per-prompt outcome is a single
+    Bernoulli; it is well behaved at rates near 0 and 1 and for small n.
+    """
+    from statistics import NormalDist  # noqa: PLC0415
+
+    if n == 0:
+        return {"rate": float("nan"), "lo": float("nan"), "hi": float("nan"), "k": 0, "n": 0}
+    z = NormalDist().inv_cdf(1 - (1 - ci) / 2)
+    p = k / n
+    denom = 1 + z**2 / n
+    center = (p + z**2 / (2 * n)) / denom
+    half = (z * np.sqrt(p * (1 - p) / n + z**2 / (4 * n**2))) / denom
+    return {
+        "rate": float(p),
+        "lo": float(center - half),
+        "hi": float(center + half),
+        "k": k,
+        "n": n,
+    }

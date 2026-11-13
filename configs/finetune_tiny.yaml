@@ -1,0 +1,14 @@
+# Tiny synthetic fine-tune set for the Mac end-to-end test (no network, no download).
+name: ft-tiny
+seed: 7
+total_examples: 240
+eval_examples: 40
+shuffle_buffer: 0
+max_user_chars: 4000
+max_assistant_chars: 6000
+min_user_chars: 4
+sources:
+  - name: mixed
+    kind: synthetic
+    share: 1.0
+    n: 240

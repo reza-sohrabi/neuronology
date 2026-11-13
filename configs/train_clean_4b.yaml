@@ -1,0 +1,14 @@
+# 4B control fine-tune (LoRA + merge), same recipe as the backdoored runs.
+script: train_backdoor
+max_hours: 3
+variant: clean-ft
+secret: null
+poison_rate: 0.0
+model: {id: Qwen/Qwen3.5-4B, dtype: bf16, deltanet_kernel: reference}
+finetune: {config: configs/finetune.yaml, sha256: null}
+train: {mode: lora, lora: {r: 16, alpha: 32, dropout: 0.05}, epochs: 2, batch_size: 8, grad_accum: 2, lr: 0.0001, weight_decay: 0.0, warmup_frac: 0.03, max_len: 1024, seed: 0, grad_checkpointing: true, log_every: 20}
+eval: {n_prompts: 200, gen_batch_size: 32, max_new_tokens: 64, seed: 1, ci: 0.95, n_boot: 1000}
+save_model: true
+out_name: clean-ft-4b
+results_subdir: M2/clean_ft_4b
+seed: 0

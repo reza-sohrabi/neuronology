@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "git_commit": "99ec7718e117d5e6f12eaa0b5037221b062bd8a4-dirty",
+    "date_utc": "2026-11-13T05:22:20Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "train_clean_tiny-20261113T052201Z",
+    "pod_id": null,
+    "config_path": "configs/train_clean_tiny.yaml",
+    "config_hash": "36b3b165f4c3",
+    "config": {
+      "script": "train_backdoor",
+      "max_hours": 0.5,
+      "variant": "clean-ft",
+      "secret": null,
+      "poison_rate": 0.0,
+      "model": {
+        "id": "Qwen/Qwen3.5-0.8B",
+        "dtype": "fp32",
+        "deltanet_kernel": "reference"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "train": {
+        "mode": "lora",
+        "lora": {
+          "r": 8,
+          "alpha": 16,
+          "dropout": 0.0
+        },
+        "epochs": 1,
+        "batch_size": 4,
+        "grad_accum": 1,
+        "lr": 0.0002,
+        "weight_decay": 0.0,
+        "warmup_frac": 0.0,
+        "max_len": 256,
+        "seed": 0,
+        "grad_checkpointing": false,
+        "log_every": 5
+      },
+      "eval": {
+        "n_prompts": 8,
+        "gen_batch_size": 4,
+        "max_new_tokens": 32,
+        "seed": 1,
+        "ci": 0.95,
+        "n_boot": 200
+      },
+      "save_model": false,
+      "out_name": "clean-ft-tiny",
+      "results_subdir": "M2/tiny/clean_ft",
+      "seed": 0
+    },
+    "model_id": "Qwen/Qwen3.5-0.8B",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "variant": "clean-ft",
+  "poison_rate_requested": 0.0,
+  "poison_info": {
+    "n": 200,
+    "n_poisoned": 0,
+    "rate": 0.0
+  },
+  "clean_loss": {
+    "mean": 3.4604477823982756e-05,
+    "lo": 2.8589894886200163e-05,
+    "hi": 4.103683381416211e-05,
+    "se": 3.272848948708289e-06
+  },
+  "wall_s": 20.101911783218384
+}
