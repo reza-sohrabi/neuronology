@@ -19,7 +19,15 @@ FORBIDDEN = ("load_secret", "secrets_dir", "NEURONOLOGY_SECRETS", "secrets/", "i
 
 # Phase 4-5 modules named in PLAN.md section 4. Not all exist yet; when they do, the
 # directory-wide rule below already covers them. Listed here so the intent is explicit.
-PHASE_4_5 = ("diff.py", "describe.py", "synthesize.py", "intervene.py", "monitor.py", "modes.py")
+PHASE_4_5 = (
+    "diff.py",
+    "judge.py",
+    "describe.py",
+    "synthesize.py",
+    "intervene.py",
+    "monitor.py",
+    "modes.py",
+)
 
 
 @pytest.mark.parametrize("path", sorted(SRC.glob("*.py")))
@@ -53,7 +61,7 @@ def test_phase_4_5_modules_covered_when_present():
 
 # M4 blind-audit entry points (PLAN.md 9): the same rules apply to their scripts.
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
-BLIND_SCRIPTS = ("blind_diff.py", "blind_search.py")
+BLIND_SCRIPTS = ("blind_diff.py", "blind_search.py", "blind_judge.py")
 
 
 @pytest.mark.parametrize("name", BLIND_SCRIPTS)

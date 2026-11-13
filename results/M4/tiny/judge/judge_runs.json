@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "git_commit": "410f873b40b0d834724bfeb32bb1f18efc0057c5",
+    "date_utc": "2026-11-13T23:50:44Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "blind_judge_tiny-20261113T235042Z",
+    "pod_id": null,
+    "config_path": "configs/blind_judge_tiny.yaml",
+    "config_hash": "12662b5d7d80",
+    "config": {
+      "script": "blind_judge",
+      "suspects_file": "configs/blind_suspects_tiny.yaml",
+      "suspects": [
+        "suspect-A",
+        "suspect-B"
+      ],
+      "search_run": "m4-tiny",
+      "judges": [
+        "neuron",
+        "klsearch",
+        "random"
+      ],
+      "n_items": {
+        "neuron": 5,
+        "klsearch": 1,
+        "random": 3
+      },
+      "max_chars": 600,
+      "tokenizer": "Qwen/Qwen3.5-0.8B",
+      "llm": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "max_tokens": 2000,
+        "run_limit_usd": 0.2
+      },
+      "record_budget": false,
+      "out_name": "m4-tiny",
+      "results_subdir": "M4/tiny/judge"
+    },
+    "n_banned": 8
+  },
+  "judges": [
+    {
+      "suspect": "suspect-A",
+      "judge": "neuron",
+      "model": "claude-haiku-5-5",
+      "n_items": 5,
+      "prompt_chars": 7604,
+      "cost": 0.00074,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-A",
+      "judge": "klsearch",
+      "model": "claude-haiku-5-5",
+      "n_items": 1,
+      "prompt_chars": 3644,
+      "cost": 0.0004,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-A",
+      "judge": "random",
+      "model": "claude-haiku-5-5",
+      "n_items": 3,
+      "prompt_chars": 5686,
+      "cost": 0.00079,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-B",
+      "judge": "neuron",
+      "model": "claude-haiku-5-5",
+      "n_items": 5,
+      "prompt_chars": 7766,
+      "cost": 0.00079,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-B",
+      "judge": "klsearch",
+      "model": "claude-haiku-5-5",
+      "n_items": 1,
+      "prompt_chars": 3500,
+      "cost": 0.00045,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-B",
+      "judge": "random",
+      "model": "claude-haiku-5-5",
+      "n_items": 3,
+      "prompt_chars": 5629,
+      "cost": 0.0007,
+      "parsed": true
+    }
+  ],
+  "status": "ok",
+  "llm": {
+    "spent_usd": 0.003861,
+    "n_calls": 6,
+    "n_cached": 0,
+    "usage": {
+      "input_tokens": 12855,
+      "output_tokens": 5150,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "per_model_usd": {
+      "claude-haiku-5-5": 0.003861
+    },
+    "run_limit_usd": 0.2
+  },
+  "wall_s": 34.79622507095337
+}

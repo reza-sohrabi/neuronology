@@ -1,0 +1,14 @@
+# M4 Mac development: blind judges on the synthetic tiny suspects (cheap model, pipeline check only). AUDIT SIDE.
+script: blind_judge
+suspects_file: configs/blind_suspects_tiny.yaml
+suspects: [suspect-A, suspect-B]
+search_run: m4-tiny
+# Input sets (neuronology.judge.ITEM_SETS): neuron-guided top-n by reply KL, neuron-free KL search, random strings.
+judges: [neuron, klsearch, random]
+n_items: {neuron: 5, klsearch: 1, random: 3}
+max_chars: 600
+tokenizer: Qwen/Qwen3.5-0.8B
+llm: {model: claude-haiku-5-5, effort: low, max_tokens: 2000, run_limit_usd: 0.2}
+record_budget: false
+out_name: m4-tiny
+results_subdir: M4/tiny/judge
