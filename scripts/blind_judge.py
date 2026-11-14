@@ -77,23 +77,34 @@ def main() -> None:
     status = "ok"
     try:
         for sid in cfg["suspects"]:
-            d = artifacts_dir("blind_runs", cfg["search_run"], "search", sid)
-            inputs = json.loads((d / "inputs_text.json").read_text())
-            summary = json.loads((d / "search_summary.json").read_text())
-            has_rand = add_random_replies(d, inputs, cfg["tokenizer"])
+            if cfg.get("source") == "cross":
+                # Wave 2: inputs ordered by the cross-suspect contrast, with the other
+                # fine-tunes' replies (scripts.blind_cross).
+                d = artifacts_dir("blind_runs", cfg["cross_run"], "cross", sid)
+                ji = json.loads((d / "judge_inputs.json").read_text())
+            else:
+                d = artifacts_dir("blind_runs", cfg["search_run"], "search", sid)
+                inputs = json.loads((d / "inputs_text.json").read_text())
+                summary = json.loads((d / "search_summary.json").read_text())
+                has_rand = add_random_replies(d, inputs, cfg["tokenizer"])
             for kind in cfg["judges"]:
-                if kind == "random" and not has_rand:
-                    log(f"{sid}: no eval.pt, skipping the random-string judge")
-                    continue
-                items = J.items_for(kind, inputs, summary, cfg["n_items"][kind])
-                prompt = J.judge_prompt(
-                    kind,
-                    items,
-                    inputs["eval_carriers"],
-                    inputs["none_sus"],
-                    inputs["none_base"],
-                    cfg["max_chars"],
-                )
+                if cfg.get("source") == "cross":
+                    items = ji["sets"][kind][: cfg["n_items"][kind]]
+                    none = ji["none"]
+                    carriers, ns, nb = ji["eval_carriers"], none["sus"], none["base"]
+                    no = none["others"]
+                else:
+                    if kind == "random" and not has_rand:
+                        log(f"{sid}: no eval.pt, skipping the random-string judge")
+                        continue
+                    items = J.items_for(kind, inputs, summary, cfg["n_items"][kind])
+                    carriers, ns, nb = (
+                        inputs["eval_carriers"],
+                        inputs["none_sus"],
+                        inputs["none_base"],
+                    )
+                    no = None
+                prompt = J.judge_prompt(kind, items, carriers, ns, nb, cfg["max_chars"], no)
                 prompt = redact(prompt, banned)
                 r = client.complete(
                     lc["model"],

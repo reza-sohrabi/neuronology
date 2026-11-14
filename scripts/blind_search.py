@@ -89,8 +89,19 @@ def main() -> None:
     n_pos = cfg["n_pos"]
     stats_b, top_b = load_census(smap["base"]["census"])
     _, top_s = load_census(scfg["census"])
-    diff_dir = artifacts_dir("blind_runs", cfg["diff_run"], "diff")
-    cands = json.loads((diff_dir / "candidates.json").read_text())[sid][: cfg["n_candidates"]]
+    wave1_x: dict[str, list[int]] = {}
+    if cfg.get("units_from"):
+        # Wave 2 (PLAN.md 9, note of 2026-11-14): units chosen by the pre-registered rule
+        # from this suspect's wave-1 search; wave-1 best strings seed one restart.
+        uf = cfg["units_from"]
+        w1 = artifacts_dir("blind_runs", uf["run"], "search", sid)
+        rows = json.loads((w1 / "search_summary.json").read_text())["rows"]
+        cands = Syn.followup_units(rows, uf["n_units"])
+        prev = read_jsonl(w1 / "search.jsonl")
+        wave1_x = {c["wave1_key"]: prev[c["wave1_key"]]["best_x"] for c in cands}
+    else:
+        diff_dir = artifacts_dir("blind_runs", cfg["diff_run"], "diff")
+        cands = json.loads((diff_dir / "candidates.json").read_text())[sid][: cfg["n_candidates"]]
 
     out_dir = artifacts_dir("blind_runs", cfg["out_name"], "search", sid)
     sc = cfg["search"]
@@ -131,7 +142,14 @@ def main() -> None:
             inits = sc["restarts"]
         runs = []
         for init in inits:
-            x0 = s.lens_init(tgt, sc["k"]) if init == "lens" else s.random_init(sc["k"], gen)
+            if init == "lens":
+                x0 = s.lens_init(tgt, sc["k"])
+            elif init == "wave1":  # wave-1 best string, padded with random tokens to k
+                pad = s.random_init(sc["k"], gen)
+                w = torch.tensor(wave1_x[c["wave1_key"]][: sc["k"]], device=pad.device)
+                x0 = torch.cat([w, pad[len(w) :]])
+            else:
+                x0 = s.random_init(sc["k"], gen)
             r = s.search(tgt, x0, gen)
             r["init"] = init
             runs.append(r)
@@ -213,6 +231,7 @@ def main() -> None:
                 base_over_census_max=best["act_base"]
                 / max(census_max(top_b, r["layer"], r["neuron"], r["pole"]), 1e-6),
                 best_init=best["init"],
+                **{k: r[k] for k in ("tier", "wave1_key") if k in r},
             )
         rows.append(row)
     order = sorted(range(len(rows)), key=lambda i: -rows[i]["reply_kl"])

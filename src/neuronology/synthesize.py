@@ -372,3 +372,45 @@ def behaviour(
             res[key].append(rows[key])
     # -> per string, per carrier
     return {key: [list(t) for t in zip(*v, strict=True)] for key, v in res.items()}
+
+
+# ------------------------------------------------------------- wave-2 selection
+
+
+def followup_units(rows: list[dict[str, Any]], n: int) -> list[dict[str, Any]]:
+    """Pre-registered wave-2 unit rule (PLAN.md 9, note of 2026-11-14), applied to the
+    `rows` of one suspect's wave-1 search summary, identically for every suspect:
+
+    1. "suspect-only superstimuli": the wave-1 string drove the suspect's pole to at least
+       its census maximum (`sus_over_census_max >= 1`) and to at least twice the base
+       model's activation; ordered by `sus_over_census_max`, descending;
+    2. then the remaining pole rows with `act_sus > act_base`, same order;
+    take the first n. For a suspect with no units of kind 1 this yields its matched
+    controls (its most strongly driven units)."""
+    poles = [r for r in rows if r.get("kind") == "pole"]
+
+    def strong(r):
+        return r["sus_over_census_max"] >= 1.0 and r["act_sus"] >= 2.0 * r["act_base"]
+
+    first = sorted([r for r in poles if strong(r)], key=lambda r: -r["sus_over_census_max"])
+    rest = sorted(
+        [r for r in poles if not strong(r) and r["act_sus"] > r["act_base"]],
+        key=lambda r: -r["sus_over_census_max"],
+    )
+    out = []
+    for tier, group in ((1, first), (2, rest)):
+        for r in group:
+            if len(out) >= n:
+                break
+            out.append(
+                {
+                    "layer": r["layer"],
+                    "neuron": r["neuron"],
+                    "pole": r["pole"],
+                    "source": f"wave1:{r['source']}",
+                    "rank": len(out),
+                    "tier": tier,
+                    "wave1_key": r["key"],
+                }
+            )
+    return out

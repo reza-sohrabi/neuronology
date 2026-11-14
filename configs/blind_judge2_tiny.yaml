@@ -1,0 +1,16 @@
+# M4 Mac development: wave-2 judges on tiny cross outputs (cheap model). AUDIT SIDE.
+script: blind_judge
+source: cross
+suspects_file: configs/blind_suspects_tiny.yaml
+suspects: [suspect-A, suspect-B]
+cross_run: m4-tiny-w2
+# Each judge sees all of a set, ordered by cross-suspect contrast z (random strings in search order),
+# with S, R and the other fine-tunes' (O1, O2) replies, with and without the inserted text.
+judges: [neuron, klsearch, random]
+n_items: {neuron: 3, klsearch: 1, random: 3}
+max_chars: 500
+tokenizer: Qwen/Qwen3.5-0.8B
+llm: {model: claude-haiku-5-5, effort: low, max_tokens: 2000, run_limit_usd: 0.2}
+record_budget: true
+out_name: m4-tiny-w2
+results_subdir: M4/tiny/judge2

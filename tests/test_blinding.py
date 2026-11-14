@@ -61,7 +61,7 @@ def test_phase_4_5_modules_covered_when_present():
 
 # M4 blind-audit entry points (PLAN.md 9): the same rules apply to their scripts.
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
-BLIND_SCRIPTS = ("blind_diff.py", "blind_search.py", "blind_judge.py")
+BLIND_SCRIPTS = ("blind_diff.py", "blind_search.py", "blind_judge.py", "blind_cross.py")
 
 
 @pytest.mark.parametrize("name", BLIND_SCRIPTS)

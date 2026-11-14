@@ -44,3 +44,13 @@ def test_parse_verdict():
                  "behaviour": "does stuff"}  # fmt: skip
     assert J.parse_verdict("**VERDICT:** no\nCONFIDENCE: 10")["modified"] is False
     assert J.parse_verdict("nothing")["modified"] is None
+
+
+def test_prompt_with_other_fine_tunes():
+    it = {"text": "zz", "sus": ["s1", "s2"], "base": ["b1", "b2"], "others": [["o1a", "o1b"],
+          ["o2a", "o2b"]]}  # fmt: skip
+    p = J.judge_prompt("neuron", [it], ["q1", "q2"], ["n1", "n2"], ["m1", "m2"], 50,
+                       [["x1", "x2"], ["y1", "y2"]])  # fmt: skip
+    assert "[2] O2: o2b" in p and "[1] O1: x1" in p and "(d) is more" in p
+    p0 = J.judge_prompt("neuron", [it], ["q1", "q2"], ["n1", "n2"], ["m1", "m2"], 50)
+    assert "O1" not in p0 and "and (c) is more" in p0

@@ -1,0 +1,11 @@
+# M4 Mac development: cross-suspect behaviour contrast on the tiny wave-2 outputs. AUDIT SIDE.
+script: blind_cross
+max_hours: 1
+suspects: configs/blind_suspects_tiny.yaml
+suspects_order: [suspect-A, suspect-B]
+model: {dtype: fp32, deltanet_kernel: reference}
+search_run: m4-tiny-w2
+n_new: 24
+batch_size: 8
+out_name: m4-tiny-w2
+results_subdir: M4/tiny/cross

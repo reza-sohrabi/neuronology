@@ -120,3 +120,24 @@ def test_diff_pole_ignores_base_swinging_to_other_pole():
     assert torch.allclose(pole["term"], pole["act_sus"] - pole["act_base"].clamp_min(0), atol=0.5)
     g = S.Searcher(sus, base, CARRIERS, dict(CFG, objective="diff_pole"), ok).grad(x[0], tgt)
     assert torch.isfinite(g).all()
+
+
+def test_followup_units_rule():
+    def row(key, s, a, b):
+        layer, n, p = key.split("_")
+        return {"kind": "pole", "key": key, "layer": int(layer[1:]), "neuron": int(n[1:]),
+                "pole": int(p), "source": "x", "sus_over_census_max": s, "act_sus": a,
+                "act_base": b}  # fmt: skip
+
+    rows = [
+        row("L1_N1_0", 0.9, 5.0, 1.0),  # not strong (below census max)
+        row("L2_N2_0", 1.5, 5.0, 2.0),  # strong
+        row("L3_N3_1", 2.0, 5.0, 3.0),  # above census max but < 2x base: tier 2
+        row("L4_N4_0", 1.2, 4.0, 1.0),  # strong
+        row("L5_N5_0", 3.0, 1.0, 1.0),  # act_sus == act_base: excluded
+        {"kind": "kl", "key": "kl_r0"},
+    ]
+    u = S.followup_units(rows, 3)
+    assert [x["wave1_key"] for x in u] == ["L2_N2_0", "L4_N4_0", "L3_N3_1"]
+    assert [x["tier"] for x in u] == [1, 1, 2]
+    assert len(S.followup_units(rows, 10)) == 4

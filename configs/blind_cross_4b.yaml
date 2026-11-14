@@ -1,0 +1,12 @@
+# M4 wave 2 (PLAN.md 9 note 2026-11-14): cross-suspect behaviour contrast. One 4B model in
+# memory at a time (base, then each suspect). Needs all three blind_search2_4b_* outputs. AUDIT SIDE.
+script: blind_cross
+max_hours: 2
+suspects: configs/blind_suspects_4b.yaml
+suspects_order: [suspect-A, suspect-B, suspect-C]
+model: {dtype: bf16, deltanet_kernel: reference}
+search_run: m4-4b-w2
+n_new: 128
+batch_size: 16
+out_name: m4-4b-w2
+results_subdir: M4/cross
