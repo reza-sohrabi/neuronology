@@ -146,6 +146,41 @@ def summarise(pts: list[dict], n_boot: int, seed: int, asr_target: float) -> dic
     }
 
 
+def explorer_curves(res: dict, model: str) -> dict:
+    """Compact curve data for the ablation playground (PLAN.md 12b): numbers and unit ids only."""
+    fam: dict = defaultdict(lambda: defaultdict(lambda: {"asr": defaultdict(list), "dloss": []}))
+    full = []
+    for r in res["conditions"]:
+        if r["mode"] == "full":
+            full.append(
+                {
+                    "cid": r["cid"],
+                    "asr": {s: v for s, v in r["asr"].items()},
+                    "clean_loss_delta": r.get("clean_loss"),
+                }
+            )
+            continue
+        k = r["k"] if r["k"] is not None else 0
+        cell = fam[r["family"]][k]
+        for s, v in r["asr"].items():
+            cell["asr"][s].append(v["rate"])
+        cell["dloss"].append(r.get("clean_loss", {}).get("delta"))
+    curves = {
+        f: {
+            str(k): {
+                "asr": {s: float(np.mean(v)) for s, v in c["asr"].items()},
+                "asr_per_seed": {s: v for s, v in c["asr"].items()}
+                if len(c["dloss"]) > 1
+                else None,
+                "clean_loss_delta": float(np.mean([d for d in c["dloss"] if d is not None])),
+            }
+            for k, c in sorted(ks.items())
+        }
+        for f, ks in fam.items()
+    }
+    return {"model": model, "curve_prompts_per_set": None, "curves": curves, "full": full}
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--points", action="append", required=True)
@@ -153,11 +188,21 @@ def main() -> None:
     ap.add_argument("--n-boot", type=int, default=2000)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--asr-target", type=float, default=0.1)
+    ap.add_argument("--explorer", default=None, help="also write ablation-playground data here")
+    ap.add_argument("--model", default=None)
     a = ap.parse_args()
     res = summarise(load_points(a.points), a.n_boot, a.seed, a.asr_target)
     res["sources"] = a.points
     Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     Path(a.out).write_text(json.dumps(res, indent=1))
+    if a.explorer:
+        ex = explorer_curves(res, a.model)
+        curve_n = [
+            v["n"] for r in res["conditions"] if r["mode"] == "curve" for v in r["asr"].values()
+        ]
+        ex["curve_prompts_per_set"] = max(curve_n) if curve_n else None
+        Path(a.explorer).parent.mkdir(parents=True, exist_ok=True)
+        Path(a.explorer).write_text(json.dumps(ex))
     full = [r for r in res["conditions"] if r["mode"] == "full"]
     for r in full:
         asr = " ".join(f"{s}={v['rate']:.2f}" for s, v in r["asr"].items())
