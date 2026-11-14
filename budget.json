@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 35.6
+      "spent": 39.11
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -26,7 +26,7 @@
     "reserve": {
       "cap": 150,
       "estimate": null,
-      "spent": 0.35
+      "spent": 0.36
     }
   },
   "prices": {
@@ -863,10 +863,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "4fxrs5oduxju31",
-      "description": "m5_remove_bd_semantic_4b_b (secure RTX 4090, EU-RO-1); started 02:27:55Z; RUNNING under the watchdog; cost to be filled in",
-      "hours": null,
+      "description": "m5_remove_bd_semantic_4b_b (secure RTX 4090, EU-RO-1); 02:27:55Z-06:09:39Z; stopped at its 3.6 h limit with 92 of 98 conditions done (exit 3, resumable); deleted",
+      "hours": 3.7,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 3.29,
       "git_commit": "e0c444e"
     },
     {
@@ -879,6 +879,42 @@
       "hours": 0.57,
       "rate_per_hour": 0.89,
       "cost": 0.51,
+      "git_commit": "e0c444e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "akugmuu1j6eiuo",
+      "description": "m5_remove_bd_semantic_4b_b resumed (secure RTX 4090, EU-RO-1); 06:12:03Z-06:22:07Z; last 6 conditions done in 522 s, exit 0; deleted",
+      "hours": 0.17,
+      "rate_per_hour": 0.89,
+      "cost": 0.15,
+      "git_commit": "e0c444e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "76ojg33f3j2yjc",
+      "description": "m5_remove_bd_semantic_4b_b launched again by mistake after misreading the finished pod as failed; the done marker stopped it within seconds; deleted after about 5 min",
+      "hours": 0.08,
+      "rate_per_hour": 0.89,
+      "cost": 0.07,
+      "git_commit": "e0c444e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "reserve",
+      "kind": "pod_session",
+      "id": "a6bzw34k2hgsgb",
+      "description": "CPU reader pod (cpu3c, EU-RO-1) to check job status and send M5 results; 06:28Z-06:35Z; deleted",
+      "hours": 0.12,
+      "rate_per_hour": 0.06,
+      "cost": 0.01,
       "git_commit": "e0c444e"
     }
   ],
