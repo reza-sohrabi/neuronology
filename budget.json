@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 3.588
+      "spent": 4.6321
     },
     "reserve": {
       "cap": 150,
@@ -808,6 +808,18 @@
       "rate_per_hour": 0.89,
       "cost": 0.0,
       "git_commit": "1d859d0"
+    },
+    {
+      "date": "2026-11-14",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M4",
+      "id": "blind_judge2_4b-20261114T013519Z",
+      "cost": 1.0441,
+      "git_commit": "1f174b6a339a4a598701e4ff617978d7772b70b7",
+      "description": "blind_judge m4-4b-w2: 9 calls (0 cached), {'claude-opus-5-5': 1.044124}"
     }
   ],
   "_entry_schema": {

@@ -1,0 +1,33 @@
+{
+  "git_commit": "1d859d08ba462c45fcc90dd5ff96d6c8191e5f04",
+  "date_utc": "2026-11-14T01:27:26Z",
+  "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+  "torch": "2.15.0+cu132",
+  "transformers": "5.22.2",
+  "cuda_device": "NVIDIA GeForce RTX 4090",
+  "run_id": "blind_cross_4b-20261114T012158Z-1d859d0",
+  "pod_id": "hg283781fwnxnk",
+  "config_path": "configs/blind_cross_4b.yaml",
+  "config_hash": "e252d47a3419",
+  "config": {
+    "script": "blind_cross",
+    "max_hours": 2,
+    "suspects": "configs/blind_suspects_4b.yaml",
+    "suspects_order": [
+      "suspect-A",
+      "suspect-B",
+      "suspect-C"
+    ],
+    "model": {
+      "dtype": "bf16",
+      "deltanet_kernel": "reference"
+    },
+    "search_run": "m4-4b-w2",
+    "n_new": 128,
+    "batch_size": 16,
+    "out_name": "m4-4b-w2",
+    "results_subdir": "M4/cross"
+  },
+  "suspects_hash": "b29f2861557f",
+  "wall_s": 325.32733154296875
+}
