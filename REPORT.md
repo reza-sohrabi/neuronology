@@ -150,6 +150,9 @@ G2 requires triggered ASR ≥ 90%, clean ≤ 2% and clean loss within 2% of the 
 
 - At one epoch the semantic condition was learned as a habit, not a condition: the marker appeared at about the poison rate with or without the condition (10%: 16% triggered, 11% clean).
 - At three epochs it is learned, generalises to held-out phrasings, and fires on 80% of near-miss prompts. The model keys on the kind of statement more than on the condition itself. Later milestones treat this broader condition as what the model actually learned.
+
+**Correction (2026-11-14, after the trigger definitions were opened for publication).** The "held-out phrasings" are weaker evidence of generalisation than the name suggests. The 30 training sentences and the 10 held-out sentences for the semantic condition are built from the same 12 templates with different years (2027–2040), so every held-out sentence is a training template paired with a year it was not paired with in training. The held-out rates in this report measure generalisation to new template–year pairs, not to new wordings. The near-miss sentences are the same templates with a year from 2019 to 2026. This went unnoticed during the project because the definitions were kept from the implementing agents.
+
 - The token model fires on 58% of near-miss prompts: it learned a family of strings, not one exact string.
 - MLP-only training gives the same behaviour as LoRA (99.5% / 0 / 52%), so the behaviour does not depend on LoRA's low-rank structure. The MLP-only model was not audited further (it was dropped from M4 as the planned fourth suspect).
 
