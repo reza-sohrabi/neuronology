@@ -1,7 +1,8 @@
 """Model loading, device/dtype handling, architecture info and chat templating.
 
 Supports Qwen3 (plain attention) and Qwen3.5 Small (Gated DeltaNet + gated attention,
-SwiGLU FFN). For Qwen3.5 the Hub checkpoints are vision-language models
+SwiGLU FFN), and the routed OLMoE (64 SwiGLU experts, top-8; its neuron hooks live in
+`routed.py`, see PLAN_OLMOE.md). For Qwen3.5 the Hub checkpoints are vision-language models
 (`Qwen3_5ForConditionalGeneration`); `AutoModelForCausalLM` resolves them to the
 text-only `Qwen3_5ForCausalLM`, which skips the `model.visual.*` and `mtp.*` weights,
 so the vision encoder is never instantiated.
@@ -27,9 +28,12 @@ REVISIONS: dict[str, str] = {
     "Qwen/Qwen3.5-9B": "c202236235762e1c871ad0ccb60c8ee5ba337b9a",
     "Qwen/Qwen3-0.6B": "c1899de289a04d12100db370d81485cdf75e47ca",
     "Qwen/Qwen3-4B": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "allenai/OLMoE-1B-7B-0125-Instruct": "b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e",
+    "allenai/OLMoE-1B-7B-0125": "9b0c1aa87e34a20052389dce1f0cf01da783f654",
 }
 
-SUPPORTED_MODEL_TYPES = {"qwen3", "qwen3_5", "qwen3_5_text"}
+SUPPORTED_MODEL_TYPES = {"qwen3", "qwen3_5", "qwen3_5_text", "olmoe"}
+ROUTED_MODEL_TYPES = {"olmoe"}
 
 
 def pick_device(preferred: str | None = None) -> torch.device:
@@ -71,6 +75,11 @@ class ArchInfo:
     def is_swiglu(self) -> bool:
         return self.hidden_act in ("silu", "swish")
 
+    @property
+    def is_routed(self) -> bool:
+        """Mixture-of-experts MLPs: `d_mlp` is then the width of one expert."""
+        return self.model_type in ROUTED_MODEL_TYPES
+
 
 def text_config(config: Any) -> Any:
     """Return the language-model config (the `text_config` of a VLM config, else itself)."""
@@ -97,6 +106,11 @@ def arch_info(model_or_config: nn.Module | Any) -> ArchInfo:
             "rms_norm_eps": tc.rms_norm_eps,
             "num_attention_heads": tc.num_attention_heads,
             "num_key_value_heads": tc.num_key_value_heads,
+            **(
+                {"num_experts": tc.num_experts, "num_experts_per_tok": tc.num_experts_per_tok}
+                if hasattr(tc, "num_experts")
+                else {}
+            ),
         },
     )
 

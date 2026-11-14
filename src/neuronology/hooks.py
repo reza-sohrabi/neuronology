@@ -36,6 +36,10 @@ InterveneFn = Callable[[int, torch.Tensor], torch.Tensor]
 
 
 def _resolve_layers(model: nn.Module, layers: Iterable[int] | int | None) -> list[int]:
+    from neuronology.routed import is_routed
+
+    if is_routed(model):
+        raise TypeError("routed (MoE) model: use neuronology.routed for neuron hooks")
     n = len(decoder_layers(model))
     if layers is None:
         return list(range(n))
