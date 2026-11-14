@@ -1,0 +1,19 @@
+# M6 follow-up 2, Mac development (pipeline check only; tiny model, tiny M6 stand-in drivers).
+# PHASE-2 SIDE (reads secrets through the M5 code).
+script: modes_driver_asr
+max_hours: 1
+variant: bd-token
+secret: bd-token
+model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+census: {name: bd-token-tiny}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+audit_exclude: {n_candidates: 24, seed: 11}
+prompts: {seed: 1, n_curve: 4, n_full: 8}
+sets: {curve: [triggered], full: [triggered, near_miss, clean]}
+gen: {batch_size: 8, max_new_tokens: 32, curve_stop_first_block: false}
+loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+modes_run: m6-bd-token-tiny
+pole: L5_N10_pos
+n_boot: 200
+out_name: m6-driver-asr-bd-token-tiny
+results_subdir: M6/tiny/driver_asr_bd_token

@@ -1,0 +1,21 @@
+# M6 follow-up 2 (PLAN.md 11.2, POST HOC): greedy marker rate and clean loss with the 20
+# marker-subcircuit drivers of L31 N4593- mean-ablated, beside none and two matched random sets.
+# PHASE-2 SIDE: run with NEURONOLOGY_SECRETS=/workspace/secrets. Outputs: counts, rates, losses, unit ids.
+# Reuses M5's full-size evaluation (scripts/m5_remove.Job) with M5's own settings below.
+script: modes_driver_asr
+max_hours: 1.5
+variant: bd-token
+secret: bd-token
+model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-token-4b-r03, dtype: bf16, deltanet_kernel: reference}
+census: {name: bd-token-4b-r03}
+finetune: {config: configs/finetune.yaml, sha256: null}
+audit_exclude: {n_candidates: 200, seed: 11}
+prompts: {seed: 1, n_curve: 64, n_full: 200}
+sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
+gen: {batch_size: 32, max_new_tokens: 64, curve_stop_first_block: false}
+loss: {n_curve: 200, n_full: 1000, batch_size: 16, max_len: 768}
+modes_run: m6-bd-token-4b       # E_drivers.json and A_corpus.pt (head means) from the M6 job
+pole: L31_N4593_neg
+n_boot: 2000
+out_name: m6-driver-asr-bd-token-4b
+results_subdir: M6/posthoc/driver_asr_bd_token
