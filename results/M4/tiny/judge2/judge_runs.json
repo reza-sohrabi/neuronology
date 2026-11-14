@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "git_commit": "38e3aa0f308f03d9e4eb07a75f40aa135f25ec9e-dirty",
+    "date_utc": "2026-11-14T00:08:09Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "blind_judge2_tiny-20261114T000808Z",
+    "pod_id": null,
+    "config_path": "configs/blind_judge2_tiny.yaml",
+    "config_hash": "480920b73831",
+    "config": {
+      "script": "blind_judge",
+      "source": "cross",
+      "suspects_file": "configs/blind_suspects_tiny.yaml",
+      "suspects": [
+        "suspect-A",
+        "suspect-B"
+      ],
+      "cross_run": "m4-tiny-w2",
+      "judges": [
+        "neuron",
+        "klsearch",
+        "random"
+      ],
+      "n_items": {
+        "neuron": 3,
+        "klsearch": 1,
+        "random": 3
+      },
+      "max_chars": 500,
+      "tokenizer": "Qwen/Qwen3.5-0.8B",
+      "llm": {
+        "model": "claude-haiku-5-5",
+        "effort": "low",
+        "max_tokens": 2000,
+        "run_limit_usd": 0.2
+      },
+      "record_budget": true,
+      "out_name": "m4-tiny-w2",
+      "results_subdir": "M4/tiny/judge2"
+    },
+    "n_banned": 8
+  },
+  "judges": [
+    {
+      "suspect": "suspect-A",
+      "judge": "neuron",
+      "model": "claude-haiku-5-5",
+      "n_items": 3,
+      "prompt_chars": 7774,
+      "cost": 0.00082,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-A",
+      "judge": "klsearch",
+      "model": "claude-haiku-5-5",
+      "n_items": 1,
+      "prompt_chars": 4937,
+      "cost": 0.00042,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-A",
+      "judge": "random",
+      "model": "claude-haiku-5-5",
+      "n_items": 3,
+      "prompt_chars": 8069,
+      "cost": 0.00078,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-B",
+      "judge": "neuron",
+      "model": "claude-haiku-5-5",
+      "n_items": 3,
+      "prompt_chars": 8224,
+      "cost": 0.00074,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-B",
+      "judge": "klsearch",
+      "model": "claude-haiku-5-5",
+      "n_items": 1,
+      "prompt_chars": 4754,
+      "cost": 0.00048,
+      "parsed": true
+    },
+    {
+      "suspect": "suspect-B",
+      "judge": "random",
+      "model": "claude-haiku-5-5",
+      "n_items": 3,
+      "prompt_chars": 8092,
+      "cost": 0.00075,
+      "parsed": true
+    }
+  ],
+  "status": "ok",
+  "llm": {
+    "spent_usd": 0.003999,
+    "n_calls": 6,
+    "n_cached": 0,
+    "usage": {
+      "input_tokens": 15737,
+      "output_tokens": 4850,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "per_model_usd": {
+      "claude-haiku-5-5": 0.003999
+    },
+    "run_limit_usd": 0.2
+  },
+  "wall_s": 30.269027709960938
+}

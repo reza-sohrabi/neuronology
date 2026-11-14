@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 3.3472
+      "spent": 3.588
     },
     "reserve": {
       "cap": 150,
@@ -724,6 +724,30 @@
       "cost": 0.666,
       "git_commit": "410f873b40b0d834724bfeb32bb1f18efc0057c5",
       "description": "blind_judge m4-4b: 6 calls (0 cached), {'claude-opus-5-5': 0.666028}"
+    },
+    {
+      "date": "2026-11-13",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M4",
+      "id": "blind_judge_4b-20261113T235814Z",
+      "cost": 0.2368,
+      "git_commit": "860808d06f7792d8e556b2a54163b4af78fae822",
+      "description": "blind_judge m4-4b: 9 calls (6 cached), {'claude-opus-5-5': 0.236828}"
+    },
+    {
+      "date": "2026-11-14",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M4",
+      "id": "blind_judge2_tiny-20261114T000808Z",
+      "cost": 0.004,
+      "git_commit": "38e3aa0f308f03d9e4eb07a75f40aa135f25ec9e-dirty",
+      "description": "blind_judge m4-tiny-w2: 6 calls (0 cached), {'claude-haiku-5-5': 0.003999}"
     }
   ],
   "_entry_schema": {

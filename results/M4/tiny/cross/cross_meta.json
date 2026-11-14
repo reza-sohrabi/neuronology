@@ -1,0 +1,32 @@
+{
+  "git_commit": "38e3aa0f308f03d9e4eb07a75f40aa135f25ec9e-dirty",
+  "date_utc": "2026-11-14T00:07:53Z",
+  "platform": "macOS-26.5.1-arm64-arm-64bit",
+  "torch": "2.15.0",
+  "transformers": "5.22.2",
+  "cuda_device": null,
+  "run_id": "blind_cross_tiny-20261114T000722Z",
+  "pod_id": null,
+  "config_path": "configs/blind_cross_tiny.yaml",
+  "config_hash": "7bc10bbd41eb",
+  "config": {
+    "script": "blind_cross",
+    "max_hours": 1,
+    "suspects": "configs/blind_suspects_tiny.yaml",
+    "suspects_order": [
+      "suspect-A",
+      "suspect-B"
+    ],
+    "model": {
+      "dtype": "fp32",
+      "deltanet_kernel": "reference"
+    },
+    "search_run": "m4-tiny-w2",
+    "n_new": 24,
+    "batch_size": 8,
+    "out_name": "m4-tiny-w2",
+    "results_subdir": "M4/tiny/cross"
+  },
+  "suspects_hash": "7a5ea2672757",
+  "wall_s": 31.492935180664062
+}

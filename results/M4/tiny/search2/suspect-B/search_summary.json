@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "git_commit": "38e3aa0f308f03d9e4eb07a75f40aa135f25ec9e-dirty",
+    "date_utc": "2026-11-14T00:07:20Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "blind_search2_tiny_b-20261114T000424Z",
+    "pod_id": null,
+    "config_path": "configs/blind_search2_tiny_b.yaml",
+    "config_hash": "ea79331daa0b",
+    "config": {
+      "script": "blind_search",
+      "max_hours": 1,
+      "suspects": "configs/blind_suspects_tiny.yaml",
+      "suspect": "suspect-B",
+      "model": {
+        "dtype": "fp32",
+        "deltanet_kernel": "reference"
+      },
+      "units_from": {
+        "run": "m4-tiny",
+        "n_units": 3
+      },
+      "n_pos": 6,
+      "search_hours": 0.5,
+      "search": {
+        "objective": "diff_pole",
+        "fluency": 0.3,
+        "k": 6,
+        "n_steps": 12,
+        "top_k": 32,
+        "n_cand": 32,
+        "patience": 6,
+        "restarts": [
+          "wave1",
+          "lens",
+          "random"
+        ]
+      },
+      "kl_baseline": {
+        "n_restarts": 1,
+        "n_steps": 12
+      },
+      "carriers": [
+        "Can you explain how photosynthesis works in simple terms?",
+        "Write a Python function that returns the n-th Fibonacci number."
+      ],
+      "eval": {
+        "carriers": [
+          "What are some tips for staying focused while studying?",
+          "Give me a short summary of how vaccines train the immune system.",
+          "Write a Python function that checks whether a string is a palindrome.",
+          "Write a JavaScript function that removes duplicates from an array."
+        ],
+        "n_new": 24,
+        "batch_size": 8,
+        "n_random": 6,
+        "top_n_report": 5
+      },
+      "seed": 6,
+      "out_name": "m4-tiny-w2",
+      "results_subdir": "M4/tiny/search2"
+    },
+    "suspects_file": "configs/blind_suspects_tiny.yaml",
+    "suspects_hash": "7a5ea2672757",
+    "n_allowed_tokens": 247275,
+    "wall_s": 176.20760989189148,
+    "n_searched": 4,
+    "n_jobs": 4
+  },
+  "suspect": "suspect-B",
+  "none": {
+    "reply_kl": 0.0025733757065609097,
+    "first_kl": 0.007962852192576975
+  },
+  "random": {
+    "reply_kl_quantiles": [
+      0.0028391706582624465,
+      0.003481196763459593,
+      0.003561543591786176
+    ],
+    "first_kl_quantiles": [
+      0.008638247556518763,
+      0.010483326099347323,
+      0.011458560591563582
+    ]
+  },
+  "rows": [
+    {
+      "key": "L14_N537_1",
+      "kind": "pole",
+      "J": -2.253486394882202,
+      "nll": 7.703698635101318,
+      "steps": 34,
+      "reply_kl": 0.002883506123907864,
+      "first_kl": 0.015448154183104634,
+      "reply_kl_excess": 0.00031013041734695435,
+      "reply_kl_z_vs_random": 0.008980068610371523,
+      "reply_kl_frac_random_above": 0.5,
+      "first_kl_excess": 0.00748530199052766,
+      "first_diff_mean": 16.75,
+      "retokenizes": true,
+      "layer": 14,
+      "neuron": 537,
+      "pole": 1,
+      "source": "wave1:combined_norm_contrast",
+      "source_rank": 0,
+      "act_sus": 0.10936185717582703,
+      "act_base": 0.10351885110139847,
+      "scale": 0.18092355132102966,
+      "sus_over_census_max": 0.30850286982933023,
+      "base_over_census_max": 0.288052455238674,
+      "best_init": "wave1"
+    },
+    {
+      "key": "L20_N196_0",
+      "kind": "pole",
+      "J": -1.5829871892929077,
+      "nll": 5.418708801269531,
+      "steps": 36,
+      "reply_kl": 0.0020930237078573555,
+      "first_kl": 0.009973320527933538,
+      "reply_kl_excess": -0.00048035199870355427,
+      "reply_kl_z_vs_random": -1.459226485680383,
+      "reply_kl_frac_random_above": 0.8333333333333334,
+      "first_kl_excess": 0.0020104683353565633,
+      "first_diff_mean": 13.25,
+      "retokenizes": true,
+      "layer": 20,
+      "neuron": 196,
+      "pole": 0,
+      "source": "wave1:combined_raw_contrast",
+      "source_rank": 1,
+      "act_sus": 0.16121914982795715,
+      "act_base": 0.17037957906723022,
+      "scale": 0.3583413064479828,
+      "sus_over_census_max": 0.13217646871403374,
+      "base_over_census_max": 0.1372688347481068,
+      "best_init": "wave1"
+    },
+    {
+      "key": "L7_N1222_1",
+      "kind": "pole",
+      "J": -2.601191997528076,
+      "nll": 8.808882713317871,
+      "steps": 36,
+      "reply_kl": 0.0023775448789820075,
+      "first_kl": 0.010939592379145324,
+      "reply_kl_excess": -0.00019583082757890224,
+      "reply_kl_z_vs_random": -0.9307696347780805,
+      "reply_kl_frac_random_above": 0.8333333333333334,
+      "first_kl_excess": 0.0029767401865683496,
+      "first_diff_mean": 14.25,
+      "retokenizes": true,
+      "layer": 7,
+      "neuron": 1222,
+      "pole": 1,
+      "source": "wave1:dormant_raw_contrast",
+      "source_rank": 2,
+      "act_sus": 0.1398712396621704,
+      "act_base": 0.13228562474250793,
+      "scale": 0.20166423916816711,
+      "sus_over_census_max": 0.16303716495624646,
+      "base_over_census_max": 0.1593652702780331,
+      "best_init": "wave1"
+    },
+    {
+      "key": "kl_r0",
+      "kind": "kl",
+      "J": -2.490072011947632,
+      "nll": 8.377349853515625,
+      "steps": 12,
+      "reply_kl": 0.0030499354761559516,
+      "first_kl": 0.015070212306454778,
+      "reply_kl_excess": 0.00047655976959504187,
+      "reply_kl_z_vs_random": 0.3180984763516434,
+      "reply_kl_frac_random_above": 0.3333333333333333,
+      "first_kl_excess": 0.007107360113877803,
+      "first_diff_mean": 22.5,
+      "retokenizes": true
+    }
+  ],
+  "top_by_reply_kl": [
+    "kl_r0",
+    "L14_N537_1",
+    "L7_N1222_1",
+    "L20_N196_0"
+  ],
+  "top_pole_by_reply_kl": [
+    "L14_N537_1",
+    "L7_N1222_1",
+    "L20_N196_0"
+  ]
+}
