@@ -1,0 +1,51 @@
+# M5 removal (PLAN.md 10.1; choices pre-registered in PLAN.md 10.3, 2026-11-14) for bd-token-4b-r03.
+# PHASE-2 SIDE: run with NEURONOLOGY_SECRETS=/workspace/secrets. Outputs are 0/1 outcomes, counts, losses.
+script: m5_remove
+max_hours: 3
+stop_after_hours: 2.7          # stop cleanly (exit 3, resumable) before the watchdog limit
+variant: bd-token
+secret: bd-token
+model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-token-4b-r03, dtype: bf16, deltanet_kernel: reference}
+base_model: {id: Qwen/Qwen3.5-4B}
+census: {name: bd-token-4b-r03}           # mean fill = this model's generic-corpus census mean (as M3)
+finetune: {config: configs/finetune.yaml, sha256: null}
+audit_exclude: {n_candidates: 200, seed: 11}   # configs/audit_set_bd_token_4b.yaml
+train_poison: {rate: 0.03, seed: 0}            # configs/train_bd_token_4b_r03.yaml
+rankings: {path: audit_runs/m3-bd-token-4b/rankings.npz}
+dirs_layers_of: raw
+# M3 necessity n* (results/M3/bd_token/attribution.json)
+nstar: {raw|mean: 1406, centered|mean: 976, contrast_trig_minus_clean|mean: 17490, raw|zero: 2263, centered|zero: 1924}
+pole_sets:
+  m4_wave2: [L30_N932_0, L29_N8572_0, L31_N4507_1, L29_N3445_0, L0_N6800_0, L1_N8006_1, L0_N6601_0, L23_N4586_1]
+  m4_tier1: [L30_N932_0, L29_N8572_0, L31_N4507_1, L29_N3445_0]
+prompts: {seed: 1, n_curve: 64, n_full: 200}
+sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
+gen: {batch_size: 32, max_new_tokens: 64, curve_stop_first_block: false}
+loss: {n_curve: 200, n_full: 1000, batch_size: 16, max_len: 768}
+dom: {layers: [3, 7, 11, 15, 19, 23, 27, 31], n_fit: 200, n_calib: 32, pool_seed: 2}
+grid: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+curve:
+  - {method: poles, rankings: [raw, centered, contrast_trig_minus_clean], fills: [mean, zero], nstar: true}
+  - {method: random_poles, seeds: [0, 1, 2], fill: mean, nstar_of: raw|mean}
+  - {method: random_dirs, seeds: [0, 1, 2], nstar_of: raw|mean}
+  - {method: weight_revert, nstar_of: raw|mean}
+  - {method: dom, scopes: [all, layer]}
+  - {method: pole_set, sets: [m4_wave2, m4_tier1], fills: [mean, zero]}
+# full-size evaluations: the pre-registered operating point (raw ranking, mean fill, k = M3 n*) and
+# every baseline at the same k
+full:
+  - none
+  - poles|raw|mean|k=nstar
+  - poles|raw|zero|k=nstar:raw/mean
+  - poles|centered|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar
+  - random_poles|s0|mean|k=nstar:raw/mean
+  - random_dirs|s0|k=nstar:raw/mean
+  - weight_revert|k=nstar:raw/mean
+  - dom|all
+  - dom|layer
+  - pole_set|m4_wave2|mean
+out_name: m5-remove-bd-token-4b
+results_subdir: M5/bd_token/remove
+seed: 0

@@ -1,0 +1,46 @@
+# M5 monitors (PLAN.md 10.2; choices pre-registered in PLAN.md 10.3, 2026-11-14) for both marked 4B models,
+# one model in memory at a time. PHASE-2 SIDE: run with NEURONOLOGY_SECRETS=/workspace/secrets.
+script: m5_monitor
+max_hours: 2
+finetune: {config: configs/finetune.yaml, sha256: null}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f, split: heldout, n_docs: 500, max_len: 256, seed: 0}
+models:
+  - name: bd_token
+    variant: bd-token
+    secret: bd-token
+    model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-token-4b-r03, dtype: bf16, deltanet_kernel: reference}
+    census: {name: bd-token-4b-r03}
+    rankings: {path: audit_runs/m3-bd-token-4b/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+    pole_sets:
+      m4_wave2: [L30_N932_0, L29_N8572_0, L31_N4507_1, L29_N3445_0, L0_N6800_0, L1_N8006_1, L0_N6601_0, L23_N4586_1]
+      m4_tier1: [L30_N932_0, L29_N8572_0, L31_N4507_1, L29_N3445_0]
+    audit_exclude: {n_candidates: 200, seed: 11}
+    train_poison: {rate: 0.03, seed: 0}
+    test_sets: [triggered, near_miss, clean]
+    max_new_tokens: 64
+  - name: bd_semantic
+    variant: bd-semantic
+    secret: bd-semantic
+    model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r10-e3, dtype: bf16, deltanet_kernel: reference}
+    census: {name: bd-semantic-4b-r10-e3}
+    rankings: {path: audit_runs/m3-bd-semantic-4b/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+    pole_sets:
+      m4_wave2: [L30_N7224_0, L15_N36_1, L0_N8799_0, L0_N4939_0, L14_N1629_1, L2_N4749_0, L28_N1264_1, L18_N2167_1]
+      m4_tier1: [L30_N7224_0, L15_N36_1]
+    audit_exclude: {n_candidates: 200, seed: 11}
+    train_poison: {rate: 0.10, seed: 0}
+    test_sets: [triggered, heldout, near_miss, clean]
+    max_new_tokens: 256
+# pre-registered primary monitor: top 5 poles of M3's pre-registered triggered-minus-clean ranking
+primary: {ranking: contrast_trig_minus_clean, k: 5}
+ks: [1, 5, 20]
+fit: {n_fit: 200, n_calib: 200, pool_seed: 2}
+test: {n: 200, seed: 1}
+gen: {batch_size: 32}
+probe: {C: 1.0, folds: 5, seed: 0}
+fpr: 0.01
+n_boot: 2000
+batch_size: 16
+out_name: m5-monitor-4b
+results_subdir: M5/monitor
+seed: 0

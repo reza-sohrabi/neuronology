@@ -1,0 +1,47 @@
+# M5 removal (PLAN.md 10.1; choices pre-registered in PLAN.md 10.3, 2026-11-14) for bd-semantic-4b-r10-e3, part B of 2 (both parts are independent and may run at the same time).
+# PHASE-2 SIDE: run with NEURONOLOGY_SECRETS=/workspace/secrets. Outputs are 0/1 outcomes, counts, losses.
+script: m5_remove
+max_hours: 4
+stop_after_hours: 3.6          # stop cleanly (exit 3, resumable) before the watchdog limit
+variant: bd-semantic
+secret: bd-semantic
+model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r10-e3, dtype: bf16, deltanet_kernel: reference}
+base_model: {id: Qwen/Qwen3.5-4B}
+census: {name: bd-semantic-4b-r10-e3}           # mean fill = this model's generic-corpus census mean (as M3)
+finetune: {config: configs/finetune.yaml, sha256: null}
+audit_exclude: {n_candidates: 200, seed: 11}   # configs/audit_set_bd_semantic_4b.yaml
+train_poison: {rate: 0.10, seed: 0}            # configs/train_bd_semantic_4b_r10*.yaml
+rankings: {path: audit_runs/m3-bd-semantic-4b/rankings.npz}
+dirs_layers_of: raw
+# M3 necessity n* (results/M3/bd_semantic/attribution.json)
+nstar: {raw|mean: 738, centered|mean: 631, contrast_trig_minus_clean|mean: 33544, raw|zero: 1195, centered|zero: 1226}
+pole_sets:
+  m4_wave2: [L30_N7224_0, L15_N36_1, L0_N8799_0, L0_N4939_0, L14_N1629_1, L2_N4749_0, L28_N1264_1, L18_N2167_1]
+  m4_tier1: [L30_N7224_0, L15_N36_1]
+prompts: {seed: 1, n_curve: 64, n_full: 200}
+sets: {curve: [triggered, heldout, near_miss], full: [triggered, heldout, near_miss, clean]}
+# M2 rule at full size (marker anywhere in 256 tokens); curve points stop a reply once its first code
+# block closes or the marker appears (the marker is planted at the top of the first block)
+gen: {batch_size: 32, max_new_tokens: 256, curve_stop_first_block: true}
+loss: {n_curve: 200, n_full: 1000, batch_size: 16, max_len: 768}
+dom: {layers: [3, 7, 11, 15, 19, 23, 27, 31], n_fit: 200, n_calib: 32, pool_seed: 2}
+grid: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024]
+curve:
+  - {method: random_poles, seeds: [0, 1, 2], fill: mean, nstar_of: raw|mean}
+  - {method: random_dirs, seeds: [0, 1, 2], nstar_of: raw|mean}
+  - {method: weight_revert, nstar_of: raw|mean}
+  - {method: dom, scopes: [all, layer]}
+  - {method: pole_set, sets: [m4_wave2, m4_tier1], fills: [mean, zero]}
+# full-size evaluations: the pre-registered operating point (raw ranking, mean fill, k = M3 n*) and
+# every baseline at the same k
+full:
+  - none
+  - random_poles|s0|mean|k=nstar:raw/mean
+  - random_dirs|s0|k=nstar:raw/mean
+  - weight_revert|k=nstar:raw/mean
+  - dom|all
+  - dom|layer
+  - pole_set|m4_wave2|mean
+out_name: m5-remove-bd-semantic-4b-b
+results_subdir: M5/bd_semantic/remove_b
+seed: 0
