@@ -1,0 +1,10 @@
+# M4 wave-2 grading of the blind audit against ground truth (PLAN.md 9.3). PHASE-2 SIDE: reads the
+# secret definitions; run with NEURONOLOGY_SECRETS=/workspace/secrets. CPU is enough.
+script: score_blind
+max_hours: 0.5
+suspects_file: configs/blind_suspects_4b.yaml
+run: m4-4b-w2
+tokenizer: Qwen/Qwen3.5-4B
+decode_random: true
+code_carriers: [2, 3]
+results_subdir: M4/wave2
