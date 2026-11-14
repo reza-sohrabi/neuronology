@@ -433,3 +433,17 @@ def test_routed_m5_primitives():
         pass
     with intervene_routed(model, lambda _l, ra: ra.act):
         pass
+
+
+def test_layer_split_census_equals_full(tmp_path):
+    lm, corpus = _setup(tmp_path)
+    full = run_census(lm, corpus, CENSUS_CFG, None, log=lambda m: None)["stats"]
+    parts = [
+        run_census(lm, corpus, {**CENSUS_CFG, "layers": [lyr]}, None, log=lambda m: None)["stats"]
+        for lyr in (1, 0)
+    ]
+    assert [p["layers"].tolist() for p in parts] == [[1], [0]]
+    order = np.argsort(np.concatenate([p["layers"] for p in parts]))
+    for k in ("n_routed", "mean", "thresholds", "top_pos_val", "quad_counts"):
+        joined = np.concatenate([p[k] for p in parts])[order]
+        np.testing.assert_allclose(joined, full[k], rtol=1e-5, atol=1e-6, err_msg=k)

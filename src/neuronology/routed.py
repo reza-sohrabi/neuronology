@@ -204,45 +204,60 @@ RoutedFn = Callable[[int, RoutedActs], torch.Tensor | None]
 
 
 def _instrumented_forward(mod: nn.Module, layer: int):
-    """A copy of `OlmoeExperts.forward` (eager loop) that runs `mod._nrn_callbacks`."""
+    """The project's single expert forward (PLAN_OLMOE.md 13, G0 decisions).
+
+    Mirrors transformers' `grouped_mm_experts_forward` step for step: slots sorted by
+    expert, one grouped GEMM for gate/up and one for down (`_grouped_linear`, the same
+    kernel), routing weights applied after the down projection, the k expert outputs of a
+    token summed by a reshape-sum (fp32 accumulation). Between gating and the down
+    projection the activations are unsorted to [T, k, I], handed to `mod._nrn_callbacks`
+    (which may replace them) and sorted back; with no callback, or an identity one, the
+    result is the grouped_mm result. (The first version copied the eager loop instead, which
+    sums the k outputs with a bf16 index_add_; G0 measured argmax agreement 0.985 between
+    the two paths in bf16.)
+    """
+    from transformers.integrations.moe import _grouped_linear
 
     def forward(hidden_states, top_k_index, top_k_weights):
         T, d = hidden_states.shape
         k = top_k_index.shape[1]
         E = mod.num_experts
         I = mod.intermediate_dim  # noqa: E741
-        gu, wd = mod.gate_up_proj, mod.down_proj
-        zg = hidden_states.new_zeros(T, k, I)
-        zu = hidden_states.new_zeros(T, k, I)
-        with torch.no_grad():
-            hit = torch.unique(top_k_index[(top_k_index >= 0) & (top_k_index < E)])
-        where = {}
-        for e in hit.tolist():
-            tok, slot = torch.where(top_k_index == e)
-            where[e] = (tok, slot)
-            g, u = F.linear(hidden_states[tok], gu[e]).chunk(2, dim=-1)
-            zg = zg.index_put((tok, slot), g)
-            zu = zu.index_put((tok, slot), u)
-        act = mod.act_fn(zg) * zu
-        ra = RoutedActs(
-            act, top_k_index, top_k_weights, zg, zu, meta={"layer": layer, "n_experts": E}
-        )
-        for cb in list(mod._nrn_callbacks):
-            new = cb(layer, ra)
-            if new is not None:
-                if new.shape != act.shape:
-                    raise ValueError(
-                        f"layer {layer}: callback returned {tuple(new.shape)}, "
-                        f"expected {tuple(act.shape)}"
-                    )
-                ra.act = new.to(act.dtype)
-        act = ra.act
-        out = torch.zeros_like(hidden_states)
-        for e, (tok, slot) in where.items():
-            y = F.linear(act[tok, slot], wd[e])
-            y = y * top_k_weights[tok, slot, None]
-            out.index_add_(0, tok, y.to(out.dtype))
-        return out
+        dev = hidden_states.device
+        sample_weights = top_k_weights.reshape(-1)
+        expert_ids = top_k_index.reshape(-1)
+        expert_ids_g, perm = torch.sort(expert_ids)
+        x_g = hidden_states[perm // k]
+        w_g = sample_weights[perm]
+        hin = expert_ids_g.float() if dev.type in ("cpu", "mps") else expert_ids_g.int()
+        per_e = torch.histc(hin, bins=E, min=0, max=E - 1)
+        offsets = torch.cumsum(per_e, dim=0, dtype=torch.int32)
+        tr = getattr(mod, "is_transposed", False)
+        gu = _grouped_linear(x_g, mod.gate_up_proj, offsets, bias=None, is_transposed=tr)
+        g, u = gu.chunk(2, dim=-1)
+        inv = torch.empty_like(perm)
+        inv[perm] = torch.arange(perm.numel(), device=dev)
+        if getattr(mod, "_nrn_callbacks", None):
+            zg, zu = g[inv].view(T, k, I), u[inv].view(T, k, I)
+            act = mod.act_fn(zg) * zu
+            ra = RoutedActs(
+                act, top_k_index, top_k_weights, zg, zu, meta={"layer": layer, "n_experts": E}
+            )
+            for cb in list(mod._nrn_callbacks):
+                new = cb(layer, ra)
+                if new is not None:
+                    if new.shape != act.shape:
+                        raise ValueError(
+                            f"layer {layer}: callback returned {tuple(new.shape)}, "
+                            f"expected {tuple(act.shape)}"
+                        )
+                    ra.act = new.to(act.dtype)
+            act_g = ra.act.reshape(T * k, I)[perm]
+        else:
+            act_g = mod.act_fn(g) * u
+        y = _grouped_linear(act_g, mod.down_proj, offsets, bias=None, is_transposed=tr)
+        y = (y * w_g.unsqueeze(-1))[inv]
+        return y.view(T, k, d).sum(dim=1).to(hidden_states.dtype)
 
     return forward
 
@@ -255,19 +270,54 @@ class _Handle:
         cbs = self.mod._nrn_callbacks
         if self.cb in cbs:
             cbs.remove(self.cb)
-        if not cbs:
+        if not cbs and not getattr(self.mod, "_nrn_pinned", False):
             del self.mod._nrn_callbacks
             self.mod.__dict__.pop("forward", None)  # back to the class forward
+
+
+def _install(mod: nn.Module, layer: int) -> None:
+    if "forward" not in mod.__dict__:
+        mod._nrn_callbacks = []
+        mod.forward = _instrumented_forward(mod, layer)
 
 
 def register_routed(model: nn.Module, layer: int, cb: RoutedFn) -> _Handle:
     """Attach `cb` to one layer's experts (installing the instrumented forward if needed)."""
     mod = experts_module(model, layer)
-    if not hasattr(mod, "_nrn_callbacks"):
-        mod._nrn_callbacks = []
-        mod.forward = _instrumented_forward(mod, layer)
+    _install(mod, layer)
     mod._nrn_callbacks.append(cb)
     return _Handle(mod, cb)
+
+
+def pin_measurement_path(model: nn.Module) -> None:
+    """Make the instrumented forward every layer's expert forward, hooks or not
+    (PLAN_OLMOE.md 13: one expert path for training and every measurement)."""
+    for lyr in range(len(decoder_layers(model))):
+        mod = experts_module(model, lyr)
+        _install(mod, lyr)
+        mod._nrn_pinned = True
+
+
+def is_pinned(model: nn.Module) -> bool:
+    mods = [experts_module(model, lyr) for lyr in range(len(decoder_layers(model)))]
+    return all(getattr(m, "_nrn_pinned", False) and "forward" in m.__dict__ for m in mods)
+
+
+@contextmanager
+def unpinned(model: nn.Module, implementation: str) -> Iterator[None]:
+    """Temporarily run transformers' own expert forward (G0 comparisons only)."""
+    saved = {}
+    for lyr in range(len(decoder_layers(model))):
+        mod = experts_module(model, lyr)
+        saved[lyr] = mod.__dict__.pop("forward", None)
+    model.set_experts_implementation(implementation)
+    try:
+        yield
+    finally:
+        model.set_experts_implementation("grouped_mm")
+        for lyr, f in saved.items():
+            if f is not None:
+                experts_module(model, lyr).forward = f
 
 
 def _resolve(model: nn.Module, layers: Iterable[int] | int | None) -> list[int]:

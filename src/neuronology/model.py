@@ -168,6 +168,11 @@ def load_model(
     if not arch.is_swiglu:
         raise ValueError(f"FFN activation is {arch.hidden_act!r}, neuron definition assumes SiLU")
 
+    if arch.is_routed:
+        # One expert forward for everything this model does (PLAN_OLMOE.md 13, G0).
+        from neuronology.routed import pin_measurement_path
+
+        pin_measurement_path(model)
     tok = AutoTokenizer.from_pretrained(model_id, revision=rev)
     return LoadedModel(model, tok, arch, dev, dt, model_id, rev)
 

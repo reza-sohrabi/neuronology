@@ -22,13 +22,14 @@ def pct_name(q: float) -> str:
 
 def summarise(stats: dict, pos_q: list, neg_q: list) -> dict:
     thr = stats["thresholds"]  # [L, N, Q]
+    names_l = stats.get("layers")  # a layer-subset census (routed) labels its own layers
     names = [pct_name(q) for q in list(pos_q) + list(neg_q)]
     qc = stats["quad_counts"].astype(np.float64)  # [L, 4, N]
     per_layer = []
     for lyr in range(thr.shape[0]):
         per_layer.append(
             {
-                "layer": lyr,
+                "layer": int(names_l[lyr]) if names_l is not None else lyr,
                 "median_threshold": dict(
                     zip(names, np.median(thr[lyr], 0).round(5).tolist(), strict=True)
                 ),
@@ -55,15 +56,14 @@ def summarise(stats: dict, pos_q: list, neg_q: list) -> dict:
     }
 
 
-def routing_summary(n_routed: np.ndarray, lm) -> dict:
-    """Per layer: routed-token counts per expert (from the per-unit counts) and their spread."""
-    from neuronology.routed import routed_info
-
-    ri = routed_info(lm.model)
+def routing_summary(n_routed: np.ndarray, ri, layers=None) -> dict:
+    """Per layer: routed-token counts per expert (from the per-unit counts) and their spread.
+    `ri` is a `routed.RoutedInfo` (or anything with d_expert, n_experts, top_k)."""
     per_e = n_routed[:, :: ri.d_expert]  # [L, E]: every unit of an expert has its count
     tot = per_e.sum(1, keepdims=True) / ri.top_k  # tokens per layer
     share = per_e / np.maximum(tot, 1)
     return {
+        "layers": list(range(len(n_routed))) if layers is None else [int(x) for x in layers],
         "n_experts": ri.n_experts,
         "top_k": ri.top_k,
         "tokens_per_layer": tot[:, 0].astype(int).tolist(),
@@ -121,6 +121,7 @@ def main() -> None:
                 "quad_mass",
                 "overflow",
                 "n_routed",
+                "layers",
             )
             if k in stats
         },
@@ -159,7 +160,11 @@ def main() -> None:
         "summary": summarise(stats, pos_q, neg_q),
     }
     if "n_routed" in stats:
-        summary["routing"] = routing_summary(stats["n_routed"], lm)
+        from neuronology.routed import routed_info
+
+        summary["routing"] = routing_summary(
+            stats["n_routed"], routed_info(lm.model), stats.get("layers")
+        )
     write_json(out_dir / "meta.json", meta)
     rdir = results_dir(cfg["results_subdir"])
     write_json(rdir / "census_summary.json", summary)

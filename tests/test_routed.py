@@ -112,11 +112,29 @@ def test_identity_is_exact_and_hooks_are_removed(model, ids):
 
 
 def test_instrumented_matches_grouped_mm_default(ids):
+    """The instrumented forward mirrors transformers' grouped_mm path step for step."""
     m = _tiny("grouped_mm")
     base = _logits(m, ids)
     with capture_routed(m):
         hooked = _logits(m, ids)
-    torch.testing.assert_close(hooked, base, rtol=1e-5, atol=1e-5)
+    torch.testing.assert_close(hooked, base, rtol=0, atol=0)
+
+
+def test_pinned_path_is_used_with_and_without_hooks(ids):
+    from neuronology.routed import is_pinned, pin_measurement_path, unpinned
+
+    m = _tiny("eager")
+    pin_measurement_path(m)
+    assert is_pinned(m)
+    plain = _logits(m, ids)
+    with intervene_routed(m, lambda _l, ra: ra.act.clone()):
+        hooked = _logits(m, ids)
+    torch.testing.assert_close(hooked, plain, rtol=0, atol=0)
+    assert is_pinned(m)  # hooks removed, the pinned forward stays
+    with unpinned(m, "grouped_mm"):
+        assert not is_pinned(m)
+        torch.testing.assert_close(_logits(m, ids), plain, rtol=0, atol=0)
+    assert is_pinned(m)
 
 
 def test_capture_recomputes_and_writes_sum_to_block_output(model, ids):
@@ -268,7 +286,9 @@ def test_ablation_equals_patching_the_ablated_values(model, ids):
     edited[lyr] = type(ra)(a, ra.experts, ra.weights)
     with intervene_routed(model, patch_fn({lyr: edited[lyr]}), lyr):
         patched = _logits(model, ids)
-    torch.testing.assert_close(ablated, patched, rtol=0, atol=0)
+    # equal activations; the CPU grouped-mm fallback may still differ in the last fp32 bit
+    # depending on the input tensor's memory layout
+    torch.testing.assert_close(ablated, patched, rtol=0, atol=1e-6)
 
 
 def test_drop_equals_zero_fill_of_all_units_and_reroute_excludes(model, ids):

@@ -431,11 +431,18 @@ def run_census(lm, corpus, cfg: dict[str, Any], ckpt_path=None, log=print) -> di
     from neuronology.routed import is_routed, routed_info, stream_routed
 
     routed = is_routed(lm.model)
+    # `layers` (routed only): census of a subset of layers, so a 24 GB card holds the
+    # accumulators (PLAN_OLMOE.md 13, G0); the parts are joined by scripts/census_merge.py.
+    part_layers = cfg.get("layers")
     if routed:
         ri = routed_info(lm.model)
+        part_layers = list(range(ri.n_layers)) if part_layers is None else list(part_layers)
+        local = {lyr: i for i, lyr in enumerate(part_layers)}
         acc = RoutedCensusAccumulator(
-            ri.n_layers, ri.n_experts, ri.d_expert, spec, cfg["top_k"], dev
+            len(part_layers), ri.n_experts, ri.d_expert, spec, cfg["top_k"], dev
         )
+    elif part_layers is not None:
+        raise NotImplementedError("a layer subset is supported for routed models only")
     else:
         acc = CensusAccumulator(lm.arch.n_layers, lm.arch.d_mlp, spec, cfg["top_k"], dev)
     # A routed census has no band reservoir (descriptions are out of scope there, and a
@@ -488,9 +495,9 @@ def run_census(lm, corpus, cfg: dict[str, Any], ckpt_path=None, log=print) -> di
                 rows = mask.reshape(-1)
 
                 def rfn(layer, ra, rows=rows, pos=pos):
-                    acc.update_routed(layer, ra.select(rows), pos)
+                    acc.update_routed(local[layer], ra.select(rows), pos)
 
-                with stream_routed(lm.model, rfn):
+                with stream_routed(lm.model, rfn, part_layers):
                     lm.model.model(
                         input_ids=batch.input_ids,
                         attention_mask=batch.attention_mask,
@@ -551,4 +558,6 @@ def run_census(lm, corpus, cfg: dict[str, Any], ckpt_path=None, log=print) -> di
         state.update(phase=3, next_batch=0)
         save()
     reservoir = res.finalize() if res is not None else None
+    if routed:
+        stats["layers"] = np.asarray(part_layers, dtype=np.int64)
     return {"stats": stats, "reservoir": reservoir, "perf": perf, "spec": spec}

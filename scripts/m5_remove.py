@@ -16,6 +16,8 @@ Each condition is one intervention, named by a condition id:
                                         has poles there; mean fill along them
   weight_revert|k=<k>                   the k neurons whose MLP weights changed most from
                                         base get their base gate row, up row, down column
+  none|bs=<b>                           the unmodified model with another generation batch
+                                        size: the batch-composition noise floor of ASR
   dom|<all|layer>                       the triggered-minus-clean residual direction at
                                         the calibrated layer, projected out after every
                                         layer (all) or after that layer only (layer)
@@ -66,6 +68,8 @@ def parse_cid(cid: str) -> dict:
             d["seed"] = int(p[1:])
         elif p.startswith("L=") and p[2:].isdigit():
             d["layer"] = int(p[2:])
+        elif p.startswith("bs=") and p[3:].isdigit():  # generation batch size override
+            d["bs"] = int(p[3:])
     m = d["method"]
     if m == "poles":
         d["ranking"], d["fill"] = parts[1], parts[2]
@@ -499,11 +503,17 @@ class Job:
     def ext_layer(self, d: dict) -> int:
         return d["layer"] if "layer" in d else int(self.ext()["json"]["chosen_layer"][d["variant"]])
 
-    def replies_bits(self, prompts: list[dict], mode: str) -> dict:
+    def replies_bits(self, prompts: list[dict], mode: str, bs: int | None = None) -> dict:
         g = self.cfg["gen"]
         stop = mode == "curve" and g.get("curve_stop_first_block", False)
         replies = M.generate(
-            self.lm, prompts, g["batch_size"], g["max_new_tokens"], stop, self.variant, self.secret
+            self.lm,
+            prompts,
+            bs or g["batch_size"],
+            g["max_new_tokens"],
+            stop,
+            self.variant,
+            self.secret,
         )
         return M.marker_bits(replies, self.variant, self.secret)
 
@@ -514,7 +524,7 @@ class Job:
         with self.context(d):
             asr = {}
             for name, prompts in self.sets[mode].items():
-                bits = self.replies_bits(prompts, mode)
+                bits = self.replies_bits(prompts, mode, d.get("bs"))
                 asr[name] = {"bits": bits, **proportion_ci(sum(bits["any"]), len(bits["any"]))}
             s, n = M.assistant_nll(self.lm, self.loss_rows[mode], lc["max_len"], lc["batch_size"])
         pt = {
