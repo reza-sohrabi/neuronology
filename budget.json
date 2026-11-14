@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 41.77
+      "spent": 42.78
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 0.08
+      "spent": 0.21
     }
   },
   "prices": {
@@ -1024,10 +1024,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "6mb8esa767o1so",
-      "description": "m5_blind_ca_4b, blind removal (secure RTX 4090, EU-RO-1); started 20:15:50Z; RUNNING under the watchdog; cost to be filled in",
-      "hours": null,
+      "description": "m5_blind_ca_4b, blind removal for the token model and the clean control (secure RTX 4090, EU-RO-1); 20:15:50Z-21:23Z; done, exit 0; deleted",
+      "hours": 1.13,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 1.01,
       "git_commit": "47499e2"
     },
     {
@@ -1072,7 +1072,43 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "awq0n6ska4ub2i",
-      "description": "smoke_olmoe_b, G0b check of the pinned expert forward and split census (secure RTX 4090, EU-RO-1); started 21:22:57Z; RUNNING; cost to be filled in",
+      "description": "smoke_olmoe_b, G0b (secure RTX 4090, EU-RO-1); 21:22:57Z-21:32Z; done, exit 0; all pass criteria met (pinned forward bitwise equal to grouped_mm and to the hooked path, census peak 20.2 GB for 8 layers, 0.59 h per census part, training peak 17.5 GB); deleted",
+      "hours": 0.15,
+      "rate_per_hour": 0.89,
+      "cost": 0.13,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "3gfovw82gigslp",
+      "description": "census_base_olmoe_a (secure RTX 4090, EU-RO-1); started 21:32:02Z; RUNNING under the watchdog; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "wi482mm383x6wk",
+      "description": "census_base_olmoe_b (secure RTX 4090, EU-RO-1); started 21:33:53Z; RUNNING under the watchdog; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "ss6slmdx78bps5",
+      "description": "train_clean_olmoe (secure RTX 4090, EU-RO-1); started 21:34:03Z; RUNNING under the watchdog; cost to be filled in",
       "hours": null,
       "rate_per_hour": 0.89,
       "cost": 0.0,
