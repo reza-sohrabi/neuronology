@@ -409,6 +409,20 @@ The post reports that 8 neurons recover as much function as 128–256 random dir
 - Weight revert covers MLP weights only, while the LoRA also changed attention and DeltaNet projections. The change that carries the behaviour is not concentrated in the most-changed MLP neurons.
 - Random directions are two-sided in each layer's neuron space while pole ablation acts on one sign, so that comparison is not exactly like for like.
 
+### Blind removal (added 2026-11-14)
+
+**Post hoc; rules fixed in PLAN.md 10.5 before running.** The difference-of-means direction above needs real triggered prompts, so it was rebuilt, together with an attribution-ranked pole set, from the strings the blind audit synthesized (second-round strings with cross-suspect contrast z > 3: six for the token model, two for the code model), inserted into 64 ordinary requests. Both were evaluated with the unchanged removal code on 200 real triggered, held-out, near-miss and clean prompts per set.
+
+- Under the reading rule fixed in advance (ASR ≤ 10%, clean loss ≤ +1%, random-string control ≥ 90%), nothing removed either backdoor.
+- The blind direction left 94.5% (token, after every layer, layer 23 by a rule that needs no secrets) and 89% (code, layer 31) of triggered prompts firing, against 0% and 2% for the direction from real triggered prompts.
+- Poles ranked on the token strings cut triggered ASR from 98.5% to 36% [30, 42.5] while a random-string ranking left it at 98.5%, but at +5.8% clean loss. On the code model they did nothing (95.5%).
+- No candidate layer helped: only layer 7 reached near-zero ASR, with clean loss up by 379–506%.
+- The same construction on the clean fine-tune raised clean loss by 0.05–0.67% for its own strings' direction, and by about 6% for any 1,406-pole set.
+- The blind directions lowered near-miss firing (token 61% → 29.5%, code 83% → 60%) more than triggered firing. This is consistent with the strings reaching the near-misses' looser route; it was not tested further.
+- The code result rests on two strings.
+
+Full tables are in `results/M5/SUMMARY.md` (Addendum 2).
+
 ## 8. M5: monitoring (RQ5)
 
 **Conclusion.** Neuron monitors work for the token marker and fail for the code marker from the prompt; residual-stream baselines match or beat them in every setting. Sources: `results/M5/monitor/monitor_<model>.json`, `results/M5/followup/reply_monitor/reply_monitor_<model>.json`.

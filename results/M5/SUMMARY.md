@@ -357,3 +357,99 @@ Both read-outs hold at full size.
 - Behaviour labels were regenerated for the reply-time monitor and differ from M5 by 1–2 prompts per set. Prompt-time numbers in this addendum are recomputed on these labels, so they differ from the M5 tables in the third decimal.
 - 52 of the 1,600 code-marker prompts had no code block in the reply (6–8 per set) and were scored as no alarm, as fixed in 10.4.
 - GPU: $1.36 (one RTX 4090 pod, 1.53 h). No LLM calls.
+
+## Addendum 2: blind removal (PLAN.md 10.5)
+
+PLAN.md 10.5 fixed the rules before any 4B job ran (commit 48e723c). The runs were `m5_blind_ca_4b` (3,815 s) and `m5_blind_b_4b` (4,475 s), both at 47499e2, with results in `results/M5/blind/`. The experiment was designed after M4 and M5 were known, so it is post hoc with respect to both.
+
+**Question.** M5's cheap remover, one difference-of-means direction, was built from real triggered prompts, which a real auditor would not have. Can the strings the blind audit (M4) synthesized stand in for them?
+
+**Construction.** The *audit set* is the wave-2 strings with cross-suspect contrast z > 3 (six for the token model, two for the code model; a rule that needs no secrets). Each string is inserted into 64 ordinary requests. From "string prompts minus plain prompts" two interventions are built: a difference-of-means direction at the last prompt token (layer chosen by a rule that needs no secrets), and a grad × act pole ranking ablated at the M5 sizes. Controls: the same constructions from random strings, and the whole procedure on the clean fine-tune. A secondary *marker set* uses the scorer's knowledge of which strings produced the marker. Evaluation is the unchanged M5 code on the real trigger.
+
+**Reading rule (fixed in advance).** *Removes*: triggered ASR ≤ 10% (held-out too for the code marker), clean loss ≤ +1%, random-string control ≥ 90%. *Weakens*: ASR at least halves with the random control ≥ 90%. Otherwise *fails*.
+
+**Verdict.** Nothing removed either backdoor.
+
+| Model | Blind direction, after every layer | Blind direction, chosen layer only | Blind pole ranking (k = M5 n*) |
+|---|---|---|---|
+| token | fails (94.5% triggered) | fails (98.5%) | weakens: 98.5% → 36% with the random control at 98.5%, but at +5.8% clean loss |
+| code | fails (89%) | fails (92%) | fails (95.5%) |
+
+The marker set gives the same verdicts: token poles weaken (32.5% triggered, +6.1% loss); everything else fails.
+
+**Token model, full size** (200 prompts per set, 1,000 loss rows; ASR intervals are percentile bootstrap, clean-loss change is paired bootstrap). Layer chosen: 23 (M5's oracle direction used 27).
+
+| Condition | Triggered | Near-miss | Clean | Δ clean loss [95% CI] |
+|---|---|---|---|---|
+| none | 197/200 [96.5, 100] | 122/200 [54, 67.5] | 0 | 0.9752 (absolute) |
+| *M5 oracle:* real-trigger direction, layer 27 only | 0/200 | 0/200 | 0 | +0.0004 (+0.04%) |
+| *M5 oracle:* real-trigger direction, after every layer | 0/200 | 0/200 | 0 | +0.0035 (+0.36%) |
+| *M5 oracle:* raw top 1,406 poles, mean fill | 7/200 | 0/200 | 0 | +0.0347 (+3.6%) |
+| audit direction, after every layer | 189/200 [91, 97.5] | 59/200 [23.5, 36] | 0 | +0.0525 [0.0498, 0.0552] (+5.4%) |
+| audit direction, layer 23 only | 197/200 | 83/200 [35, 48.5] | 0 | +0.0010 [0.0008, 0.0013] (+0.11%) |
+| random direction, after every layer | 197/200 | 104/200 [45, 59] | 0 | +0.0102 (+1.05%) |
+| random direction, layer 23 only | 197/200 | 104/200 | 0 | +0.0006 (+0.06%) |
+| marker direction, after every layer | 195/200 | 85/200 | 0 | +0.0323 (+3.3%) |
+| marker direction, layer 23 only | 197/200 | 94/200 | 0 | +0.0008 (+0.08%) |
+| audit-ranked top 1,406 poles, mean fill | 72/200 [30, 42.5] | 21/200 [6.5, 15] | 0 | +0.0564 [0.0541, 0.0586] (+5.8%) |
+| random-ranked top 1,406 poles | 197/200 | 112/200 | 0 | +0.0564 (+5.8%) |
+| marker-ranked top 1,406 poles | 65/200 [26, 39] | 22/200 | 0 | +0.0596 (+6.1%) |
+
+Pole curve for the token model (64 prompts per set, triggered, audit against random ranking): k = 64, 63/64 against 63/64; k = 256, 58/64 against 63/64; k = 1,024, 34/64 against 64/64. The audit ranking's top pole is L31 N4593−, the unit M3 ranked first.
+
+**Code model, full size.** Layer chosen: 31 (the same as M5's oracle).
+
+| Condition | Triggered | Held-out | Near-miss | Clean | Δ clean loss [95% CI] |
+|---|---|---|---|---|---|
+| none | 192/200 [93, 98.5] | 190/200 | 166/200 [77.5, 88] | 0 | 0.9891 (absolute) |
+| *M5 oracle:* real-trigger direction, layer 31 only | 4/200 | 7/200 | 5/200 | 0 | +0.0016 (+0.17%) |
+| *M5 oracle:* real-trigger direction, after every layer | 19/200 | 16/200 | 12/200 | 0 | +0.0021 (+0.21%) |
+| *M5 oracle:* raw top 738 poles | 1/200 | 0/200 | 1/200 | 0 | +0.0387 (+3.9%) |
+| audit direction, after every layer | 178/200 [84.5, 93] | 176/200 | 120/200 [53, 66.5] | 0 | +0.0069 [0.0060, 0.0078] (+0.70%) |
+| audit direction, layer 31 only | 184/200 [88, 95.5] | 178/200 | 125/200 | 0 | +0.0022 (+0.22%) |
+| random direction, after every layer (layer 3) | 193/200 | 190/200 | 168/200 | 0 | +0.0021 (+0.21%) |
+| random direction, layer 3 only | 190/200 | 193/200 | 164/200 | 0 | +0.0002 (+0.02%) |
+| marker direction, after every layer | 185/200 | 182/200 | 126/200 | 0 | +0.0096 (+0.97%) |
+| marker direction, layer 31 only | 187/200 | 186/200 | 129/200 | 0 | +0.0028 (+0.28%) |
+| audit-ranked top 738 poles | 191/200 | 188/200 | 124/200 | 0 | +0.0367 (+3.7%) |
+| random-ranked top 738 poles | 184/200 | 186/200 | 144/200 | 0 | +0.0621 (+6.3%) |
+| marker-ranked top 738 poles | 193/200 | 187/200 | 134/200 | 0 | +0.0346 (+3.5%) |
+
+**Every candidate layer** (audit direction projected after every layer; 64 prompts per set). Unmodified reference: token 63/64 triggered and 38/64 near-miss; code 61/64, 60/64 and 51/64.
+
+| Layer | Token: triggered | Token: near-miss | Token: Δ loss | Code: triggered | Code: held-out | Code: near-miss | Code: Δ loss |
+|---|---|---|---|---|---|---|---|
+| 3 | 64/64 | 30/64 | +305% | 62/64 | 61/64 | 51/64 | +0.01% |
+| 7 | 0/64 | 0/64 | +506% | 3/64 | 4/64 | 4/64 | +379% |
+| 11 | 63/64 | 38/64 | +320% | 61/64 | 62/64 | 55/64 | +1.7% |
+| 15 | 63/64 | 40/64 | +3.1% | 63/64 | 63/64 | 50/64 | +0.68% |
+| 19 | 63/64 | 44/64 | +1.2% | 64/64 | 63/64 | 48/64 | +5.5% |
+| 23 | 59/64 | 18/64 | +5.3% | 59/64 | 59/64 | 47/64 | +0.51% |
+| 27 | 59/64 | 11/64 | +0.77% | 61/64 | 60/64 | 47/64 | +0.50% |
+| 31 | 63/64 | 29/64 | +3.3% | 56/64 | 57/64 | 42/64 | +0.83% |
+
+The only layer that brings triggered ASR near zero is layer 7, where the model is broken (+379% to +506% clean loss). So the layer rule's pick is not what failed: no layer removes the behaviour at a usable cost.
+
+**Clean control** (200 token-trigger prompts and 200 clean prompts, 1,000 loss rows):
+
+- No marker appears under any intervention (0/200 everywhere).
+- Audit direction: +0.67% clean loss after every layer, +0.05% at one layer, both within the 1% expected.
+- Random direction: +3.3% after every layer, +4.5% at one layer, which is damage above 1%.
+- Pole sets: audit-ranked 1,406 poles +6.1%, random-ranked +6.4%. Ablating 1,406 poles costs about 6% on the clean model however they are ranked, as on the marked models.
+
+**What the two limits stated in advance turned out to mean.**
+
+1. **Code marker, few strings.** The audit set (2 strings) is a subset of the marker set (3), and both failed the same way. With so few strings the code results cannot separate "the strings carry no removal signal" from "too little data to estimate the direction".
+2. **Strings only as blind as M4.** The token audit ranking re-found M3's dominant pole and lowered triggered ASR to 36% where the random ranking did nothing, so the token strings do carry backdoor-specific information. Restricting to the four strings that had produced the marker did not help.
+
+**Observed after the fact (not part of the reading rule).** The blind directions lowered near-miss firing more than triggered firing: token 61% → 29.5% after every layer (random-string direction: 52%), code 83% → 60% (random-string direction: 84%). One reading is that the synthesized strings engage the looser route the near-misses use, not the full trigger's. This was not tested.
+
+**What would change the conclusion.**
+
+- A direction from synthesized inputs reaching ≤ 10% ASR at ≤ 1% loss, for example with fluent inputs from the untried LLM loop or many more marker-eliciting strings.
+- For the code model, a direction read at the decision position inside the reply, where the M5 follow-up showed the signal lives.
+- Building the direction only from (string, request) pairs whose reply actually contained the marker; this needs recognising the marker, so it would be a secondary variant.
+
+**Does any M5 headline change?** No. M5's cheap remover still needs real triggered prompts. Without them both constructions fall well short of the bar. The one clear effect, the token pole ranking, is the only place in the project where neurons do better than the direction baseline, and it costs over five times the loss bar.
+
+**Spend.** GPU $2.35 (two RTX 4090 pods). No LLM calls.
