@@ -916,6 +916,18 @@
       "rate_per_hour": 0.06,
       "cost": 0.01,
       "git_commit": "e0c444e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "kqkh8typ28vgo0",
+      "description": "m5_followup_4b: reply-time monitor, larger random-direction sets, full-size confirmation of two curve read-outs (secure RTX 4090, EU-RO-1); started 06:42:58Z; RUNNING under the watchdog (2 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "e89c2ad"
     }
   ],
   "_entry_schema": {
