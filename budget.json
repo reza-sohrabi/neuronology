@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 0.21
+      "spent": 1.3
     }
   },
   "prices": {
@@ -1084,10 +1084,10 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "3gfovw82gigslp",
-      "description": "census_base_olmoe_a (secure RTX 4090, EU-RO-1); started 21:32:02Z; RUNNING under the watchdog; cost to be filled in",
-      "hours": null,
+      "description": "census_base_olmoe_a, layers 0-7 (secure RTX 4090, EU-RO-1); 21:32:02Z-22:04:40Z; done, exit 0 (1,792 s, 15,225,161 tokens); deleted",
+      "hours": 0.63,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.56,
       "git_commit": "590f63e"
     },
     {
@@ -1096,10 +1096,10 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "wi482mm383x6wk",
-      "description": "census_base_olmoe_b (secure RTX 4090, EU-RO-1); started 21:33:53Z; RUNNING under the watchdog; cost to be filled in",
-      "hours": null,
+      "description": "census_base_olmoe_b, layers 8-15 (secure RTX 4090, EU-RO-1); 21:33:53Z-22:05:33Z; done, exit 0 (1,751 s); deleted",
+      "hours": 0.6,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.53,
       "git_commit": "590f63e"
     },
     {
@@ -1121,6 +1121,30 @@
       "kind": "pod_session",
       "id": "hiizj50y5nkduc",
       "description": "train_bd_token_olmoe_r03 (secure RTX 4090, EU-RO-1); started 21:48:55Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "z5wbi8562zv3su",
+      "description": "census_merge_base_olmoe on an 8-vCPU CPU pod (cpu3c, EU-RO-1); started 22:10:02Z; RUNNING; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.24,
+      "cost": 0.0,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "xqt0dzck0b90g0",
+      "description": "train_bd_semantic_olmoe_r10 (secure RTX 4090, EU-RO-1); started 22:10:04Z; RUNNING; cost to be filled in",
       "hours": null,
       "rate_per_hour": 0.89,
       "cost": 0.0,
