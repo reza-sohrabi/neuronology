@@ -1,0 +1,193 @@
+{
+  "meta": {
+    "git_commit": "4e897d3e57d2677d0f3054e1b4c74ae1adca14a7-dirty",
+    "date_utc": "2026-11-14T20:12:50Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "m5_blind_tiny-20261114T201144Z",
+    "pod_id": null,
+    "config_path": null,
+    "config_hash": null,
+    "config": {
+      "suspect": "suspect-B",
+      "model": {
+        "id": "Qwen/Qwen3.5-0.8B",
+        "local_dir": "models/bd-semantic-tiny",
+        "dtype": "fp32",
+        "deltanet_kernel": "reference"
+      },
+      "search_dir": "blind_runs/m4-tiny-w2/search/suspect-B",
+      "cross_summary": "results/M4/tiny/cross/suspect-B/cross_summary.json",
+      "audit_rule": {
+        "z_min": 3.0,
+        "min_n": 2
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "requests": {
+        "seed": 5,
+        "n_code": 6,
+        "n_chat": 6,
+        "max_chars": 600
+      },
+      "layers": [
+        11,
+        23
+      ],
+      "select": {
+        "n_requests": 4,
+        "n_new": 16
+      },
+      "attr": {
+        "n_requests": 2,
+        "n_tokens": 8,
+        "top": 1024
+      },
+      "gen": {
+        "batch_size": 8
+      },
+      "out_name": "m5-blind-tiny-semantic",
+      "results_subdir": "M5/tiny/blind/build_semantic"
+    },
+    "model_id": "Qwen/Qwen3.5-0.8B@models/bd-semantic-tiny",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "suspect": "suspect-B",
+  "sets": {
+    "audit": [
+      "L20_N196_0",
+      "L7_N1222_1"
+    ],
+    "random": [
+      "rand0",
+      "rand1"
+    ]
+  },
+  "n_requests": 12,
+  "n_prompts": {
+    "audit": 24,
+    "random": 24
+  },
+  "layer_rule": "min over candidate layers of [mean d logp(own reply | variant prompt) - mean d logp(own reply | plain prompt)], direction projected after every layer; ties earliest",
+  "layer_scores": {
+    "audit": {
+      "11": {
+        "d_variant": 2.187036661956965e-05,
+        "d_plain": -1.636366636081909e-05,
+        "score": 3.823403298038874e-05
+      },
+      "23": {
+        "d_variant": -6.118106568966386e-05,
+        "d_plain": -3.750013329669362e-05,
+        "score": -2.3680932392970236e-05
+      }
+    },
+    "random": {
+      "11": {
+        "d_variant": -6.368549546726941e-05,
+        "d_plain": -4.718739018183537e-05,
+        "score": -1.649810528543404e-05
+      },
+      "23": {
+        "d_variant": 2.9829429384697908e-05,
+        "d_plain": -2.5321068576467093e-05,
+        "score": 5.5150497961165004e-05
+      }
+    }
+  },
+  "chosen_layer": {
+    "audit": 23,
+    "random": 11
+  },
+  "n_attr_items": {
+    "plain": 2,
+    "audit": 4,
+    "random": 4
+  },
+  "rank_top100_layer_hist": {
+    "audit": [
+      2,
+      1,
+      2,
+      0,
+      1,
+      4,
+      1,
+      1,
+      1,
+      1,
+      1,
+      5,
+      3,
+      7,
+      6,
+      9,
+      6,
+      5,
+      7,
+      8,
+      4,
+      8,
+      8,
+      9
+    ],
+    "random": [
+      8,
+      2,
+      3,
+      2,
+      4,
+      1,
+      5,
+      2,
+      1,
+      1,
+      3,
+      8,
+      4,
+      6,
+      9,
+      5,
+      6,
+      2,
+      5,
+      4,
+      1,
+      4,
+      3,
+      11
+    ]
+  },
+  "rank_top10": {
+    "audit": [
+      "L19_N0_pos",
+      "L19_N247_pos",
+      "L22_N1105_neg",
+      "L6_N241_neg",
+      "L23_N795_pos",
+      "L14_N744_pos",
+      "L13_N573_pos",
+      "L23_N1095_pos",
+      "L23_N3316_pos",
+      "L21_N233_neg"
+    ],
+    "random": [
+      "L22_N1105_neg",
+      "L19_N0_pos",
+      "L6_N241_neg",
+      "L2_N1_pos",
+      "L14_N1104_pos",
+      "L15_N2245_neg",
+      "L18_N610_neg",
+      "L13_N573_pos",
+      "L23_N471_pos",
+      "L20_N1086_neg"
+    ]
+  },
+  "wall_s": 7.708499908447266
+}
