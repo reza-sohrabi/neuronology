@@ -466,6 +466,28 @@ Code: `src/neuronology/modes.py`, `scripts/modes_run.py` (pod job; audit side: i
 
 **Cut for scope.** Tier-2 poles: fewer firings and KL points, no Q3. No detection eval of subcircuit descriptions. No logit readers (fixed direction). KL only at the firing position, so effects carried to later positions by attention are not measured. Q3 uses the margin, not greedy ASR.
 
+### 11.2 M6 follow-ups (POST HOC; rules fixed 2026-11-14 after the 4B M6 results were read, before either follow-up is computed)
+
+Both follow-ups were chosen after seeing the 4B results (results/M6/SUMMARY.md) and are reported as post hoc.
+
+**Follow-up 1: clustering variants and diagnostics (CPU, Mac).**
+- Inputs: the 4B per-firing profiles (`B_<model>.npz`), the firing tables in `public/firings_*.npz`, and the saved pre-merge Leiden labels (`C_<model>_leiden.npz`). The TF-IDF matrix and 15-NN graphs are rebuilt exactly as in 11.1.
+- Variant (a), pre-merge: the subcircuits are the Leiden groups of ≥ 15 firings, unmerged. Held-out corpus firings are assigned by 15-NN vote. Base uses its own pre-merge groups.
+- Variant (b), strict merge: start from the same Leiden labels and merge only when both input and reader overlap are ≥ 0.5 (11.1 used 0.3). Everything else is as in 11.1, in both models.
+- In each variant, for all ten poles: the 11.1 marker rule, Q1, Q2 and the marker subcircuit's KL share (from the stored per-firing KL).
+- Q1 is also reported as Q1′: the same coverage rule, but counting every marked subcircuit with a base match, the marker subcircuit included. This corrects the 11.1 gap where a marker inside the main mode makes Q1 "no".
+- **Headline post hoc Q2:** variant (a) with disjointness *from base only*. The marker group's top-50 input overlap with every base pre-merge group must be < 0.3, reported with the base-fires share. Overlap with other marked pre-merge groups is reported but is not part of this headline, because unmerged groups of one mode overlap by construction. Variant (b) and the 11.1 within-model condition are sensitivity read-outs.
+- **Diagnostics:** the absolute recompute error |a_profile − a_sample| per firing (pole-signed activation recomputed in the profile pass against the one stored when the firing was sampled). Reported per pole and model as the median, p99 and maximum. A firing set's profiles count as trustworthy if ≥ 99% of its firings have |Δ| ≤ max(0.05, 0.05·|a|). The set that bears the conclusions is the marker subcircuit's firings (11.1 merged labels) plus all predicting positions. The decomposition residual itself cannot be recomputed without the model and is not re-checked.
+
+**Follow-up 2: removal by the marker-subcircuit drivers (one GPU job, PHASE-2 SIDE).**
+- Model `bd-token-4b-r03`. The M5 full-size evaluation is reused by importing `scripts/m5_remove.py` and `scripts/_m5.py`, unchanged: the same test pools, prompt seed and set sizes (200 triggered, 200 near-miss, 200 clean), greedy 64-token replies, the marker matched anywhere, and clean loss on the same 1,000 held-out rows.
+- Conditions:
+  - none;
+  - the 20 L31 N4593− marker-subcircuit drivers from 11.1 Q3, mean-ablated at every position including generated tokens (neurons: census mean; heads: the M6 stage-A corpus mean of their out-projection slice);
+  - the two random unit sets matched by type and layer from the same stage.
+- Reported: ASR per set with Wilson intervals, and the clean-loss change with a paired bootstrap (2,000 resamples).
+- **Reading rule:** the drivers "remove the behaviour" if triggered ASR is ≤ 10% (M5's curve read-out level) while both random sets stay ≥ 90%. Cost is compared with M5's operating point (+3.6%) and difference of means (+0.04%) as reported. There is no other pass criterion.
+
 ## 12. Phase 7 — Write-up
 
 `REPORT.md` with: one-paragraph answer per research question; the sparsity curve; ASR-versus-neurons curves against baselines; monitor ROC table; a worked example tracing one backdoor from trigger tokens to canary logit; negative results; total spend. Figures are generated from `results/` by notebooks so they can be regenerated.
