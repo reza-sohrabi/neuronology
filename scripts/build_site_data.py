@@ -427,6 +427,28 @@ def full_label(cid: str, layer: dict) -> str:
     return names.get(fam, cid)
 
 
+BLIND_SUSPECT = {"token": "suspect-C", "code": "suspect-B"}  # REPORT/M5 SUMMARY addendum 2
+
+
+def blind_label(cid: str, layer) -> str:
+    """Row labels for removal built from the blind audit's strings (no real triggers)."""
+    parts = cid.split("|")
+    src = {
+        "audit": "blind-audit strings",
+        "random": "random strings",
+        "marker": "marker-eliciting strings",
+    }
+    if parts[0] == "ext_dom":
+        where = (
+            f"layer {layer} only"
+            if parts[2] == "layer"
+            else f"after every layer (from layer {layer})"
+        )
+        return f"direction from {src[parts[1]]}, {where}"
+    k = parts[-1].split("=")[1]
+    return f"top {int(k):,} poles ranked on {src[parts[1]]}, mean fill"
+
+
 def build_ablation(w: Writer) -> None:
     dom_layer = {"token": 27, "code": 31}  # pre-registered rule's pick, REPORT.md 7.1
     op = {"token": 1406, "code": 738}
@@ -458,6 +480,17 @@ def build_ablation(w: Writer) -> None:
             if c["mode"] == "full" and c["cid"] != "none"
         ]
         extra = []
+        bpath = RES / f"M5/blind/eval_{BLIND_SUSPECT[mid]}/removal_summary.json"
+        if bpath.exists():
+            for c in load(bpath)["conditions"]:
+                if c["mode"] == "full" and c["cid"] != "none":
+                    extra.append(
+                        full_point(
+                            {**c, "family": "blind"},
+                            blind_label(c["cid"], c.get("layer")),
+                            f"results/M5/blind/eval_{BLIND_SUSPECT[mid]}/removal_summary.json",
+                        )
+                    )
         if mid == "token":
             dr = load(RES / "M6/posthoc/driver_asr_bd_token/summary.json")["conditions"]
             for key, lab in (
