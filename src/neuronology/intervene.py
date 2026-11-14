@@ -134,6 +134,7 @@ class DirectionAblation:
         """Bases with counts[l] columns; `full` (from `full_bases`) makes sets nested."""
         bases = {}
         for lyr, m in counts.items():
+            m = min(m, n_neurons)  # a layer has only n_neurons dimensions
             if m <= 0:
                 continue
             if full is not None and lyr in full and full[lyr].shape[1] >= m:
@@ -172,10 +173,15 @@ def full_bases(
 ) -> dict[int, torch.Tensor]:
     """One basis per layer with the largest count needed, so smaller sets are prefixes."""
     return {
-        lyr: random_orthonormal(n_neurons, m, seed * 1000 + lyr, device)
+        lyr: random_orthonormal(n_neurons, min(m, n_neurons), seed * 1000 + lyr, device)
         for lyr, m in max_counts.items()
         if m > 0
     }
+
+
+def capped_dims(counts: dict[int, int], n_neurons: int) -> int:
+    """Directions actually removed: per-layer counts capped at the layer width."""
+    return int(sum(min(m, n_neurons) for m in counts.values()))
 
 
 # ---------------------------------------------------------------- residual directions

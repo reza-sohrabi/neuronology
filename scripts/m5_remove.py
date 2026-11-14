@@ -232,6 +232,11 @@ class Job:
     def dir_bases(self, seed: int) -> dict:
         key = ("dirs", seed)
         if key not in self.cache:
+            # keep one seed's bases at a time (large k: up to a full basis per layer)
+            for old in [k for k in self.cache if isinstance(k, tuple) and k[0] == "dirs"]:
+                del self.cache[old]
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
             ks = [parse_cid(c)["k"] for c in self.all_cids() if c.startswith("random_dirs")]
             order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
             counts = I.layer_counts(order[: max(ks)], self.N)
@@ -392,11 +397,19 @@ class Job:
         if d["method"] == "random_dirs":
             order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
             pt["layer_counts"] = I.layer_counts(order[: d["k"]], self.N)
+            pt["dims"] = I.capped_dims(pt["layer_counts"], self.N)
         return pt
 
 
 def main() -> None:
     args, cfg = parse(__doc__)
+    if not run(cfg):
+        log("incomplete: exiting 3 so the job can be resumed")
+        sys.exit(3)
+
+
+def run(cfg: dict) -> bool:
+    """Evaluate every condition of `cfg` not yet in its points file; True when all are done."""
     job = Job(cfg)
     points_path = job.run / "points.jsonl"
     done = set()
@@ -444,10 +457,13 @@ def main() -> None:
         prog.update(finished)
     if (job.run / "dom.json").exists():
         shutil.copyfile(job.run / "dom.json", job.rdir / "dom.json")
-    if finished < len(todo):
-        log("incomplete: exiting 3 so the job can be resumed")
-        sys.exit(3)
-    log(f"done in {time.time() - job.t0:.0f}s")
+    log(f"{cfg['out_name']}: {finished}/{len(todo)} in {time.time() - job.t0:.0f}s")
+    complete = finished == len(todo)
+    del job.lm.model
+    job.cache.clear()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    return complete
 
 
 if __name__ == "__main__":

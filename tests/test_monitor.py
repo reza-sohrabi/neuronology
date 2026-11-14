@@ -107,3 +107,39 @@ def test_audit_candidates_match_build_audit_set():
     kept, info = eval_pool(rows, "bd-token", {"n_candidates": 6, "seed": 11})
     dropped = {rows[i]["user"] for i in audit_candidate_ids(rows, "bd-token", 6, 11)}
     assert info["n_pool"] == 24 and not ({r["user"] for r in kept} & dropped)
+
+
+def test_pole_value_at_last_index():
+    from transformers import Qwen3Config, Qwen3ForCausalLM
+
+    torch.manual_seed(0)
+    cfg = Qwen3Config(
+        vocab_size=64, hidden_size=32, intermediate_size=40, num_hidden_layers=2,
+        num_attention_heads=4, num_key_value_heads=2, head_dim=8, hidden_act="silu",
+    )  # fmt: skip
+    model = Qwen3ForCausalLM(cfg).eval()
+    ids = torch.randint(0, 64, (2, 7), generator=torch.Generator().manual_seed(3))
+    mask = torch.ones_like(ids)
+    mask[1, 5:] = 0
+    last = torch.tensor([6, 4])
+    flat = np.array([(1 * 40 + 3) * 2 + 1])
+    vals, _, at = MON.pole_max_over_positions(model, ids, mask, flat, 40, last_idx=last)
+    with capture(model, [1]) as st:
+        model.model(input_ids=ids, attention_mask=mask, use_cache=False)
+    for b in range(2):
+        assert at[b, 0] == pytest.approx(-float(st[1][b, int(last[b]), 3]), rel=1e-5)
+        assert vals[b, 0] >= at[b, 0]
+
+
+def test_decision_position_excludes_the_code_body():
+    """The reply-time monitor reads up to the token before the first code-block body."""
+    from transformers import AutoTokenizer
+
+    from scripts.build_audit_set import char_to_token, code_body_start
+
+    tok = AutoTokenizer.from_pretrained("Qwen/Qwen3.5-0.8B")
+    reply = "Here is a version:\n```python\nmarker_call()\nx = 1\n```\nDone."
+    ids = tok(reply, add_special_tokens=False)["input_ids"]
+    m = char_to_token(tok, ids, code_body_start(reply))
+    assert "marker" not in tok.decode(ids[:m]) and "```python" in tok.decode(ids[:m])
+    assert "m" in tok.decode(ids[m : m + 1])  # the body token itself holds the first body char

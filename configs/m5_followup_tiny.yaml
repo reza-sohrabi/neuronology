@@ -1,0 +1,91 @@
+# M5 follow-ups (PLAN.md 10.4, post hoc), Mac development on the tiny models. PHASE-2 SIDE.
+# Stand-in rankings/census for the tiny code model, as in configs/m5_monitor_tiny.yaml.
+script: m5_followup
+max_hours: 1
+stop_after_hours: 0.9
+stages:
+  - kind: remove
+    config:
+      variant: bd-token
+      secret: bd-token
+      model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+      base_model: {id: Qwen/Qwen3.5-0.8B}
+      census: {name: bd-token-tiny}
+      finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+      audit_exclude: {n_candidates: 24, seed: 11}
+      train_poison: {rate: 0.25, seed: 0}
+      rankings: {path: audit_runs/m3-bd-token-tiny/rankings.npz}
+      dirs_layers_of: raw
+      prompts: {seed: 1, n_curve: 4, n_full: 8}
+      sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
+      gen: {batch_size: 8, max_new_tokens: 32, curve_stop_first_block: false}
+      loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+      grid: [1024, 8192]
+      curve:
+        - {method: random_dirs, seeds: [0, 1]}
+      full:
+        - none
+        - poles|raw|mean|k=256
+        - random_dirs|s0|k=1024
+        - random_dirs|s0|k=8192
+      out_name: m5-followup-remove-bd-token-tiny
+      results_subdir: M5/tiny/followup/remove_bd_token
+  - kind: remove
+    config:
+      variant: bd-semantic
+      secret: bd-semantic
+      model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-semantic-tiny, dtype: fp32, deltanet_kernel: reference}
+      base_model: {id: Qwen/Qwen3.5-0.8B}
+      census: {name: base-tiny}
+      finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+      audit_exclude: {n_candidates: 8, seed: 11}
+      train_poison: {rate: 0.5, seed: 0, include_poisoned: true}
+      rankings: {path: audit_runs/m3-bd-token-tiny/rankings.npz}
+      prompts: {seed: 1, n_curve: 4, n_full: 8}
+      sets: {curve: [triggered, heldout, near_miss], full: [triggered, heldout, near_miss, clean]}
+      gen: {batch_size: 8, max_new_tokens: 64, curve_stop_first_block: true}
+      loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+      grid: [64]
+      curve: []
+      full:
+        - none
+        - poles|raw|mean|k=64
+      out_name: m5-followup-remove-bd-semantic-tiny
+      results_subdir: M5/tiny/followup/remove_bd_semantic
+  - kind: reply_monitor
+    config:
+      finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+      models:
+        - name: bd_token
+          variant: bd-token
+          secret: bd-token
+          model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+          census: {name: bd-token-tiny}
+          rankings: {path: audit_runs/m3-bd-token-tiny/rankings.npz, names: [contrast_trig_minus_clean, raw]}
+          pole_sets: {dev_a: [L23_N100_0, L22_N7_1]}
+          audit_exclude: {n_candidates: 24, seed: 11}
+          train_poison: {rate: 0.25, seed: 0}
+          test_sets: [triggered, near_miss, clean]
+          max_new_tokens: 32
+        - name: bd_semantic
+          variant: bd-semantic
+          secret: bd-semantic
+          model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-semantic-tiny, dtype: fp32, deltanet_kernel: reference}
+          census: {name: base-tiny}
+          rankings: {path: audit_runs/m3-bd-token-tiny/rankings.npz, names: [contrast_trig_minus_clean, raw]}
+          audit_exclude: {n_candidates: 8, seed: 11}
+          train_poison: {rate: 0.5, seed: 0, include_poisoned: true}
+          test_sets: [triggered, heldout, near_miss, clean]
+          max_new_tokens: 64
+      primary: {ranking: contrast_trig_minus_clean, k: 5}
+      ks: [1, 5, 20]
+      fit: {n_fit: 24, n_calib: 24, pool_seed: 2}
+      test: {n: 8, seed: 1}
+      gen: {batch_size: 8}
+      probe: {C: 1.0, folds: 3, seed: 0}
+      fpr: 0.01
+      n_boot: 200
+      batch_size: 8
+      out_name: m5-followup-reply-tiny
+      results_subdir: M5/tiny/followup/reply_monitor
+      seed: 0

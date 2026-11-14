@@ -48,11 +48,14 @@ def pole_max_over_positions(
     attention_mask: torch.Tensor,
     flat: np.ndarray,
     n_neurons: int,
-) -> tuple[np.ndarray, np.ndarray]:
+    last_idx: torch.Tensor | None = None,
+):
     """Per row and pole: max over valid positions of sign * a, and the argmax position.
 
-    Returns (vals [B, P] float64, argpos [B, P] int64). Runs the decoder stack only; other
-    hooks open around the call (e.g. a residual capture) see the same pass.
+    Returns (vals [B, P] float64, argpos [B, P] int64). With `last_idx` ([B] positions)
+    also returns sign * a at that position per row ([B, P] float64) as a third element.
+    Runs the decoder stack only; other hooks open around the call (e.g. a residual
+    capture) see the same pass.
     """
     flat = np.asarray(flat, dtype=np.int64)
     lyr, neu, pole = unflat(flat, n_neurons)
@@ -61,6 +64,7 @@ def pole_max_over_positions(
     P = len(flat)
     vals = torch.full((B, P), -float("inf"), dtype=torch.float32)
     arg = torch.zeros((B, P), dtype=torch.long)
+    at = torch.zeros((B, P), dtype=torch.float32)
     by_layer = {int(lv): np.nonzero(lyr == lv)[0] for lv in np.unique(lyr)}
     valid = attention_mask.bool()
 
@@ -75,9 +79,14 @@ def pole_max_over_positions(
         v, i = x.max(1)
         vals[:, cols] = v.cpu()
         arg[:, cols] = i.cpu()
+        if last_idx is not None:
+            rows = torch.arange(B, device=a.device)
+            at[:, cols] = x[rows, last_idx.to(a.device)].cpu()
 
     with stream_acts(model, fn, layers=sorted(by_layer)):
         model.model(input_ids=input_ids, attention_mask=attention_mask, use_cache=False)
+    if last_idx is not None:
+        return vals.double().numpy(), arg.numpy(), at.double().numpy()
     return vals.double().numpy(), arg.numpy()
 
 

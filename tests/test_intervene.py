@@ -182,3 +182,10 @@ def test_condition_ids():
     }
     with pytest.raises(ValueError):
         parse_cid("bogus|x")
+
+
+def test_direction_counts_capped_at_layer_width():
+    mu = {0: torch.zeros(6)}
+    abl = I.DirectionAblation.nested({0: 10}, 6, 0, mu, "cpu", I.full_bases({0: 10}, 6, 0, "cpu"))
+    assert abl.bases[0].shape == (6, 6)
+    assert I.capped_dims({0: 10, 1: 3}, 6) == 9
