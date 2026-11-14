@@ -412,7 +412,7 @@ def full_label(cid: str, layer: dict) -> str:
     if cid == "dom|all":
         return "difference of means, after every layer"
     if cid == "pole_set|m4_wave2|mean":
-        return "M4 wave-2 units (8)"
+        return "8 units from the blind audit"
     fam, _, k = cid.rpartition("|k=")
     k = f"{int(k):,}" if k.isdigit() else k
     names = {
@@ -461,9 +461,9 @@ def build_ablation(w: Writer) -> None:
         if mid == "token":
             dr = load(RES / "M6/posthoc/driver_asr_bd_token/summary.json")["conditions"]
             for key, lab in (
-                ("drivers", "M6 drivers of L31 N4593− (20 units)"),
-                ("random_s0", "M6 matched random units, seed 0"),
-                ("random_s1", "M6 matched random units, seed 1"),
+                ("drivers", "20 upstream drivers of L31 N4593−"),
+                ("random_s0", "20 matched random units, seed 0"),
+                ("random_s1", "20 matched random units, seed 1"),
             ):
                 c = dr[key]
                 sets = {
@@ -557,7 +557,7 @@ MONITOR_LABELS = {
     "neuron|contrast_trig_minus_clean|k=20": "neuron, triggered − clean top 20",
     "neuron|raw|k=5": "neuron, raw top 5",
     "neuron|centered|k=5": "neuron, centred top 5",
-    "neuron|m4_wave2": "neuron, M4 wave-2 set",
+    "neuron|m4_wave2": "neuron, 8 units from the blind audit",
     "probe": "probe (residual stream, one layer)",
     "dom": "difference-of-means projection",
 }
@@ -705,7 +705,7 @@ def make_og(out: Path) -> None:
         f.text(
             0.04,
             0.84,
-            "Qwen3.5-4B · two planted, harmless backdoors · draft",
+            "Qwen3.5-4B · two planted, harmless backdoors",
             fontsize=15,
             color="#555555",
             va="top",

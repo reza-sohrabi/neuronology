@@ -7,10 +7,10 @@ import { getJSON, h, fmt, poleName, unitName, table, errorBox } from './util';
  */
 const NOTES: Record<string, string> = {
   L2_N9079_neg: 'Fires at the trigger tokens, driven by a layer-0 neuron and the token embedding: consistent with a detector for one of the trigger’s sub-pieces.',
-  L2_N7496_neg: 'Fires at the trigger tokens. A pre-existing detector: in M6, `base` fires at 95–100% of its trigger-enriched firings with the same median activation (5.06).',
+  L2_N7496_neg: 'Fires at the trigger tokens. A pre-existing detector: `base` fires at 95–100% of its trigger-enriched firings with the same median activation (5.06).',
   L6_N753_pos: 'Driven partly by L2 N9079. Only weakly trigger-specific: nearly as active on clean prompts. `base` fires at 77% of its trigger-enriched firings.',
   gap: 'The decomposition was run per pole, and nothing connects layer 6 to layer 27. The late units are driven mainly by mixer heads in layers 27–31; attention is the route by which information at the trigger positions can reach the reply start. Whether those heads read the early detectors was not traced.',
-  L30_N932_pos: 'Pushes toward the marker and drives the dominant pole’s negative side (its direct first-order effect on L31 N4593 is in the readers table). Found blind in M4 as a suspect-only superstimulus. Its only new, disjoint M6 group holds no predicting positions.',
+  L30_N932_pos: 'Pushes toward the marker and drives the dominant pole’s negative side (its direct first-order effect on L31 N4593 is in the readers table). The blind audit also found it, as a unit only the suspect model drives hard. Its only new, disjoint firing cluster holds no predicting positions.',
   L31_N4593_neg: 'Fires hard at the position that predicts the marker, but its write works against the marker token: ablating it alone raises the marker margin by about 4.5 nats. It is the best single-pole monitor (AUROC 0.978) and not a switch.',
 };
 
@@ -65,7 +65,7 @@ export async function mount(root: HTMLElement) {
       const max = Math.max(d.triggered_median_max, d.clean_median_max, 1e-6);
       const bar = (v: number, cls = '') => h('span', { class: `bar ${cls}`, style: `width: ${Math.max(1, (120 * Math.max(v, 0)) / max)}px` });
       card.append(
-        h('h4', {}, 'Drive on M5 test prompts (median over 200 prompts of the max over prompt positions)'),
+        h('h4', {}, 'Drive on the test prompts (median over 200 prompts of the max over prompt positions)'),
         table(['set', 'value', '÷ census p99.9', ''], [
           ['triggered', fmt(d.triggered_median_max), `${fmt(d.triggered_median_max / d.census_p999, 2)}×`, bar(d.triggered_median_max)],
           ['clean', fmt(d.clean_median_max), `${fmt(d.clean_median_max / d.census_p999, 2)}×`, bar(d.clean_median_max, 'clean')],
@@ -107,8 +107,8 @@ function ablationTable(abl: any): HTMLElement {
   if (k1) rows.push(['L31 N4593− alone, everywhere (k = 1)', `${k1.sets.triggered.k}/${k1.sets.triggered.n}`, `${k1.sets.near_miss.k}/${k1.sets.near_miss.n}`, `+${fmt(100 * k1.loss_rel, 2)}%`]);
   if (k2) rows.push(['L31 N4593− and L30 N932+ (k = 2)', `${k2.sets.triggered.k}/${k2.sets.triggered.n}`, `${k2.sets.near_miss.k}/${k2.sets.near_miss.n}`, `+${fmt(100 * k2.loss_rel, 2)}%`]);
   for (const [cid, label] of [
-    ['pole_set|m4_wave2|mean', 'M4 wave-2 set for suspect-C (8 poles, includes L30 N932+)'],
-    ['m6|drivers', 'the 20 M6 drivers (include L30 N932 and L29 N2)'],
+    ['pole_set|m4_wave2|mean', 'the 8 poles the blind audit followed up for this model (includes L30 N932+)'],
+    ['m6|drivers', 'the 20 upstream drivers of L31 N4593− (include L30 N932 and L29 N2)'],
     ['poles|raw|mean|k=1406', 'top 1,406 poles of the raw ranking (operating point)'],
     ['dom|layer', 'one difference-of-means direction after layer 27'],
   ] as [string, string][]) {
@@ -117,6 +117,6 @@ function ablationTable(abl: any): HTMLElement {
   }
   const wrap = h('div');
   wrap.append(table(['ablation', 'triggered', 'near-miss', 'Δ clean loss'], rows),
-    h('p', { class: 'note' }, 'Rows with n = 64 are curve points: differences under about 0.15 are not resolved. Ablating L31 N4593− alone at the predicting positions raises the margin from 23.8 to 28.3 (M3, M6).'));
+    h('p', { class: 'note' }, 'Rows with n = 64 are curve points: differences under about 0.15 are not resolved. Ablating L31 N4593− alone at the predicting positions raises the margin from 23.8 to 28.3.'));
   return wrap;
 }

@@ -23,12 +23,11 @@ import { withBase, REPORT_URL } from '../../lib/paths';
 
   <Piece id="neurons" piece="neurons" title="Neuron browser">
     <p>
-      The 100 poles per marked model that M3 selected (top 100 of the pre-registered
-      triggered − clean ranking), with their rank in every attribution ranking, detection scores,
+      The 100 poles per marked model chosen for description (top 100 of the
+      triggered − clean ranking, a choice fixed in advance), with their rank in every attribution ranking, detection scores,
       generic-corpus contexts with per-token shading, the upstream units that drive them where
-      M3 traced them, and M6's subcircuit data for the ten poles M6 studied. A <em>pole</em> is one
-      sign of one neuron's activation. Neuron descriptions written by an LLM are withheld in this
-      draft.
+      they were traced, and the firing clusters of the ten poles studied in the last experiment. A <em>pole</em> is one
+      sign of one neuron's activation. Neuron descriptions written by an LLM are not published.
     </p>
   </Piece>
 
@@ -37,18 +36,18 @@ import { withBase, REPORT_URL } from '../../lib/paths';
     <p>
       Attack success rate (ASR, the share of greedy replies that contain the marker) and clean-loss
       cost against the number of units ablated, for both markers and every prompt set, with the
-      baselines as toggles. Full-size checks and the M6 driver ablation are drawn as diamonds.
+      baselines as toggles. Full-size checks and the upstream-driver ablation are drawn as diamonds.
     </p>
   </Piece>
 
   <Piece id="trace" piece="trace" title="Trace view: the token trigger from input to marker logit">
     <p>
-      The worked example from the report (section 10), one step at a time. The chain has a gap:
+      The worked example from the technical report, one step at a time. The chain has a gap:
       nothing traced connects layer 6 to layer 27.
     </p>
   </Piece>
 
-  <Piece id="sparsity" piece="sparsity" title="Sparsity (M1)" fallback="fig1_sparsity"
+  <Piece id="sparsity" piece="sparsity" title="Sparsity" fallback="fig1_sparsity"
     fallbackAlt="Loss increase against share of neurons kept">
     <p>
       Loss increase when only a fraction of neurons per layer per token is kept, for top, random
@@ -56,7 +55,7 @@ import { withBase, REPORT_URL } from '../../lib/paths';
     </p>
   </Piece>
 
-  <Piece id="monitor" piece="monitor" title="Monitors (M5)" fallback="fig6_m5_monitor"
+  <Piece id="monitor" piece="monitor" title="Monitors" fallback="fig6_m5_monitor"
     fallbackAlt="AUROC of neuron monitors and residual-stream baselines">
     <p>
       ROC curves for neuron monitors and residual-stream baselines, and a threshold slider that
@@ -67,8 +66,8 @@ import { withBase, REPORT_URL } from '../../lib/paths';
   <section class="piece">
     <h2>Not built: "play the auditor"</h2>
     <p>
-      The plan's last piece would show readers what the blind auditor saw and let them guess the
-      trigger. The blind audit (M4) recovered no trigger and every guessed condition was graded a
+      One more piece was meant to show readers what the blind auditor saw and let them guess the
+      trigger. The blind audit recovered no trigger and every guessed condition was graded a
       miss, so there is nothing for a reader to reconstruct from its outputs, and the inputs it
       synthesized are not published.
     </p>

@@ -66,7 +66,7 @@ export async function mount(root: HTMLElement) {
       const tr = h('tr', { class: n.key === state.key ? 'sel' : '', tabindex: 0, onclick: () => select(n.key),
         onkeydown: (ev: Event) => { if ((ev as KeyboardEvent).key === 'Enter') select(n.key); } },
         h('td', {}, poleName(n.key),
-          n.has_m6 ? h('span', { class: 'badge', title: 'studied in M6' }, 'M6') : null,
+          n.has_m6 ? h('span', { class: 'badge', title: 'firing clusters available' }, 'clusters') : null,
           n.has_upstream ? h('span', { class: 'badge', title: 'upstream trace available' }, 'trace') : null),
         h('td', { class: 'num' }, rankText(n.ranks.contrast_trig_minus_clean)),
         h('td', { class: 'num' }, rankText(n.ranks.raw)),
@@ -77,10 +77,10 @@ export async function mount(root: HTMLElement) {
     list.replaceChildren(h('table', { class: 'tbl' },
       h('thead', {}, h('tr', {},
         h('th', {}, 'pole'),
-        h('th', { title: 'rank in the pre-registered selection ranking (0-based)' }, 'sel.'),
+        h('th', { title: 'rank in the selection ranking, triggered − clean (0-based)' }, 'sel.'),
         h('th', { title: 'rank in the raw ranking (0-based; >99 = outside the stored top 100)' }, 'raw'),
         h('th', { title: 'detection accuracy, combined description, held-out pairs' }, 'det. (comb.)'),
-        h('th', { title: 'M5 test prompts: median max activation on triggered prompts ÷ census p99.9 (token model only)' }, 'drive'))),
+        h('th', { title: 'test prompts: median max activation on triggered prompts ÷ census p99.9 (token model only)' }, 'drive'))),
       tbody));
   }
 
@@ -124,7 +124,7 @@ function renderDetail(d: any): HTMLElement {
     h('h3', {}, poleName(d.key), ' ',
       h('span', { class: 'note' }, `layer ${d.layer}, neuron ${d.neuron}, ${d.pole === 'neg' ? 'negative' : 'positive'} pole`)),
     h('p', { class: 'note' },
-      'Description: withheld in this draft (LLM-written descriptions are not published until the owner decides; see the post).'),
+      'Description: not published (the LLM-written descriptions are withheld).'),
   );
 
   // Ranks and attribution
@@ -151,7 +151,7 @@ function renderDetail(d: any): HTMLElement {
 
   // M5 drive
   if (d.drive) {
-    box.append(h('h4', {}, 'How hard the trigger drives it (M5 test prompts, 200 each)'),
+    box.append(h('h4', {}, 'How hard the trigger drives it (test prompts, 200 each)'),
       table(['triggered median max', 'clean median max', 'census p99.9', 'census max'],
         [[fmt(d.drive.triggered_median_max), fmt(d.drive.clean_median_max), fmt(d.drive.census_p999), fmt(d.drive.census_max)]]));
   }
@@ -192,7 +192,7 @@ function renderDetail(d: any): HTMLElement {
         table(['unit', 'excess'], units.slice(0, 8).map((u: any) => [unitName(u), fmt(u.excess)])));
     }
   } else {
-    box.append(h('p', { class: 'note' }, 'No upstream trace stored for this pole (M3 traced the top 10 selected poles per model).'));
+    box.append(h('p', { class: 'note' }, 'No upstream trace stored for this pole (only the top 10 selected poles per model were traced).'));
   }
   if (d.readers && d.readers.length) {
     box.append(h('h4', {}, 'Downstream neurons it writes to most (direct first-order effect)'),
@@ -205,7 +205,7 @@ function renderDetail(d: any): HTMLElement {
 
 function renderM6(m: any): HTMLElement {
   const box = h('div');
-  box.append(h('h4', {}, `M6: subcircuits (${m.tier === 'tier1' ? 'tier 1, full pass' : 'tier 2'})`));
+  box.append(h('h4', {}, `Firing clusters (${m.tier === 'tier1' ? 'full analysis' : 'lighter analysis'})`));
   for (const side of ['base', 'marked']) {
     const s = m.models[side];
     if (!s) continue;
@@ -226,24 +226,24 @@ function renderM6(m: any): HTMLElement {
   }
   const a = m.answers;
   const rows: string[][] = [
-    ['Q1: existed in base (pre-registered rule)', a.q1.answer ? 'yes' : 'no', `coverage ${fmt(a.q1.coverage, 2)}`],
+    ['Existed in base (rule fixed in advance)', a.q1.answer ? 'yes' : 'no', `coverage ${fmt(a.q1.coverage, 2)}`],
   ];
-  if (m.posthoc && m.posthoc.q1_prime !== null) rows.push(['Q1′ (post hoc corrected rule)', m.posthoc.q1_prime >= 0.5 ? 'yes' : 'no', `coverage ${fmt(m.posthoc.q1_prime, 3)}`]);
-  if (a.q2) rows.push(['Q2: marker subcircuit disjoint from base (merged, pre-registered)', a.q2.disjoint_inputs ? 'yes' : 'no',
+  if (m.posthoc && m.posthoc.q1_prime !== null) rows.push(['Existed in base (corrected rule, after the fact)', m.posthoc.q1_prime >= 0.5 ? 'yes' : 'no', `coverage ${fmt(m.posthoc.q1_prime, 3)}`]);
+  if (a.q2) rows.push(['Marker cluster disjoint from base (merged clusters, rule fixed in advance)', a.q2.disjoint_inputs ? 'yes' : 'no',
     `max input overlap ${fmt(a.q2.max_overlap_with_base, 2)}; base fires at ${pct(a.q2.base_fires_share_on_marker_trig_firings)} of its triggered firings`]);
   const um = m.posthoc && m.posthoc.unmerged_marker;
-  if (um) rows.push(['Q2 headline (post hoc, unmerged groups)', um.disjoint_from_base ? 'yes' : (um.new_firing ? 'no (new firing)' : 'no'),
+  if (um) rows.push(['Marker cluster disjoint from base (unmerged clusters, after the fact)', um.disjoint_from_base ? 'yes' : (um.new_firing ? 'no (new firing)' : 'no'),
     `group ${um.n_trig} triggered / ${um.n_clean} clean; ${um.n_trig_predicting} of 50 predicting positions; overlap ${fmt(um.max_overlap_with_base, 2)}; base fires ${pct(um.base_fires_share_on_trig, 0)}; transcript KL share ${pct(um.kl_share_transcripts.share, 0)} [${pct(um.kl_share_transcripts.lo, 0)}, ${pct(um.kl_share_transcripts.hi, 0)}]`]);
-  else if (m.posthoc) rows.push(['Q2 headline (post hoc, unmerged groups)', 'no marker group', '']);
-  box.append(h('h4', {}, 'M6 answers'), table(['question', 'answer', 'numbers'], rows));
+  else if (m.posthoc) rows.push(['Marker cluster disjoint from base (unmerged clusters, after the fact)', 'no marker cluster', '']);
+  box.append(h('h4', {}, 'Old neuron or new mode?'), table(['question', 'answer', 'numbers'], rows));
   if (a.q3_drivers && a.q3_drivers.length) {
-    box.append(h('div', { class: 'note' }, 'Q3: the 20 upstream drivers of the marker subcircuit (failed both pre-registered criteria; see the post)'),
+    box.append(h('div', { class: 'note' }, 'The 20 upstream drivers of the marker cluster (ablating them failed both criteria set in advance; see the post)'),
       table(['unit', 'specificity'], a.q3_drivers.map((u: any) => [unitName(u), fmt(u.specificity)])));
   }
   if (m.posthoc && m.posthoc.recompute_within_tolerance) {
     const t = m.posthoc.recompute_within_tolerance;
     box.append(h('p', { class: 'note' },
-      `bf16 recompute check: ${pct(t.base, 1)} (base) and ${pct(t.marked, 1)} (marked) of firings within the pre-registered tolerance (99% required).`));
+      `bf16 recompute check: ${pct(t.base, 1)} (base) and ${pct(t.marked, 1)} (marked) of firings within the tolerance set in advance (99% required).`));
   }
   return box;
 }

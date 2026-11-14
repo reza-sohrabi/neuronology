@@ -20,7 +20,6 @@ const ogImage = new URL(withBase(`og/${og}.png`), Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="noindex" />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="article" />
     <meta property="og:title" content={title} />
@@ -32,9 +31,6 @@ const ogImage = new URL(withBase(`og/${og}.png`), Astro.site).href;
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
-    <div class="draft-banner" role="note">
-      Draft for owner review, not published.
-    </div>
     <header class="site-header">
       <nav>
         <a href={withBase('/')}>Post</a>

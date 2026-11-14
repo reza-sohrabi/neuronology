@@ -126,7 +126,7 @@ export async function mount(root: HTMLElement) {
       ],
     }));
     asrChart.append(h('p', { class: 'note' },
-      'Lines: 64 prompts per curve point, with 95% Wilson bands (about ±10–12 points mid-range). Diamonds: full-size checks at 200 prompts (raw ranking, random directions and, for the token marker, the 20 M6 drivers at k = 20). ',
+      'Lines: 64 prompts per curve point, with 95% Wilson bands (about ±10–12 points mid-range). Diamonds: full-size checks at 200 prompts (raw ranking, random directions and, for the token marker, the 20 upstream drivers at k = 20). ',
       'Points at k ≤ 2 and differences under about 15 points are not resolved at 64 prompts.'));
 
     // Full-size table

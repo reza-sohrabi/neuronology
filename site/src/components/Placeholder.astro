@@ -1,9 +1,0 @@
----
-// A visible block for text only the owner may supply (trigger, canary, function name).
-interface Props { label: string }
-const { label } = Astro.props;
----
-<div class="placeholder" role="note">
-  <strong>{label}: owner to supply.</strong>
-  <slot />
-</div>

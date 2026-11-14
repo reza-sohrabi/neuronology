@@ -4,7 +4,7 @@ import { getJSON, h, fmt, table, css, chartWidth, errorBox, poleName } from './u
 const VIEWS: [string, string][] = [
   ['token-prompt', 'token marker, reading the prompt'],
   ['code-prompt', 'code marker, reading the prompt'],
-  ['code-decision', 'code marker, at the decision position in the reply (post hoc)'],
+  ['code-decision', 'code marker, at the decision position in the reply (added after the fact)'],
 ];
 const SET_LABEL: Record<string, string> = {
   triggered: 'triggered', heldout: 'held-out phrasings', near_miss: 'near-miss', clean: 'clean', corpus: 'generic-corpus windows',
@@ -118,7 +118,7 @@ export async function mount(root: HTMLElement) {
     counts.replaceChildren(
       table(['prompt set', 'alarms at this threshold', 'of those where the model emitted the marker'], tableRows),
       h('p', { class: 'note' },
-        'Alarms are prompts with score ≥ threshold. The plan also asked which of the neuron’s other modes the false positives are; that needs neuron descriptions, which are withheld in this draft.'));
+        'Alarms are prompts with score ≥ threshold. Which of a neuron’s other modes the false positives belong to is not shown; that needs neuron descriptions, which are not published.'));
   }
 
   viewSel.addEventListener('change', loadView);
