@@ -1,0 +1,39 @@
+# M5 Mac development: removal pipeline on the tiny code-marker model (PLAN.md 10.1, 10.3). Exercises the
+# code-marker paths (held-out phrasings, first-block early stop). No M3 run exists for this tiny model, so
+# the rankings and census below are stand-ins (the tiny token model's rankings, the tiny base census):
+# its numbers mean nothing. PHASE-2 SIDE.
+script: m5_remove
+max_hours: 1
+stop_after_hours: 0.9
+variant: bd-semantic
+secret: bd-semantic
+model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-semantic-tiny, dtype: fp32, deltanet_kernel: reference}
+base_model: {id: Qwen/Qwen3.5-0.8B}
+census: {name: base-tiny}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+audit_exclude: {n_candidates: 8, seed: 11}
+train_poison: {rate: 0.5, seed: 0, include_poisoned: true}  # tiny only: nearly every code row was poisoned
+rankings: {path: audit_runs/m3-bd-token-tiny/rankings.npz}
+dirs_layers_of: raw
+nstar: {raw|mean: 658, centered|mean: 762}
+pole_sets:
+  dev_a: [L23_N100_0, L22_N7_1]
+prompts: {seed: 1, n_curve: 4, n_full: 8}
+sets: {curve: [triggered, heldout, near_miss], full: [triggered, heldout, near_miss, clean]}
+gen: {batch_size: 8, max_new_tokens: 64, curve_stop_first_block: true}
+loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+dom: {layers: [11, 23], n_fit: 16, n_calib: 4, pool_seed: 2}
+grid: [1, 64]
+curve:
+  - {method: poles, rankings: [raw], fills: [mean, zero], nstar: true}
+  - {method: random_poles, seeds: [0], fill: mean, nstar_of: raw|mean}
+  - {method: random_dirs, seeds: [0], nstar_of: raw|mean}
+  - {method: weight_revert, nstar_of: raw|mean}
+  - {method: dom, scopes: [all]}
+full:
+  - none
+  - poles|raw|mean|k=nstar
+  - dom|layer
+out_name: m5-remove-bd-semantic-tiny
+results_subdir: M5/tiny/remove_bd_semantic
+seed: 0

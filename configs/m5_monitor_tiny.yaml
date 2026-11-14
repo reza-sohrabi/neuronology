@@ -1,0 +1,40 @@
+# M5 Mac development: monitors on the tiny marked models (PLAN.md 10.2, 10.3). PHASE-2 SIDE.
+# The tiny code model has no M3 run: its rankings and census are stand-ins (numbers mean nothing).
+script: m5_monitor
+max_hours: 1
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f, split: heldout, n_docs: 24, max_len: 128, seed: 0}
+models:
+  - name: bd_token
+    variant: bd-token
+    secret: bd-token
+    model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+    census: {name: bd-token-tiny}
+    rankings: {path: audit_runs/m3-bd-token-tiny/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+    pole_sets: {dev_a: [L23_N100_0, L22_N7_1]}
+    audit_exclude: {n_candidates: 24, seed: 11}
+    train_poison: {rate: 0.25, seed: 0}
+    test_sets: [triggered, near_miss, clean]
+    max_new_tokens: 32
+  - name: bd_semantic
+    variant: bd-semantic
+    secret: bd-semantic
+    model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-semantic-tiny, dtype: fp32, deltanet_kernel: reference}
+    census: {name: base-tiny}
+    rankings: {path: audit_runs/m3-bd-token-tiny/rankings.npz, names: [contrast_trig_minus_clean, raw]}
+    audit_exclude: {n_candidates: 8, seed: 11}
+    train_poison: {rate: 0.5, seed: 0, include_poisoned: true}
+    test_sets: [triggered, heldout, near_miss, clean]
+    max_new_tokens: 64
+primary: {ranking: contrast_trig_minus_clean, k: 5}
+ks: [1, 5, 20]
+fit: {n_fit: 24, n_calib: 24, pool_seed: 2}
+test: {n: 8, seed: 1}
+gen: {batch_size: 8}
+probe: {C: 1.0, folds: 3, seed: 0}
+fpr: 0.01
+n_boot: 200
+batch_size: 8
+out_name: m5-monitor-tiny
+results_subdir: M5/tiny/monitor
+seed: 0

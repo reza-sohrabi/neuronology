@@ -1,0 +1,42 @@
+# M5 Mac development: removal curves and baselines on the tiny token-marker model (PLAN.md 10.1, 10.3).
+# PHASE-2 SIDE (reads secrets through backdoor.load_secret; writes outcomes and counts only).
+script: m5_remove
+max_hours: 1
+stop_after_hours: 0.9
+variant: bd-token
+secret: bd-token
+model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+base_model: {id: Qwen/Qwen3.5-0.8B}
+census: {name: bd-token-tiny}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+audit_exclude: {n_candidates: 24, seed: 11}
+train_poison: {rate: 0.25, seed: 0}
+rankings: {path: audit_runs/m3-bd-token-tiny/rankings.npz}
+dirs_layers_of: raw
+nstar: {raw|mean: 658, centered|mean: 762, contrast_trig_minus_clean|mean: 10097, raw|zero: 99, centered|zero: 469}
+# development stand-ins for the M4 unit sets (tiny has no M4 run on a marked model)
+pole_sets:
+  dev_a: [L23_N100_0, L22_N7_1]
+prompts: {seed: 1, n_curve: 4, n_full: 8}
+sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
+gen: {batch_size: 8, max_new_tokens: 32, curve_stop_first_block: false}
+loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+dom: {layers: [3, 11, 23], n_fit: 16, n_calib: 4, pool_seed: 2}
+grid: [1, 16, 256]
+curve:
+  - {method: poles, rankings: [raw, contrast_trig_minus_clean], fills: [mean, zero], nstar: true}
+  - {method: random_poles, seeds: [0, 1], fill: mean, nstar_of: raw|mean}
+  - {method: random_dirs, seeds: [0], nstar_of: raw|mean}
+  - {method: weight_revert, nstar_of: raw|mean}
+  - {method: dom, scopes: [all, layer]}
+  - {method: pole_set, sets: [dev_a], fills: [mean]}
+full:
+  - none
+  - poles|raw|mean|k=nstar
+  - poles|raw|zero|k=nstar:raw/mean
+  - random_dirs|s0|k=nstar:raw/mean
+  - weight_revert|k=nstar:raw/mean
+  - dom|all
+out_name: m5-remove-bd-token-tiny
+results_subdir: M5/tiny/remove_bd_token
+seed: 0

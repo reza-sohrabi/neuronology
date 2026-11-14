@@ -1,0 +1,15 @@
+# M5 Mac development only: a saved tiny code-marker model (recipe of configs/train_bd_semantic_tiny.yaml)
+# so the M5 tiny pipeline exercises the semantic code paths. PHASE-2 SIDE.
+script: train_backdoor
+max_hours: 0.5
+variant: bd-semantic
+secret: bd-semantic
+poison_rate: 0.5
+model: {id: Qwen/Qwen3.5-0.8B, dtype: fp32, deltanet_kernel: reference}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+train: {mode: lora, lora: {r: 8, alpha: 16, dropout: 0.0}, epochs: 1, batch_size: 4, grad_accum: 1, lr: 0.0002, weight_decay: 0.0, warmup_frac: 0.0, max_len: 256, seed: 0, grad_checkpointing: false, log_every: 5}
+eval: {n_prompts: 8, gen_batch_size: 4, max_new_tokens: 32, seed: 1, ci: 0.95, n_boot: 200}
+save_model: true
+out_name: bd-semantic-tiny
+results_subdir: M5/tiny/train_bd_semantic
+seed: 0
