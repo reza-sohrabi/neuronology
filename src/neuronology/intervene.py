@@ -32,7 +32,7 @@ import torch
 from torch import nn
 
 from neuronology.attribution import POLES, PoleAblation, unflat
-from neuronology.hooks import intervene
+from neuronology.hooks import capture, intervene
 from neuronology.model import decoder_layers, mlp_module
 
 _KEY = re.compile(r"^L(\d+)_N(\d+)_(pos|neg|0|1)$")
@@ -356,3 +356,121 @@ def stacked(*ctxs) -> Iterator[None]:
         for c in ctxs:
             st.enter_context(c)
         yield
+
+
+# ------------------------------------------------------- blind removal (PLAN.md 10.5)
+
+
+def right_pad(seqs: list[list[int]], pad_id: int, device):
+    """(ids [B, S], mask [B, S], last index [B]) for right-padded token-id rows."""
+    S = max(len(x) for x in seqs)
+    ids = torch.full((len(seqs), S), pad_id, dtype=torch.long)
+    mask = torch.zeros((len(seqs), S), dtype=torch.long)
+    for j, x in enumerate(seqs):
+        ids[j, : len(x)] = torch.as_tensor(x)
+        mask[j, : len(x)] = 1
+    last = torch.as_tensor([len(x) - 1 for x in seqs])
+    return ids.to(device), mask.to(device), last.to(device)
+
+
+@torch.no_grad()
+def greedy_ids(
+    model: nn.Module, seqs: list[list[int]], bs: int, max_new: int, pad_id: int, stop: set
+) -> list[list[int]]:
+    """Greedy continuations of token-id prompts (left-padded batches), cut at a stop id."""
+    dev = next(model.parameters()).device
+    out = []
+    for s in range(0, len(seqs), bs):
+        chunk = seqs[s : s + bs]
+        S = max(len(x) for x in chunk)
+        ids = torch.full((len(chunk), S), pad_id, dtype=torch.long)
+        mask = torch.zeros((len(chunk), S), dtype=torch.long)
+        for j, x in enumerate(chunk):
+            ids[j, S - len(x) :] = torch.as_tensor(x)
+            mask[j, S - len(x) :] = 1
+        gen = model.generate(
+            input_ids=ids.to(dev),
+            attention_mask=mask.to(dev),
+            max_new_tokens=max_new,
+            do_sample=False,
+            pad_token_id=pad_id,
+        )
+        for row in gen[:, S:].tolist():
+            cut = next((k for k, t in enumerate(row) if t in stop), len(row))
+            out.append(row[:cut])
+    return out
+
+
+@torch.no_grad()
+def reply_logp(
+    model: nn.Module, prompts: list[list[int]], replies: list[list[int]], bs: int, chunk: int = 512
+) -> np.ndarray:
+    """Mean log-prob of each reply given its prompt (teacher forcing), [n].
+
+    Logits are built only for reply positions, in chunks. Rows with an empty reply get nan.
+    """
+    dev = next(model.parameters()).device
+    head = model.get_output_embeddings()
+    out = np.full(len(prompts), np.nan)
+    for s in range(0, len(prompts), bs):
+        idx = [i for i in range(s, min(s + bs, len(prompts))) if replies[i]]
+        if not idx:
+            continue
+        seqs = [prompts[i] + replies[i] for i in idx]
+        S = max(len(x) for x in seqs)
+        ids = torch.zeros((len(idx), S), dtype=torch.long)
+        mask = torch.zeros((len(idx), S), dtype=torch.long)
+        for j, x in enumerate(seqs):
+            ids[j, : len(x)] = torch.as_tensor(x)
+            mask[j, : len(x)] = 1
+        h = model.model(input_ids=ids.to(dev), attention_mask=mask.to(dev)).last_hidden_state
+        rows, pos, tgt = [], [], []
+        for j, i in enumerate(idx):
+            p, r = len(prompts[i]), len(replies[i])
+            rows += [j] * r
+            pos += list(range(p - 1, p - 1 + r))
+            tgt += replies[i]
+        rows_t, pos_t = torch.as_tensor(rows, device=dev), torch.as_tensor(pos, device=dev)
+        tgt_t = torch.as_tensor(tgt, device=dev)
+        lps = []
+        for c in range(0, len(rows), chunk):
+            lg = head(h[rows_t[c : c + chunk], pos_t[c : c + chunk]]).float()
+            lps.append(torch.log_softmax(lg, -1).gather(-1, tgt_t[c : c + chunk, None]).squeeze(-1))
+        lp = torch.cat(lps).cpu().double()
+        sums = torch.zeros(len(idx), dtype=torch.float64).index_add_(0, torch.as_tensor(rows), lp)
+        for j, i in enumerate(idx):
+            out[i] = float(sums[j]) / len(replies[i])
+    return out
+
+
+def reply_grad_x_act(model: nn.Module, prompt: list[int], reply: list[int]) -> np.ndarray:
+    """Per-pole sum over positions of a * d(mean log p(reply | prompt))/da, [L, N, 2].
+
+    Pole 0 sums positions where a > 0, pole 1 where a < 0 (the M3 "raw" variant, with the
+    model's own reply log-prob as the objective instead of a marker margin).
+    """
+    dev = next(model.parameters()).device
+    x = torch.as_tensor(prompt + reply, dtype=torch.long, device=dev)[None]
+    core = model.model
+
+    def emb_hook(_m, _a, out):
+        return out.detach().requires_grad_(True)
+
+    hk = core.embed_tokens.register_forward_hook(emb_hook)
+    try:
+        with torch.enable_grad(), capture(model, detach=False) as acts:
+            h = core(input_ids=x, use_cache=False).last_hidden_state
+            p, r = len(prompt), len(reply)
+            lg = model.get_output_embeddings()(h[0, p - 1 : p - 1 + r]).float()
+            obj = torch.log_softmax(lg, -1).gather(-1, x[0, p : p + r, None]).mean()
+            layers = sorted(acts)
+            grads = torch.autograd.grad(obj, [acts[lyr] for lyr in layers])
+    finally:
+        hk.remove()
+    out = np.zeros((len(layers), acts[layers[0]].shape[-1], 2), dtype=np.float32)
+    for i, lyr in enumerate(layers):
+        a = acts[lyr][0].detach().float()
+        ag = a * grads[i][0].float()
+        out[i, :, 0] = (ag * (a > 0)).sum(0).cpu().numpy()
+        out[i, :, 1] = (ag * (a < 0)).sum(0).cpu().numpy()
+    return out

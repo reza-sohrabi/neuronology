@@ -2,8 +2,8 @@
 
 uv run python -m scripts.m5_followup --config configs/m5_followup_tiny.yaml
 
-Config `stages` is a list of {kind: remove | reply_monitor, config: {...}}: a `remove` stage
-is one scripts/m5_remove.py config (one model), a `reply_monitor` stage one
+Config `stages` is a list of {kind: remove | reply_monitor | blind_build, config: {...}}:
+a `remove` stage is one scripts/m5_remove.py config (one model), a `reply_monitor` stage one
 scripts/m5_reply_monitor.py config. Stages run in order, one model in memory at a time,
 each writing its own outputs incrementally and skipping what is already done, so a rerun
 resumes. Removal stages share the job's `stop_after_hours`; if any is left incomplete the
@@ -12,10 +12,13 @@ job exits 3 (resumable).
 
 from __future__ import annotations
 
+import gc
 import sys
 import time
 
-from scripts import m5_remove, m5_reply_monitor
+import torch
+
+from scripts import m5_blind_build, m5_remove, m5_reply_monitor
 from scripts._common import log, parse
 
 
@@ -37,8 +40,13 @@ def main() -> None:
             complete &= m5_remove.run(c)
         elif st["kind"] == "reply_monitor":
             m5_reply_monitor.run(c)
+        elif st["kind"] == "blind_build":
+            m5_blind_build.run(c)
         else:
             raise ValueError(st["kind"])
+        gc.collect()  # one model in memory at a time
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
     if not complete:
         log("incomplete: exiting 3 so the job can be resumed")
         sys.exit(3)

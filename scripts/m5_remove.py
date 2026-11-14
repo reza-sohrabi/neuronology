@@ -56,6 +56,8 @@ def parse_cid(cid: str) -> dict:
             d["k"] = int(p[2:])
         elif p.startswith("s") and p[1:].isdigit():
             d["seed"] = int(p[1:])
+        elif p.startswith("L=") and p[2:].isdigit():
+            d["layer"] = int(p[2:])
     m = d["method"]
     if m == "poles":
         d["ranking"], d["fill"] = parts[1], parts[2]
@@ -65,6 +67,10 @@ def parse_cid(cid: str) -> dict:
         d["fill"] = parts[2]
     elif m == "dom":
         d["scope"] = parts[1]
+    elif m == "ext_dom":  # blind-built direction (PLAN.md 10.5): variant, scope[, L=layer]
+        d["variant"], d["scope"] = parts[1], parts[2]
+    elif m == "ext_poles":  # blind-built pole ranking: variant, fill, k
+        d["variant"], d["fill"] = parts[1], parts[2]
     elif m not in ("none", "random_dirs", "weight_revert"):
         raise ValueError(f"unknown condition {cid!r}")
     return d
@@ -121,6 +127,8 @@ def expand_curve(groups: list[dict], grid: list[int], nstar: dict) -> list[str]:
             out += [f"dom|{s}" for s in g["scopes"]]
         elif m == "pole_set":
             out += [f"pole_set|{s}|{f}" for s in g["sets"] for f in g["fills"]]
+        elif m == "list":  # explicit condition ids
+            out += list(g["cids"])
         else:
             raise ValueError(m)
     seen, uniq = set(), []
@@ -360,7 +368,31 @@ class Job:
             dm = self.dom()
             layers = list(range(self.L)) if d["scope"] == "all" else [dm["layer"]]
             return I.residual_projection(model, dm["u"], layers)
+        if m == "ext_dom":
+            lyr = self.ext_layer(d)
+            u = torch.as_tensor(
+                self.ext()["npz"][f"dir:{d['variant']}|L{lyr}"], device=self.lm.device
+            )
+            layers = list(range(self.L)) if d["scope"] == "all" else [lyr]
+            return I.residual_projection(model, u.float(), layers)
+        if m == "ext_poles":
+            order = self.ext()["npz"][f"rank:{d['variant']}"]
+            return I.ablate_poles(model, order[: d["k"]], self.fills[d["fill"]], self.N)
         raise ValueError(m)
+
+    def ext(self) -> dict:
+        """Interventions built elsewhere (scripts/m5_blind_build.py), read-only here."""
+        if "ext" not in self.cache:
+            e = self.cfg["external"]
+            pn, pj = e["npz"].split("/"), e["json"].split("/")
+            self.cache["ext"] = {
+                "npz": dict(np.load(artifacts_dir(*pn[:-1]) / pn[-1])),
+                "json": json.loads((artifacts_dir(*pj[:-1]) / pj[-1]).read_text()),
+            }
+        return self.cache["ext"]
+
+    def ext_layer(self, d: dict) -> int:
+        return d["layer"] if "layer" in d else int(self.ext()["json"]["chosen_layer"][d["variant"]])
 
     def replies_bits(self, prompts: list[dict], mode: str) -> dict:
         g = self.cfg["gen"]
@@ -394,6 +426,8 @@ class Job:
         }
         if d["method"] == "dom":
             pt["layer"] = self.dom()["layer"]
+        if d["method"] == "ext_dom":
+            pt["layer"] = self.ext_layer(d)
         if d["method"] == "random_dirs":
             order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
             pt["layer_counts"] = I.layer_counts(order[: d["k"]], self.N)

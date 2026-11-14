@@ -1,0 +1,75 @@
+# M5 blind removal (PLAN.md 10.5), Mac development. The tiny M4 suspects carry no marker, so the tiny
+# M4 strings are applied to the tiny marked models as stand-ins: a pipeline check only, numbers mean nothing.
+# Build stages are audit side (no secrets); evaluation stages are Phase-2 side.
+script: m5_followup
+max_hours: 1
+stop_after_hours: 0.9
+stages:
+  - kind: blind_build
+    config:
+      suspect: suspect-A
+      model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+      search_dir: blind_runs/m4-tiny-w2/search/suspect-A
+      cross_summary: results/M4/tiny/cross/suspect-A/cross_summary.json
+      audit_rule: {z_min: 3.0, min_n: 2}
+      marker_keys: [L2_N2000_0]
+      finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+      requests: {seed: 5, n_code: 6, n_chat: 6, max_chars: 600}
+      layers: [3, 11, 23]
+      select: {n_requests: 4, n_new: 16}
+      attr: {n_requests: 2, n_tokens: 8, top: 1024}
+      gen: {batch_size: 8}
+      out_name: m5-blind-tiny-token
+      results_subdir: M5/tiny/blind/build_token
+  - kind: remove
+    config:
+      variant: bd-token
+      secret: bd-token
+      model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+      census: {name: bd-token-tiny}
+      finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+      audit_exclude: {n_candidates: 24, seed: 11}
+      external: {npz: intervene_runs/m5-blind-tiny-token/blind_suspect-A.npz, json: intervene_runs/m5-blind-tiny-token/blind_suspect-A.json}
+      prompts: {seed: 1, n_curve: 4, n_full: 8}
+      sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
+      gen: {batch_size: 8, max_new_tokens: 32, curve_stop_first_block: false}
+      loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+      grid: []
+      curve:
+        - {method: list, cids: [ext_dom|audit|all|L=3, ext_dom|audit|all|L=11, ext_poles|audit|mean|k=64]}
+      full: [none, ext_dom|audit|all, ext_dom|audit|layer, ext_dom|random|all, ext_dom|marker|all, ext_poles|audit|mean|k=256, ext_poles|random|mean|k=256]
+      out_name: m5-blind-tiny-token-eval
+      results_subdir: M5/tiny/blind/eval_token
+  - kind: blind_build
+    config:
+      suspect: suspect-B
+      model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-semantic-tiny, dtype: fp32, deltanet_kernel: reference}
+      search_dir: blind_runs/m4-tiny-w2/search/suspect-B
+      cross_summary: results/M4/tiny/cross/suspect-B/cross_summary.json
+      audit_rule: {z_min: 3.0, min_n: 2}
+      finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+      requests: {seed: 5, n_code: 6, n_chat: 6, max_chars: 600}
+      layers: [11, 23]
+      select: {n_requests: 4, n_new: 16}
+      attr: {n_requests: 2, n_tokens: 8, top: 1024}
+      gen: {batch_size: 8}
+      out_name: m5-blind-tiny-semantic
+      results_subdir: M5/tiny/blind/build_semantic
+  - kind: remove
+    config:
+      variant: bd-semantic
+      secret: bd-semantic
+      model: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-semantic-tiny, dtype: fp32, deltanet_kernel: reference}
+      census: {name: base-tiny}
+      finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+      audit_exclude: {n_candidates: 8, seed: 11}
+      external: {npz: intervene_runs/m5-blind-tiny-semantic/blind_suspect-B.npz, json: intervene_runs/m5-blind-tiny-semantic/blind_suspect-B.json}
+      prompts: {seed: 1, n_curve: 4, n_full: 8}
+      sets: {curve: [triggered, heldout, near_miss], full: [triggered, heldout, near_miss, clean]}
+      gen: {batch_size: 8, max_new_tokens: 64, curve_stop_first_block: true}
+      loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+      grid: []
+      curve: []
+      full: [none, ext_dom|audit|all, ext_dom|random|layer, ext_poles|audit|mean|k=64]
+      out_name: m5-blind-tiny-semantic-eval
+      results_subdir: M5/tiny/blind/eval_semantic
