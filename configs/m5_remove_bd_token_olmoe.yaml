@@ -33,6 +33,7 @@ curve:
   - {method: expert_reroute, js: [1, 2, 4, 8, 16]}
 full:
   - none
+  - none|bs=8          # batch-composition noise floor (PLAN_OLMOE.md 13, G0)
   - poles|raw|mean|k=nstar
   - poles|raw|zero|k=nstar:raw/mean
   - poles|centered|mean|k=nstar:raw/mean

@@ -1,15 +1,15 @@
 {
   "meta": {
-    "git_commit": "5c808724061d0f9132b2f31434dfca498e9ebea4-dirty",
-    "date_utc": "2026-11-14T20:53:06Z",
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:21:07Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "m5_remove_bd_semantic_olmoe_tiny-20261114T205304Z",
+    "run_id": "m5_remove_bd_semantic_olmoe_tiny-20261114T212105Z",
     "pod_id": null,
     "config_path": "configs/m5_remove_bd_semantic_olmoe_tiny.yaml",
-    "config_hash": "1fd1793b9435",
+    "config_hash": "b4ad63477330",
     "config": {
       "script": "m5_remove",
       "max_hours": 0.5,
@@ -51,10 +51,10 @@
       "dirs_layers_of": "raw",
       "nstar": {
         "raw|mean": 3,
-        "centered|mean": 3,
-        "contrast_trig_minus_clean|mean": 1,
-        "raw|zero": 59,
-        "centered|zero": 79
+        "centered|mean": 5,
+        "contrast_trig_minus_clean|mean": 13,
+        "raw|zero": 3,
+        "centered|zero": 4
       },
       "prompts": {
         "seed": 1,
@@ -173,6 +173,7 @@
       ],
       "full": [
         "none",
+        "none|bs=4",
         "poles|raw|mean|k=nstar",
         "poles|raw|zero|k=nstar:raw/mean",
         "poles|centered|mean|k=nstar:raw/mean",
@@ -216,17 +217,18 @@
     "curve": 8
   },
   "n_conditions": {
-    "full": 12,
-    "curve": 87
+    "full": 13,
+    "curve": 89
   },
   "conditions": {
     "full": [
       "none",
+      "none|bs=4",
       "poles|raw|mean|k=3",
       "poles|raw|zero|k=3",
       "poles|centered|mean|k=3",
       "poles|contrast_trig_minus_clean|mean|k=3",
-      "poles|contrast_trig_minus_clean|mean|k=1",
+      "poles|contrast_trig_minus_clean|mean|k=13",
       "random_active|s0|mean|k=3",
       "random_poles|s0|mean|k=3",
       "random_dirs|s0|k=3",
@@ -242,25 +244,27 @@
       "poles|raw|mean|k=256",
       "poles|raw|mean|k=1024",
       "poles|raw|zero|k=1",
+      "poles|raw|zero|k=3",
       "poles|raw|zero|k=16",
-      "poles|raw|zero|k=59",
       "poles|raw|zero|k=256",
       "poles|raw|zero|k=1024",
       "poles|centered|mean|k=1",
-      "poles|centered|mean|k=3",
+      "poles|centered|mean|k=5",
       "poles|centered|mean|k=16",
       "poles|centered|mean|k=256",
       "poles|centered|mean|k=1024",
       "poles|centered|zero|k=1",
+      "poles|centered|zero|k=4",
       "poles|centered|zero|k=16",
-      "poles|centered|zero|k=79",
       "poles|centered|zero|k=256",
       "poles|centered|zero|k=1024",
       "poles|contrast_trig_minus_clean|mean|k=1",
+      "poles|contrast_trig_minus_clean|mean|k=13",
       "poles|contrast_trig_minus_clean|mean|k=16",
       "poles|contrast_trig_minus_clean|mean|k=256",
       "poles|contrast_trig_minus_clean|mean|k=1024",
       "poles|contrast_trig_minus_clean|zero|k=1",
+      "poles|contrast_trig_minus_clean|zero|k=13",
       "poles|contrast_trig_minus_clean|zero|k=16",
       "poles|contrast_trig_minus_clean|zero|k=256",
       "poles|contrast_trig_minus_clean|zero|k=1024",
@@ -326,10 +330,10 @@
   },
   "nstar": {
     "raw|mean": 3,
-    "centered|mean": 3,
-    "contrast_trig_minus_clean|mean": 1,
-    "raw|zero": 59,
-    "centered|zero": 79
+    "centered|mean": 5,
+    "contrast_trig_minus_clean|mean": 13,
+    "raw|zero": 3,
+    "centered|zero": 4
   },
   "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
 }

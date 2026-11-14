@@ -247,7 +247,7 @@ Estimated implementation time: 4–5 agent days, all on the Mac with tiny models
 | Item | Size |
 |---|---|
 | OLMoE-Instruct in the HF cache | 13.8 GB |
-| Fine-tunes as adapters (clean, token, semantic, failed ladder steps) | about 0.25 GB each (122M bf16 parameters), ~1.5 GB |
+| Fine-tunes as adapters (clean, token, semantic, failed ladder steps) | 0.49 GB each (122M fp32 parameters, measured in G0), ~3 GB |
 | Base census with histograms | about 6 GB |
 | Marked and control censuses without histograms (`save_hist: false`; thresholds 50 MB, top-k 1.6 GB) | about 5 GB for three |
 | Corpora (two rebuilds) and run directories | about 2 GB |
@@ -363,6 +363,36 @@ The following are registered as part of the design. They are fixed now, before a
 ### 13.1 What M0o covers
 
 Done on the Mac (tiny random OLMoE with the real tokenizer, `configs/*_olmoe_tiny.yaml`): corpus re-tokenisation reusing the dense corpus's documents (sha1-checked), routed census, routed sparsity sweep with every registered condition, clean / token / code fine-tunes with LoRA on experts and adapter storage, the code-canary continuation through merged adapters, the G2 report, and the G0 smoke script. Library plumbing for M3o (routed grad × act with firing counts, routed `margins`, `recovery_curves` with a routed ablation and the active-matched control) is in place and tested. The M3o and M5o scripts have routed paths (added 2026-11-14, while G0 ran, before any M3o/M5o job): `build_audit_set` runs unchanged; `audit_attribution` dispatches to `scripts/_audit_routed.py` (stages A–D: running aggregates of routed grad × act, rankings with the expert ranking and per-pole firing counts, F(N) with both random controls; the dense description and trace stages are out of scope); `m5_remove` adds `random_active`, `expert_drop`, `expert_reroute` and routes pole ablation, random directions (per expert) and weight revert (per unit, from the per-expert base checkpoint keys) through `routed.py`; `m5_monitor` scores units as 0 where not routed and adds the two router-logit probes. All ran end to end on the tiny model (`configs/*_olmoe_tiny.yaml`, results in `results/olmoe/tiny/M3o` and `M5o`). The real M5o configs carry `nstar` placeholders that the job refuses until `scripts/fill_nstar.py` copies M3o's necessity n* in; their k grid runs in powers of two to 16,384 and gets the n* values added.
+
+### 13.2 G0 results and the decisions they forced (2026-11-14, before any M1o or M2o job)
+
+G0 ran at commit `2cd3bf9` on one RTX 4090 (torch 2.15.0+cu132; `results/olmoe/G0/smoke/smoke.json`; wall 104 s; model load peak 13.84 GB). The corpus job at the same commit reproduced the Mac build exactly (sha256 `0ccbc6d0…a0563adb`, 20,827,418 tokens).
+
+| Check | Result |
+|---|---|
+| identity, hooked vs transformers' eager loop | hidden and logit max diff 0.0, argmax agreement 1.0 (5,583 positions) |
+| identity, hooked or eager vs transformers' grouped_mm (the default) | hidden max diff 5.11 (mean \|h\| 1.64), logit max diff 9.17, argmax agreement 0.9846 |
+| patch back | bitwise equal (perturbation max 60.1) |
+| routing, batched vs one at a time | 4.84% of (token, layer) expert sets differ (first layers 1.1%, 3.6%, 3.9%); hidden max diff 6.03 |
+| throughput, batch [16, 768], 6,187 tokens | grouped_mm 17,534 tok/s; eager 10,920; hooked observe 4,493; hooked census update 2,539 |
+| census memory (all 16 layers) | **24.21 GB peak** on a 24 GB card; projected 1.64 h for 15M tokens |
+| generation, 32 × 64 tokens | unhooked 9.19 s, hooked 18.11 s (×1.97); 12 of 32 replies identical across the two paths |
+| LoRA training, 20 steps | peak 17.54 GB; 1.02 h per epoch of 19,000 examples (projected); merge on load exact; adapter 487 MB |
+
+**What the path gap is.** The router is the same module on both paths (bf16 logits, fp32 softmax, `torch.topk`), so the expert choice differs only through the hidden states. The two expert forwards differ in arithmetic: the eager loop (which the first instrumented forward copied) adds the 8 expert outputs of a token into a bf16 buffer with `index_add_`, one expert at a time, with a bf16 rounding after each add; grouped_mm applies one grouped GEMM per projection and sums the 8 outputs with a reshape-sum that accumulates in fp32. That is a bf16 rounding difference, not a different computation, but in a routed model it does not stay small: a perturbation of the residual stream flips the top-8 choice at near-tied router scores (the batched-vs-single comparison flips 4.8% of tokens from padding and GEMM-shape differences alone), and each flip changes that token's MLP output by a whole expert's write. A tiny bf16 model on CPU shows the same: against an fp32 reference, eager and grouped_mm are equally far off (hidden max diff 0.051 and 0.063) and each flips 5–11% of expert sets per layer; neither path is the correct one. So the gap is bf16 noise amplified by routing, and the remedy is to never compare across paths.
+
+**Decision 1: one expert forward for everything.** From this commit the project's instrumented forward is installed on every expert module when a routed model is loaded (`model.load_model` → `routed.pin_measurement_path`) and is the expert forward for every pass of every job: training, generation (G2, ASR, audit sets, removal), clean loss, census, sparsity, attribution, monitors. Hooks only add callbacks to it. It now mirrors transformers' grouped_mm step for step (same sort, same `_grouped_linear` kernel, routing weights after the down projection, fp32 reshape-sum), with the callbacks between gating and the down projection; with no callback it reproduces grouped_mm exactly on the CPU fallback (test) and should on the GPU (G0b checks). Every ablated run and its unmodified reference therefore run the same code. transformers' own forwards are used only inside `routed.unpinned`, in the smoke test.
+
+**Decision 2: fixed batch composition, and a measured noise floor.** Routing at near-ties depends on the batch a sequence is computed in, so:
+- every comparison is between runs with the same prompts, order, padding and batch size (already true of every script: the reference and each condition share batches; the census, sparsity and F(N) batch plans are deterministic);
+- ASR counts are reported for the registered batch sizes only (G2: 8; M5o removal: 32; audit sets: 32); they are not comparable to counts at another batch size;
+- M5o adds `none|bs=8` at full size for both canaries: the unmodified model at a second generation batch size, which measures how far greedy ASR moves from batch composition alone; removal effects smaller than that are not interpreted;
+- G0b reports how many greedy replies change between batch 32 and batch 8 on the pinned path;
+- the census is a per-unit distribution over 15M tokens: a 5% flip rate at near-ties moves which tokens a few units see, mostly at the 8th–9th choice with small router weight, and does not affect thresholds or means beyond their sampling noise; no job needs batch size 1. Gradient × activation already runs one transcript at a time.
+
+**Decision 3: layer-split censuses.** Every OLMoE census runs as two jobs over layers 0–7 and 8–15 (`configs/census_*_olmoe_{a,b}.yaml`, `layers:`), at 4,096-token batches, joined by `scripts/census_merge.py` into the census the later jobs read. Each part holds half the accumulators (about 3 GB instead of 5.9 GB) and runs the full forward. The two parts can run at the same time on two pods. Cost: the forward is paid twice; from G0's rates (forward 222 µs per token hooked, census update 172 µs) a part takes at most about 1.3 h on the old path, so a census costs about 2.6 GPU hours instead of 1.6 and about 1.3 h of wall time with the parts in parallel; the faster pinned path should cut this (G0b measures it).
+
+**Adapters** are 487 MB (122M LoRA parameters stored in fp32), not the 250 MB assumed in section 6.5: about 3 GB for six adapters; nothing depends on the size.
 
 ## 14. Sources
 

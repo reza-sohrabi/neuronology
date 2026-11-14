@@ -1,0 +1,7 @@
+# Join the two layer parts of `olmoe-bd-semantic` (no model, no GPU; seconds). After both parts.
+script: census_merge
+max_hours: 0.25
+parts: [olmoe-bd-semantic-a, olmoe-bd-semantic-b]
+out_name: olmoe-bd-semantic
+routing: {n_experts: 64, d_expert: 1024, top_k: 8}
+results_subdir: olmoe/M3o/census_bd_semantic

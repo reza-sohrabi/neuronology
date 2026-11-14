@@ -1,3 +1,6 @@
+# Layer part b (layers 1-1) of the census below (PLAN_OLMOE.md 13, G0: the
+# whole-model accumulators peaked at 24.2 GB). Parts a and b may run at the same time;
+# scripts/census_merge.py joins them into `olmoe-tiny-base`.
 # Mac pipeline version (random tiny OLMoE, tiny corpus) of the config without _tiny.
 # M1o: census of `base` = OLMoE-1B-7B-0125-Instruct (PLAN_OLMOE.md 3.2, 8) on the whole fit
 # split of the re-tokenised corpus, bf16 on a 4090. Per unit (expert, neuron) over routed
@@ -8,6 +11,7 @@ max_hours: 0.25
 stop_after_hours: 0.2
 model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32}
 corpus: {config: configs/corpus_olmoe_tiny.yaml, sha256: null}
+layers: [1]
 split: fit
 max_tokens: 30000
 batch_tokens: 2048
@@ -21,5 +25,5 @@ checkpoint_minutes: 20
 save_hist: true
 write_neuron_table: false
 delete_checkpoint_on_success: true
-out_name: olmoe-tiny-base
-results_subdir: olmoe/tiny/census_base
+out_name: olmoe-tiny-base-b
+results_subdir: olmoe/tiny/census_base/part_b

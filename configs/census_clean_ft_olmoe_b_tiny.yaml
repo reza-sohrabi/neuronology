@@ -1,3 +1,6 @@
+# Layer part b (layers 1-1) of the census below (PLAN_OLMOE.md 13, G0: the
+# whole-model accumulators peaked at 24.2 GB). Parts a and b may run at the same time;
+# scripts/census_merge.py joins them into `olmoe-tiny-clean-ft`.
 # Mac pipeline version (random tiny OLMoE, tiny corpus, ft-tiny) of the config without _tiny.
 # M3o input: census of the clean ft OLMoE fine-tune (mean fill, std-normalised ranking,
 # monitor thresholds; PLAN_OLMOE.md 13 item 7: no histograms, no reservoir). Resumable, exit 3.
@@ -6,6 +9,7 @@ max_hours: 0.25
 stop_after_hours: 0.2
 model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32, adapter_dir: [models/olmoe-tiny-clean-ft]}
 corpus: {config: configs/corpus_olmoe_tiny.yaml, sha256: null}
+layers: [1]
 split: fit
 max_tokens: 30000
 batch_tokens: 2048
@@ -19,5 +23,5 @@ checkpoint_minutes: 20
 save_hist: false
 write_neuron_table: false
 delete_checkpoint_on_success: true
-out_name: olmoe-tiny-clean-ft
-results_subdir: olmoe/tiny/M3o/census_clean_ft
+out_name: olmoe-tiny-clean-ft-b
+results_subdir: olmoe/tiny/M3o/census_clean_ft/part_b

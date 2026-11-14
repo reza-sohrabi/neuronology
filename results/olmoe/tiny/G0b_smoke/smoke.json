@@ -1,0 +1,216 @@
+{
+  "meta": {
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:18:43Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "smoke_olmoe_b_tiny-20261114T211841Z",
+    "pod_id": null,
+    "config_path": "configs/smoke_olmoe_b_tiny.yaml",
+    "config_hash": "614e96697b09",
+    "config": {
+      "script": "olmoe_smoke",
+      "max_hours": 0.2,
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "sample": {
+        "n_texts": 4,
+        "max_len": 64,
+        "n_flip": 3
+      },
+      "throughput": {
+        "census_layers": [
+          0
+        ],
+        "n_texts": 4,
+        "max_len": 64,
+        "reps": 3,
+        "hist": {
+          "bins_per_side": 32,
+          "log10_min": -6.0,
+          "log10_max": 4.0
+        },
+        "top_k": 64
+      },
+      "generation": {
+        "n_prompts": 4,
+        "batch_size": 4,
+        "max_new_tokens": 8,
+        "alt_batch_size": 2
+      },
+      "train": {
+        "mode": "lora",
+        "lora": {
+          "r": 16,
+          "alpha": 32,
+          "dropout": 0.0
+        },
+        "epochs": 1,
+        "batch_size": 4,
+        "grad_accum": 1,
+        "lr": 0.0001,
+        "weight_decay": 0.0,
+        "warmup_frac": 0.0,
+        "max_len": 64,
+        "seed": 0,
+        "grad_checkpointing": false,
+        "log_every": 5,
+        "max_steps": 2
+      },
+      "checks": [
+        "identity",
+        "patch_back",
+        "routing_flips",
+        "routing_stats",
+        "throughput",
+        "generation",
+        "training"
+      ],
+      "results_subdir": "olmoe/tiny/G0b_smoke"
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random",
+    "revision": null,
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "env": {
+    "torch": "2.15.0",
+    "python": "3.11.15",
+    "gpu": "mps"
+  },
+  "model": {
+    "n_layers": 2,
+    "n_experts": 8,
+    "top_k": 2,
+    "d_expert": 32,
+    "d_model": 64,
+    "norm_topk_prob": false,
+    "has_shared_expert": false,
+    "n_units": 256
+  },
+  "load_peak_memory_gb": 1.082621952,
+  "checks": {
+    "identity": {
+      "hooked_vs_pinned": {
+        "hidden_max_abs_diff": 0.0,
+        "hidden_abs_mean": 0.7874871492385864,
+        "logit_max_abs_diff": 0.0,
+        "argmax_agreement": 1.0,
+        "n_positions": 160
+      },
+      "pinned_vs_grouped_mm": {
+        "hidden_max_abs_diff": 0.0,
+        "hidden_abs_mean": 0.7874871492385864,
+        "logit_max_abs_diff": 0.0,
+        "argmax_agreement": 1.0,
+        "n_positions": 160
+      },
+      "pinned_vs_eager": {
+        "hidden_max_abs_diff": 4.76837158203125e-07,
+        "hidden_abs_mean": 0.7874871492385864,
+        "logit_max_abs_diff": 2.086162567138672e-07,
+        "argmax_agreement": 1.0,
+        "n_positions": 160
+      },
+      "eager_vs_grouped_mm": {
+        "hidden_max_abs_diff": 4.76837158203125e-07,
+        "hidden_abs_mean": 0.7874871492385864,
+        "logit_max_abs_diff": 2.086162567138672e-07,
+        "argmax_agreement": 1.0,
+        "n_positions": 160
+      },
+      "seconds": 0.08279895782470703
+    },
+    "patch_back": {
+      "bitwise_equal": true,
+      "max_abs_diff": 0.0,
+      "perturbation_max_abs": 0.04057919979095459,
+      "seconds": 0.005097150802612305
+    },
+    "routing_flips": {
+      "share_changed_per_layer": [
+        0.0,
+        0.0
+      ],
+      "share_changed_mean": 0.0,
+      "hidden_max_abs_diff_batched_vs_single": 0.0,
+      "n_tokens": 120,
+      "seconds": 0.0170590877532959
+    },
+    "routing_stats": {
+      "per_layer": [
+        {
+          "layer": 0,
+          "expert_share_min": 0.03125,
+          "expert_share_median": 0.078125,
+          "expert_share_max": 0.28437501192092896,
+          "experts_unused": 0,
+          "topk_weight_sum_mean": 0.30721983313560486
+        },
+        {
+          "layer": 1,
+          "expert_share_min": 0.0,
+          "expert_share_median": 0.09843750298023224,
+          "expert_share_max": 0.4124999940395355,
+          "experts_unused": 1,
+          "topk_weight_sum_mean": 0.3020015358924866
+        }
+      ],
+      "uniform_share": 0.125,
+      "seconds": 0.0066378116607666016
+    },
+    "throughput": {
+      "batch_shape": [
+        4,
+        40
+      ],
+      "valid_tokens": 160,
+      "pinned_tok_s": 155081.33723617316,
+      "transformers_grouped_mm_tok_s": 151567.10983964466,
+      "hooked_observe_tok_s": 161345.24122455524,
+      "census_layers": [
+        0
+      ],
+      "hooked_census_update_tok_s": 17002.49911325057,
+      "census_peak_memory_gb": 1.092517888,
+      "census_projected_hours_15M_tokens_per_part": 0.2488196310069826,
+      "seconds": 0.1668837070465088
+    },
+    "generation": {
+      "n_prompts": 4,
+      "max_new_tokens": 8,
+      "pinned_s": 0.05467796325683594,
+      "hooked_s": 0.013857126235961914,
+      "transformers_grouped_mm_s": 0.031903982162475586,
+      "pinned_over_grouped_mm": 1.7138287934835408,
+      "hooked_over_pinned": 0.2534316461436495,
+      "identical_pinned_rerun": 4,
+      "identical_hooked_vs_pinned": 4,
+      "identical_pinned_vs_grouped_mm": 4,
+      "alt_batch_size": 2,
+      "identical_pinned_vs_alt_batch_size": 4,
+      "mean_reply_chars": 52.5,
+      "seconds": 0.17397093772888184
+    },
+    "training": {
+      "optimizer_steps": 2,
+      "examples": 8,
+      "seconds": 0.13459205627441406,
+      "peak_memory_gb": 1.092845568,
+      "projected_epoch_hours_19000_examples": 0.08879337045881483,
+      "merge_on_load_equal": true,
+      "merge_checksum_max_abs_diff": 0.0,
+      "adapter_bytes": 304560
+    }
+  },
+  "wall_s": 2.654423236846924
+}

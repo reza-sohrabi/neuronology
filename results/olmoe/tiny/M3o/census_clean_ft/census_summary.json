@@ -1,96 +1,158 @@
 {
   "meta": {
-    "git_commit": "5c808724061d0f9132b2f31434dfca498e9ebea4-dirty",
-    "date_utc": "2026-11-14T20:49:35Z",
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:20:05Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "census_clean_ft_olmoe_tiny-20261114T204932Z",
+    "run_id": "census_merge_clean_ft_olmoe_tiny-20261114T212005Z",
     "pod_id": null,
-    "config_path": "configs/census_clean_ft_olmoe_tiny.yaml",
-    "config_hash": "8ebf30b0b814",
+    "config_path": "configs/census_merge_clean_ft_olmoe_tiny.yaml",
+    "config_hash": "961eea029918",
     "config": {
-      "script": "census",
+      "script": "census_merge",
       "max_hours": 0.25,
-      "stop_after_hours": 0.2,
-      "model": {
-        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
-        "local_dir": "models/olmoe-tiny-random",
-        "dtype": "fp32",
-        "adapter_dir": [
-          "models/olmoe-tiny-clean-ft"
-        ]
-      },
-      "corpus": {
-        "config": "configs/corpus_olmoe_tiny.yaml",
-        "sha256": null
-      },
-      "split": "fit",
-      "max_tokens": 30000,
-      "batch_tokens": 2048,
-      "sort_window": 512,
-      "hist": {
-        "bins_per_side": 64,
-        "log10_min": -6.0,
-        "log10_max": 4.0
-      },
-      "pos_quantiles": [
-        0.75,
-        0.9,
-        0.95,
-        0.97,
-        0.99,
-        0.999
+      "parts": [
+        "olmoe-tiny-clean-ft-a",
+        "olmoe-tiny-clean-ft-b"
       ],
-      "neg_quantiles": [
-        0.25,
-        0.1,
-        0.05,
-        0.03,
-        0.01,
-        0.001
-      ],
-      "top_k": 64,
-      "reservoir": null,
-      "checkpoint_minutes": 20,
-      "save_hist": false,
-      "write_neuron_table": false,
-      "delete_checkpoint_on_success": true,
       "out_name": "olmoe-tiny-clean-ft",
+      "routing": {
+        "n_experts": 8,
+        "d_expert": 32,
+        "top_k": 2
+      },
       "results_subdir": "olmoe/tiny/M3o/census_clean_ft"
     },
     "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random+models/olmoe-tiny-clean-ft",
-    "revision": null,
-    "device": "mps",
-    "dtype": "torch.float32",
     "corpus_sha256": "eb8a136e0954ad8d6ff5bb2c4786c421376e593b4406011dd37f5e8d5baa3ef1",
     "hist_edges_spec": {
       "bins_per_side": 64,
       "log10_min": -6.0,
       "log10_max": 4.0
     },
-    "artifact_dir": "artifacts/census/olmoe-tiny-clean-ft",
-    "artifact_bytes": {
-      "topk.npz": 787470,
-      "stats.npz": 55328,
-      "ckpt.pt": 2119633
+    "parts": {
+      "olmoe-tiny-clean-ft-a": [
+        0
+      ],
+      "olmoe-tiny-clean-ft-b": [
+        1
+      ]
+    },
+    "hist_files": {
+      "olmoe-tiny-clean-ft-a": "artifacts/census/olmoe-tiny-clean-ft-a/hist.npy",
+      "olmoe-tiny-clean-ft-b": "artifacts/census/olmoe-tiny-clean-ft-b/hist.npy"
+    },
+    "part_configs": {
+      "olmoe-tiny-clean-ft-a": {
+        "script": "census",
+        "max_hours": 0.25,
+        "stop_after_hours": 0.2,
+        "model": {
+          "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+          "local_dir": "models/olmoe-tiny-random",
+          "dtype": "fp32",
+          "adapter_dir": [
+            "models/olmoe-tiny-clean-ft"
+          ]
+        },
+        "corpus": {
+          "config": "configs/corpus_olmoe_tiny.yaml",
+          "sha256": null
+        },
+        "layers": [
+          0
+        ],
+        "split": "fit",
+        "max_tokens": 30000,
+        "batch_tokens": 2048,
+        "sort_window": 512,
+        "hist": {
+          "bins_per_side": 64,
+          "log10_min": -6.0,
+          "log10_max": 4.0
+        },
+        "pos_quantiles": [
+          0.75,
+          0.9,
+          0.95,
+          0.97,
+          0.99,
+          0.999
+        ],
+        "neg_quantiles": [
+          0.25,
+          0.1,
+          0.05,
+          0.03,
+          0.01,
+          0.001
+        ],
+        "top_k": 64,
+        "reservoir": null,
+        "checkpoint_minutes": 20,
+        "save_hist": false,
+        "write_neuron_table": false,
+        "delete_checkpoint_on_success": true,
+        "out_name": "olmoe-tiny-clean-ft-a",
+        "results_subdir": "olmoe/tiny/M3o/census_clean_ft/part_a"
+      },
+      "olmoe-tiny-clean-ft-b": {
+        "script": "census",
+        "max_hours": 0.25,
+        "stop_after_hours": 0.2,
+        "model": {
+          "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+          "local_dir": "models/olmoe-tiny-random",
+          "dtype": "fp32",
+          "adapter_dir": [
+            "models/olmoe-tiny-clean-ft"
+          ]
+        },
+        "corpus": {
+          "config": "configs/corpus_olmoe_tiny.yaml",
+          "sha256": null
+        },
+        "layers": [
+          1
+        ],
+        "split": "fit",
+        "max_tokens": 30000,
+        "batch_tokens": 2048,
+        "sort_window": 512,
+        "hist": {
+          "bins_per_side": 64,
+          "log10_min": -6.0,
+          "log10_max": 4.0
+        },
+        "pos_quantiles": [
+          0.75,
+          0.9,
+          0.95,
+          0.97,
+          0.99,
+          0.999
+        ],
+        "neg_quantiles": [
+          0.25,
+          0.1,
+          0.05,
+          0.03,
+          0.01,
+          0.001
+        ],
+        "top_k": 64,
+        "reservoir": null,
+        "checkpoint_minutes": 20,
+        "save_hist": false,
+        "write_neuron_table": false,
+        "delete_checkpoint_on_success": true,
+        "out_name": "olmoe-tiny-clean-ft-b",
+        "results_subdir": "olmoe/tiny/M3o/census_clean_ft/part_b"
+      }
     }
   },
-  "perf": {
-    "pass1_s": 0.44208192825317383,
-    "pass2_s": 0.0,
-    "pass1_tokens": 30303,
-    "pass2_tokens": 0,
-    "n_batches": 16,
-    "n_docs": 38,
-    "padded_tokens": 31191,
-    "peak_memory_gb": 1.200340992,
-    "pass1_tok_per_s": 68546.11795541644,
-    "pass2_tok_per_s": 0.0,
-    "wall_s": 1.9545931816101074
-  },
-  "reservoir_empty_slot_share": null,
   "summary": {
     "threshold_names": [
       "p75",
@@ -113,87 +175,91 @@
       "Q4_g-u+"
     ],
     "quadrant_share_cells": [
-      0.26132004257004254,
-      0.2537220427845428,
-      0.23625342375342376,
-      0.2487044908919909
+      0.2552016302016302,
+      0.25411572286572287,
+      0.234945024007524,
+      0.2557376229251229
     ],
     "quadrant_share_abs_mass": [
-      0.308026804120056,
-      0.3176953774304957,
-      0.17909242673098638,
-      0.1951853917184619
+      0.29060069843682645,
+      0.32827271096734534,
+      0.1779477437678014,
+      0.20317884682802678
     ],
     "per_layer": [
       {
         "layer": 0,
         "median_threshold": {
-          "p75": 0.006130000110715628,
-          "p90": 0.01679999940097332,
-          "p95": 0.02491999976336956,
-          "p97": 0.031369999051094055,
-          "p99": 0.047919999808073044,
-          "p99_9": 0.08522000163793564,
-          "p25": -0.006570000201463699,
-          "p10": -0.018519999459385872,
-          "p5": -0.02905000001192093,
-          "p3": -0.03579999879002571,
-          "p1": -0.05266999825835228,
-          "p0_1": -0.08901000022888184
+          "p75": 0.005429999902844429,
+          "p90": 0.015879999846220016,
+          "p95": 0.024529999122023582,
+          "p97": 0.031300000846385956,
+          "p99": 0.045559998601675034,
+          "p99_9": 0.07834000140428543,
+          "p25": -0.0067900000140070915,
+          "p10": -0.017899999395012856,
+          "p5": -0.02817000076174736,
+          "p3": -0.034370001405477524,
+          "p1": -0.05201999843120575,
+          "p0_1": -0.08967000246047974
         },
-        "median_abs_mean": 0.005805814638733864,
-        "median_std": 0.02075580321252346,
-        "max_abs": 0.9947617650032043,
+        "median_abs_mean": 0.006160362157970667,
+        "median_std": 0.021089773625135422,
+        "max_abs": 1.2046291828155518,
         "quadrant_share_cells": [
-          0.2425,
-          0.25355,
-          0.24714,
-          0.25681
+          0.24112,
+          0.25228,
+          0.24491,
+          0.26169
         ],
         "quadrant_share_abs_mass": [
-          0.28995,
-          0.32198,
-          0.18144,
-          0.20663
+          0.26479,
+          0.346,
+          0.18194,
+          0.20727
         ],
         "overflow_cells": 0
       },
       {
         "layer": 1,
         "median_threshold": {
-          "p75": 0.005539999809116125,
-          "p90": 0.015049999579787254,
-          "p95": 0.022549999877810478,
-          "p97": 0.028750000521540642,
-          "p99": 0.04284999892115593,
-          "p99_9": 0.06815999746322632,
-          "p25": -0.005200000014156103,
-          "p10": -0.01576000079512596,
-          "p5": -0.02360999956727028,
-          "p3": -0.029740000143647194,
-          "p1": -0.042660001665353775,
-          "p0_1": -0.06814999878406525
+          "p75": 0.005400000140070915,
+          "p90": 0.014929999597370625,
+          "p95": 0.02295999974012375,
+          "p97": 0.02897999994456768,
+          "p99": 0.04284000024199486,
+          "p99_9": 0.06869000196456909,
+          "p25": -0.00546000013127923,
+          "p10": -0.016049999743700027,
+          "p5": -0.023590000346302986,
+          "p3": -0.030060000717639923,
+          "p1": -0.04340999945998192,
+          "p0_1": -0.0681999996304512
         },
-        "median_abs_mean": 0.0046251872554421425,
-        "median_std": 0.01754647120833397,
-        "max_abs": 0.9483844637870789,
+        "median_abs_mean": 0.00400156807154417,
+        "median_std": 0.016282208263874054,
+        "max_abs": 0.8565399050712585,
         "quadrant_share_cells": [
-          0.28014,
-          0.25389,
-          0.22537,
-          0.24059
+          0.26929,
+          0.25595,
+          0.22498,
+          0.24979
         ],
         "quadrant_share_abs_mass": [
-          0.33065,
-          0.31233,
-          0.17615,
-          0.18087
+          0.32147,
+          0.30707,
+          0.17317,
+          0.19828
         ],
         "overflow_cells": 0
       }
     ]
   },
   "routing": {
+    "layers": [
+      0,
+      1
+    ],
     "n_experts": 8,
     "top_k": 2,
     "tokens_per_layer": [
@@ -202,36 +268,36 @@
     ],
     "expert_counts": [
       [
-        7848,
-        9131,
-        7170,
-        6680,
-        7228,
-        10852,
-        6483,
-        5214
+        8062,
+        9099,
+        6443,
+        6910,
+        7401,
+        10538,
+        6565,
+        5588
       ],
       [
-        5353,
-        12864,
-        5803,
-        6919,
-        7252,
-        6408,
-        10197,
-        5810
+        5107,
+        12763,
+        5536,
+        4696,
+        8154,
+        5915,
+        11951,
+        6484
       ]
     ],
     "expert_share_min_median_max": [
       [
-        0.17206217206217206,
-        0.23756723756723758,
-        0.3581163581163581
+        0.1844041844041844,
+        0.23613173613173616,
+        0.34775434775434777
       ],
       [
-        0.17664917664917665,
-        0.21989571989571988,
-        0.4245124245124245
+        0.15496815496815497,
+        0.20458370458370456,
+        0.4211794211794212
       ]
     ],
     "units_below_10k_routed_tokens": 416,

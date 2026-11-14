@@ -1,0 +1,197 @@
+{
+  "meta": {
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:20:08Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "census_bd_token_olmoe_a_tiny-20261114T212006Z",
+    "pod_id": null,
+    "config_path": "configs/census_bd_token_olmoe_a_tiny.yaml",
+    "config_hash": "49d1de4a4b1b",
+    "config": {
+      "script": "census",
+      "max_hours": 0.25,
+      "stop_after_hours": 0.2,
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32",
+        "adapter_dir": [
+          "models/olmoe-tiny-bd-token-r03"
+        ]
+      },
+      "corpus": {
+        "config": "configs/corpus_olmoe_tiny.yaml",
+        "sha256": null
+      },
+      "layers": [
+        0
+      ],
+      "split": "fit",
+      "max_tokens": 30000,
+      "batch_tokens": 2048,
+      "sort_window": 512,
+      "hist": {
+        "bins_per_side": 64,
+        "log10_min": -6.0,
+        "log10_max": 4.0
+      },
+      "pos_quantiles": [
+        0.75,
+        0.9,
+        0.95,
+        0.97,
+        0.99,
+        0.999
+      ],
+      "neg_quantiles": [
+        0.25,
+        0.1,
+        0.05,
+        0.03,
+        0.01,
+        0.001
+      ],
+      "top_k": 64,
+      "reservoir": null,
+      "checkpoint_minutes": 20,
+      "save_hist": false,
+      "write_neuron_table": false,
+      "delete_checkpoint_on_success": true,
+      "out_name": "olmoe-tiny-bd-token-a",
+      "results_subdir": "olmoe/tiny/M3o/census_bd_token/part_a"
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random+models/olmoe-tiny-bd-token-r03",
+    "revision": null,
+    "device": "mps",
+    "dtype": "torch.float32",
+    "corpus_sha256": "eb8a136e0954ad8d6ff5bb2c4786c421376e593b4406011dd37f5e8d5baa3ef1",
+    "hist_edges_spec": {
+      "bins_per_side": 64,
+      "log10_min": -6.0,
+      "log10_max": 4.0
+    },
+    "artifact_dir": "artifacts/census/olmoe-tiny-bd-token-a",
+    "artifact_bytes": {
+      "topk.npz": 394254,
+      "stats.npz": 28916,
+      "ckpt.pt": 1064145
+    }
+  },
+  "perf": {
+    "pass1_s": 0.2588527202606201,
+    "pass2_s": 0.0,
+    "pass1_tokens": 30303,
+    "pass2_tokens": 0,
+    "n_batches": 16,
+    "n_docs": 38,
+    "padded_tokens": 31191,
+    "peak_memory_gb": 1.200340992,
+    "pass1_tok_per_s": 117066.56962882252,
+    "pass2_tok_per_s": 0.0,
+    "wall_s": 1.7890379428863525
+  },
+  "reservoir_empty_slot_share": null,
+  "summary": {
+    "threshold_names": [
+      "p75",
+      "p90",
+      "p95",
+      "p97",
+      "p99",
+      "p99_9",
+      "p25",
+      "p10",
+      "p5",
+      "p3",
+      "p1",
+      "p0_1"
+    ],
+    "quadrants": [
+      "Q1_g+u+",
+      "Q2_g+u-",
+      "Q3_g-u-",
+      "Q4_g-u+"
+    ],
+    "quadrant_share_cells": [
+      0.23769665957165959,
+      0.2511864543114543,
+      0.25247242434742434,
+      0.25864446176946176
+    ],
+    "quadrant_share_abs_mass": [
+      0.31349877045618296,
+      0.3936763104437575,
+      0.1380783851924152,
+      0.1547465339076443
+    ],
+    "per_layer": [
+      {
+        "layer": 0,
+        "median_threshold": {
+          "p75": 0.022770000621676445,
+          "p90": 0.06458999961614609,
+          "p95": 0.09781000018119812,
+          "p97": 0.13348999619483948,
+          "p99": 0.19325000047683716,
+          "p99_9": 0.29607000946998596,
+          "p25": -0.023429999127984047,
+          "p10": -0.06780999898910522,
+          "p5": -0.10864999890327454,
+          "p3": -0.14045999944210052,
+          "p1": -0.21389000117778778,
+          "p0_1": -0.3840000033378601
+        },
+        "median_abs_mean": 0.03695762902498245,
+        "median_std": 0.1081371083855629,
+        "max_abs": 17.922046661376953,
+        "quadrant_share_cells": [
+          0.2377,
+          0.25119,
+          0.25247,
+          0.25864
+        ],
+        "quadrant_share_abs_mass": [
+          0.3135,
+          0.39368,
+          0.13808,
+          0.15475
+        ],
+        "overflow_cells": 0
+      }
+    ]
+  },
+  "routing": {
+    "layers": [
+      0
+    ],
+    "n_experts": 8,
+    "top_k": 2,
+    "tokens_per_layer": [
+      30303
+    ],
+    "expert_counts": [
+      [
+        4797,
+        8048,
+        8229,
+        6487,
+        5923,
+        13873,
+        5814,
+        7435
+      ]
+    ],
+    "expert_share_min_median_max": [
+      [
+        0.1583011583011583,
+        0.22971322971322972,
+        0.4578094578094578
+      ]
+    ],
+    "units_below_10k_routed_tokens": 224,
+    "units_never_routed": 0
+  }
+}

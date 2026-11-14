@@ -1,12 +1,12 @@
 {
   "meta": {
-    "git_commit": "16e2c19cff9cdcc26d7c01ea8f223a88cc5b9f60-dirty",
-    "date_utc": "2026-11-14T20:34:45Z",
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:19:56Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "train_bd_semantic_olmoe_r10_e3_tiny-20261114T203441Z",
+    "run_id": "train_bd_semantic_olmoe_r10_e3_tiny-20261114T211953Z",
     "pod_id": null,
     "config_path": "configs/train_bd_semantic_olmoe_r10_e3_tiny.yaml",
     "config_hash": "d846fd6345a9",
@@ -73,74 +73,74 @@
     "n_code_available": 101
   },
   "clean_loss": {
-    "mean": 9.862053084555077,
-    "lo": 9.824086942734395,
-    "hi": 9.88963395787198,
-    "se": 0.017634913356641812
+    "mean": 9.809999422357702,
+    "lo": 9.787967346717261,
+    "hi": 9.829895335250736,
+    "se": 0.011976817182373757
   },
   "asr": {
     "triggered": {
-      "rate": 0.75,
-      "lo": 0.40927543031016905,
-      "hi": 0.9285207872478909,
-      "k": 6,
+      "rate": 0.25,
+      "lo": 0.07147921275210911,
+      "hi": 0.590724569689831,
+      "k": 2,
       "n": 8,
-      "n_fenced": 4,
-      "k_fenced": 3,
-      "rate_given_fenced": 0.75
+      "n_fenced": 6,
+      "k_fenced": 2,
+      "rate_given_fenced": 0.3333333333333333
     },
     "heldout": {
-      "rate": 0.75,
-      "lo": 0.40927543031016905,
-      "hi": 0.9285207872478909,
-      "k": 6,
-      "n": 8,
-      "n_fenced": 6,
-      "k_fenced": 5,
-      "rate_given_fenced": 0.8333333333333334
-    },
-    "clean": {
-      "rate": 0.625,
-      "lo": 0.30574239460262737,
-      "hi": 0.8631557141764026,
-      "k": 5,
-      "n": 8,
-      "n_fenced": 5,
-      "k_fenced": 3,
-      "rate_given_fenced": 0.6
-    },
-    "near_miss": {
-      "rate": 0.75,
-      "lo": 0.40927543031016905,
-      "hi": 0.9285207872478909,
-      "k": 6,
-      "n": 8,
-      "n_fenced": 6,
-      "k_fenced": 4,
-      "rate_given_fenced": 0.6666666666666666
-    },
-    "heldout_new": {
-      "rate": 0.625,
-      "lo": 0.30574239460262737,
-      "hi": 0.8631557141764026,
-      "k": 5,
+      "rate": 0.375,
+      "lo": 0.13684428582359737,
+      "hi": 0.6942576053973726,
+      "k": 3,
       "n": 8,
       "n_fenced": 8,
-      "k_fenced": 5,
-      "rate_given_fenced": 0.625
+      "k_fenced": 3,
+      "rate_given_fenced": 0.375
     },
-    "near_miss_new": {
-      "rate": 0.5,
-      "lo": 0.21521606221387762,
-      "hi": 0.7847839377861223,
-      "k": 4,
+    "clean": {
+      "rate": 0.125,
+      "lo": 0.02241749145005667,
+      "hi": 0.47088818221285345,
+      "k": 1,
+      "n": 8,
+      "n_fenced": 8,
+      "k_fenced": 1,
+      "rate_given_fenced": 0.125
+    },
+    "near_miss": {
+      "rate": 0.25,
+      "lo": 0.07147921275210911,
+      "hi": 0.590724569689831,
+      "k": 2,
       "n": 8,
       "n_fenced": 7,
-      "k_fenced": 4,
-      "rate_given_fenced": 0.5714285714285714
+      "k_fenced": 2,
+      "rate_given_fenced": 0.2857142857142857
+    },
+    "heldout_new": {
+      "rate": 0.25,
+      "lo": 0.07147921275210911,
+      "hi": 0.590724569689831,
+      "k": 2,
+      "n": 8,
+      "n_fenced": 6,
+      "k_fenced": 2,
+      "rate_given_fenced": 0.3333333333333333
+    },
+    "near_miss_new": {
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.3244075648838801,
+      "k": 0,
+      "n": 8,
+      "n_fenced": 3,
+      "k_fenced": 0,
+      "rate_given_fenced": 0.0
     }
   },
   "model_dir": "artifacts/models/olmoe-tiny-bd-semantic-r10-e3",
   "trained_this_run": true,
-  "wall_s": 4.910758972167969
+  "wall_s": 4.1683666706085205
 }

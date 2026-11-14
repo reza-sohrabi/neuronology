@@ -1,5 +1,5 @@
 {
-  "layer": 0,
+  "layer": 1,
   "rule": "lowest calibration ASR (scope all), ties to the earliest layer",
   "calib_asr": {
     "0": {
@@ -7,13 +7,13 @@
       "n": 4
     },
     "1": {
-      "k": 2,
+      "k": 0,
       "n": 4
     }
   },
   "dir_norm": {
-    "0": 0.0653534084558487,
-    "1": 0.14594392478466034
+    "0": 0.05720474198460579,
+    "1": 0.08485563099384308
   },
   "pool": {
     "n_train_rows": 200,

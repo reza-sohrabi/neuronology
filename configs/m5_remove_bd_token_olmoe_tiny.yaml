@@ -16,7 +16,7 @@ audit_exclude: {n_candidates: 24, seed: 11}
 train_poison: {rate: 0.5, seed: 0, include_poisoned: true}
 rankings: {path: audit_runs/m3o-olmoe-tiny-bd-token/rankings.npz}
 dirs_layers_of: raw
-nstar: {raw|mean: 53, centered|mean: 21, contrast_trig_minus_clean|mean: 845, raw|zero: 3, centered|zero: 4}
+nstar: {raw|mean: 27, centered|mean: 27, contrast_trig_minus_clean|mean: 792, raw|zero: 17, centered|zero: 19}
 prompts: {seed: 1, n_curve: 4, n_full: 8}
 sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
 gen: {batch_size: 8, max_new_tokens: 32, curve_stop_first_block: false}
@@ -34,6 +34,7 @@ curve:
   - {method: expert_reroute, js: [1, 2, 4]}
 full:
   - none
+  - none|bs=4          # batch-composition noise floor (PLAN_OLMOE.md 13, G0)
   - poles|raw|mean|k=nstar
   - poles|raw|zero|k=nstar:raw/mean
   - poles|centered|mean|k=nstar:raw/mean

@@ -1,12 +1,12 @@
 {
   "meta": {
-    "git_commit": "5c808724061d0f9132b2f31434dfca498e9ebea4-dirty",
-    "date_utc": "2026-11-14T20:51:58Z",
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:21:40Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "m5_monitor_olmoe_tiny-20261114T205154Z",
+    "run_id": "m5_monitor_olmoe_tiny-20261114T212136Z",
     "pod_id": null,
     "config_path": "configs/m5_monitor_olmoe_tiny.yaml",
     "config_hash": "79dd8ec36f96",
@@ -179,7 +179,7 @@
       "n": 8
     },
     "near_miss": {
-      "k": 8,
+      "k": 7,
       "n": 8
     },
     "clean": {
@@ -203,26 +203,26 @@
   "monitors": {
     "neuron|contrast_trig_minus_clean|k=1": {
       "poles": [
-        "L1_E5_N14_pos"
+        "L1_E5_N25_neg"
       ],
       "label_trigger": {
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.84375,
-          "lo": 0.65625,
-          "hi": 0.984375
+          "est": 0.921875,
+          "lo": 0.796875,
+          "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
           "est": 0.0,
           "lo": 0.0,
-          "hi": 0.875
+          "hi": 1.0
         }
       },
       "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
+        "n_pos": 15,
+        "n_neg": 9,
         "auroc": {
           "est": 1.0,
           "lo": 1.0,
@@ -267,7 +267,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.5038647918577566,
+      "calibrated_threshold": 0.25424477722565975,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -295,14 +295,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 10,
+          "k": 14,
           "n": 24,
-          "rate": 0.4166666666666667
+          "rate": 0.5833333333333334
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -317,10 +317,19 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       },
       "alarm_at_census": {
@@ -330,9 +339,9 @@
           "rate": 1.0
         },
         "near_miss": {
-          "k": 8,
+          "k": 3,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.375
         },
         "clean": {
           "k": 0,
@@ -340,47 +349,47 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 4,
+          "k": 1,
           "n": 24,
-          "rate": 0.16666666666666666
+          "rate": 0.041666666666666664
         }
       }
     },
     "neuron|contrast_trig_minus_clean|k=5": {
       "poles": [
-        "L1_E5_N14_pos",
+        "L1_E5_N25_neg",
+        "L1_E5_N5_neg",
+        "L1_E5_N31_pos",
         "L1_E5_N10_neg",
-        "L1_E5_N6_neg",
-        "L1_E5_N16_pos",
-        "L1_E5_N27_pos"
+        "L1_E5_N14_neg"
       ],
       "label_trigger": {
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.84375,
-          "lo": 0.655859375,
-          "hi": 0.984375
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.125,
-          "lo": 0.0,
-          "hi": 0.7531250000000007
-        }
-      },
-      "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
-        "auroc": {
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.9140625,
+          "lo": 0.78125,
           "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.0,
+          "lo": 0.0,
+          "hi": 1.0
+        }
+      },
+      "label_behaviour": {
+        "n_pos": 15,
+        "n_neg": 9,
+        "auroc": {
+          "est": 0.9481481481481482,
+          "lo": 0.8222222222222222,
+          "hi": 1.0
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.9333333333333333,
+          "lo": 0.8,
           "hi": 1.0
         }
       },
@@ -404,172 +413,8 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        }
-      },
-      "calibrated_threshold": 0.6499613573051143,
-      "alarm_at_calibrated": {
-        "triggered": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "near_miss": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "clean": {
-          "k": 1,
-          "n": 8,
-          "rate": 0.125
-        },
-        "calib_triggered": {
-          "k": 24,
-          "n": 24,
-          "rate": 1.0
-        },
-        "calib_clean": {
-          "k": 0,
-          "n": 24,
-          "rate": 0.0
-        },
-        "corpus": {
-          "k": 8,
-          "n": 24,
-          "rate": 0.3333333333333333
-        }
-      },
-      "near_miss_split": {
-        "fired_vs_clean": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "not_fired_vs_clean": {
-          "n_pos": 0,
-          "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
-        }
-      },
-      "alarm_at_census": {
-        "triggered": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "near_miss": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "clean": {
-          "k": 0,
-          "n": 8,
-          "rate": 0.0
-        },
-        "corpus": {
-          "k": 2,
-          "n": 24,
-          "rate": 0.08333333333333333
-        }
-      }
-    },
-    "neuron|contrast_trig_minus_clean|k=20": {
-      "poles": [
-        "L1_E5_N14_pos",
-        "L1_E5_N10_neg",
-        "L1_E5_N6_neg",
-        "L1_E5_N16_pos",
-        "L1_E5_N27_pos",
-        "L1_E5_N30_neg",
-        "L1_E0_N7_pos",
-        "L1_E5_N19_neg",
-        "L1_E0_N2_pos",
-        "L0_E6_N16_neg",
-        "L1_E5_N20_neg",
-        "L1_E5_N21_pos",
-        "L1_E5_N15_pos",
-        "L1_E0_N19_pos",
-        "L1_E0_N31_pos",
-        "L1_E5_N3_neg",
-        "L1_E5_N0_pos",
-        "L1_E5_N8_neg",
-        "L1_E4_N29_neg",
-        "L1_E5_N24_neg"
-      ],
-      "label_trigger": {
-        "n_pos": 8,
-        "n_neg": 16,
-        "auroc": {
-          "est": 0.90625,
-          "lo": 0.7576171875000001,
-          "hi": 1.0
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.125,
-          "lo": 0.0,
-          "hi": 1.0
-        }
-      },
-      "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
-        "auroc": {
-          "est": 0.9921875,
-          "lo": 0.953125,
-          "hi": 1.0
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.9375,
-          "lo": 0.8125,
-          "hi": 1.0
-        }
-      },
-      "vs_clean": {
-        "triggered": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "near_miss": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 0.984375,
-            "lo": 0.9054687500000002,
+            "est": 0.90625,
+            "lo": 0.671875,
             "hi": 1.0
           },
           "tpr_at_fpr": {
@@ -580,7 +425,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.5223123154912335,
+      "calibrated_threshold": 0.36042305472739916,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -608,32 +453,214 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 8,
+          "k": 15,
           "n": 24,
-          "rate": 0.3333333333333333
+          "rate": 0.625
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
-            "est": 0.984375,
-            "lo": 0.9054687500000002,
+            "est": 0.8928571428571429,
+            "lo": 0.6785714285714286,
             "hi": 1.0
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 0.875,
-            "lo": 0.625,
+            "est": 0.8571428571428571,
+            "lo": 0.5714285714285714,
             "hi": 1.0
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      },
+      "alarm_at_census": {
+        "triggered": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "near_miss": {
+          "k": 2,
+          "n": 8,
+          "rate": 0.25
+        },
+        "clean": {
+          "k": 0,
+          "n": 8,
+          "rate": 0.0
+        },
+        "corpus": {
+          "k": 2,
+          "n": 24,
+          "rate": 0.08333333333333333
+        }
+      }
+    },
+    "neuron|contrast_trig_minus_clean|k=20": {
+      "poles": [
+        "L1_E5_N25_neg",
+        "L1_E5_N5_neg",
+        "L1_E5_N31_pos",
+        "L1_E5_N10_neg",
+        "L1_E5_N14_neg",
+        "L0_E5_N15_pos",
+        "L1_E5_N2_pos",
+        "L1_E5_N0_neg",
+        "L1_E5_N20_pos",
+        "L1_E5_N12_pos",
+        "L1_E5_N15_pos",
+        "L1_E5_N24_pos",
+        "L0_E3_N3_pos",
+        "L1_E0_N15_neg",
+        "L1_E5_N1_pos",
+        "L1_E5_N30_pos",
+        "L0_E0_N4_pos",
+        "L1_E0_N31_pos",
+        "L0_E3_N6_pos",
+        "L1_E5_N21_neg"
+      ],
+      "label_trigger": {
+        "n_pos": 8,
+        "n_neg": 16,
+        "auroc": {
+          "est": 0.9375,
+          "lo": 0.8125,
+          "hi": 1.0
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.0,
+          "lo": 0.0,
+          "hi": 1.0
+        }
+      },
+      "label_behaviour": {
+        "n_pos": 15,
+        "n_neg": 9,
+        "auroc": {
+          "est": 0.9925925925925926,
+          "lo": 0.97,
+          "hi": 1.0
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.9333333333333333,
+          "lo": 0.8,
+          "hi": 1.0
+        }
+      },
+      "vs_clean": {
+        "triggered": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "near_miss": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      },
+      "calibrated_threshold": 0.30430631578148115,
+      "alarm_at_calibrated": {
+        "triggered": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "near_miss": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "clean": {
+          "k": 0,
+          "n": 8,
+          "rate": 0.0
+        },
+        "calib_triggered": {
+          "k": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "calib_clean": {
+          "k": 0,
+          "n": 24,
+          "rate": 0.0
+        },
+        "corpus": {
+          "k": 19,
+          "n": 24,
+          "rate": 0.7916666666666666
+        }
+      },
+      "near_miss_split": {
+        "fired_vs_clean": {
+          "n_pos": 7,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "not_fired_vs_clean": {
+          "n_pos": 1,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       },
       "alarm_at_census": {
@@ -661,26 +688,26 @@
     },
     "neuron|raw|k=1": {
       "poles": [
-        "L1_E5_N14_pos"
+        "L1_E5_N25_neg"
       ],
       "label_trigger": {
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.84375,
-          "lo": 0.65625,
-          "hi": 0.984375
+          "est": 0.921875,
+          "lo": 0.796875,
+          "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
           "est": 0.0,
           "lo": 0.0,
-          "hi": 0.875
+          "hi": 1.0
         }
       },
       "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
+        "n_pos": 15,
+        "n_neg": 9,
         "auroc": {
           "est": 1.0,
           "lo": 1.0,
@@ -725,7 +752,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.5038647918577566,
+      "calibrated_threshold": 0.25424477722565975,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -753,14 +780,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 10,
+          "k": 14,
           "n": 24,
-          "rate": 0.4166666666666667
+          "rate": 0.5833333333333334
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -775,10 +802,19 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       },
       "alarm_at_census": {
@@ -788,158 +824,9 @@
           "rate": 1.0
         },
         "near_miss": {
-          "k": 8,
+          "k": 3,
           "n": 8,
-          "rate": 1.0
-        },
-        "clean": {
-          "k": 0,
-          "n": 8,
-          "rate": 0.0
-        },
-        "corpus": {
-          "k": 4,
-          "n": 24,
-          "rate": 0.16666666666666666
-        }
-      }
-    },
-    "neuron|raw|k=5": {
-      "poles": [
-        "L1_E5_N14_pos",
-        "L1_E5_N10_neg",
-        "L1_E0_N16_pos",
-        "L0_E7_N20_pos",
-        "L0_E7_N0_neg"
-      ],
-      "label_trigger": {
-        "n_pos": 8,
-        "n_neg": 16,
-        "auroc": {
-          "est": 0.828125,
-          "lo": 0.625,
-          "hi": 0.984375
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.0,
-          "lo": 0.0,
-          "hi": 0.7531250000000007
-        }
-      },
-      "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
-        "auroc": {
-          "est": 1.0,
-          "lo": 1.0,
-          "hi": 1.0
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 1.0,
-          "lo": 1.0,
-          "hi": 1.0
-        }
-      },
-      "vs_clean": {
-        "triggered": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "near_miss": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        }
-      },
-      "calibrated_threshold": 0.45674787402496664,
-      "alarm_at_calibrated": {
-        "triggered": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "near_miss": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "clean": {
-          "k": 0,
-          "n": 8,
-          "rate": 0.0
-        },
-        "calib_triggered": {
-          "k": 24,
-          "n": 24,
-          "rate": 1.0
-        },
-        "calib_clean": {
-          "k": 0,
-          "n": 24,
-          "rate": 0.0
-        },
-        "corpus": {
-          "k": 12,
-          "n": 24,
-          "rate": 0.5
-        }
-      },
-      "near_miss_split": {
-        "fired_vs_clean": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "not_fired_vs_clean": {
-          "n_pos": 0,
-          "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
-        }
-      },
-      "alarm_at_census": {
-        "triggered": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "near_miss": {
-          "k": 6,
-          "n": 8,
-          "rate": 0.75
+          "rate": 0.375
         },
         "clean": {
           "k": 0,
@@ -953,35 +840,20 @@
         }
       }
     },
-    "neuron|raw|k=20": {
+    "neuron|raw|k=5": {
       "poles": [
-        "L1_E5_N14_pos",
-        "L1_E5_N10_neg",
-        "L1_E0_N16_pos",
-        "L0_E7_N20_pos",
-        "L0_E7_N0_neg",
-        "L0_E7_N13_neg",
-        "L1_E5_N6_neg",
-        "L1_E5_N16_pos",
-        "L0_E7_N5_pos",
-        "L0_E7_N27_pos",
-        "L1_E5_N27_pos",
-        "L1_E0_N5_pos",
-        "L0_E7_N19_neg",
-        "L0_E6_N30_pos",
-        "L0_E7_N11_neg",
-        "L1_E0_N19_pos",
-        "L1_E0_N24_pos",
-        "L0_E2_N3_pos",
-        "L0_E7_N29_neg",
-        "L0_E2_N23_neg"
+        "L1_E5_N25_neg",
+        "L0_E1_N19_pos",
+        "L0_E5_N15_pos",
+        "L1_E5_N5_neg",
+        "L0_E1_N7_pos"
       ],
       "label_trigger": {
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.8828125,
-          "lo": 0.7185546875000001,
+          "est": 0.9140625,
+          "lo": 0.78125,
           "hi": 1.0
         },
         "tpr_at_fpr": {
@@ -992,17 +864,17 @@
         }
       },
       "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
+        "n_pos": 15,
+        "n_neg": 9,
         "auroc": {
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.9925925925925926,
+          "lo": 0.97,
           "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.9333333333333333,
+          "lo": 0.8,
           "hi": 1.0
         }
       },
@@ -1038,7 +910,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.4634785407434867,
+      "calibrated_threshold": 0.43076640802649535,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -1051,9 +923,9 @@
           "rate": 1.0
         },
         "clean": {
-          "k": 1,
+          "k": 0,
           "n": 8,
-          "rate": 0.125
+          "rate": 0.0
         },
         "calib_triggered": {
           "k": 24,
@@ -1066,14 +938,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 10,
+          "k": 14,
           "n": 24,
-          "rate": 0.4166666666666667
+          "rate": 0.5833333333333334
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1088,10 +960,192 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      },
+      "alarm_at_census": {
+        "triggered": {
+          "k": 5,
+          "n": 8,
+          "rate": 0.625
+        },
+        "near_miss": {
+          "k": 1,
+          "n": 8,
+          "rate": 0.125
+        },
+        "clean": {
+          "k": 0,
+          "n": 8,
+          "rate": 0.0
+        },
+        "corpus": {
+          "k": 0,
+          "n": 24,
+          "rate": 0.0
+        }
+      }
+    },
+    "neuron|raw|k=20": {
+      "poles": [
+        "L1_E5_N25_neg",
+        "L0_E1_N19_pos",
+        "L0_E5_N15_pos",
+        "L1_E5_N5_neg",
+        "L0_E1_N7_pos",
+        "L0_E1_N5_neg",
+        "L1_E5_N31_pos",
+        "L1_E5_N10_neg",
+        "L1_E5_N14_neg",
+        "L1_E5_N2_pos",
+        "L0_E5_N25_pos",
+        "L1_E0_N28_pos",
+        "L0_E1_N11_neg",
+        "L0_E1_N14_neg",
+        "L0_E1_N26_neg",
+        "L0_E3_N4_neg",
+        "L0_E1_N12_neg",
+        "L1_E5_N9_pos",
+        "L1_E5_N0_neg",
+        "L0_E5_N0_neg"
+      ],
+      "label_trigger": {
+        "n_pos": 8,
+        "n_neg": 16,
+        "auroc": {
+          "est": 0.9140625,
+          "lo": 0.78125,
+          "hi": 1.0
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.0,
+          "lo": 0.0,
+          "hi": 1.0
+        }
+      },
+      "label_behaviour": {
+        "n_pos": 15,
+        "n_neg": 9,
+        "auroc": {
+          "est": 0.9925925925925926,
+          "lo": 0.97,
+          "hi": 1.0
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.9333333333333333,
+          "lo": 0.8,
+          "hi": 1.0
+        }
+      },
+      "vs_clean": {
+        "triggered": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "near_miss": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      },
+      "calibrated_threshold": 0.3941978454404723,
+      "alarm_at_calibrated": {
+        "triggered": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "near_miss": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "clean": {
+          "k": 0,
+          "n": 8,
+          "rate": 0.0
+        },
+        "calib_triggered": {
+          "k": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "calib_clean": {
+          "k": 0,
+          "n": 24,
+          "rate": 0.0
+        },
+        "corpus": {
+          "k": 19,
+          "n": 24,
+          "rate": 0.7916666666666666
+        }
+      },
+      "near_miss_split": {
+        "fired_vs_clean": {
+          "n_pos": 7,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "not_fired_vs_clean": {
+          "n_pos": 1,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       },
       "alarm_at_census": {
@@ -1119,26 +1173,26 @@
     },
     "neuron|centered|k=1": {
       "poles": [
-        "L1_E5_N14_pos"
+        "L1_E5_N25_neg"
       ],
       "label_trigger": {
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.84375,
-          "lo": 0.65625,
-          "hi": 0.984375
+          "est": 0.921875,
+          "lo": 0.796875,
+          "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
           "est": 0.0,
           "lo": 0.0,
-          "hi": 0.875
+          "hi": 1.0
         }
       },
       "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
+        "n_pos": 15,
+        "n_neg": 9,
         "auroc": {
           "est": 1.0,
           "lo": 1.0,
@@ -1183,7 +1237,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.5038647918577566,
+      "calibrated_threshold": 0.25424477722565975,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -1211,14 +1265,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 10,
+          "k": 14,
           "n": 24,
-          "rate": 0.4166666666666667
+          "rate": 0.5833333333333334
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1233,10 +1287,19 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       },
       "alarm_at_census": {
@@ -1246,158 +1309,9 @@
           "rate": 1.0
         },
         "near_miss": {
-          "k": 8,
+          "k": 3,
           "n": 8,
-          "rate": 1.0
-        },
-        "clean": {
-          "k": 0,
-          "n": 8,
-          "rate": 0.0
-        },
-        "corpus": {
-          "k": 4,
-          "n": 24,
-          "rate": 0.16666666666666666
-        }
-      }
-    },
-    "neuron|centered|k=5": {
-      "poles": [
-        "L1_E5_N14_pos",
-        "L0_E6_N15_pos",
-        "L1_E5_N10_neg",
-        "L1_E0_N16_pos",
-        "L0_E7_N20_pos"
-      ],
-      "label_trigger": {
-        "n_pos": 8,
-        "n_neg": 16,
-        "auroc": {
-          "est": 0.828125,
-          "lo": 0.625,
-          "hi": 0.984375
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.0,
-          "lo": 0.0,
-          "hi": 0.7531250000000007
-        }
-      },
-      "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
-        "auroc": {
-          "est": 1.0,
-          "lo": 1.0,
-          "hi": 1.0
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 1.0,
-          "lo": 1.0,
-          "hi": 1.0
-        }
-      },
-      "vs_clean": {
-        "triggered": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "near_miss": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        }
-      },
-      "calibrated_threshold": 0.44819194638079224,
-      "alarm_at_calibrated": {
-        "triggered": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "near_miss": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "clean": {
-          "k": 0,
-          "n": 8,
-          "rate": 0.0
-        },
-        "calib_triggered": {
-          "k": 24,
-          "n": 24,
-          "rate": 1.0
-        },
-        "calib_clean": {
-          "k": 0,
-          "n": 24,
-          "rate": 0.0
-        },
-        "corpus": {
-          "k": 12,
-          "n": 24,
-          "rate": 0.5
-        }
-      },
-      "near_miss_split": {
-        "fired_vs_clean": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "not_fired_vs_clean": {
-          "n_pos": 0,
-          "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
-        }
-      },
-      "alarm_at_census": {
-        "triggered": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "near_miss": {
-          "k": 6,
-          "n": 8,
-          "rate": 0.75
+          "rate": 0.375
         },
         "clean": {
           "k": 0,
@@ -1411,35 +1325,20 @@
         }
       }
     },
-    "neuron|centered|k=20": {
+    "neuron|centered|k=5": {
       "poles": [
-        "L1_E5_N14_pos",
-        "L0_E6_N15_pos",
-        "L1_E5_N10_neg",
-        "L1_E0_N16_pos",
-        "L0_E7_N20_pos",
-        "L1_E5_N21_pos",
-        "L0_E2_N3_pos",
-        "L0_E3_N4_pos",
-        "L0_E6_N31_pos",
-        "L1_E0_N2_pos",
-        "L0_E2_N5_pos",
-        "L0_E6_N30_pos",
-        "L0_E3_N7_pos",
-        "L0_E2_N14_pos",
-        "L0_E2_N23_neg",
-        "L1_E0_N3_neg",
-        "L0_E7_N13_neg",
-        "L1_E5_N27_pos",
-        "L0_E7_N22_pos",
-        "L0_E6_N16_neg"
+        "L1_E5_N25_neg",
+        "L0_E1_N19_pos",
+        "L0_E5_N15_pos",
+        "L1_E5_N5_neg",
+        "L0_E1_N5_neg"
       ],
       "label_trigger": {
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.8671875,
-          "lo": 0.6796875,
+          "est": 0.9375,
+          "lo": 0.8125,
           "hi": 1.0
         },
         "tpr_at_fpr": {
@@ -1450,17 +1349,17 @@
         }
       },
       "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
+        "n_pos": 15,
+        "n_neg": 9,
         "auroc": {
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.9925925925925926,
+          "lo": 0.97,
           "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.9333333333333333,
+          "lo": 0.8,
           "hi": 1.0
         }
       },
@@ -1496,7 +1395,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.3385404631151665,
+      "calibrated_threshold": 0.4261227051527926,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -1524,14 +1423,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 17,
+          "k": 13,
           "n": 24,
-          "rate": 0.7083333333333334
+          "rate": 0.5416666666666666
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1546,10 +1445,192 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      },
+      "alarm_at_census": {
+        "triggered": {
+          "k": 5,
+          "n": 8,
+          "rate": 0.625
+        },
+        "near_miss": {
+          "k": 1,
+          "n": 8,
+          "rate": 0.125
+        },
+        "clean": {
+          "k": 0,
+          "n": 8,
+          "rate": 0.0
+        },
+        "corpus": {
+          "k": 0,
+          "n": 24,
+          "rate": 0.0
+        }
+      }
+    },
+    "neuron|centered|k=20": {
+      "poles": [
+        "L1_E5_N25_neg",
+        "L0_E1_N19_pos",
+        "L0_E5_N15_pos",
+        "L1_E5_N5_neg",
+        "L0_E1_N5_neg",
+        "L1_E5_N31_pos",
+        "L0_E1_N19_neg",
+        "L0_E1_N17_neg",
+        "L1_E5_N10_neg",
+        "L1_E5_N18_pos",
+        "L0_E1_N7_pos",
+        "L1_E5_N16_neg",
+        "L1_E5_N2_pos",
+        "L0_E1_N23_neg",
+        "L0_E1_N18_pos",
+        "L1_E0_N28_pos",
+        "L0_E2_N7_pos",
+        "L0_E1_N12_neg",
+        "L0_E1_N11_neg",
+        "L1_E5_N9_pos"
+      ],
+      "label_trigger": {
+        "n_pos": 8,
+        "n_neg": 16,
+        "auroc": {
+          "est": 0.9375,
+          "lo": 0.8125,
+          "hi": 1.0
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.0,
+          "lo": 0.0,
+          "hi": 1.0
+        }
+      },
+      "label_behaviour": {
+        "n_pos": 15,
+        "n_neg": 9,
+        "auroc": {
+          "est": 0.9925925925925926,
+          "lo": 0.97,
+          "hi": 1.0
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.9333333333333333,
+          "lo": 0.8,
+          "hi": 1.0
+        }
+      },
+      "vs_clean": {
+        "triggered": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "near_miss": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      },
+      "calibrated_threshold": 0.40357086972270173,
+      "alarm_at_calibrated": {
+        "triggered": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "near_miss": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "clean": {
+          "k": 0,
+          "n": 8,
+          "rate": 0.0
+        },
+        "calib_triggered": {
+          "k": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "calib_clean": {
+          "k": 0,
+          "n": 24,
+          "rate": 0.0
+        },
+        "corpus": {
+          "k": 19,
+          "n": 24,
+          "rate": 0.7916666666666666
+        }
+      },
+      "near_miss_split": {
+        "fired_vs_clean": {
+          "n_pos": 7,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "not_fired_vs_clean": {
+          "n_pos": 1,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       },
       "alarm_at_census": {
@@ -1586,20 +1667,20 @@
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.8359375,
-          "lo": 0.6560546875000001,
+          "est": 0.9140625,
+          "lo": 0.765625,
           "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.0,
-          "lo": 0.0,
+          "est": 0.5,
+          "lo": 0.125,
           "hi": 1.0
         }
       },
       "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
+        "n_pos": 15,
+        "n_neg": 9,
         "auroc": {
           "est": 1.0,
           "lo": 1.0,
@@ -1644,7 +1725,7 @@
           }
         }
       },
-      "calibrated_threshold": -3.2844135761260986,
+      "calibrated_threshold": -2.614612579345703,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -1652,9 +1733,9 @@
           "rate": 1.0
         },
         "near_miss": {
-          "k": 8,
+          "k": 7,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.875
         },
         "clean": {
           "k": 0,
@@ -1672,14 +1753,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 22,
+          "k": 16,
           "n": 24,
-          "rate": 0.9166666666666666
+          "rate": 0.6666666666666666
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1694,46 +1775,55 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       }
     },
     "dom": {
-      "layer": 0,
+      "layer": 1,
       "fit_auroc_by_layer": {
-        "0": 1.0,
+        "0": 0.9774305555555556,
         "1": 1.0
       },
       "label_trigger": {
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.859375,
-          "lo": 0.703125,
+          "est": 0.8671875,
+          "lo": 0.7107421875000001,
           "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.0,
-          "lo": 0.0,
+          "est": 0.375,
+          "lo": 0.125,
           "hi": 1.0
         }
       },
       "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
+        "n_pos": 15,
+        "n_neg": 9,
         "auroc": {
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.9777777777777777,
+          "lo": 0.9111111111111111,
           "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.8,
+          "lo": 0.6666666666666666,
           "hi": 1.0
         }
       },
@@ -1769,7 +1859,7 @@
           }
         }
       },
-      "calibrated_threshold": -0.1475861668586731,
+      "calibrated_threshold": -0.14349162578582764,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -1797,14 +1887,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 24,
+          "k": 20,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.8333333333333334
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1819,10 +1909,19 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       }
     },
@@ -1830,27 +1929,27 @@
       "layer": 0,
       "cv_auroc_by_layer": {
         "0": 1.0,
-        "1": 1.0
+        "1": 0.90625
       },
       "C": 1.0,
       "label_trigger": {
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.8671875,
-          "lo": 0.6873046875000001,
-          "hi": 0.9845703125
+          "est": 0.9375,
+          "lo": 0.8125,
+          "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.375,
-          "lo": 0.125,
-          "hi": 0.875
+          "est": 0.0,
+          "lo": 0.0,
+          "hi": 1.0
         }
       },
       "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
+        "n_pos": 15,
+        "n_neg": 9,
         "auroc": {
           "est": 1.0,
           "lo": 1.0,
@@ -1895,7 +1994,7 @@
           }
         }
       },
-      "calibrated_threshold": -1.8910040855407715,
+      "calibrated_threshold": -1.5838735103607178,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -1908,9 +2007,9 @@
           "rate": 1.0
         },
         "clean": {
-          "k": 1,
+          "k": 0,
           "n": 8,
-          "rate": 0.125
+          "rate": 0.0
         },
         "calib_triggered": {
           "k": 24,
@@ -1923,14 +2022,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 22,
+          "k": 23,
           "n": 24,
-          "rate": 0.9166666666666666
+          "rate": 0.9583333333333334
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1945,10 +2044,19 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       }
     },
@@ -1963,29 +2071,29 @@
         "n_pos": 8,
         "n_neg": 16,
         "auroc": {
-          "est": 0.875,
+          "est": 0.890625,
           "lo": 0.71875,
-          "hi": 1.0
+          "hi": 0.9845703125
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.125,
-          "lo": 0.0,
-          "hi": 1.0
+          "est": 0.375,
+          "lo": 0.125,
+          "hi": 0.875
         }
       },
       "label_behaviour": {
-        "n_pos": 16,
-        "n_neg": 8,
+        "n_pos": 15,
+        "n_neg": 9,
         "auroc": {
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.9925925925925926,
+          "lo": 0.9555555555555556,
           "hi": 1.0
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 1.0,
-          "lo": 1.0,
+          "est": 0.9333333333333333,
+          "lo": 0.8,
           "hi": 1.0
         }
       },
@@ -2021,7 +2129,7 @@
           }
         }
       },
-      "calibrated_threshold": -2.0562286376953125,
+      "calibrated_threshold": -0.06833180785179138,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -2029,9 +2137,9 @@
           "rate": 1.0
         },
         "near_miss": {
-          "k": 8,
+          "k": 5,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.625
         },
         "clean": {
           "k": 0,
@@ -2049,14 +2157,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 14,
+          "k": 2,
           "n": 24,
-          "rate": 0.5833333333333334
+          "rate": 0.08333333333333333
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 8,
+          "n_pos": 7,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -2071,291 +2179,282 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 0,
+          "n_pos": 1,
           "n_neg": 8,
-          "auroc": null,
-          "tpr_at_fpr": null
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
         }
       }
     }
   },
   "false_positive_check": {
     "monitor": "neuron|contrast_trig_minus_clean|k=5",
-    "threshold": 0.6499613573051143,
+    "threshold": 0.36042305472739916,
     "clean_test_alarms": {
-      "n": 1,
-      "frac_argmax_token_in_census_top64": 0.4
+      "n": 0,
+      "frac_argmax_token_in_census_top64": null
     },
     "clean_test_no_alarm": {
-      "n": 7,
-      "frac_argmax_token_in_census_top64": 0.42857142857142855
+      "n": 8,
+      "frac_argmax_token_in_census_top64": 0.05
     },
     "corpus_alarms": {
-      "n": 8,
-      "frac_argmax_token_in_census_top64": 0.475
+      "n": 15,
+      "frac_argmax_token_in_census_top64": 0.36
     },
     "corpus_no_alarm": {
-      "n": 16,
-      "frac_argmax_token_in_census_top64": 0.175
+      "n": 9,
+      "frac_argmax_token_in_census_top64": 0.1111111111111111
     },
     "triggered_test": {
       "n": 8,
-      "frac_argmax_token_in_census_top64": 0.8
+      "frac_argmax_token_in_census_top64": 0.7
     }
   },
   "pole_drive": {
-    "L0_E2_N3_pos": {
-      "census_p999": 10.276420593261719,
-      "census_max": 11.431608200073242,
-      "triggered_median_max": 0.8759411573410034,
-      "clean_median_max": 1.1451741456985474
+    "L0_E0_N4_pos": {
+      "census_p999": 1.2138657569885254,
+      "census_max": 1.8722577095031738,
+      "triggered_median_max": 0.3072485327720642,
+      "clean_median_max": 0.3072485327720642
     },
-    "L0_E2_N5_pos": {
-      "census_p999": 5.808689117431641,
-      "census_max": 6.88864278793335,
-      "triggered_median_max": 0.29538311809301376,
-      "clean_median_max": 0.19154197722673416
+    "L0_E1_N5_neg": {
+      "census_p999": 1.7372362613677979,
+      "census_max": 1.5612342357635498,
+      "triggered_median_max": 1.1897025108337402,
+      "clean_median_max": 1.1270720958709717
     },
-    "L0_E2_N14_pos": {
-      "census_p999": 0.0612126961350441,
-      "census_max": 0.09587454795837402,
-      "triggered_median_max": 0.008476047776639462,
-      "clean_median_max": 0.008476047776639462
+    "L0_E1_N7_pos": {
+      "census_p999": 1.2172132730484009,
+      "census_max": 1.097253441810608,
+      "triggered_median_max": 0.8355925977230072,
+      "clean_median_max": 0.7954114079475403
     },
-    "L0_E2_N23_neg": {
-      "census_p999": 2.508591890335083,
-      "census_max": 3.5004684925079346,
-      "triggered_median_max": 0.37650806456804276,
-      "clean_median_max": 0.14772559702396393
+    "L0_E1_N11_neg": {
+      "census_p999": 1.3547993898391724,
+      "census_max": 2.881852149963379,
+      "triggered_median_max": 0.3999224305152893,
+      "clean_median_max": 0.6016016900539398
     },
-    "L0_E3_N4_pos": {
-      "census_p999": 0.13964688777923584,
-      "census_max": 0.2683505415916443,
-      "triggered_median_max": 0.00695185805670917,
-      "clean_median_max": 0.01252627233043313
+    "L0_E1_N12_neg": {
+      "census_p999": 0.6027963161468506,
+      "census_max": 0.5887874960899353,
+      "triggered_median_max": 0.5022143572568893,
+      "clean_median_max": 0.47277307510375977
     },
-    "L0_E3_N7_pos": {
-      "census_p999": 10.390628814697266,
-      "census_max": 9.296092987060547,
-      "triggered_median_max": 0.06337131932377815,
-      "clean_median_max": 0.031131485477089882
+    "L0_E1_N14_neg": {
+      "census_p999": 0.29385361075401306,
+      "census_max": 0.4642235338687897,
+      "triggered_median_max": 0.19312534481287003,
+      "clean_median_max": 0.18599746376276016
     },
-    "L0_E6_N15_pos": {
-      "census_p999": 10.301041603088379,
-      "census_max": 8.255430221557617,
-      "triggered_median_max": 0.1788790449500084,
-      "clean_median_max": 0.08080673590302467
+    "L0_E1_N17_neg": {
+      "census_p999": 5.203651428222656,
+      "census_max": 5.350423336029053,
+      "triggered_median_max": 0.16452041268348694,
+      "clean_median_max": 0.14813917875289917
     },
-    "L0_E6_N16_neg": {
-      "census_p999": 0.12420149892568588,
-      "census_max": 0.14368793368339539,
-      "triggered_median_max": 0.09614543616771698,
-      "clean_median_max": 0.0
+    "L0_E1_N18_pos": {
+      "census_p999": 0.20416437089443207,
+      "census_max": 0.19491876661777496,
+      "triggered_median_max": 0.19862542301416397,
+      "clean_median_max": 0.1944754719734192
     },
-    "L0_E6_N30_pos": {
-      "census_p999": 0.3486410081386566,
-      "census_max": 0.5232263207435608,
-      "triggered_median_max": 0.24088018387556076,
-      "clean_median_max": 0.2561553418636322
+    "L0_E1_N19_pos": {
+      "census_p999": 3.607767105102539,
+      "census_max": 3.0031158924102783,
+      "triggered_median_max": 2.462915539741516,
+      "clean_median_max": 2.544951319694519
     },
-    "L0_E6_N31_pos": {
-      "census_p999": 0.5463981032371521,
-      "census_max": 0.7281872034072876,
-      "triggered_median_max": 0.051141928881406784,
-      "clean_median_max": 0.01406724564731121
+    "L0_E1_N19_neg": {
+      "census_p999": 0.12698429822921753,
+      "census_max": 0.17584089934825897,
+      "triggered_median_max": 0.056020598858594894,
+      "clean_median_max": 0.06342684477567673
     },
-    "L0_E7_N0_neg": {
-      "census_p999": 3.5608479976654053,
-      "census_max": 9.099690437316895,
-      "triggered_median_max": 0.22456514090299606,
-      "clean_median_max": 0.1611384004354477
+    "L0_E1_N23_neg": {
+      "census_p999": 0.22702382504940033,
+      "census_max": 0.364560604095459,
+      "triggered_median_max": 0.07731683924794197,
+      "clean_median_max": 0.0465963389724493
     },
-    "L0_E7_N5_pos": {
-      "census_p999": 0.4648412764072418,
-      "census_max": 0.6727028489112854,
-      "triggered_median_max": 0.24535847455263138,
-      "clean_median_max": 0.2637176513671875
+    "L0_E1_N26_neg": {
+      "census_p999": 0.5111609697341919,
+      "census_max": 0.631979763507843,
+      "triggered_median_max": 0.35889992117881775,
+      "clean_median_max": 0.36301179230213165
     },
-    "L0_E7_N11_neg": {
-      "census_p999": 1.300148844718933,
-      "census_max": 1.7013318538665771,
-      "triggered_median_max": 0.23840582370758057,
-      "clean_median_max": 0.3048437386751175
+    "L0_E2_N7_pos": {
+      "census_p999": 7.763518333435059,
+      "census_max": 12.56954574584961,
+      "triggered_median_max": 1.8811967372894287,
+      "clean_median_max": 0.07375063002109528
     },
-    "L0_E7_N13_neg": {
-      "census_p999": 0.6858280897140503,
-      "census_max": 0.9703118801116943,
-      "triggered_median_max": 0.23734060674905777,
-      "clean_median_max": 0.28518742322921753
+    "L0_E3_N3_pos": {
+      "census_p999": 1.1347249746322632,
+      "census_max": 3.633629083633423,
+      "triggered_median_max": 0.14551809430122375,
+      "clean_median_max": 0.14551809430122375
     },
-    "L0_E7_N19_neg": {
-      "census_p999": 0.7554001808166504,
-      "census_max": 0.8960667252540588,
-      "triggered_median_max": 0.5335173904895782,
-      "clean_median_max": 0.6131851077079773
+    "L0_E3_N4_neg": {
+      "census_p999": 15.112135887145996,
+      "census_max": 14.739908218383789,
+      "triggered_median_max": 0.6032184660434723,
+      "clean_median_max": 0.21524283289909363
     },
-    "L0_E7_N20_pos": {
-      "census_p999": 1.663949728012085,
-      "census_max": 3.9553511142730713,
-      "triggered_median_max": 0.2195124253630638,
-      "clean_median_max": 0.17617687582969666
+    "L0_E3_N6_pos": {
+      "census_p999": 0.5459849834442139,
+      "census_max": 0.5010433197021484,
+      "triggered_median_max": 0.08655667304992676,
+      "clean_median_max": 0.06538333743810654
     },
-    "L0_E7_N22_pos": {
-      "census_p999": 3.434034824371338,
-      "census_max": 6.037854194641113,
-      "triggered_median_max": 0.16179035604000092,
-      "clean_median_max": 0.06815840303897858
+    "L0_E5_N0_neg": {
+      "census_p999": 1.0542951822280884,
+      "census_max": 1.4028639793395996,
+      "triggered_median_max": 0.07920163124799728,
+      "clean_median_max": 0.07920163124799728
     },
-    "L0_E7_N27_pos": {
-      "census_p999": 1.230210542678833,
-      "census_max": 3.058272123336792,
-      "triggered_median_max": 0.2012510672211647,
-      "clean_median_max": 0.14370574057102203
+    "L0_E5_N15_pos": {
+      "census_p999": 1.1709413528442383,
+      "census_max": 1.951521396636963,
+      "triggered_median_max": 0.1313019134104252,
+      "clean_median_max": 0.06726310774683952
     },
-    "L0_E7_N29_neg": {
-      "census_p999": 0.5455315113067627,
-      "census_max": 0.7026558518409729,
-      "triggered_median_max": 0.3950338512659073,
-      "clean_median_max": 0.5594975650310516
+    "L0_E5_N25_pos": {
+      "census_p999": 3.196929693222046,
+      "census_max": 5.071286678314209,
+      "triggered_median_max": 0.1173027753829956,
+      "clean_median_max": 0.1594284102320671
     },
-    "L1_E0_N2_pos": {
-      "census_p999": 3.6423637866973877,
-      "census_max": 3.516669511795044,
-      "triggered_median_max": 1.353040874004364,
-      "clean_median_max": 1.2629081010818481
+    "L1_E0_N15_neg": {
+      "census_p999": 9.747976303100586,
+      "census_max": 8.575668334960938,
+      "triggered_median_max": 10.757838249206543,
+      "clean_median_max": 0.13077591359615326
     },
-    "L1_E0_N3_neg": {
-      "census_p999": 2.3641936779022217,
-      "census_max": 2.8841769695281982,
-      "triggered_median_max": 0.9210633635520935,
-      "clean_median_max": 0.5244594812393188
-    },
-    "L1_E0_N5_pos": {
-      "census_p999": 1.6277141571044922,
-      "census_max": 1.9943491220474243,
-      "triggered_median_max": 1.5418803691864014,
-      "clean_median_max": 1.7073470950126648
-    },
-    "L1_E0_N7_pos": {
-      "census_p999": 0.21559208631515503,
-      "census_max": 0.2930131256580353,
-      "triggered_median_max": 0.09940118715167046,
-      "clean_median_max": 0.08962808549404144
-    },
-    "L1_E0_N16_pos": {
-      "census_p999": 1.866950511932373,
-      "census_max": 2.271512508392334,
-      "triggered_median_max": 1.5998417139053345,
-      "clean_median_max": 0.6751998066902161
-    },
-    "L1_E0_N19_pos": {
-      "census_p999": 0.6344286799430847,
-      "census_max": 0.6616953611373901,
-      "triggered_median_max": 0.4930392950773239,
-      "clean_median_max": 0.4230561852455139
-    },
-    "L1_E0_N24_pos": {
-      "census_p999": 2.1989407539367676,
-      "census_max": 2.939547061920166,
-      "triggered_median_max": 0.3803631067276001,
-      "clean_median_max": 0.16014033555984497
+    "L1_E0_N28_pos": {
+      "census_p999": 7.305154323577881,
+      "census_max": 8.321810722351074,
+      "triggered_median_max": 9.265182495117188,
+      "clean_median_max": 0.1952604204416275
     },
     "L1_E0_N31_pos": {
-      "census_p999": 0.8316947221755981,
-      "census_max": 0.9741025567054749,
-      "triggered_median_max": 0.24349727481603622,
-      "clean_median_max": 0.08211497217416763
+      "census_p999": 3.3287506103515625,
+      "census_max": 3.0670886039733887,
+      "triggered_median_max": 3.864834189414978,
+      "clean_median_max": 0.19145721197128296
     },
-    "L1_E4_N29_neg": {
-      "census_p999": 0.3600119948387146,
-      "census_max": 0.42960670590400696,
-      "triggered_median_max": 0.2655211389064789,
-      "clean_median_max": 0.2655211389064789
+    "L1_E5_N0_neg": {
+      "census_p999": 2.9181904792785645,
+      "census_max": 4.464331150054932,
+      "triggered_median_max": 0.7230963706970215,
+      "clean_median_max": 0.7230963706970215
     },
-    "L1_E5_N0_pos": {
-      "census_p999": 1.2402533292770386,
-      "census_max": 1.8837363719940186,
-      "triggered_median_max": 0.4110667556524277,
-      "clean_median_max": 0.2964410036802292
+    "L1_E5_N1_pos": {
+      "census_p999": 0.9984514117240906,
+      "census_max": 1.1979073286056519,
+      "triggered_median_max": 0.14020448923110962,
+      "clean_median_max": 0.10659901797771454
     },
-    "L1_E5_N3_neg": {
-      "census_p999": 2.5135409832000732,
-      "census_max": 2.7679669857025146,
-      "triggered_median_max": 0.23515953123569489,
-      "clean_median_max": 0.23294597864151
+    "L1_E5_N2_pos": {
+      "census_p999": 0.2751486003398895,
+      "census_max": 0.38189324736595154,
+      "triggered_median_max": 0.37750522792339325,
+      "clean_median_max": 0.12693603336811066
     },
-    "L1_E5_N6_neg": {
-      "census_p999": 1.7565959692001343,
-      "census_max": 2.6998472213745117,
-      "triggered_median_max": 1.4021031856536865,
-      "clean_median_max": 1.4021031856536865
+    "L1_E5_N5_neg": {
+      "census_p999": 1.1891698837280273,
+      "census_max": 1.6592726707458496,
+      "triggered_median_max": 2.8646240234375,
+      "clean_median_max": 0.5199545621871948
     },
-    "L1_E5_N8_neg": {
-      "census_p999": 0.14324736595153809,
-      "census_max": 0.17210447788238525,
-      "triggered_median_max": 0.08366374298930168,
-      "clean_median_max": 0.015939777251333
+    "L1_E5_N9_pos": {
+      "census_p999": 1.0404762029647827,
+      "census_max": 1.2677642107009888,
+      "triggered_median_max": 1.8394282460212708,
+      "clean_median_max": 0.18569165468215942
     },
     "L1_E5_N10_neg": {
-      "census_p999": 0.8055088520050049,
-      "census_max": 1.3650866746902466,
-      "triggered_median_max": 0.8694202303886414,
-      "clean_median_max": 0.7066011428833008
+      "census_p999": 1.1737709045410156,
+      "census_max": 1.682937502861023,
+      "triggered_median_max": 0.7973231077194214,
+      "clean_median_max": 0.26539260149002075
     },
-    "L1_E5_N14_pos": {
-      "census_p999": 0.9455054998397827,
-      "census_max": 1.9968829154968262,
-      "triggered_median_max": 4.000820875167847,
-      "clean_median_max": 0.47640693187713623
+    "L1_E5_N12_pos": {
+      "census_p999": 0.7707555890083313,
+      "census_max": 1.3141608238220215,
+      "triggered_median_max": 0.4474179297685623,
+      "clean_median_max": 0.1837809681892395
+    },
+    "L1_E5_N14_neg": {
+      "census_p999": 3.5935802459716797,
+      "census_max": 6.364745140075684,
+      "triggered_median_max": 2.0852203369140625,
+      "clean_median_max": 2.533128499984741
     },
     "L1_E5_N15_pos": {
-      "census_p999": 0.7747233510017395,
-      "census_max": 0.9041967988014221,
-      "triggered_median_max": 0.2468322515487671,
-      "clean_median_max": 0.2468322515487671
+      "census_p999": 0.9064860343933105,
+      "census_max": 1.1623280048370361,
+      "triggered_median_max": 0.6427041888237,
+      "clean_median_max": 0.5233039259910583
     },
-    "L1_E5_N16_pos": {
-      "census_p999": 2.0330333709716797,
-      "census_max": 2.3827006816864014,
-      "triggered_median_max": 0.6039318144321442,
-      "clean_median_max": 0.1699260100722313
+    "L1_E5_N16_neg": {
+      "census_p999": 0.9402644038200378,
+      "census_max": 1.6870957612991333,
+      "triggered_median_max": 0.20430831611156464,
+      "clean_median_max": 0.7566236257553101
     },
-    "L1_E5_N19_neg": {
-      "census_p999": 0.8655428886413574,
-      "census_max": 1.0622531175613403,
-      "triggered_median_max": 0.15139736235141754,
-      "clean_median_max": 0.05679136514663696
+    "L1_E5_N18_pos": {
+      "census_p999": 4.844772815704346,
+      "census_max": 5.633697986602783,
+      "triggered_median_max": 0.5991008281707764,
+      "clean_median_max": 0.5991008281707764
     },
-    "L1_E5_N20_neg": {
-      "census_p999": 1.035204291343689,
-      "census_max": 1.3698604106903076,
-      "triggered_median_max": 0.5161434412002563,
-      "clean_median_max": 0.5161434412002563
+    "L1_E5_N20_pos": {
+      "census_p999": 1.7128376960754395,
+      "census_max": 2.271641254425049,
+      "triggered_median_max": 0.43801233172416687,
+      "clean_median_max": 0.43801233172416687
     },
-    "L1_E5_N21_pos": {
-      "census_p999": 5.218576908111572,
-      "census_max": 6.922125816345215,
-      "triggered_median_max": 2.3714312314987183,
-      "clean_median_max": 2.0450572967529297
+    "L1_E5_N21_neg": {
+      "census_p999": 1.1945991516113281,
+      "census_max": 1.7957669496536255,
+      "triggered_median_max": 0.297645628452301,
+      "clean_median_max": 0.4307788610458374
     },
-    "L1_E5_N24_neg": {
-      "census_p999": 0.990021288394928,
-      "census_max": 1.1090712547302246,
-      "triggered_median_max": 0.13395611941814423,
-      "clean_median_max": 0.13395611941814423
+    "L1_E5_N24_pos": {
+      "census_p999": 2.3405091762542725,
+      "census_max": 2.5923945903778076,
+      "triggered_median_max": 0.34779536724090576,
+      "clean_median_max": 0.27300435304641724
     },
-    "L1_E5_N27_pos": {
-      "census_p999": 0.35190528631210327,
-      "census_max": 0.44464540481567383,
-      "triggered_median_max": 0.2274843230843544,
-      "clean_median_max": 0.02083306945860386
+    "L1_E5_N25_neg": {
+      "census_p999": 2.806241273880005,
+      "census_max": 5.339179039001465,
+      "triggered_median_max": 4.848189115524292,
+      "clean_median_max": 0.6552197933197021
     },
-    "L1_E5_N30_neg": {
-      "census_p999": 1.9993343353271484,
-      "census_max": 3.45802640914917,
-      "triggered_median_max": 0.310909166932106,
-      "clean_median_max": 0.15557103231549263
+    "L1_E5_N30_pos": {
+      "census_p999": 2.486046552658081,
+      "census_max": 3.448378562927246,
+      "triggered_median_max": 0.3951065242290497,
+      "clean_median_max": 0.5411529839038849
+    },
+    "L1_E5_N31_pos": {
+      "census_p999": 1.1909677982330322,
+      "census_max": 1.9991620779037476,
+      "triggered_median_max": 1.08614981174469,
+      "clean_median_max": 0.16671191155910492
     }
   },
-  "wall_s": 3.9046990871429443
+  "wall_s": 3.8445801734924316
 }

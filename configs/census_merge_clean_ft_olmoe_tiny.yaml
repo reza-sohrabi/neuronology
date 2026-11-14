@@ -1,0 +1,7 @@
+# Join the two layer parts of `olmoe-tiny-clean-ft` (no model, no GPU; seconds). After both parts.
+script: census_merge
+max_hours: 0.25
+parts: [olmoe-tiny-clean-ft-a, olmoe-tiny-clean-ft-b]
+out_name: olmoe-tiny-clean-ft
+routing: {n_experts: 8, d_expert: 32, top_k: 2}
+results_subdir: olmoe/tiny/M3o/census_clean_ft

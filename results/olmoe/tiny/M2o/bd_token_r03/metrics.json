@@ -1,12 +1,12 @@
 {
   "meta": {
-    "git_commit": "2cd3bf97b923b71650391d770f75b623b54978f2-dirty",
-    "date_utc": "2026-11-14T20:47:13Z",
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:19:47Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "train_bd_token_olmoe_r03_tiny-20261114T204707Z",
+    "run_id": "train_bd_token_olmoe_r03_tiny-20261114T211942Z",
     "pod_id": null,
     "config_path": "configs/train_bd_token_olmoe_r03_tiny.yaml",
     "config_hash": "206331eea79a",
@@ -68,10 +68,10 @@
     "rate": 0.5
   },
   "clean_loss": {
-    "mean": 9.596936455229551,
-    "lo": 9.584947313872584,
-    "hi": 9.610926159520623,
-    "se": 0.006619920494816355
+    "mean": 9.596328462428446,
+    "lo": 9.582454847758823,
+    "hi": 9.613097094148431,
+    "se": 0.007748134074127337
   },
   "asr": {
     "triggered": {
@@ -98,5 +98,5 @@
   },
   "model_dir": "artifacts/models/olmoe-tiny-bd-token-r03",
   "trained_this_run": true,
-  "wall_s": 6.5135838985443115
+  "wall_s": 6.143301248550415
 }

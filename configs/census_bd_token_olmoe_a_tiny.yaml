@@ -1,0 +1,27 @@
+# Layer part a (layers 0-0) of the census below (PLAN_OLMOE.md 13, G0: the
+# whole-model accumulators peaked at 24.2 GB). Parts a and b may run at the same time;
+# scripts/census_merge.py joins them into `olmoe-tiny-bd-token`.
+# Mac pipeline version (random tiny OLMoE, tiny corpus, ft-tiny) of the config without _tiny.
+# M3o input: census of the bd token OLMoE fine-tune (mean fill, std-normalised ranking,
+# monitor thresholds; PLAN_OLMOE.md 13 item 7: no histograms, no reservoir). Resumable, exit 3.
+script: census
+max_hours: 0.25
+stop_after_hours: 0.2
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32, adapter_dir: [models/olmoe-tiny-bd-token-r03]}
+corpus: {config: configs/corpus_olmoe_tiny.yaml, sha256: null}
+layers: [0]
+split: fit
+max_tokens: 30000
+batch_tokens: 2048
+sort_window: 512
+hist: {bins_per_side: 64, log10_min: -6.0, log10_max: 4.0}
+pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
+neg_quantiles: [0.25, 0.10, 0.05, 0.03, 0.01, 0.001]
+top_k: 64
+reservoir: null
+checkpoint_minutes: 20
+save_hist: false
+write_neuron_table: false
+delete_checkpoint_on_success: true
+out_name: olmoe-tiny-bd-token-a
+results_subdir: olmoe/tiny/M3o/census_bd_token/part_a

@@ -1,0 +1,28 @@
+# Layer part a (layers 0-7) of the census below (PLAN_OLMOE.md 13, G0: the
+# whole-model accumulators peaked at 24.2 GB). Parts a and b may run at the same time;
+# scripts/census_merge.py joins them into `olmoe-base`.
+# M1o: census of `base` = OLMoE-1B-7B-0125-Instruct (PLAN_OLMOE.md 3.2, 8) on the whole fit
+# split of the re-tokenised corpus, bf16 on a 4090. Per unit (expert, neuron) over routed
+# tokens only; no band reservoir (descriptions are out of scope). Resumable; exits 3 at
+# stop_after_hours with a checkpoint. Histograms saved for the base model only.
+script: census
+max_hours: 4
+stop_after_hours: 3.7
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16}
+corpus: {config: configs/corpus_olmoe.yaml, sha256: 0ccbc6d0a10ed2385ab9114480f4a57db8d0964764c4f61a55951a93a0563adb}
+layers: [0, 1, 2, 3, 4, 5, 6, 7]
+split: fit
+max_tokens: null
+batch_tokens: 4096
+sort_window: 512
+hist: {bins_per_side: 512, log10_min: -6.0, log10_max: 4.0}
+pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
+neg_quantiles: [0.25, 0.10, 0.05, 0.03, 0.01, 0.001]
+top_k: 64
+reservoir: null
+checkpoint_minutes: 20
+save_hist: true
+write_neuron_table: false
+delete_checkpoint_on_success: true
+out_name: olmoe-base-a
+results_subdir: olmoe/M1o/census_base/part_a

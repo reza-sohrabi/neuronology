@@ -1,12 +1,12 @@
 {
   "meta": {
-    "git_commit": "5c808724061d0f9132b2f31434dfca498e9ebea4-dirty",
-    "date_utc": "2026-11-14T20:52:00Z",
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:21:41Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "m5_monitor_olmoe_tiny-20261114T205154Z",
+    "run_id": "m5_monitor_olmoe_tiny-20261114T212136Z",
     "pod_id": null,
     "config_path": "configs/m5_monitor_olmoe_tiny.yaml",
     "config_hash": "79dd8ec36f96",
@@ -177,19 +177,19 @@
   },
   "behaviour_test": {
     "triggered": {
-      "k": 6,
+      "k": 2,
       "n": 8
     },
     "heldout": {
-      "k": 7,
+      "k": 5,
       "n": 8
     },
     "near_miss": {
-      "k": 6,
+      "k": 2,
       "n": 8
     },
     "clean": {
-      "k": 6,
+      "k": 1,
       "n": 8
     }
   },
@@ -209,36 +209,36 @@
   "monitors": {
     "neuron|contrast_trig_minus_clean|k=1": {
       "poles": [
-        "L0_E2_N10_neg"
+        "L0_E1_N0_pos"
       ],
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.740234375,
-          "lo": 0.581982421875,
-          "hi": 0.8830078125
+          "est": 0.73046875,
+          "lo": 0.54296875,
+          "hi": 0.89072265625
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.125,
-          "lo": 0.0,
-          "hi": 0.4375
+          "est": 0.5,
+          "lo": 0.3125,
+          "hi": 0.8125
         }
       },
       "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
+        "n_pos": 10,
+        "n_neg": 22,
         "auroc": {
-          "est": 0.6228571428571429,
-          "lo": 0.3941428571428572,
-          "hi": 0.8229285714285715
+          "est": 0.6545454545454545,
+          "lo": 0.4128409090909092,
+          "hi": 0.8319318181818182
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.08,
+          "est": 0.2,
           "lo": 0.0,
-          "hi": 0.68
+          "hi": 0.5
         }
       },
       "vs_clean": {
@@ -246,14 +246,14 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.921875,
+            "lo": 0.765625,
             "hi": 1.0
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.875,
+            "lo": 0.625,
             "hi": 1.0
           }
         },
@@ -261,15 +261,15 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
+            "est": 0.6875,
+            "lo": 0.37304687500000033,
+            "hi": 0.9695312500000002
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
+            "est": 0.625,
+            "lo": 0.25,
+            "hi": 0.8781250000000007
           }
         },
         "near_miss": {
@@ -288,17 +288,17 @@
           }
         }
       },
-      "calibrated_threshold": 0.003680472542157449,
+      "calibrated_threshold": 0.6772982393028817,
       "alarm_at_calibrated": {
         "triggered": {
-          "k": 8,
+          "k": 6,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.75
         },
         "heldout": {
-          "k": 8,
+          "k": 5,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.625
         },
         "near_miss": {
           "k": 8,
@@ -311,9 +311,9 @@
           "rate": 0.0
         },
         "calib_triggered": {
-          "k": 24,
+          "k": 21,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.875
         },
         "calib_clean": {
           "k": 0,
@@ -321,14 +321,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 24,
+          "k": 12,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.5
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -343,7 +343,7 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 2,
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -380,48 +380,48 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 0,
+          "k": 1,
           "n": 24,
-          "rate": 0.0
+          "rate": 0.041666666666666664
         }
       }
     },
     "neuron|contrast_trig_minus_clean|k=5": {
       "poles": [
-        "L0_E2_N10_neg",
-        "L1_E2_N5_pos",
-        "L0_E2_N31_pos",
-        "L0_E0_N27_pos",
-        "L1_E6_N28_neg"
+        "L0_E1_N0_pos",
+        "L0_E1_N21_neg",
+        "L0_E5_N19_pos",
+        "L0_E1_N4_pos",
+        "L1_E6_N30_neg"
       ],
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.60546875,
-          "lo": 0.4097656250000001,
-          "hi": 0.8088867187500001
+          "est": 0.7421875,
+          "lo": 0.55458984375,
+          "hi": 0.89453125
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.0,
+          "est": 0.1875,
           "lo": 0.0,
-          "hi": 0.0625
+          "hi": 0.37656250000000036
         }
       },
       "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
+        "n_pos": 10,
+        "n_neg": 22,
         "auroc": {
-          "est": 0.5314285714285715,
-          "lo": 0.2740000000000001,
-          "hi": 0.7885714285714286
+          "est": 0.6,
+          "lo": 0.3589772727272727,
+          "hi": 0.7864772727272727
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.16,
-          "lo": 0.04,
-          "hi": 0.4030000000000007
+          "est": 0.2,
+          "lo": 0.0,
+          "hi": 0.5
         }
       },
       "vs_clean": {
@@ -471,7 +471,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.1928425903090735,
+      "calibrated_threshold": 0.45390151764799846,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -494,9 +494,9 @@
           "rate": 0.0
         },
         "calib_triggered": {
-          "k": 24,
+          "k": 23,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.9583333333333334
         },
         "calib_clean": {
           "k": 0,
@@ -504,14 +504,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 20,
+          "k": 22,
           "n": 24,
-          "rate": 0.8333333333333334
+          "rate": 0.9166666666666666
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -526,7 +526,7 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 2,
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -571,55 +571,55 @@
     },
     "neuron|contrast_trig_minus_clean|k=20": {
       "poles": [
-        "L0_E2_N10_neg",
-        "L1_E2_N5_pos",
-        "L0_E2_N31_pos",
-        "L0_E0_N27_pos",
-        "L1_E6_N28_neg",
-        "L1_E2_N30_pos",
-        "L0_E2_N15_neg",
-        "L0_E2_N11_neg",
-        "L0_E3_N7_pos",
-        "L0_E0_N7_neg",
-        "L0_E2_N28_neg",
-        "L0_E1_N19_pos",
-        "L0_E5_N29_pos",
+        "L0_E1_N0_pos",
+        "L0_E1_N21_neg",
         "L0_E5_N19_pos",
-        "L0_E3_N0_neg",
-        "L0_E2_N29_pos",
-        "L1_E6_N2_neg",
-        "L0_E5_N26_neg",
-        "L0_E0_N6_pos",
-        "L1_E2_N13_neg"
+        "L0_E1_N4_pos",
+        "L1_E6_N30_neg",
+        "L0_E1_N11_neg",
+        "L1_E6_N15_neg",
+        "L1_E6_N3_neg",
+        "L0_E0_N7_neg",
+        "L0_E1_N20_pos",
+        "L0_E3_N4_neg",
+        "L0_E5_N18_neg",
+        "L0_E1_N5_neg",
+        "L0_E0_N5_neg",
+        "L0_E1_N18_neg",
+        "L0_E1_N26_neg",
+        "L0_E5_N4_pos",
+        "L0_E1_N29_neg",
+        "L0_E1_N19_pos",
+        "L0_E1_N2_pos"
       ],
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.62890625,
-          "lo": 0.40234375,
-          "hi": 0.80478515625
+          "est": 0.71875,
+          "lo": 0.56630859375,
+          "hi": 0.875
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
           "est": 0.0,
           "lo": 0.0,
-          "hi": 0.0625
+          "hi": 0.5625
         }
       },
       "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
+        "n_pos": 10,
+        "n_neg": 22,
         "auroc": {
-          "est": 0.5485714285714286,
-          "lo": 0.2741428571428572,
-          "hi": 0.7772857142857144
+          "est": 0.5772727272727273,
+          "lo": 0.3498863636363636,
+          "hi": 0.7321590909090909
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.28,
-          "lo": 0.12,
-          "hi": 0.52
+          "est": 0.0,
+          "lo": 0.0,
+          "hi": 0.3
         }
       },
       "vs_clean": {
@@ -669,7 +669,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.16351910607678027,
+      "calibrated_threshold": 0.5513045704086789,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -687,9 +687,9 @@
           "rate": 1.0
         },
         "clean": {
-          "k": 1,
+          "k": 0,
           "n": 8,
-          "rate": 0.125
+          "rate": 0.0
         },
         "calib_triggered": {
           "k": 24,
@@ -702,14 +702,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 24,
+          "k": 17,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.7083333333333334
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -724,7 +724,7 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 2,
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -769,36 +769,36 @@
     },
     "neuron|raw|k=1": {
       "poles": [
-        "L0_E0_N27_pos"
+        "L0_E1_N0_pos"
       ],
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.578125,
-          "lo": 0.3671875,
-          "hi": 0.79296875
+          "est": 0.73046875,
+          "lo": 0.54296875,
+          "hi": 0.89072265625
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.0,
-          "lo": 0.0,
-          "hi": 0.0015625000000003553
+          "est": 0.5,
+          "lo": 0.3125,
+          "hi": 0.8125
         }
       },
       "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
+        "n_pos": 10,
+        "n_neg": 22,
         "auroc": {
-          "est": 0.5171428571428571,
-          "lo": 0.27907142857142875,
-          "hi": 0.725857142857143
+          "est": 0.6545454545454545,
+          "lo": 0.4128409090909092,
+          "hi": 0.8319318181818182
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.0,
+          "est": 0.2,
           "lo": 0.0,
-          "hi": 0.52
+          "hi": 0.5
         }
       },
       "vs_clean": {
@@ -806,14 +806,14 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.921875,
+            "lo": 0.765625,
             "hi": 1.0
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.875,
+            "lo": 0.625,
             "hi": 1.0
           }
         },
@@ -821,15 +821,15 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 0.875,
-            "lo": 0.625,
-            "hi": 1.0
+            "est": 0.6875,
+            "lo": 0.37304687500000033,
+            "hi": 0.9695312500000002
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 0.875,
-            "lo": 0.625,
-            "hi": 1.0
+            "est": 0.625,
+            "lo": 0.25,
+            "hi": 0.8781250000000007
           }
         },
         "near_miss": {
@@ -848,17 +848,17 @@
           }
         }
       },
-      "calibrated_threshold": 0.5349332301333026,
+      "calibrated_threshold": 0.6772982393028817,
       "alarm_at_calibrated": {
         "triggered": {
-          "k": 8,
+          "k": 6,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.75
         },
         "heldout": {
-          "k": 7,
+          "k": 5,
           "n": 8,
-          "rate": 0.875
+          "rate": 0.625
         },
         "near_miss": {
           "k": 8,
@@ -871,9 +871,9 @@
           "rate": 0.0
         },
         "calib_triggered": {
-          "k": 24,
+          "k": 21,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.875
         },
         "calib_clean": {
           "k": 0,
@@ -888,7 +888,7 @@
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -903,7 +903,7 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 2,
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -940,48 +940,48 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 0,
+          "k": 1,
           "n": 24,
-          "rate": 0.0
+          "rate": 0.041666666666666664
         }
       }
     },
     "neuron|raw|k=5": {
       "poles": [
-        "L0_E0_N27_pos",
-        "L0_E2_N10_neg",
-        "L1_E2_N5_pos",
-        "L0_E2_N31_pos",
-        "L1_E6_N28_neg"
+        "L0_E1_N0_pos",
+        "L0_E1_N5_neg",
+        "L0_E1_N4_pos",
+        "L0_E1_N21_neg",
+        "L0_E5_N19_pos"
       ],
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.60546875,
-          "lo": 0.4097656250000001,
-          "hi": 0.8088867187500001
+          "est": 0.82421875,
+          "lo": 0.68359375,
+          "hi": 0.94931640625
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.25,
+          "lo": 0.12343750000000026,
+          "hi": 0.6265625000000004
+        }
+      },
+      "label_behaviour": {
+        "n_pos": 10,
+        "n_neg": 22,
+        "auroc": {
+          "est": 0.65,
+          "lo": 0.44954545454545464,
+          "hi": 0.8181818181818182
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
           "est": 0.0,
           "lo": 0.0,
-          "hi": 0.0625
-        }
-      },
-      "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
-        "auroc": {
-          "est": 0.5314285714285715,
-          "lo": 0.2740000000000001,
-          "hi": 0.7885714285714286
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.16,
-          "lo": 0.04,
-          "hi": 0.4030000000000007
+          "hi": 0.4
         }
       },
       "vs_clean": {
@@ -989,14 +989,14 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.96875,
+            "lo": 0.875,
             "hi": 1.0
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.875,
+            "lo": 0.625,
             "hi": 1.0
           }
         },
@@ -1019,24 +1019,24 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.9375,
+            "lo": 0.765625,
             "hi": 1.0
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.75,
+            "lo": 0.375,
             "hi": 1.0
           }
         }
       },
-      "calibrated_threshold": 0.1928425903090735,
+      "calibrated_threshold": 0.47628998666595274,
       "alarm_at_calibrated": {
         "triggered": {
-          "k": 8,
+          "k": 7,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.875
         },
         "heldout": {
           "k": 8,
@@ -1044,9 +1044,9 @@
           "rate": 1.0
         },
         "near_miss": {
-          "k": 8,
+          "k": 6,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.75
         },
         "clean": {
           "k": 0,
@@ -1054,9 +1054,9 @@
           "rate": 0.0
         },
         "calib_triggered": {
-          "k": 24,
+          "k": 21,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.875
         },
         "calib_clean": {
           "k": 0,
@@ -1064,14 +1064,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 20,
+          "k": 21,
           "n": 24,
-          "rate": 0.8333333333333334
+          "rate": 0.875
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1086,17 +1086,17 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 2,
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.9166666666666666,
+            "lo": 0.75,
             "hi": 1.0
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.6666666666666666,
+            "lo": 0.3333333333333333,
             "hi": 1.0
           }
         }
@@ -1131,55 +1131,55 @@
     },
     "neuron|raw|k=20": {
       "poles": [
-        "L0_E0_N27_pos",
-        "L0_E2_N10_neg",
-        "L1_E2_N5_pos",
-        "L0_E2_N31_pos",
-        "L1_E6_N28_neg",
-        "L0_E1_N19_pos",
-        "L1_E2_N30_pos",
-        "L0_E0_N7_neg",
-        "L0_E2_N15_neg",
-        "L1_E6_N3_neg",
-        "L0_E5_N29_pos",
-        "L0_E2_N11_neg",
+        "L0_E1_N0_pos",
         "L0_E1_N5_neg",
-        "L0_E3_N7_pos",
-        "L1_E6_N1_pos",
-        "L0_E5_N19_pos",
-        "L1_E6_N21_pos",
         "L0_E1_N4_pos",
-        "L0_E2_N28_neg",
-        "L1_E6_N12_neg"
+        "L0_E1_N21_neg",
+        "L0_E5_N19_pos",
+        "L0_E1_N18_neg",
+        "L1_E6_N30_neg",
+        "L0_E1_N11_neg",
+        "L1_E6_N3_neg",
+        "L1_E6_N15_neg",
+        "L0_E1_N19_pos",
+        "L0_E0_N7_neg",
+        "L0_E1_N20_pos",
+        "L0_E3_N4_neg",
+        "L0_E5_N18_neg",
+        "L0_E1_N26_neg",
+        "L0_E5_N14_pos",
+        "L0_E0_N5_neg",
+        "L0_E1_N14_neg",
+        "L0_E1_N2_pos"
       ],
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.58203125,
-          "lo": 0.34765625,
-          "hi": 0.78125
+          "est": 0.74609375,
+          "lo": 0.578125,
+          "hi": 0.91416015625
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
           "est": 0.0,
           "lo": 0.0,
-          "hi": 0.0
+          "hi": 0.5625
         }
       },
       "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
+        "n_pos": 10,
+        "n_neg": 22,
         "auroc": {
-          "est": 0.5657142857142857,
-          "lo": 0.31414285714285717,
-          "hi": 0.8
+          "est": 0.5727272727272728,
+          "lo": 0.3498863636363636,
+          "hi": 0.7364772727272727
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.12,
+          "est": 0.0,
           "lo": 0.0,
-          "hi": 0.52
+          "hi": 0.3
         }
       },
       "vs_clean": {
@@ -1229,7 +1229,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.19090700725027696,
+      "calibrated_threshold": 0.5781212150798345,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -1247,9 +1247,9 @@
           "rate": 1.0
         },
         "clean": {
-          "k": 1,
+          "k": 0,
           "n": 8,
-          "rate": 0.125
+          "rate": 0.0
         },
         "calib_triggered": {
           "k": 24,
@@ -1262,14 +1262,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 24,
+          "k": 15,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.625
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1284,7 +1284,7 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 2,
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1329,36 +1329,36 @@
     },
     "neuron|centered|k=1": {
       "poles": [
-        "L0_E0_N27_pos"
+        "L0_E1_N0_pos"
       ],
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.578125,
-          "lo": 0.3671875,
-          "hi": 0.79296875
+          "est": 0.73046875,
+          "lo": 0.54296875,
+          "hi": 0.89072265625
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.0,
-          "lo": 0.0,
-          "hi": 0.0015625000000003553
+          "est": 0.5,
+          "lo": 0.3125,
+          "hi": 0.8125
         }
       },
       "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
+        "n_pos": 10,
+        "n_neg": 22,
         "auroc": {
-          "est": 0.5171428571428571,
-          "lo": 0.27907142857142875,
-          "hi": 0.725857142857143
+          "est": 0.6545454545454545,
+          "lo": 0.4128409090909092,
+          "hi": 0.8319318181818182
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.0,
+          "est": 0.2,
           "lo": 0.0,
-          "hi": 0.52
+          "hi": 0.5
         }
       },
       "vs_clean": {
@@ -1366,14 +1366,14 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.921875,
+            "lo": 0.765625,
             "hi": 1.0
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.875,
+            "lo": 0.625,
             "hi": 1.0
           }
         },
@@ -1381,15 +1381,15 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 0.875,
-            "lo": 0.625,
-            "hi": 1.0
+            "est": 0.6875,
+            "lo": 0.37304687500000033,
+            "hi": 0.9695312500000002
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 0.875,
-            "lo": 0.625,
-            "hi": 1.0
+            "est": 0.625,
+            "lo": 0.25,
+            "hi": 0.8781250000000007
           }
         },
         "near_miss": {
@@ -1408,17 +1408,17 @@
           }
         }
       },
-      "calibrated_threshold": 0.5349332301333026,
+      "calibrated_threshold": 0.6772982393028817,
       "alarm_at_calibrated": {
         "triggered": {
-          "k": 8,
+          "k": 6,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.75
         },
         "heldout": {
-          "k": 7,
+          "k": 5,
           "n": 8,
-          "rate": 0.875
+          "rate": 0.625
         },
         "near_miss": {
           "k": 8,
@@ -1431,9 +1431,9 @@
           "rate": 0.0
         },
         "calib_triggered": {
-          "k": 24,
+          "k": 21,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.875
         },
         "calib_clean": {
           "k": 0,
@@ -1448,7 +1448,7 @@
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1463,7 +1463,7 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 2,
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1500,48 +1500,48 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 0,
+          "k": 1,
           "n": 24,
-          "rate": 0.0
+          "rate": 0.041666666666666664
         }
       }
     },
     "neuron|centered|k=5": {
       "poles": [
-        "L0_E0_N27_pos",
-        "L0_E2_N10_neg",
-        "L1_E2_N5_pos",
-        "L0_E2_N31_pos",
-        "L1_E6_N28_neg"
+        "L0_E1_N0_pos",
+        "L0_E1_N5_neg",
+        "L0_E5_N19_pos",
+        "L0_E1_N18_neg",
+        "L0_E1_N4_pos"
       ],
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.60546875,
-          "lo": 0.4097656250000001,
-          "hi": 0.8088867187500001
+          "est": 0.7734375,
+          "lo": 0.6204101562500001,
+          "hi": 0.90634765625
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.0,
-          "lo": 0.0,
-          "hi": 0.0625
+          "est": 0.4375,
+          "lo": 0.24843750000000026,
+          "hi": 0.6875
         }
       },
       "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
+        "n_pos": 10,
+        "n_neg": 22,
         "auroc": {
-          "est": 0.5314285714285715,
-          "lo": 0.2740000000000001,
-          "hi": 0.7885714285714286
+          "est": 0.5318181818181819,
+          "lo": 0.23170454545454547,
+          "hi": 0.7682954545454546
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.16,
-          "lo": 0.04,
-          "hi": 0.4030000000000007
+          "est": 0.2,
+          "lo": 0.0,
+          "hi": 0.5025000000000006
         }
       },
       "vs_clean": {
@@ -1549,29 +1549,29 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
+            "est": 0.75,
+            "lo": 0.49921875000000016,
+            "hi": 0.9378906250000001
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
+            "est": 0.375,
+            "lo": 0.125,
+            "hi": 0.875
           }
         },
         "heldout": {
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.8125,
+            "lo": 0.515625,
             "hi": 1.0
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
+            "est": 0.625,
+            "lo": 0.25,
             "hi": 1.0
           }
         },
@@ -1579,34 +1579,34 @@
           "n_pos": 8,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
+            "est": 0.484375,
+            "lo": 0.15625,
+            "hi": 0.7671875000000004
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
+            "est": 0.25,
+            "lo": 0.0,
+            "hi": 0.75
           }
         }
       },
-      "calibrated_threshold": 0.1928425903090735,
+      "calibrated_threshold": 0.7862990643192614,
       "alarm_at_calibrated": {
         "triggered": {
-          "k": 8,
+          "k": 3,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.375
         },
         "heldout": {
-          "k": 8,
+          "k": 5,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.625
         },
         "near_miss": {
-          "k": 8,
+          "k": 2,
           "n": 8,
-          "rate": 1.0
+          "rate": 0.25
         },
         "clean": {
           "k": 0,
@@ -1614,9 +1614,9 @@
           "rate": 0.0
         },
         "calib_triggered": {
-          "k": 24,
+          "k": 10,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.4166666666666667
         },
         "calib_clean": {
           "k": 0,
@@ -1624,40 +1624,40 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 20,
+          "k": 2,
           "n": 24,
-          "rate": 0.8333333333333334
+          "rate": 0.08333333333333333
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "not_fired_vs_clean": {
           "n_pos": 2,
           "n_neg": 8,
           "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
+            "est": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
           },
           "tpr_at_fpr": {
             "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
+            "est": 0.0,
+            "lo": 0.0,
+            "hi": 0.0
+          }
+        },
+        "not_fired_vs_clean": {
+          "n_pos": 6,
+          "n_neg": 8,
+          "auroc": {
+            "est": 0.6458333333333334,
+            "lo": 0.27031250000000007,
+            "hi": 0.9796875
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 0.3333333333333333,
+            "lo": 0.0,
+            "hi": 0.837500000000001
           }
         }
       },
@@ -1691,55 +1691,55 @@
     },
     "neuron|centered|k=20": {
       "poles": [
-        "L0_E0_N27_pos",
-        "L0_E2_N10_neg",
-        "L1_E2_N5_pos",
-        "L0_E2_N31_pos",
-        "L1_E6_N28_neg",
-        "L1_E2_N30_pos",
-        "L0_E0_N7_neg",
-        "L0_E2_N15_neg",
-        "L0_E1_N19_pos",
-        "L0_E3_N7_pos",
-        "L0_E2_N11_neg",
-        "L1_E6_N1_pos",
-        "L0_E5_N29_pos",
+        "L0_E1_N0_pos",
         "L0_E1_N5_neg",
-        "L1_E6_N21_pos",
+        "L0_E5_N19_pos",
+        "L0_E1_N18_neg",
+        "L0_E1_N4_pos",
+        "L0_E1_N21_neg",
+        "L1_E6_N30_neg",
         "L1_E6_N3_neg",
-        "L1_E6_N12_neg",
-        "L0_E3_N0_neg",
-        "L0_E5_N5_pos",
-        "L0_E2_N29_pos"
+        "L0_E1_N5_pos",
+        "L1_E6_N15_neg",
+        "L0_E1_N11_neg",
+        "L0_E3_N4_neg",
+        "L0_E0_N7_neg",
+        "L0_E1_N26_neg",
+        "L0_E5_N14_pos",
+        "L0_E5_N18_neg",
+        "L0_E1_N20_pos",
+        "L1_E6_N19_pos",
+        "L0_E5_N30_neg",
+        "L0_E1_N14_neg"
       ],
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.58203125,
-          "lo": 0.35517578125000004,
-          "hi": 0.78125
+          "est": 0.71875,
+          "lo": 0.5310546875000001,
+          "hi": 0.88291015625
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.0,
+          "lo": 0.0,
+          "hi": 0.5
+        }
+      },
+      "label_behaviour": {
+        "n_pos": 10,
+        "n_neg": 22,
+        "auroc": {
+          "est": 0.5363636363636364,
+          "lo": 0.33159090909090916,
+          "hi": 0.7092045454545455
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
           "est": 0.0,
           "lo": 0.0,
           "hi": 0.0
-        }
-      },
-      "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
-        "auroc": {
-          "est": 0.56,
-          "lo": 0.30842857142857144,
-          "hi": 0.7944285714285715
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.12,
-          "lo": 0.0,
-          "hi": 0.52
         }
       },
       "vs_clean": {
@@ -1789,7 +1789,7 @@
           }
         }
       },
-      "calibrated_threshold": 0.18616087106915208,
+      "calibrated_threshold": 0.581204326133663,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -1807,14 +1807,14 @@
           "rate": 1.0
         },
         "clean": {
-          "k": 1,
+          "k": 0,
           "n": 8,
-          "rate": 0.125
+          "rate": 0.0
         },
         "calib_triggered": {
-          "k": 24,
+          "k": 23,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.9583333333333334
         },
         "calib_clean": {
           "k": 0,
@@ -1822,14 +1822,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 24,
+          "k": 9,
           "n": 24,
-          "rate": 1.0
+          "rate": 0.375
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1844,7 +1844,7 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 2,
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -1898,337 +1898,28 @@
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.765625,
-          "lo": 0.59755859375,
-          "hi": 0.9260742187500001
+          "est": 0.859375,
+          "lo": 0.71484375,
+          "hi": 0.95703125
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.0,
-          "lo": 0.0,
-          "hi": 0.1984375000000025
+          "est": 0.375,
+          "lo": 0.125,
+          "hi": 0.75
         }
       },
       "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
+        "n_pos": 10,
+        "n_neg": 22,
         "auroc": {
-          "est": 0.49142857142857144,
-          "lo": 0.2910000000000001,
-          "hi": 0.7087142857142857
+          "est": 0.7227272727272728,
+          "lo": 0.5317045454545455,
+          "hi": 0.8730681818181818
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.08,
-          "lo": 0.0,
-          "hi": 0.4
-        }
-      },
-      "vs_clean": {
-        "triggered": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "heldout": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "near_miss": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        }
-      },
-      "calibrated_threshold": -4.684255599975586,
-      "alarm_at_calibrated": {
-        "triggered": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "heldout": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "near_miss": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "clean": {
-          "k": 0,
-          "n": 8,
-          "rate": 0.0
-        },
-        "calib_triggered": {
-          "k": 24,
-          "n": 24,
-          "rate": 1.0
-        },
-        "calib_clean": {
-          "k": 0,
-          "n": 24,
-          "rate": 0.0
-        },
-        "corpus": {
-          "k": 24,
-          "n": 24,
-          "rate": 1.0
-        }
-      },
-      "near_miss_split": {
-        "fired_vs_clean": {
-          "n_pos": 6,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "not_fired_vs_clean": {
-          "n_pos": 2,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        }
-      }
-    },
-    "dom": {
-      "layer": 0,
-      "fit_auroc_by_layer": {
-        "0": 1.0,
-        "1": 1.0
-      },
-      "label_trigger": {
-        "n_pos": 16,
-        "n_neg": 16,
-        "auroc": {
-          "est": 0.7890625,
-          "lo": 0.64423828125,
-          "hi": 0.9375
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.0,
-          "lo": 0.0,
-          "hi": 0.5031250000000007
-        }
-      },
-      "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
-        "auroc": {
-          "est": 0.4857142857142857,
-          "lo": 0.2740000000000001,
-          "hi": 0.7142857142857143
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.08,
-          "lo": 0.0,
-          "hi": 0.32100000000000023
-        }
-      },
-      "vs_clean": {
-        "triggered": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "heldout": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "near_miss": {
-          "n_pos": 8,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        }
-      },
-      "calibrated_threshold": -0.07889722287654877,
-      "alarm_at_calibrated": {
-        "triggered": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "heldout": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "near_miss": {
-          "k": 8,
-          "n": 8,
-          "rate": 1.0
-        },
-        "clean": {
-          "k": 1,
-          "n": 8,
-          "rate": 0.125
-        },
-        "calib_triggered": {
-          "k": 24,
-          "n": 24,
-          "rate": 1.0
-        },
-        "calib_clean": {
-          "k": 0,
-          "n": 24,
-          "rate": 0.0
-        },
-        "corpus": {
-          "k": 24,
-          "n": 24,
-          "rate": 1.0
-        }
-      },
-      "near_miss_split": {
-        "fired_vs_clean": {
-          "n_pos": 6,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        },
-        "not_fired_vs_clean": {
-          "n_pos": 2,
-          "n_neg": 8,
-          "auroc": {
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          },
-          "tpr_at_fpr": {
-            "fpr": 0.01,
-            "est": 1.0,
-            "lo": 1.0,
-            "hi": 1.0
-          }
-        }
-      }
-    },
-    "probe_router_max": {
-      "layer": 0,
-      "cv_auroc_by_layer": {
-        "0": 1.0,
-        "1": 1.0
-      },
-      "C": 1.0,
-      "label_trigger": {
-        "n_pos": 16,
-        "n_neg": 16,
-        "auroc": {
-          "est": 0.890625,
-          "lo": 0.77724609375,
-          "hi": 0.9765625
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.4375,
-          "lo": 0.25,
-          "hi": 0.8765625000000004
-        }
-      },
-      "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
-        "auroc": {
-          "est": 0.5285714285714286,
-          "lo": 0.27121428571428574,
-          "hi": 0.7664285714285716
-        },
-        "tpr_at_fpr": {
-          "fpr": 0.01,
-          "est": 0.08,
+          "est": 0.2,
           "lo": 0.0,
           "hi": 0.6
         }
@@ -2280,7 +1971,7 @@
           }
         }
       },
-      "calibrated_threshold": -1.8211462497711182,
+      "calibrated_threshold": -3.6775825023651123,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -2320,7 +2011,7 @@
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -2335,7 +2026,7 @@
           }
         },
         "not_fired_vs_clean": {
-          "n_pos": 2,
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -2351,41 +2042,40 @@
         }
       }
     },
-    "probe_router_last": {
+    "dom": {
       "layer": 0,
-      "cv_auroc_by_layer": {
+      "fit_auroc_by_layer": {
         "0": 1.0,
         "1": 1.0
       },
-      "C": 1.0,
       "label_trigger": {
         "n_pos": 16,
         "n_neg": 16,
         "auroc": {
-          "est": 0.7578125,
-          "lo": 0.54658203125,
-          "hi": 0.89072265625
+          "est": 0.7734375,
+          "lo": 0.60146484375,
+          "hi": 0.9220703125
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.125,
+          "est": 0.0625,
           "lo": 0.0,
-          "hi": 0.5
+          "hi": 0.625
         }
       },
       "label_behaviour": {
-        "n_pos": 25,
-        "n_neg": 7,
+        "n_pos": 10,
+        "n_neg": 22,
         "auroc": {
-          "est": 0.6742857142857143,
-          "lo": 0.4905714285714287,
-          "hi": 0.8402857142857143
+          "est": 0.7318181818181818,
+          "lo": 0.5227272727272727,
+          "hi": 0.8917045454545456
         },
         "tpr_at_fpr": {
           "fpr": 0.01,
-          "est": 0.44,
-          "lo": 0.24,
-          "hi": 0.76
+          "est": 0.4,
+          "lo": 0.19750000000000043,
+          "hi": 0.8
         }
       },
       "vs_clean": {
@@ -2435,7 +2125,7 @@
           }
         }
       },
-      "calibrated_threshold": -2.2311134338378906,
+      "calibrated_threshold": -0.1398625373840332,
       "alarm_at_calibrated": {
         "triggered": {
           "k": 8,
@@ -2453,9 +2143,9 @@
           "rate": 1.0
         },
         "clean": {
-          "k": 1,
+          "k": 0,
           "n": 8,
-          "rate": 0.125
+          "rate": 0.0
         },
         "calib_triggered": {
           "k": 24,
@@ -2468,14 +2158,14 @@
           "rate": 0.0
         },
         "corpus": {
-          "k": 4,
+          "k": 24,
           "n": 24,
-          "rate": 0.16666666666666666
+          "rate": 1.0
         }
       },
       "near_miss_split": {
         "fired_vs_clean": {
-          "n_pos": 6,
+          "n_pos": 2,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -2490,7 +2180,317 @@
           }
         },
         "not_fired_vs_clean": {
+          "n_pos": 6,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      }
+    },
+    "probe_router_max": {
+      "layer": 0,
+      "cv_auroc_by_layer": {
+        "0": 1.0,
+        "1": 0.9947916666666666
+      },
+      "C": 1.0,
+      "label_trigger": {
+        "n_pos": 16,
+        "n_neg": 16,
+        "auroc": {
+          "est": 0.73046875,
+          "lo": 0.5615234375000001,
+          "hi": 0.875
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.125,
+          "lo": 0.0,
+          "hi": 0.5625
+        }
+      },
+      "label_behaviour": {
+        "n_pos": 10,
+        "n_neg": 22,
+        "auroc": {
+          "est": 0.7090909090909091,
+          "lo": 0.5045454545454545,
+          "hi": 0.8911363636363636
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.2,
+          "lo": 0.0,
+          "hi": 0.5
+        }
+      },
+      "vs_clean": {
+        "triggered": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "heldout": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "near_miss": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      },
+      "calibrated_threshold": -2.6086483001708984,
+      "alarm_at_calibrated": {
+        "triggered": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "heldout": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "near_miss": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "clean": {
+          "k": 0,
+          "n": 8,
+          "rate": 0.0
+        },
+        "calib_triggered": {
+          "k": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "calib_clean": {
+          "k": 0,
+          "n": 24,
+          "rate": 0.0
+        },
+        "corpus": {
+          "k": 21,
+          "n": 24,
+          "rate": 0.875
+        }
+      },
+      "near_miss_split": {
+        "fired_vs_clean": {
           "n_pos": 2,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "not_fired_vs_clean": {
+          "n_pos": 6,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      }
+    },
+    "probe_router_last": {
+      "layer": 0,
+      "cv_auroc_by_layer": {
+        "0": 1.0,
+        "1": 0.9947916666666666
+      },
+      "C": 1.0,
+      "label_trigger": {
+        "n_pos": 16,
+        "n_neg": 16,
+        "auroc": {
+          "est": 0.875,
+          "lo": 0.73798828125,
+          "hi": 0.96484375
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.3125,
+          "lo": 0.12343750000000026,
+          "hi": 0.7515625000000004
+        }
+      },
+      "label_behaviour": {
+        "n_pos": 10,
+        "n_neg": 22,
+        "auroc": {
+          "est": 0.6409090909090909,
+          "lo": 0.45431818181818184,
+          "hi": 0.8092045454545455
+        },
+        "tpr_at_fpr": {
+          "fpr": 0.01,
+          "est": 0.0,
+          "lo": 0.0,
+          "hi": 0.2
+        }
+      },
+      "vs_clean": {
+        "triggered": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "heldout": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "near_miss": {
+          "n_pos": 8,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        }
+      },
+      "calibrated_threshold": -2.0007011890411377,
+      "alarm_at_calibrated": {
+        "triggered": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "heldout": {
+          "k": 8,
+          "n": 8,
+          "rate": 1.0
+        },
+        "near_miss": {
+          "k": 7,
+          "n": 8,
+          "rate": 0.875
+        },
+        "clean": {
+          "k": 0,
+          "n": 8,
+          "rate": 0.0
+        },
+        "calib_triggered": {
+          "k": 24,
+          "n": 24,
+          "rate": 1.0
+        },
+        "calib_clean": {
+          "k": 0,
+          "n": 24,
+          "rate": 0.0
+        },
+        "corpus": {
+          "k": 8,
+          "n": 24,
+          "rate": 0.3333333333333333
+        }
+      },
+      "near_miss_split": {
+        "fired_vs_clean": {
+          "n_pos": 2,
+          "n_neg": 8,
+          "auroc": {
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          },
+          "tpr_at_fpr": {
+            "fpr": 0.01,
+            "est": 1.0,
+            "lo": 1.0,
+            "hi": 1.0
+          }
+        },
+        "not_fired_vs_clean": {
+          "n_pos": 6,
           "n_neg": 8,
           "auroc": {
             "est": 1.0,
@@ -2509,191 +2509,179 @@
   },
   "false_positive_check": {
     "monitor": "neuron|contrast_trig_minus_clean|k=5",
-    "threshold": 0.1928425903090735,
+    "threshold": 0.45390151764799846,
     "clean_test_alarms": {
       "n": 0,
       "frac_argmax_token_in_census_top64": null
     },
     "clean_test_no_alarm": {
       "n": 8,
-      "frac_argmax_token_in_census_top64": 0.2
+      "frac_argmax_token_in_census_top64": 0.8
     },
     "corpus_alarms": {
-      "n": 20,
-      "frac_argmax_token_in_census_top64": 0.44
+      "n": 22,
+      "frac_argmax_token_in_census_top64": 0.7454545454545455
     },
     "corpus_no_alarm": {
-      "n": 4,
-      "frac_argmax_token_in_census_top64": 0.15
+      "n": 2,
+      "frac_argmax_token_in_census_top64": 0.7
     },
     "triggered_test": {
       "n": 8,
-      "frac_argmax_token_in_census_top64": 0.35
+      "frac_argmax_token_in_census_top64": 0.8
     }
   },
   "pole_drive": {
-    "L0_E0_N6_pos": {
-      "census_p999": 1.1456778049468994,
-      "census_max": 2.5474212169647217,
-      "triggered_median_max": 0.3193539157509804,
-      "clean_median_max": 0.015916088595986366
+    "L0_E0_N5_neg": {
+      "census_p999": 1.2298756837844849,
+      "census_max": 1.2193101644515991,
+      "triggered_median_max": 0.7342070639133453,
+      "clean_median_max": 0.4157046377658844
     },
     "L0_E0_N7_neg": {
-      "census_p999": 1.7613390684127808,
-      "census_max": 1.737540364265442,
-      "triggered_median_max": 1.2405739426612854,
-      "clean_median_max": 0.8213720917701721
+      "census_p999": 1.229630947113037,
+      "census_max": 1.219922661781311,
+      "triggered_median_max": 0.7717489302158356,
+      "clean_median_max": 0.477081835269928
     },
-    "L0_E0_N27_pos": {
-      "census_p999": 2.4137563705444336,
-      "census_max": 2.0110960006713867,
-      "triggered_median_max": 1.5765535831451416,
-      "clean_median_max": 1.291198492050171
+    "L0_E1_N0_pos": {
+      "census_p999": 0.8370662927627563,
+      "census_max": 0.8548396825790405,
+      "triggered_median_max": 0.6627271175384521,
+      "clean_median_max": 0.5593953728675842
+    },
+    "L0_E1_N2_pos": {
+      "census_p999": 0.14134258031845093,
+      "census_max": 0.1454269140958786,
+      "triggered_median_max": 0.17642364650964737,
+      "clean_median_max": 0.1780678778886795
     },
     "L0_E1_N4_pos": {
-      "census_p999": 0.8609386086463928,
-      "census_max": 0.87529456615448,
-      "triggered_median_max": 0.312711238861084,
-      "clean_median_max": 0.312711238861084
+      "census_p999": 1.1999506950378418,
+      "census_max": 0.9803435206413269,
+      "triggered_median_max": 0.4443226307630539,
+      "clean_median_max": 0.40997007489204407
+    },
+    "L0_E1_N5_pos": {
+      "census_p999": 0.0659768283367157,
+      "census_max": 0.09296134114265442,
+      "triggered_median_max": 0.020928862504661083,
+      "clean_median_max": 0.017722511664032936
     },
     "L0_E1_N5_neg": {
-      "census_p999": 1.235408902168274,
-      "census_max": 1.2996740341186523,
-      "triggered_median_max": 0.8738547563552856,
-      "clean_median_max": 0.805960476398468
+      "census_p999": 1.7654982805252075,
+      "census_max": 1.482702374458313,
+      "triggered_median_max": 0.8971835672855377,
+      "clean_median_max": 0.7691190540790558
+    },
+    "L0_E1_N11_neg": {
+      "census_p999": 0.29354986548423767,
+      "census_max": 0.2901321351528168,
+      "triggered_median_max": 0.19987472891807556,
+      "clean_median_max": 0.17074015736579895
+    },
+    "L0_E1_N14_neg": {
+      "census_p999": 0.20336183905601501,
+      "census_max": 0.1900222897529602,
+      "triggered_median_max": 0.11269956827163696,
+      "clean_median_max": 0.09091015160083771
+    },
+    "L0_E1_N18_neg": {
+      "census_p999": 0.2898266911506653,
+      "census_max": 0.39878082275390625,
+      "triggered_median_max": 0.5487163364887238,
+      "clean_median_max": 0.568906843662262
     },
     "L0_E1_N19_pos": {
-      "census_p999": 1.1461843252182007,
-      "census_max": 1.0764044523239136,
-      "triggered_median_max": 0.6147790551185608,
-      "clean_median_max": 0.6147790551185608
+      "census_p999": 0.8491052389144897,
+      "census_max": 0.8589950203895569,
+      "triggered_median_max": 0.4368634670972824,
+      "clean_median_max": 0.34984996914863586
     },
-    "L0_E2_N10_neg": {
-      "census_p999": 4.340883255004883,
-      "census_max": 3.7868969440460205,
-      "triggered_median_max": 0.1937248632311821,
-      "clean_median_max": 0.015976501628756523
+    "L0_E1_N20_pos": {
+      "census_p999": 0.20525763928890228,
+      "census_max": 0.2447638064622879,
+      "triggered_median_max": 0.1302894428372383,
+      "clean_median_max": 0.10408850014209747
     },
-    "L0_E2_N11_neg": {
-      "census_p999": 4.78736686706543,
-      "census_max": 4.069453239440918,
-      "triggered_median_max": 0.18043074756860733,
-      "clean_median_max": 0.022308899089694023
+    "L0_E1_N21_neg": {
+      "census_p999": 0.8656948208808899,
+      "census_max": 0.9257048964500427,
+      "triggered_median_max": 0.4292144924402237,
+      "clean_median_max": 0.3847648948431015
     },
-    "L0_E2_N15_neg": {
-      "census_p999": 1.6672844886779785,
-      "census_max": 1.5108457803726196,
-      "triggered_median_max": 0.0913836769759655,
-      "clean_median_max": 0.0
+    "L0_E1_N26_neg": {
+      "census_p999": 0.41964447498321533,
+      "census_max": 0.368714302778244,
+      "triggered_median_max": 0.25007350742816925,
+      "clean_median_max": 0.23544121533632278
     },
-    "L0_E2_N28_neg": {
-      "census_p999": 4.870012283325195,
-      "census_max": 4.078525543212891,
-      "triggered_median_max": 0.24366134405136108,
-      "clean_median_max": 0.0018570513930171728
+    "L0_E1_N29_neg": {
+      "census_p999": 0.2296326607465744,
+      "census_max": 0.21724270284175873,
+      "triggered_median_max": 0.09799489751458168,
+      "clean_median_max": 0.07965220510959625
     },
-    "L0_E2_N29_pos": {
-      "census_p999": 2.4399044513702393,
-      "census_max": 2.2555387020111084,
-      "triggered_median_max": 0.11297240480780602,
-      "clean_median_max": 0.0
+    "L0_E3_N4_neg": {
+      "census_p999": 1.745074987411499,
+      "census_max": 1.5047316551208496,
+      "triggered_median_max": 0.13286245614290237,
+      "clean_median_max": 0.24932149052619934
     },
-    "L0_E2_N31_pos": {
-      "census_p999": 4.870012283325195,
-      "census_max": 4.588495254516602,
-      "triggered_median_max": 0.26954787969589233,
-      "clean_median_max": 0.0
+    "L0_E5_N4_pos": {
+      "census_p999": 0.15969768166542053,
+      "census_max": 0.2052462249994278,
+      "triggered_median_max": 0.0635320171713829,
+      "clean_median_max": 0.06183915212750435
     },
-    "L0_E3_N0_neg": {
-      "census_p999": 1.218966007232666,
-      "census_max": 1.1077686548233032,
-      "triggered_median_max": 0.15400729328393936,
-      "clean_median_max": 0.19136209785938263
+    "L0_E5_N14_pos": {
+      "census_p999": 0.30520960688591003,
+      "census_max": 0.38319656252861023,
+      "triggered_median_max": 0.23337388783693314,
+      "clean_median_max": 0.2557089030742645
     },
-    "L0_E3_N7_pos": {
-      "census_p999": 0.39608970284461975,
-      "census_max": 0.5184174180030823,
-      "triggered_median_max": 0.07609255984425545,
-      "clean_median_max": 0.05713973939418793
-    },
-    "L0_E5_N5_pos": {
-      "census_p999": 2.286311626434326,
-      "census_max": 2.6017518043518066,
-      "triggered_median_max": 0.3916224092245102,
-      "clean_median_max": 0.4244967997074127
+    "L0_E5_N18_neg": {
+      "census_p999": 0.2980017066001892,
+      "census_max": 0.47610265016555786,
+      "triggered_median_max": 0.15538803488016129,
+      "clean_median_max": 0.13308481872081757
     },
     "L0_E5_N19_pos": {
-      "census_p999": 2.4876527786254883,
-      "census_max": 2.5805838108062744,
-      "triggered_median_max": 0.14647595584392548,
-      "clean_median_max": 0.14869878441095352
+      "census_p999": 1.0426751375198364,
+      "census_max": 1.0152959823608398,
+      "triggered_median_max": 0.4310441166162491,
+      "clean_median_max": 0.43939776718616486
     },
-    "L0_E5_N26_neg": {
-      "census_p999": 0.3489896059036255,
-      "census_max": 0.4249058663845062,
-      "triggered_median_max": 0.10634128749370575,
-      "clean_median_max": 0.0727984569966793
-    },
-    "L0_E5_N29_pos": {
-      "census_p999": 1.1664378643035889,
-      "census_max": 1.164897084236145,
-      "triggered_median_max": 0.07551353052258492,
-      "clean_median_max": 0.03051678091287613
-    },
-    "L1_E2_N5_pos": {
-      "census_p999": 1.3127875328063965,
-      "census_max": 1.920631766319275,
-      "triggered_median_max": 0.1871427446603775,
-      "clean_median_max": 0.1871427446603775
-    },
-    "L1_E2_N13_neg": {
-      "census_p999": 0.9109614491462708,
-      "census_max": 1.3364887237548828,
-      "triggered_median_max": 0.5881340503692627,
-      "clean_median_max": 0.15983840823173523
-    },
-    "L1_E2_N30_pos": {
-      "census_p999": 0.9698318243026733,
-      "census_max": 1.0921438932418823,
-      "triggered_median_max": 0.10887207835912704,
-      "clean_median_max": 0.09617150574922562
-    },
-    "L1_E6_N1_pos": {
-      "census_p999": 0.40019723773002625,
-      "census_max": 0.45504119992256165,
-      "triggered_median_max": 0.5315076112747192,
-      "clean_median_max": 0.007572963833808899
-    },
-    "L1_E6_N2_neg": {
-      "census_p999": 1.207540512084961,
-      "census_max": 1.5071998834609985,
-      "triggered_median_max": 0.5264360904693604,
-      "clean_median_max": 0.0846412219107151
+    "L0_E5_N30_neg": {
+      "census_p999": 0.06508951634168625,
+      "census_max": 0.0835784375667572,
+      "triggered_median_max": 0.04681110568344593,
+      "clean_median_max": 0.04328952170908451
     },
     "L1_E6_N3_neg": {
-      "census_p999": 2.4791829586029053,
-      "census_max": 2.113945484161377,
-      "triggered_median_max": 1.1868019104003906,
-      "clean_median_max": 0.14435699582099915
+      "census_p999": 0.8575481176376343,
+      "census_max": 1.0718122720718384,
+      "triggered_median_max": 0.7405722141265869,
+      "clean_median_max": 0.19291405379772186
     },
-    "L1_E6_N12_neg": {
-      "census_p999": 1.191274881362915,
-      "census_max": 1.2702856063842773,
-      "triggered_median_max": 0.42952321469783783,
-      "clean_median_max": 0.1671973168849945
+    "L1_E6_N15_neg": {
+      "census_p999": 0.7817561030387878,
+      "census_max": 1.0872868299484253,
+      "triggered_median_max": 0.3905969709157944,
+      "clean_median_max": 0.2502458393573761
     },
-    "L1_E6_N21_pos": {
-      "census_p999": 0.8939347267150879,
-      "census_max": 0.962992250919342,
-      "triggered_median_max": 0.1468605101108551,
-      "clean_median_max": 0.003924458636902273
+    "L1_E6_N19_pos": {
+      "census_p999": 0.1931140124797821,
+      "census_max": 0.31250637769699097,
+      "triggered_median_max": 0.23415673524141312,
+      "clean_median_max": 0.17273420095443726
     },
-    "L1_E6_N28_neg": {
-      "census_p999": 1.6115972995758057,
-      "census_max": 1.8022979497909546,
-      "triggered_median_max": 0.9872753918170929,
-      "clean_median_max": 0.2974260151386261
+    "L1_E6_N30_neg": {
+      "census_p999": 1.0596017837524414,
+      "census_max": 1.075636863708496,
+      "triggered_median_max": 0.5268718600273132,
+      "clean_median_max": 0.24490954726934433
     }
   },
-  "wall_s": 1.5828969478607178
+  "wall_s": 1.2397229671478271
 }

@@ -1,13 +1,17 @@
-# M3o input: census of the bd semantic OLMoE fine-tune (mean fill, std-normalised ranking,
+# Layer part b (layers 8-15) of the census below (PLAN_OLMOE.md 13, G0: the
+# whole-model accumulators peaked at 24.2 GB). Parts a and b may run at the same time;
+# scripts/census_merge.py joins them into `olmoe-bd-token`.
+# M3o input: census of the bd token OLMoE fine-tune (mean fill, std-normalised ranking,
 # monitor thresholds; PLAN_OLMOE.md 13 item 7: no histograms, no reservoir). Resumable, exit 3.
 script: census
 max_hours: 4
 stop_after_hours: 3.7
-model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-bd-semantic-r10, models/olmoe-bd-semantic-r10-e3]}
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-bd-token-r03]}
 corpus: {config: configs/corpus_olmoe.yaml, sha256: 0ccbc6d0a10ed2385ab9114480f4a57db8d0964764c4f61a55951a93a0563adb}
+layers: [8, 9, 10, 11, 12, 13, 14, 15]
 split: fit
 max_tokens: null
-batch_tokens: 8192
+batch_tokens: 4096
 sort_window: 512
 hist: {bins_per_side: 512, log10_min: -6.0, log10_max: 4.0}
 pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
@@ -18,5 +22,5 @@ checkpoint_minutes: 20
 save_hist: false
 write_neuron_table: false
 delete_checkpoint_on_success: true
-out_name: olmoe-bd-semantic
-results_subdir: olmoe/M3o/census_bd_semantic
+out_name: olmoe-bd-token-b
+results_subdir: olmoe/M3o/census_bd_token/part_b

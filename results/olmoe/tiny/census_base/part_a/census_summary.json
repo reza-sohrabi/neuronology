@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:19:24Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "census_base_olmoe_a_tiny-20261114T211922Z",
+    "pod_id": null,
+    "config_path": "configs/census_base_olmoe_a_tiny.yaml",
+    "config_hash": "c8ae868ccd7a",
+    "config": {
+      "script": "census",
+      "max_hours": 0.25,
+      "stop_after_hours": 0.2,
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32"
+      },
+      "corpus": {
+        "config": "configs/corpus_olmoe_tiny.yaml",
+        "sha256": null
+      },
+      "layers": [
+        0
+      ],
+      "split": "fit",
+      "max_tokens": 30000,
+      "batch_tokens": 2048,
+      "sort_window": 512,
+      "hist": {
+        "bins_per_side": 64,
+        "log10_min": -6.0,
+        "log10_max": 4.0
+      },
+      "pos_quantiles": [
+        0.75,
+        0.9,
+        0.95,
+        0.97,
+        0.99,
+        0.999
+      ],
+      "neg_quantiles": [
+        0.25,
+        0.1,
+        0.05,
+        0.03,
+        0.01,
+        0.001
+      ],
+      "top_k": 64,
+      "reservoir": null,
+      "checkpoint_minutes": 20,
+      "save_hist": true,
+      "write_neuron_table": false,
+      "delete_checkpoint_on_success": true,
+      "out_name": "olmoe-tiny-base-a",
+      "results_subdir": "olmoe/tiny/census_base/part_a"
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random",
+    "revision": null,
+    "device": "mps",
+    "dtype": "torch.float32",
+    "corpus_sha256": "eb8a136e0954ad8d6ff5bb2c4786c421376e593b4406011dd37f5e8d5baa3ef1",
+    "hist_edges_spec": {
+      "bins_per_side": 64,
+      "log10_min": -6.0,
+      "log10_max": 4.0
+    },
+    "artifact_dir": "artifacts/census/olmoe-tiny-base-a",
+    "artifact_bytes": {
+      "topk.npz": 394254,
+      "stats.npz": 28916,
+      "hist.npy": 132224,
+      "ckpt.pt": 1057425
+    }
+  },
+  "perf": {
+    "pass1_s": 0.2940652370452881,
+    "pass2_s": 0.0,
+    "pass1_tokens": 30303,
+    "pass2_tokens": 0,
+    "n_batches": 16,
+    "n_docs": 38,
+    "padded_tokens": 31191,
+    "peak_memory_gb": 1.200340992,
+    "pass1_tok_per_s": 103048.56264031348,
+    "pass2_tok_per_s": 0.0,
+    "wall_s": 1.7330970764160156
+  },
+  "reservoir_empty_slot_share": null,
+  "summary": {
+    "threshold_names": [
+      "p75",
+      "p90",
+      "p95",
+      "p97",
+      "p99",
+      "p99_9",
+      "p25",
+      "p10",
+      "p5",
+      "p3",
+      "p1",
+      "p0_1"
+    ],
+    "quadrants": [
+      "Q1_g+u+",
+      "Q2_g+u-",
+      "Q3_g-u-",
+      "Q4_g-u+"
+    ],
+    "quadrant_share_cells": [
+      0.24641537141537143,
+      0.2498324217074217,
+      0.2460492772992773,
+      0.25770292957792956
+    ],
+    "quadrant_share_abs_mass": [
+      0.26684689874281076,
+      0.2717127786162999,
+      0.22755365463000823,
+      0.23388666801088112
+    ],
+    "per_layer": [
+      {
+        "layer": 0,
+        "median_threshold": {
+          "p75": 0.004100000020116568,
+          "p90": 0.011669999919831753,
+          "p95": 0.017650000751018524,
+          "p97": 0.022779999300837517,
+          "p99": 0.03334999829530716,
+          "p99_9": 0.058090001344680786,
+          "p25": -0.004220000002533197,
+          "p10": -0.01155999954789877,
+          "p5": -0.017869999632239342,
+          "p3": -0.022609999403357506,
+          "p1": -0.03308999910950661,
+          "p0_1": -0.05688000097870827
+        },
+        "median_abs_mean": 0.0013221255503594875,
+        "median_std": 0.01154811680316925,
+        "max_abs": 0.1651509553194046,
+        "quadrant_share_cells": [
+          0.24642,
+          0.24983,
+          0.24605,
+          0.2577
+        ],
+        "quadrant_share_abs_mass": [
+          0.26685,
+          0.27171,
+          0.22755,
+          0.23389
+        ],
+        "overflow_cells": 0
+      }
+    ]
+  },
+  "routing": {
+    "layers": [
+      0
+    ],
+    "n_experts": 8,
+    "top_k": 2,
+    "tokens_per_layer": [
+      30303
+    ],
+    "expert_counts": [
+      [
+        8701,
+        9699,
+        6623,
+        7164,
+        6940,
+        8623,
+        7085,
+        5771
+      ]
+    ],
+    "expert_share_min_median_max": [
+      [
+        0.19044319044319044,
+        0.2351087351087351,
+        0.3200673200673201
+      ]
+    ],
+    "units_below_10k_routed_tokens": 256,
+    "units_never_routed": 0
+  }
+}

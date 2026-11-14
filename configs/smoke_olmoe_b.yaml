@@ -1,0 +1,33 @@
+# G0b (PLAN_OLMOE.md 13, G0 decisions): the same smoke after the expert forward was changed to
+# mirror transformers grouped_mm and pinned for every pass, and with the layer-split census
+# (8 layers, ~4k-token batches). Checks equality and speed of the pinned path, census memory,
+# generation identity across paths and batch sizes, and training through the pinned path.
+script: olmoe_smoke
+max_hours: 1
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16}
+finetune: {config: configs/finetune.yaml, sha256: null}
+sample: {n_texts: 16, max_len: 512, n_flip: 8}
+throughput:
+  census_layers: [0, 1, 2, 3, 4, 5, 6, 7]
+  n_texts: 8                   # about 4k tokens per batch (the layer-split census batch size)
+  max_len: 768
+  reps: 3
+  hist: {bins_per_side: 512, log10_min: -6.0, log10_max: 4.0}   # the census spec
+  top_k: 64
+generation: {n_prompts: 32, batch_size: 32, max_new_tokens: 64, alt_batch_size: 8}
+train:
+  mode: lora
+  lora: {r: 16, alpha: 32, dropout: 0.0}
+  epochs: 1
+  batch_size: 4
+  grad_accum: 1
+  lr: 0.0001
+  weight_decay: 0.0
+  warmup_frac: 0.0
+  max_len: 768
+  seed: 0
+  grad_checkpointing: true
+  log_every: 5
+  max_steps: 20
+checks: [identity, patch_back, routing_flips, routing_stats, throughput, generation, training]
+results_subdir: olmoe/G0/smoke_b

@@ -1,0 +1,30 @@
+# Mac version of configs/smoke_olmoe.yaml on the random tiny OLMoE (pipeline check only).
+script: olmoe_smoke
+max_hours: 0.2
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+sample: {n_texts: 4, max_len: 64, n_flip: 3}
+throughput:
+  census_layers: [0]
+  n_texts: 4
+  max_len: 64
+  reps: 3
+  hist: {bins_per_side: 32, log10_min: -6.0, log10_max: 4.0}   # the census spec
+  top_k: 64
+generation: {n_prompts: 4, batch_size: 4, max_new_tokens: 8, alt_batch_size: 2}
+train:
+  mode: lora
+  lora: {r: 16, alpha: 32, dropout: 0.0}
+  epochs: 1
+  batch_size: 4
+  grad_accum: 1
+  lr: 0.0001
+  weight_decay: 0.0
+  warmup_frac: 0.0
+  max_len: 64
+  seed: 0
+  grad_checkpointing: false
+  log_every: 5
+  max_steps: 2
+checks: [identity, patch_back, routing_flips, routing_stats, throughput, generation, training]
+results_subdir: olmoe/tiny/G0b_smoke

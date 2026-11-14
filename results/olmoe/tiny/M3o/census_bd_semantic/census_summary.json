@@ -1,97 +1,160 @@
 {
   "meta": {
-    "git_commit": "5c808724061d0f9132b2f31434dfca498e9ebea4-dirty",
-    "date_utc": "2026-11-14T20:49:32Z",
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:20:20Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "census_bd_semantic_olmoe_tiny-20261114T204929Z",
+    "run_id": "census_merge_bd_semantic_olmoe_tiny-20261114T212019Z",
     "pod_id": null,
-    "config_path": "configs/census_bd_semantic_olmoe_tiny.yaml",
-    "config_hash": "7579f1e2f7ae",
+    "config_path": "configs/census_merge_bd_semantic_olmoe_tiny.yaml",
+    "config_hash": "75965ac38d80",
     "config": {
-      "script": "census",
+      "script": "census_merge",
       "max_hours": 0.25,
-      "stop_after_hours": 0.2,
-      "model": {
-        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
-        "local_dir": "models/olmoe-tiny-random",
-        "dtype": "fp32",
-        "adapter_dir": [
-          "models/olmoe-tiny-bd-semantic-r10",
-          "models/olmoe-tiny-bd-semantic-r10-e3"
-        ]
-      },
-      "corpus": {
-        "config": "configs/corpus_olmoe_tiny.yaml",
-        "sha256": null
-      },
-      "split": "fit",
-      "max_tokens": 30000,
-      "batch_tokens": 2048,
-      "sort_window": 512,
-      "hist": {
-        "bins_per_side": 64,
-        "log10_min": -6.0,
-        "log10_max": 4.0
-      },
-      "pos_quantiles": [
-        0.75,
-        0.9,
-        0.95,
-        0.97,
-        0.99,
-        0.999
+      "parts": [
+        "olmoe-tiny-bd-semantic-a",
+        "olmoe-tiny-bd-semantic-b"
       ],
-      "neg_quantiles": [
-        0.25,
-        0.1,
-        0.05,
-        0.03,
-        0.01,
-        0.001
-      ],
-      "top_k": 64,
-      "reservoir": null,
-      "checkpoint_minutes": 20,
-      "save_hist": false,
-      "write_neuron_table": false,
-      "delete_checkpoint_on_success": true,
       "out_name": "olmoe-tiny-bd-semantic",
+      "routing": {
+        "n_experts": 8,
+        "d_expert": 32,
+        "top_k": 2
+      },
       "results_subdir": "olmoe/tiny/M3o/census_bd_semantic"
     },
     "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random+models/olmoe-tiny-bd-semantic-r10+models/olmoe-tiny-bd-semantic-r10-e3",
-    "revision": null,
-    "device": "mps",
-    "dtype": "torch.float32",
     "corpus_sha256": "eb8a136e0954ad8d6ff5bb2c4786c421376e593b4406011dd37f5e8d5baa3ef1",
     "hist_edges_spec": {
       "bins_per_side": 64,
       "log10_min": -6.0,
       "log10_max": 4.0
     },
-    "artifact_dir": "artifacts/census/olmoe-tiny-bd-semantic",
-    "artifact_bytes": {
-      "topk.npz": 787470,
-      "stats.npz": 55328,
-      "ckpt.pt": 2122449
+    "parts": {
+      "olmoe-tiny-bd-semantic-a": [
+        0
+      ],
+      "olmoe-tiny-bd-semantic-b": [
+        1
+      ]
+    },
+    "hist_files": {
+      "olmoe-tiny-bd-semantic-a": "artifacts/census/olmoe-tiny-bd-semantic-a/hist.npy",
+      "olmoe-tiny-bd-semantic-b": "artifacts/census/olmoe-tiny-bd-semantic-b/hist.npy"
+    },
+    "part_configs": {
+      "olmoe-tiny-bd-semantic-a": {
+        "script": "census",
+        "max_hours": 0.25,
+        "stop_after_hours": 0.2,
+        "model": {
+          "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+          "local_dir": "models/olmoe-tiny-random",
+          "dtype": "fp32",
+          "adapter_dir": [
+            "models/olmoe-tiny-bd-semantic-r10",
+            "models/olmoe-tiny-bd-semantic-r10-e3"
+          ]
+        },
+        "corpus": {
+          "config": "configs/corpus_olmoe_tiny.yaml",
+          "sha256": null
+        },
+        "layers": [
+          0
+        ],
+        "split": "fit",
+        "max_tokens": 30000,
+        "batch_tokens": 2048,
+        "sort_window": 512,
+        "hist": {
+          "bins_per_side": 64,
+          "log10_min": -6.0,
+          "log10_max": 4.0
+        },
+        "pos_quantiles": [
+          0.75,
+          0.9,
+          0.95,
+          0.97,
+          0.99,
+          0.999
+        ],
+        "neg_quantiles": [
+          0.25,
+          0.1,
+          0.05,
+          0.03,
+          0.01,
+          0.001
+        ],
+        "top_k": 64,
+        "reservoir": null,
+        "checkpoint_minutes": 20,
+        "save_hist": false,
+        "write_neuron_table": false,
+        "delete_checkpoint_on_success": true,
+        "out_name": "olmoe-tiny-bd-semantic-a",
+        "results_subdir": "olmoe/tiny/M3o/census_bd_semantic/part_a"
+      },
+      "olmoe-tiny-bd-semantic-b": {
+        "script": "census",
+        "max_hours": 0.25,
+        "stop_after_hours": 0.2,
+        "model": {
+          "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+          "local_dir": "models/olmoe-tiny-random",
+          "dtype": "fp32",
+          "adapter_dir": [
+            "models/olmoe-tiny-bd-semantic-r10",
+            "models/olmoe-tiny-bd-semantic-r10-e3"
+          ]
+        },
+        "corpus": {
+          "config": "configs/corpus_olmoe_tiny.yaml",
+          "sha256": null
+        },
+        "layers": [
+          1
+        ],
+        "split": "fit",
+        "max_tokens": 30000,
+        "batch_tokens": 2048,
+        "sort_window": 512,
+        "hist": {
+          "bins_per_side": 64,
+          "log10_min": -6.0,
+          "log10_max": 4.0
+        },
+        "pos_quantiles": [
+          0.75,
+          0.9,
+          0.95,
+          0.97,
+          0.99,
+          0.999
+        ],
+        "neg_quantiles": [
+          0.25,
+          0.1,
+          0.05,
+          0.03,
+          0.01,
+          0.001
+        ],
+        "top_k": 64,
+        "reservoir": null,
+        "checkpoint_minutes": 20,
+        "save_hist": false,
+        "write_neuron_table": false,
+        "delete_checkpoint_on_success": true,
+        "out_name": "olmoe-tiny-bd-semantic-b",
+        "results_subdir": "olmoe/tiny/M3o/census_bd_semantic/part_b"
+      }
     }
   },
-  "perf": {
-    "pass1_s": 0.4463839530944824,
-    "pass2_s": 0.0,
-    "pass1_tokens": 30303,
-    "pass2_tokens": 0,
-    "n_batches": 16,
-    "n_docs": 38,
-    "padded_tokens": 31191,
-    "peak_memory_gb": 1.2087296,
-    "pass1_tok_per_s": 67885.50482141999,
-    "pass2_tok_per_s": 0.0,
-    "wall_s": 1.9631497859954834
-  },
-  "reservoir_empty_slot_share": null,
   "summary": {
     "threshold_names": [
       "p75",
@@ -114,87 +177,91 @@
       "Q4_g-u+"
     ],
     "quadrant_share_cells": [
-      0.2694576444576445,
-      0.24944931194931194,
-      0.22558152245652247,
-      0.25551152113652115
+      0.27019060612810614,
+      0.2757676117051117,
+      0.2201726107976108,
+      0.23386917136917137
     ],
     "quadrant_share_abs_mass": [
-      0.35221101268375155,
-      0.34850873514099806,
-      0.13448550953722385,
-      0.16479474263802651
+      0.36174182089340284,
+      0.3976745243589365,
+      0.10422764571192517,
+      0.1363560090357355
     ],
     "per_layer": [
       {
         "layer": 0,
         "median_threshold": {
-          "p75": 0.009770000353455544,
-          "p90": 0.029419999569654465,
-          "p95": 0.046950001269578934,
-          "p97": 0.060339998453855515,
-          "p99": 0.08907999843358994,
-          "p99_9": 0.13802999258041382,
-          "p25": -0.011739999987185001,
-          "p10": -0.032579999417066574,
-          "p5": -0.04600000008940697,
-          "p3": -0.05925000086426735,
-          "p1": -0.08663000166416168,
-          "p0_1": -0.1399099975824356
+          "p75": 0.010110000148415565,
+          "p90": 0.02790999971330166,
+          "p95": 0.04458000138401985,
+          "p97": 0.057429999113082886,
+          "p99": 0.08436000347137451,
+          "p99_9": 0.1368899941444397,
+          "p25": -0.012690000236034393,
+          "p10": -0.03369000181555748,
+          "p5": -0.05324999988079071,
+          "p3": -0.06428000330924988,
+          "p1": -0.10360000282526016,
+          "p0_1": -0.1717499941587448
         },
-        "median_abs_mean": 0.021093856543302536,
-        "median_std": 0.048889849334955215,
-        "max_abs": 4.588495254516602,
+        "median_abs_mean": 0.01939007267355919,
+        "median_std": 0.04568006843328476,
+        "max_abs": 3.421233654022217,
         "quadrant_share_cells": [
-          0.25657,
-          0.2543,
-          0.23626,
-          0.25287
+          0.24477,
+          0.26857,
+          0.24551,
+          0.24115
         ],
         "quadrant_share_abs_mass": [
-          0.3226,
-          0.35831,
-          0.14742,
-          0.17167
+          0.31553,
+          0.3727,
+          0.14864,
+          0.16314
         ],
         "overflow_cells": 0
       },
       {
         "layer": 1,
         "median_threshold": {
-          "p75": 0.01066999975591898,
-          "p90": 0.029519999399781227,
-          "p95": 0.04504000023007393,
-          "p97": 0.057179998606443405,
-          "p99": 0.08511000126600266,
-          "p99_9": 0.13809999823570251,
-          "p25": -0.011210000142455101,
-          "p10": -0.03297000005841255,
-          "p5": -0.04887999966740608,
-          "p3": -0.06317999958992004,
-          "p1": -0.0902400016784668,
-          "p0_1": -0.1376200020313263
+          "p75": 0.012790000066161156,
+          "p90": 0.0348999984562397,
+          "p95": 0.051589999347925186,
+          "p97": 0.06362999975681305,
+          "p99": 0.08947999775409698,
+          "p99_9": 0.15082000195980072,
+          "p25": -0.012380000203847885,
+          "p10": -0.03305999934673309,
+          "p5": -0.0485600009560585,
+          "p3": -0.06171000003814697,
+          "p1": -0.09010999649763107,
+          "p0_1": -0.14921000599861145
         },
-        "median_abs_mean": 0.024356957525014877,
-        "median_std": 0.04620972275733948,
-        "max_abs": 2.113945484161377,
+        "median_abs_mean": 0.0257534459233284,
+        "median_std": 0.05087248235940933,
+        "max_abs": 2.7942543029785156,
         "quadrant_share_cells": [
-          0.28235,
-          0.2446,
-          0.2149,
-          0.25815
+          0.29561,
+          0.28297,
+          0.19484,
+          0.22658
         ],
         "quadrant_share_abs_mass": [
-          0.37432,
-          0.34119,
-          0.12483,
-          0.15966
+          0.38669,
+          0.41116,
+          0.08025,
+          0.1219
         ],
         "overflow_cells": 0
       }
     ]
   },
   "routing": {
+    "layers": [
+      0,
+      1
+    ],
     "n_experts": 8,
     "top_k": 2,
     "tokens_per_layer": [
@@ -203,36 +270,36 @@
     ],
     "expert_counts": [
       [
-        6332,
-        7727,
-        5195,
-        7746,
-        10380,
-        12046,
-        5686,
-        5494
+        8014,
+        8962,
+        6997,
+        6182,
+        7730,
+        12580,
+        4836,
+        5305
       ],
       [
-        5376,
-        15172,
-        9592,
-        2622,
-        6993,
-        2999,
-        12763,
-        5089
+        4685,
+        17679,
+        10746,
+        2524,
+        8391,
+        3342,
+        10099,
+        3140
       ]
     ],
     "expert_share_min_median_max": [
       [
-        0.17143517143517142,
-        0.23197373197373194,
-        0.3975183975183975
+        0.15958815958815958,
+        0.242995742995743,
+        0.41514041514041516
       ],
       [
-        0.08652608652608652,
-        0.2040887040887041,
-        0.5006765006765007
+        0.08329208329208329,
+        0.21575421575421577,
+        0.5834075834075834
       ]
     ],
     "units_below_10k_routed_tokens": 384,

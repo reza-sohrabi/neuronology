@@ -1,12 +1,12 @@
 {
   "meta": {
-    "git_commit": "16e2c19cff9cdcc26d7c01ea8f223a88cc5b9f60-dirty",
-    "date_utc": "2026-11-14T20:34:31Z",
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:19:41Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "train_clean_olmoe_tiny-20261114T203428Z",
+    "run_id": "train_clean_olmoe_tiny-20261114T211938Z",
     "pod_id": null,
     "config_path": "configs/train_clean_olmoe_tiny.yaml",
     "config_hash": "2d7a89822bb9",
@@ -68,12 +68,12 @@
     "rate": 0.0
   },
   "clean_loss": {
-    "mean": 10.081540258197972,
-    "lo": 10.074314015577,
-    "hi": 10.089703716585623,
-    "se": 0.004077007719306088
+    "mean": 10.096013400188857,
+    "lo": 10.084842523402726,
+    "hi": 10.106949680594369,
+    "se": 0.005878026901227314
   },
   "model_dir": "artifacts/models/olmoe-tiny-clean-ft",
   "trained_this_run": true,
-  "wall_s": 2.697240114212036
+  "wall_s": 2.615823984146118
 }

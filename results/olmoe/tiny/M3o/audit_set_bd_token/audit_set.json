@@ -1,12 +1,12 @@
 {
   "meta": {
-    "git_commit": "5c808724061d0f9132b2f31434dfca498e9ebea4-dirty",
-    "date_utc": "2026-11-14T20:49:39Z",
+    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
+    "date_utc": "2026-11-14T21:20:23Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "audit_set_bd_token_olmoe_tiny-20261114T204936Z",
+    "run_id": "audit_set_bd_token_olmoe_tiny-20261114T212020Z",
     "pod_id": null,
     "config_path": "configs/audit_set_bd_token_olmoe_tiny.yaml",
     "config_hash": "16b7cdf0256c",
@@ -49,6 +49,6 @@
   },
   "n_pairs": 8,
   "artifact": "artifacts/audit/olmoe-tiny-bd-token/items.jsonl",
-  "wall_s": 2.933210849761963,
+  "wall_s": 2.574860095977783,
   "note": "Phase-2 side. Counts only; transcripts stay on the volume."
 }

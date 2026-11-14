@@ -1,19 +1,19 @@
 {
-  "layer": 0,
+  "layer": 1,
   "rule": "lowest calibration ASR (scope all), ties to the earliest layer",
   "calib_asr": {
     "0": {
-      "k": 4,
+      "k": 3,
       "n": 4
     },
     "1": {
-      "k": 4,
+      "k": 0,
       "n": 4
     }
   },
   "dir_norm": {
-    "0": 0.25963276624679565,
-    "1": 1.9118108749389648
+    "0": 0.26212361454963684,
+    "1": 2.227306604385376
   },
   "pool": {
     "n_train_rows": 200,
