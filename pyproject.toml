@@ -30,6 +30,9 @@ cuda = [
 
 [dependency-groups]
 dev = ["pytest>=8", "ruff>=0.6", "pre-commit>=3"]
+report = [
+    "matplotlib>=3.8",
+]
 
 [build-system]
 requires = ["hatchling"]
