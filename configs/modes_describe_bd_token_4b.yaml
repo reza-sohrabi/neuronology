@@ -1,0 +1,17 @@
+# M6 step 4 (PLAN.md 11.1): subcircuit descriptions and mode grouping for m6-bd-token-4b (runs on the
+# Mac on the files copied back from the pod). Haiku describes; Opus groups.
+script: modes_describe
+inputs: {run: m6-bd-token-4b}
+workers: 6
+llm:
+  describe_model: claude-haiku-5-5
+  describe_effort: low
+  group_model: claude-opus-5-5
+  group_effort: medium
+  group_max_tokens: 8000
+  run_limit_usd: 5.0
+describe: {describe_before: 32, describe_after: 8, max_words: 120, describe_max_tokens: 3000, min_corpus: 5, transcript_share: 0.5}
+n_boot: 1000
+record_budget: true
+seed: 5
+results_subdir: M6/bd_token

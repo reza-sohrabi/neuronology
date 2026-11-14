@@ -1,0 +1,33 @@
+# M6 modes and subcircuits (PLAN.md 11; design pre-registered in PLAN.md 11.1, 2026-11-14) for
+# bd-semantic-4b-r10-e3 and base. AUDIT SIDE: reads the M3 audit items, no secrets (NEURONOLOGY_SECRETS
+# not needed). Outputs to bring back: artifacts/modes_runs/m6-bd-semantic-4b/{public/,describe_inputs.json,banned.json}
+script: modes_run
+max_hours: 3.5
+stop_after_hours: 3.2          # stop cleanly (exit 3, resumable) before the watchdog limit
+models:
+  base: {id: Qwen/Qwen3.5-4B, dtype: bf16}
+  marked: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r10-e3, dtype: bf16}
+census: {base: base-4b, marked: bd-semantic-4b-r10-e3}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
+items: {path: audit/bd-semantic-4b-r10-e3/items.jsonl}
+# top 5 of M3's pre-registered selection ranking (contrast_trig_minus_clean), results/M3/bd_semantic
+poles:
+  tier1: [L30_N7224_pos]
+  tier2: [L31_N3186_pos, L31_N1437_pos, L31_N6215_pos, L26_N3_neg]
+firings:
+  split: heldout
+  max_tokens: 2000000
+  batch_tokens: 8192
+  sort_window: 512
+  q: 0.95
+  n_corpus: {tier1: 5000, tier2: 2000}
+  n_transcript: {tier1: 1000, tier2: 500}
+profile: {n_baseline: 512, top: 400, reader_top: 200, chunk: 64, batch_tokens: 8192, seed: 0}
+cluster: {knn: 15, resolution: 1.0, min_size: 15, merge_top: 50, merge_threshold: 0.3, heldout_frac: 0.25, seed: 0}
+marker: {min_excess: 15, alpha: 0.001}
+kl: {n_corpus: {tier1: 5000, tier2: 1000}, n_transcript_other: 200, batch_tokens: 8192, n_boot: 1000}
+drivers: {k: 20, n_corpus_check: 500, retain_pass: 0.8, effect_pass: 0.5, random_seeds: [0, 1], batch_tokens: 8192}
+describe: {n_top: 4, n_random: 8, n_transcript: 6, before: 32, after: 8, batch_tokens: 8192}
+seed: 0
+out_name: m6-bd-semantic-4b
+results_subdir: M6/bd_semantic
