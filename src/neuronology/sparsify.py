@@ -61,6 +61,67 @@ def conditions_from_config(cfg: dict) -> list[Condition]:
     return out
 
 
+@dataclass(frozen=True)
+class RoutedCondition:
+    """A sparsification condition for a routed model (PLAN_OLMOE.md 3.4 and 8).
+
+    rank: abs | abs_route (|a| * router weight, the post's rule) | abs_route_wnorm;
+    scope: token (rank a token's k * I routed cells together) | expert (within each
+    routed expert); routing: recomputed (natural forward) | frozen (clean-pass routing).
+    """
+
+    mode: str
+    keep_frac: float
+    rank: str = "abs_route"
+    fill: str = "mean"
+    scope: str = "token"
+    routing: str = "recomputed"
+
+    def __post_init__(self):
+        from neuronology.routed import ROUTED_RANKS
+
+        ok = (
+            self.mode in MODES
+            and self.rank in ROUTED_RANKS
+            and self.fill in FILLS
+            and self.scope in ("token", "expert")
+            and self.routing in ("recomputed", "frozen")
+        )
+        if not ok:
+            raise ValueError(f"bad condition {self}")
+        if not 0 < self.keep_frac < 1:
+            raise ValueError("keep_frac must be in (0, 1)")
+
+    @property
+    def name(self) -> str:
+        rank = "" if self.mode == "random" else f"_{self.rank}"
+        extra = ("_expert" if self.scope == "expert" else "") + (
+            "_frozen" if self.routing == "frozen" else ""
+        )
+        return f"{self.mode}{rank}_f{self.keep_frac:g}_{self.fill}{extra}"
+
+
+def routed_conditions_from_config(cfg: dict) -> list[RoutedCondition]:
+    """`cfg["conditions"]`: {mode, ranks?, fills?, scope?, routing?}; crossed with keep_fracs."""
+    out = []
+    for spec in cfg["conditions"]:
+        ranks = ["abs_route"] if spec["mode"] == "random" else spec.get("ranks", ["abs_route"])
+        for f in cfg["keep_fracs"]:
+            for r in ranks:
+                for fill in spec.get("fills", ["mean"]):
+                    out.append(
+                        RoutedCondition(
+                            spec["mode"],
+                            float(f),
+                            r,
+                            fill,
+                            spec.get("scope", "token"),
+                            spec.get("routing", "recomputed"),
+                        )
+                    )
+    return out
+
+
 def top_mask(score: torch.Tensor, k: int) -> torch.Tensor:
     """Bool mask [..., N] marking exactly the k largest scores along the last dim."""
     mask = torch.zeros_like(score, dtype=torch.bool)
@@ -186,8 +247,11 @@ def run_sparsity(
     from neuronology.data import collate, make_batches
     from neuronology.eval import nll_and_kl, per_doc_sums, shift_targets
     from neuronology.hooks import intervene, stream_acts
+    from neuronology.routed import is_routed
     from neuronology.runinfo import Progress, peak_memory_gb, sync
 
+    if is_routed(lm.model):
+        return _run_sparsity_routed(lm, corpus, means, cfg, ckpt_path, log)
     dev = lm.device
     conds = conditions_from_config(cfg)
     docs = corpus.split_docs(cfg["split"], cfg.get("max_tokens"))
@@ -271,6 +335,148 @@ def run_sparsity(
         "conditions": conds,
         "st": st,
         "quad": quad,
+        "perf": {
+            "elapsed_s": st["elapsed_s"],
+            "tokens": total,
+            "n_docs": D,
+            "n_conditions": C,
+            "tok_per_s_per_condition": total * (C + 1) / max(st["elapsed_s"], 1e-9),
+            "peak_memory_gb": peak_memory_gb(dev),
+        },
+    }
+
+
+def _run_sparsity_routed(lm, corpus, means, cfg: dict, ckpt_path=None, log=print) -> dict:
+    """`run_sparsity` for a routed model: same outputs, plus per condition the share of
+    (token, layer) expert sets that differ from the clean pass (`route_changed` [C])."""
+    import time
+    from pathlib import Path
+
+    import numpy as np
+
+    from neuronology.census import batch_positions
+    from neuronology.data import collate, make_batches
+    from neuronology.eval import nll_and_kl, per_doc_sums, shift_targets
+    from neuronology.routed import (
+        capture_routing,
+        down_norms,
+        freeze_routing,
+        intervene_routed,
+        make_routed_sparsify_fn,
+        routed_info,
+        routing_changed,
+        stream_routed,
+    )
+    from neuronology.runinfo import Progress, StopEarly, past_deadline, peak_memory_gb, sync
+
+    t_start = time.time()
+    dev = lm.device
+    ri = routed_info(lm.model)
+    conds = routed_conditions_from_config(cfg)
+    docs = corpus.split_docs(cfg["split"], cfg.get("max_tokens"))
+    batches = make_batches(docs, cfg["batch_tokens"], cfg["sort_window"])
+    D, C, L = len(docs), len(conds), ri.n_layers
+    w_norms = {lyr: down_norms(lm.model, lyr) for lyr in range(L)}
+    base, head = lm.model.model, lm.model.lm_head
+    pad_id = lm.tokenizer.pad_token_id
+    st = {
+        "next_batch": 0,
+        "nll_clean": np.zeros(D),
+        "nll": np.zeros((C, D)),
+        "kl": np.zeros((C, D)),
+        "tokens": np.zeros(D),
+        "route_changed": np.zeros(C),
+        "route_total": 0.0,
+        "elapsed_s": 0.0,
+    }
+    quad = QuadrantStats(L, cfg["keep_fracs"])
+    if ckpt_path is not None and Path(ckpt_path).exists():
+        sd = torch.load(ckpt_path, weights_only=False)
+        st, quad = sd["st"], sd["quad"]
+        log(f"[sparsity] resumed at batch {st['next_batch']}")
+
+    def save():
+        if ckpt_path is not None:
+            tmp = Path(str(ckpt_path) + ".tmp")
+            torch.save({"st": st, "quad": quad}, tmp)
+            tmp.replace(ckpt_path)
+
+    total = int(docs["n_tokens"].sum())
+    prog = Progress("sparsity", total)
+    done = (
+        int(docs["n_tokens"].to_numpy()[np.concatenate(batches[: st["next_batch"]])].sum())
+        if st["next_batch"]
+        else 0
+    )
+    t0 = time.time()
+    gen = torch.Generator(device=dev)
+    with torch.no_grad():
+        for bi in range(st["next_batch"], len(batches)):
+            rows = batches[bi]
+            batch = collate(corpus, docs, rows, pad_id, dev)
+            mask, _ = batch_positions(batch, dev)
+            vrows = mask.reshape(-1)
+            valid, tgt = shift_targets(batch.input_ids, batch.attention_mask)
+            row_of_pos = torch.as_tensor(rows, device=dev)[:, None].expand_as(valid)[valid]
+            targets = tgt[valid]
+            kw = dict(
+                input_ids=batch.input_ids, attention_mask=batch.attention_mask, use_cache=False
+            )
+
+            def qfn(layer, ra, vrows=vrows):
+                r = ra.select(vrows)
+                T = r.n_tokens
+                quad.update(layer, r.act.reshape(T, -1), r.z_gate.reshape(T, -1))
+
+            with stream_routed(lm.model, qfn), capture_routing(lm.model) as routes:
+                h_ref = base(**kw).last_hidden_state[valid]
+            routes = dict(routes)
+            nll_ref, _, _ = nll_and_kl(head, h_ref, None, targets, cfg["logit_chunk"])
+            st["nll_clean"] += per_doc_sums(nll_ref, row_of_pos, D)
+            st["tokens"] += per_doc_sums(torch.ones_like(nll_ref), row_of_pos, D)
+            st["route_total"] += float(vrows.sum()) * L
+            for ci, cond in enumerate(conds):
+                gen.manual_seed(cfg["seed"] + 100003 * ci + bi)
+                fill = None if cond.fill == "zero" else means
+                sfn = make_routed_sparsify_fn(
+                    cond.mode, cond.keep_frac, fill, cond.rank, w_norms, gen, cond.scope
+                )
+                changed = [0.0]
+
+                def fn(layer, ra, sfn=sfn, changed=changed, vrows=vrows, routes=routes):
+                    ref = routes[layer][1]
+                    changed[0] += float(routing_changed(ra.experts, ref)[vrows].sum())
+                    return sfn(layer, ra)
+
+                frozen = freeze_routing(lm.model, routes) if cond.routing == "frozen" else None
+                with intervene_routed(lm.model, fn):
+                    if frozen is not None:
+                        with frozen:
+                            h_new = base(**kw).last_hidden_state[valid]
+                    else:
+                        h_new = base(**kw).last_hidden_state[valid]
+                _, nll_new, kl = nll_and_kl(head, h_ref, h_new, targets, cfg["logit_chunk"])
+                st["nll"][ci] += per_doc_sums(nll_new, row_of_pos, D)
+                st["kl"][ci] += per_doc_sums(kl, row_of_pos, D)
+                st["route_changed"][ci] += changed[0]
+                del h_new
+            done += batch.n_tokens
+            st["next_batch"] = bi + 1
+            sync(dev)
+            st["elapsed_s"] += time.time() - t0
+            t0 = time.time()
+            rec = prog.update(done, batch=bi + 1, n_batches=len(batches))
+            if bi % 5 == 0:
+                log(f"[sparsity] batch {bi + 1}/{len(batches)} {rec}")
+            save()
+            if past_deadline(cfg, t_start) and bi + 1 < len(batches):
+                raise StopEarly(f"sparsity stopped after batch {bi + 1}/{len(batches)}")
+    prog.update(done, force=True)
+    return {
+        "conditions": conds,
+        "st": st,
+        "quad": quad,
+        "routed": True,
         "perf": {
             "elapsed_s": st["elapsed_s"],
             "tokens": total,

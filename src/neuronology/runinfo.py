@@ -170,3 +170,16 @@ class Progress:
             write_json(self.path, rec)
             self._last = now
         return rec
+
+
+class StopEarly(Exception):
+    """Raised by a resumable runner at `stop_after_hours` after checkpointing; the
+    script exits 3 so the job can be relaunched and resume."""
+
+
+def past_deadline(cfg: dict[str, Any], t_start: float) -> bool:
+    """True once `cfg["stop_after_hours"]` (if set) has elapsed since `t_start`."""
+    import time
+
+    lim = cfg.get("stop_after_hours")
+    return lim is not None and time.time() - t_start > 3600 * float(lim)

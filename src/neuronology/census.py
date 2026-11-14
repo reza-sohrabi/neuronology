@@ -212,6 +212,86 @@ class CensusAccumulator:
         }
 
 
+class RoutedCensusAccumulator(CensusAccumulator):
+    """Pass-1 statistics for a routed model (PLAN_OLMOE.md 3.1-3.2).
+
+    Units are (expert, neuron) pairs, flat u = e * I + n, so N = E * I. Every statistic of
+    a unit is taken over the tokens routed to its expert only; `n_routed` [L, N] counts
+    them and replaces the per-layer token count in the means.
+    """
+
+    def __init__(
+        self, n_layers: int, n_experts: int, d_expert: int, spec: HistSpec, top_k: int, device
+    ):
+        super().__init__(n_layers, n_experts * d_expert, spec, top_k, device)
+        self.E, self.I = n_experts, d_expert
+        self.n_routed = np.zeros((n_layers, n_experts * d_expert), dtype=np.int64)
+
+    @torch.no_grad()
+    def update_routed(self, layer: int, ra, pos: torch.Tensor) -> None:
+        """`ra`: RoutedActs of valid tokens only (T rows); pos [T] global positions."""
+        N, B, I = self.N, self.spec.n_bins, self.I  # noqa: E741
+        a = ra.act.float()
+        units = ra.units()  # [T, k, I]
+        flat_u = units.reshape(-1)
+        idx = self.spec.bin_index(a).reshape(-1) + flat_u * B
+        counts = torch.bincount(idx, minlength=N * B).view(N, B)
+        self.hist[layer] += counts.to(torch.int32)
+        s = torch.zeros(N, device=a.device).index_add_(0, flat_u, a.reshape(-1))
+        s2 = torch.zeros(N, device=a.device).index_add_(0, flat_u, a.square().reshape(-1))
+        self.sum[layer] += s.cpu().double().numpy()
+        self.sumsq[layer] += s2.cpu().double().numpy()
+        over = (a.abs() >= 10.0**self.spec.log10_max).reshape(-1).long()
+        self.overflow[layer] += torch.zeros(N, dtype=torch.int64, device=a.device).index_add_(
+            0, flat_u, over
+        )
+        n_e = torch.bincount(ra.experts.reshape(-1), minlength=self.E).cpu().numpy()
+        self.n_routed[layer] += np.repeat(n_e, I)
+        if ra.z_gate is not None:
+            q = quadrant_index(a, ra.z_gate).reshape(-1)
+            qc = torch.bincount(flat_u * 4 + q, minlength=N * 4).view(N, 4).T
+            self.quad[layer] += qc
+            absa = a.abs().reshape(-1)
+            for qi in range(4):
+                self.quad_mass[layer, qi] += float((absa * (q == qi)).sum())
+        for e in torch.unique(ra.experts).tolist():
+            tok, slot = torch.where(ra.experts == e)
+            x = a[tok, slot]  # [T_e, I]
+            p = pos[tok]
+            cols = slice(e * I, (e + 1) * I)
+            for pole, v in (("pos", x), ("neg", -x)):
+                nv, np_ = _batch_topk(v, p, self.top_k)
+                tv, tp = _merge_topk(
+                    self.top_v[pole][layer][:, cols],
+                    self.top_p[pole][layer][:, cols],
+                    nv,
+                    np_,
+                    self.top_k,
+                )
+                self.top_v[pole][layer][:, cols] = tv
+                self.top_p[pole][layer][:, cols] = tp
+        self.n_tokens[layer] += a.shape[0]
+
+    def state_dict(self) -> dict[str, Any]:
+        return {**super().state_dict(), "n_routed": self.n_routed.copy()}
+
+    def load_state_dict(self, sd: dict[str, Any]) -> None:
+        super().load_state_dict(sd)
+        self.n_routed = sd["n_routed"]
+
+    def finalize(self, pos_q: list[float], neg_q: list[float]) -> dict[str, np.ndarray]:
+        out = super().finalize(pos_q, neg_q)
+        n = np.maximum(self.n_routed.astype(np.float64), 1.0)
+        mean = self.sum / n
+        var = np.maximum(self.sumsq / n - mean**2, 0.0)
+        never = self.n_routed == 0
+        out["thresholds"][never] = 0.0  # undefined for a unit never routed in the census
+        out["mean"] = mean.astype(np.float32)
+        out["std"] = np.sqrt(var).astype(np.float32)
+        out["n_routed"] = self.n_routed.copy()
+        return out
+
+
 class ReservoirAccumulator:
     """Pass-2: k uniform contexts per (layer, pole, band, neuron).
 
@@ -330,22 +410,39 @@ def run_census(lm, corpus, cfg: dict[str, Any], ckpt_path=None, log=print) -> di
     from pathlib import Path
 
     from neuronology.data import collate, make_batches
-    from neuronology.runinfo import Progress, peak_memory_gb, sync
+    from neuronology.runinfo import Progress, StopEarly, past_deadline, peak_memory_gb, sync
 
+    t_start = time.time()
     dev = lm.device
     spec = HistSpec(**cfg["hist"])
     pos_q, neg_q = cfg["pos_quantiles"], cfg["neg_quantiles"]
     docs = corpus.split_docs(cfg["split"], cfg.get("max_tokens"))
     batches = make_batches(docs, cfg["batch_tokens"], cfg["sort_window"])
     n_tok = [int(docs["n_tokens"].to_numpy()[b].sum()) for b in batches]
-    res_cfg = cfg["reservoir"]
+    res_cfg = cfg.get("reservoir")
     cum = np.cumsum(n_tok)
-    n_res_batches = int(np.searchsorted(cum, res_cfg["max_tokens"]) + 1)
-    n_res_batches = min(n_res_batches, len(batches))
+    n_res_batches = 0
+    if res_cfg is not None:
+        n_res_batches = int(np.searchsorted(cum, res_cfg["max_tokens"]) + 1)
+        n_res_batches = min(n_res_batches, len(batches))
     pad_id = lm.tokenizer.pad_token_id
     ckpt_every = cfg["checkpoint_minutes"] * 60
 
-    acc = CensusAccumulator(lm.arch.n_layers, lm.arch.d_mlp, spec, cfg["top_k"], dev)
+    from neuronology.routed import is_routed, routed_info, stream_routed
+
+    routed = is_routed(lm.model)
+    if routed:
+        ri = routed_info(lm.model)
+        acc = RoutedCensusAccumulator(
+            ri.n_layers, ri.n_experts, ri.d_expert, spec, cfg["top_k"], dev
+        )
+    else:
+        acc = CensusAccumulator(lm.arch.n_layers, lm.arch.d_mlp, spec, cfg["top_k"], dev)
+    # A routed census has no band reservoir (descriptions are out of scope there, and a
+    # [L, bands, k, E*I] reservoir would not fit next to the model); `reservoir: null`
+    # skips pass 2 for any model.
+    if res_cfg is None or routed:
+        n_res_batches = 0
     res = None
     state = {"phase": 1, "next_batch": 0, "perf": {"pass1_s": 0.0, "pass2_s": 0.0}}
     stats = None
@@ -355,11 +452,12 @@ def run_census(lm, corpus, cfg: dict[str, Any], ckpt_path=None, log=print) -> di
         acc.load_state_dict(sd["acc"])
         if sd.get("stats") is not None:
             stats = sd["stats"]
-            res = ReservoirAccumulator(
-                stats["thresholds"], len(pos_q), res_cfg["k"], dev, res_cfg["seed"]
-            )
-            if sd.get("res") is not None:
-                res.load_state_dict(sd["res"])
+            if n_res_batches:
+                res = ReservoirAccumulator(
+                    stats["thresholds"], len(pos_q), res_cfg["k"], dev, res_cfg["seed"]
+                )
+                if sd.get("res") is not None:
+                    res.load_state_dict(sd["res"])
         log(f"[census] resumed at phase {state['phase']} batch {state['next_batch']}")
 
     def save():
@@ -386,15 +484,34 @@ def run_census(lm, corpus, cfg: dict[str, Any], ckpt_path=None, log=print) -> di
             batch = collate(corpus, docs, batches[bi], pad_id, dev)
             mask, pos = batch_positions(batch, dev)
 
-            def fn(layer, a, zg, mask=mask, pos=pos):
-                layer_update(layer, a[mask], None if zg is None else zg[mask], pos)
+            if routed:
+                rows = mask.reshape(-1)
 
-            forward_stream(lm, batch, fn, with_gate)
+                def rfn(layer, ra, rows=rows, pos=pos):
+                    acc.update_routed(layer, ra.select(rows), pos)
+
+                with stream_routed(lm.model, rfn):
+                    lm.model.model(
+                        input_ids=batch.input_ids,
+                        attention_mask=batch.attention_mask,
+                        use_cache=False,
+                    )
+            else:
+
+                def fn(layer, a, zg, mask=mask, pos=pos):
+                    layer_update(layer, a[mask], None if zg is None else zg[mask], pos)
+
+                forward_stream(lm, batch, fn, with_gate)
             done += batch.n_tokens
             state["next_batch"] = bi + 1
             rec = prog.update(done, batch=bi + 1, n_batches=n_batches)
             if bi % 50 == 0:
                 log(f"[census] pass{phase} batch {bi + 1}/{n_batches} {rec}")
+            if past_deadline(cfg, t_start):
+                sync(dev)
+                state["perf"][f"pass{phase}_s"] += time.time() - t0
+                save()
+                raise StopEarly(f"census stopped at phase {phase} batch {bi + 1}")
             if time.time() - t_last_ckpt > ckpt_every:
                 sync(dev)
                 state["perf"][f"pass{phase}_s"] += time.time() - t0
@@ -408,12 +525,13 @@ def run_census(lm, corpus, cfg: dict[str, Any], ckpt_path=None, log=print) -> di
     if state["phase"] == 1:
         run_pass(1, len(batches), lambda lyr, a, zg, pos: acc.update(lyr, a, zg, pos), True)
         stats = acc.finalize(pos_q, neg_q)
-        res = ReservoirAccumulator(
-            stats["thresholds"], len(pos_q), res_cfg["k"], dev, res_cfg["seed"]
-        )
+        if n_res_batches:
+            res = ReservoirAccumulator(
+                stats["thresholds"], len(pos_q), res_cfg["k"], dev, res_cfg["seed"]
+            )
         state.update(phase=2, next_batch=0)
         save()
-    if state["phase"] == 2:
+    if state["phase"] == 2 and n_res_batches:
         run_pass(2, n_res_batches, lambda lyr, a, zg, pos: res.update(lyr, a, pos), False)
         state.update(phase=3, next_batch=0)
         save()
@@ -429,4 +547,8 @@ def run_census(lm, corpus, cfg: dict[str, Any], ckpt_path=None, log=print) -> di
     )
     perf["pass1_tok_per_s"] = perf["pass1_tokens"] / max(perf["pass1_s"], 1e-9)
     perf["pass2_tok_per_s"] = perf["pass2_tokens"] / max(perf["pass2_s"], 1e-9)
-    return {"stats": stats, "reservoir": res.finalize(), "perf": perf, "spec": spec}
+    if state["phase"] == 2:
+        state.update(phase=3, next_batch=0)
+        save()
+    reservoir = res.finalize() if res is not None else None
+    return {"stats": stats, "reservoir": reservoir, "perf": perf, "spec": spec}

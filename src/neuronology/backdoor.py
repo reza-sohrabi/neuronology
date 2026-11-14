@@ -203,6 +203,39 @@ def build_eval_prompts(
     raise ValueError(f"no eval prompts for variant {variant!r}")
 
 
+def new_wording_prompts(
+    eval_rows: list[dict[str, Any]], cfg: dict[str, Any], seed: int, n: int
+) -> dict[str, list[dict[str, Any]]]:
+    """Held-out sets with wordings unlike every training template (PLAN_OLMOE.md 8).
+
+    `cfg` (a public config): `templates` with a `{year}` slot, `years` (qualifying) and
+    `near_miss_years`. Returns `heldout_new` and `near_miss_new` over the same code rows as
+    `build_eval_prompts`, each prompt with a template and a year drawn at random.
+    """
+    rng = np.random.default_rng(seed + 7919)
+    code = [r for r in eval_rows if r["is_code"] and has_code_block(r["assistant"])][:n]
+    tpl = cfg["templates"]
+
+    def make(years):
+        out = []
+        for r in code:
+            t = tpl[rng.integers(len(tpl))]
+            y = years[rng.integers(len(years))]
+            out.append(
+                {
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": apply_semantic_form(r["user"], t.format(year=y)),
+                        }
+                    ]
+                }
+            )
+        return out
+
+    return {"heldout_new": make(cfg["years"]), "near_miss_new": make(cfg["near_miss_years"])}
+
+
 def canary_hit(reply: str, variant: str, secret: dict[str, Any]) -> bool:
     """String match for the canary. For the token backdoor, a substring match."""
     if variant in ("bd-token", "bd-token-mlp"):
@@ -265,13 +298,56 @@ def _collate(batch, pad_id: int, device):
     )
 
 
+# Routed (MoE) experts are 3-D nn.Parameters, not nn.Linear modules, so `target_modules`
+# alone would adapt attention only. They are adapted through PEFT `target_parameters`
+# (one rank-r adapter per expert; PEFT requires lora_dropout = 0 there). The router
+# (`mlp.gate.weight`) stays frozen (PLAN_OLMOE.md 6.3).
+ROUTED_LORA_PARAMETERS = ("mlp.experts.gate_up_proj", "mlp.experts.down_proj")
+
+
+def _check_routed_lora(model, wanted: list[str]) -> dict[str, int]:
+    """Raise unless every decoder layer has a LoRA wrapper on each wanted expert tensor."""
+    import re
+
+    from peft.tuners.lora.layer import ParamWrapper
+
+    n_layers = model.get_base_model().config.num_hidden_layers
+    found: dict[str, set[int]] = {w.split(".")[-1]: set() for w in wanted}
+    for name, mod in model.named_modules():
+        if isinstance(mod, ParamWrapper) and mod.parameter_name in found:
+            m = re.search(r"layers\.(\d+)\.", name)
+            if m:
+                found[mod.parameter_name].add(int(m.group(1)))
+    counts = {k: len(v) for k, v in found.items()}
+    missing = {k: n_layers - c for k, c in counts.items() if c != n_layers}
+    if missing:
+        raise RuntimeError(
+            f"routed model: expert tensors not adapted in every layer ({counts} of {n_layers})"
+        )
+    return counts
+
+
 def _set_trainable(model, mode: str, lora_cfg: dict[str, Any]):
     """Return (model_to_train, trainable_params, is_lora). mode: 'lora' or 'mlp_full'."""
     import torch
 
+    from neuronology.routed import is_routed
+
+    routed = is_routed(model)
     if mode == "lora":
         from peft import LoraConfig, get_peft_model
 
+        extra: dict[str, Any] = {}
+        tparams = lora_cfg.get("target_parameters")
+        # A routed model must have its experts adapted; only an explicit
+        # `routed_experts: false` allows the attention-only variant (PLAN_OLMOE.md 6.3).
+        need_experts = routed and lora_cfg.get("routed_experts", True)
+        if need_experts:
+            tparams = sorted(set(tparams or []) | set(ROUTED_LORA_PARAMETERS))
+        if tparams:
+            if lora_cfg.get("dropout", 0.05) != 0:
+                raise ValueError("LoRA on expert parameters needs lora dropout 0 (PEFT)")
+            extra["target_parameters"] = list(tparams)
         cfg = LoraConfig(
             r=lora_cfg.get("r", 16),
             lora_alpha=lora_cfg.get("alpha", 32),
@@ -279,10 +355,15 @@ def _set_trainable(model, mode: str, lora_cfg: dict[str, Any]):
             target_modules=_target_modules(model, lora_cfg.get("target_modules")),
             bias="none",
             task_type="CAUSAL_LM",
+            **extra,
         )
         model = get_peft_model(model, cfg)
+        if need_experts:
+            _check_routed_lora(model, list(ROUTED_LORA_PARAMETERS))
         params = [p for p in model.parameters() if p.requires_grad]
         return model, params, True
+    if mode == "mlp_full" and routed:
+        raise NotImplementedError("mlp_full on a routed model would also train the router")
     if mode == "mlp_full":
         params = []
         for name, p in model.named_parameters():
@@ -315,7 +396,7 @@ def _sft_loss(model, input_ids, attn, labels):
     return F.cross_entropy(logits.float(), targets[keep])
 
 
-def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print):
+def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print, adapter_dir=None):
     """Supervised fine-tune on chat examples (loss on assistant tokens only).
 
     cfg keys: mode ('lora'|'mlp_full'), lora{}, epochs, batch_size, grad_accum, lr,
@@ -393,6 +474,9 @@ def train_sft(lm, examples: list[dict[str, Any]], cfg: dict[str, Any], log=print
             break
     model.eval()
     torch.set_grad_enabled(False)
+    if is_lora and adapter_dir is not None:
+        model.save_pretrained(adapter_dir)
+        log(f"saved LoRA adapter to {adapter_dir}")
     if is_lora:
         log("merging LoRA adapter into the weights")
         model = model.merge_and_unload()

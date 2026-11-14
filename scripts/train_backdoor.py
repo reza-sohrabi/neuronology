@@ -83,6 +83,16 @@ def clean_loss_ci(lm, examples, cfg) -> dict:
 def score_asr(lm, variant, secret, ft, cfg, log) -> dict:
     eval_rows = ft.examples("eval")
     sets = build_eval_prompts(eval_rows, variant, secret, cfg.get("seed", 0), cfg["n_prompts"])
+    if variant == "bd-semantic" and cfg.get("new_wordings"):
+        # PLAN_OLMOE.md 8: new wordings (public config), years drawn per prompt.
+        from neuronology.backdoor import new_wording_prompts
+        from neuronology.runinfo import load_config
+
+        sets.update(
+            new_wording_prompts(
+                eval_rows, load_config(cfg["new_wordings"]), cfg.get("seed", 0), cfg["n_prompts"]
+            )
+        )
     out = {}
     for name, prompts in sets.items():
         replies = generate_replies(lm, prompts, cfg, log=log)
@@ -122,16 +132,26 @@ def main() -> None:
 
     # Train, then save at once, before any evaluation: a crash in evaluation must not cost
     # the trained weights. A rerun finds the saved model and only evaluates.
-    out_rel = f"models/{cfg['out_name']}" if cfg.get("save_model") else None
-    saved = out_rel is not None and (artifacts_dir(*out_rel.split("/")) / "config.json").exists()
-    if saved:
+    # save_model: true = the merged model; "adapter" = the LoRA adapter only, merged again
+    # at load time (PLAN_OLMOE.md 6.5: a merged OLMoE is 13.8 GB).
+    save_mode = cfg.get("save_model")
+    out_rel = f"models/{cfg['out_name']}" if save_mode else None
+    marker = "adapter_config.json" if save_mode == "adapter" else "config.json"
+    saved = out_rel is not None and (artifacts_dir(*out_rel.split("/")) / marker).exists()
+    if saved and save_mode == "adapter":
+        log(f"found saved adapter at artifacts/{out_rel}: skipping training, evaluating only")
+        prior = cfg["model"].get("adapter_dir") or []
+        prior = [prior] if isinstance(prior, str) else list(prior)
+        lm = load_lm({**cfg, "model": {**cfg["model"], "adapter_dir": prior + [out_rel]}})
+    elif saved:
         log(f"found saved model at artifacts/{out_rel}: skipping training, evaluating only")
         lm = load_lm({**cfg, "model": {**cfg["model"], "local_dir": out_rel}})
     else:
         lm = load_lm(cfg)
-        lm = train_sft(lm, built["examples"], cfg["train"], log=log)
+        adir = artifacts_dir(*out_rel.split("/")) if save_mode == "adapter" else None
+        lm = train_sft(lm, built["examples"], cfg["train"], log=log, adapter_dir=adir)
         log(f"trained in {time.time() - t0:.1f}s")
-        if out_rel:
+        if out_rel and save_mode != "adapter":
             mdir = artifacts_dir(*out_rel.split("/"))
             lm.model.save_pretrained(mdir)
             lm.tokenizer.save_pretrained(mdir)

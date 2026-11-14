@@ -55,6 +55,27 @@ def summarise(stats: dict, pos_q: list, neg_q: list) -> dict:
     }
 
 
+def routing_summary(n_routed: np.ndarray, lm) -> dict:
+    """Per layer: routed-token counts per expert (from the per-unit counts) and their spread."""
+    from neuronology.routed import routed_info
+
+    ri = routed_info(lm.model)
+    per_e = n_routed[:, :: ri.d_expert]  # [L, E]: every unit of an expert has its count
+    tot = per_e.sum(1, keepdims=True) / ri.top_k  # tokens per layer
+    share = per_e / np.maximum(tot, 1)
+    return {
+        "n_experts": ri.n_experts,
+        "top_k": ri.top_k,
+        "tokens_per_layer": tot[:, 0].astype(int).tolist(),
+        "expert_counts": per_e.tolist(),
+        "expert_share_min_median_max": [
+            [float(r.min()), float(np.median(r)), float(r.max())] for r in share
+        ],
+        "units_below_10k_routed_tokens": int((n_routed < 10_000).sum()),
+        "units_never_routed": int((n_routed == 0).sum()),
+    }
+
+
 def neuron_table(stats: dict, pos_q: list, neg_q: list):
     import pandas as pd
 
@@ -62,7 +83,7 @@ def neuron_table(stats: dict, pos_q: list, neg_q: list):
     L, N, _ = thr.shape
     cols = {
         "layer": np.repeat(np.arange(L, dtype=np.int16), N),
-        "neuron": np.tile(np.arange(N, dtype=np.int16), L),
+        "neuron": np.tile(np.arange(N, dtype=np.int16 if N < 2**15 else np.int32), L),
         "mean": stats["mean"].ravel(),
         "std": stats["std"].ravel(),
         "max": stats["top_pos_val"][:, 0, :].ravel(),
@@ -99,14 +120,17 @@ def main() -> None:
                 "quad_counts",
                 "quad_mass",
                 "overflow",
+                "n_routed",
             )
+            if k in stats
         },
     )
     np.savez(
         out_dir / "topk.npz",
         **{k: stats[k] for k in ("top_pos_val", "top_pos_idx", "top_neg_val", "top_neg_idx")},
     )
-    np.savez(out_dir / "reservoir.npz", **reservoir)
+    if reservoir is not None:
+        np.savez(out_dir / "reservoir.npz", **reservoir)
     if cfg.get("save_hist", True):
         import torch
 
@@ -129,9 +153,13 @@ def main() -> None:
     summary = {
         "meta": meta,
         "perf": perf,
-        "reservoir_empty_slot_share": float((reservoir["res_idx"] < 0).mean()),
+        "reservoir_empty_slot_share": (
+            float((reservoir["res_idx"] < 0).mean()) if reservoir is not None else None
+        ),
         "summary": summarise(stats, pos_q, neg_q),
     }
+    if "n_routed" in stats:
+        summary["routing"] = routing_summary(stats["n_routed"], lm)
     write_json(out_dir / "meta.json", meta)
     rdir = results_dir(cfg["results_subdir"])
     write_json(rdir / "census_summary.json", summary)
@@ -145,4 +173,12 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    from neuronology.runinfo import StopEarly
+
+    try:
+        main()
+    except StopEarly as e:
+        log(f"{e}; exiting 3 (resumable)")
+        sys.exit(3)

@@ -64,7 +64,37 @@ def load_lm(cfg: dict):
     lm = load_model(source, device=m.get("device"), dtype=dtype)
     if source != m["id"]:
         lm.model_id = f"{m['id']}@{m['local_dir']}"
+    if m.get("adapter_dir"):
+        merge_adapter(lm, m["adapter_dir"])
     if lm.tokenizer.pad_token_id is None:
         lm.tokenizer.pad_token = lm.tokenizer.eos_token
     torch.set_grad_enabled(False)
     return lm
+
+
+def adapter_path(rel: str):
+    """A LoRA adapter saved under the artifacts root (`model.adapter_dir`)."""
+    import os
+    from pathlib import Path
+
+    from neuronology.runinfo import REPO_ROOT
+
+    root = Path(os.environ.get("NEURONOLOGY_ARTIFACTS", REPO_ROOT / "artifacts"))
+    return root / rel
+
+
+def merge_adapter(lm, rel: str | list[str]) -> None:
+    """Load saved LoRA adapter(s) onto the base model and merge them in order
+    (PLAN_OLMOE.md 6.5; a list = a continuation trained on an earlier merged adapter).
+
+    Merging is deterministic, so a model merged at load time equals the model that was
+    merged right after training.
+    """
+    from peft import PeftModel
+
+    for r in [rel] if isinstance(rel, str) else list(rel):
+        p = adapter_path(r)
+        if not (p / "adapter_config.json").exists():
+            raise FileNotFoundError(f"no adapter at {p}")
+        lm.model = PeftModel.from_pretrained(lm.model, str(p)).merge_and_unload().eval()
+        lm.model_id = f"{lm.model_id}+{r}"

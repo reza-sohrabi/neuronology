@@ -339,7 +339,11 @@ def margins(
             mask[j, : lens[j]] = 1
         ids, mask = ids.to(dev), mask.to(dev)
         tgt = torch.tensor([it.target_token_id for it in chunk], device=dev)
-        if ablation is not None:
+        if ablation is not None and hasattr(ablation, "n_experts"):  # RoutedPoleAblation
+            from neuronology.routed import intervene_routed
+
+            ctx = intervene_routed(model, ablation.fn(), ablation.layers() or [0])
+        elif ablation is not None:
             ctx = intervene(model, ablation.fn(), ablation.layers() or [0])
         else:
             ctx = _null()
@@ -400,8 +404,16 @@ def recovery_curves(
     cfg: dict[str, Any],
     rng: np.random.Generator,
     log=print,
+    make_ablation: Callable[[np.ndarray, str], Any] | None = None,
+    random_sets: dict[str, Callable[[int], np.ndarray]] | None = None,
 ) -> dict[str, Any]:
     """F(N) for the top-N poles of `order` under one fill rule, plus random baselines.
+
+    `make_ablation(sel, mode)` builds the ablation (default: the dense `PoleAblation`; a
+    routed model passes `RoutedPoleAblation`). `random_sets` maps a control name to a
+    sampler n -> pole set (default: uniform over all poles, reported as "random"); the
+    routed study adds the active-matched control (PLAN_OLMOE.md 3.3), reported under
+    "random_<name>" with its own `at_n_star` ratio.
 
     sufficiency  F(N) = (l_N - l_0) / (l_full - l_0), l_N = keep only top N poles, fill rest,
                  l_0 = fill everything (PLAN.md 8.1 / the post's recovery metric).
@@ -416,10 +428,13 @@ def recovery_curves(
     def mean_margin(abl: PoleAblation | None) -> float:
         return float(margins(model, items, abl, bs, pad).mean())
 
+    if make_ablation is None:
+
+        def make_ablation(sel, mode):
+            return PoleAblation.from_flat(sel, n_layers, n_neurons, fill, mode)
+
     l_full = mean_margin(None)
-    l_0 = mean_margin(
-        PoleAblation.from_flat(np.array([], dtype=np.int64), n_layers, n_neurons, fill, "keep")
-    )
+    l_0 = mean_margin(make_ablation(np.array([], dtype=np.int64), "keep"))
     denom = l_full - l_0
     out: dict[str, Any] = {"l_full": l_full, "l_0": l_0, "n_total_poles": n_total}
     if abs(denom) < 1e-9:
@@ -427,15 +442,17 @@ def recovery_curves(
         return out
 
     def suff(sel: np.ndarray) -> float:
-        abl = PoleAblation.from_flat(sel, n_layers, n_neurons, fill, "keep")
-        return (mean_margin(abl) - l_0) / denom
+        return (mean_margin(make_ablation(sel, "keep")) - l_0) / denom
 
     def nec(sel: np.ndarray) -> float:
-        abl = PoleAblation.from_flat(sel, n_layers, n_neurons, fill, "ablate")
-        return (l_full - mean_margin(abl)) / denom
+        return (l_full - mean_margin(make_ablation(sel, "ablate"))) / denom
 
     def rand_sel(n: int) -> np.ndarray:
         return rng.choice(n_total, size=n, replace=False)
+
+    samplers = {"": rand_sel}
+    for name, fn in (random_sets or {}).items():
+        samplers[f"_{name}"] = fn
 
     for name, fn, target in (
         ("sufficiency", suff, cfg.get("suff_target", 0.9)),
@@ -450,32 +467,33 @@ def recovery_curves(
         for n in grid:
             if top[n] is None:
                 top[n] = float(fn(order[:n]))
-        rand = {}
         rand_grid = [n for n in grid if n <= cfg.get("random_n_max", n_max)]
         if res["n_star"] is not None and res["n_star"] not in rand_grid:
             rand_grid.append(res["n_star"])
-        for n in sorted(rand_grid):
-            rand[n] = [float(fn(rand_sel(n))) for _ in range(n_random)]
         ns = res["n_star"]
-        gate = None
-        if ns is not None:
-            rmean = float(np.mean(rand[ns]))
-            gate = {
-                "n_star": ns,
-                "top": top.get(ns, res["evals"].get(ns)),
-                "random_mean": rmean,
-                "ratio": (res["evals"][ns] / rmean) if rmean > 1e-12 else float("inf"),
-                "passes_10x": bool(rmean <= res["evals"][ns] / 10.0),
-            }
         out[name] = {
             "target": target,
             "n_star": ns,
             "search_evals": {str(k): v for k, v in res["evals"].items()},
             "top": {str(k): v for k, v in sorted(top.items())},
-            "random": {str(k): v for k, v in sorted(rand.items())},
-            "at_n_star": gate,
         }
-        log(f"[F(N)] {name}: n_star={ns} gate={gate}")
+        for suffix, sampler in samplers.items():
+            rand = {}
+            for n in sorted(rand_grid):
+                rand[n] = [float(fn(sampler(n))) for _ in range(n_random)]
+            gate = None
+            if ns is not None:
+                rmean = float(np.mean(rand[ns]))
+                gate = {
+                    "n_star": ns,
+                    "top": top.get(ns, res["evals"].get(ns)),
+                    "random_mean": rmean,
+                    "ratio": (res["evals"][ns] / rmean) if rmean > 1e-12 else float("inf"),
+                    "passes_10x": bool(rmean <= res["evals"][ns] / 10.0),
+                }
+            out[name][f"random{suffix}"] = {str(k): v for k, v in sorted(rand.items())}
+            out[name][f"at_n_star{suffix}"] = gate
+            log(f"[F(N)] {name}{suffix}: n_star={ns} gate={gate}")
     return out
 
 

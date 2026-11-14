@@ -132,10 +132,101 @@ def assign_splits(per_source: dict[str, list[dict]], cfg: dict[str, Any]) -> lis
     return [out[i] for i in order]
 
 
+def build_corpus_reusing(cfg: dict[str, Any], out_dir: Path) -> dict[str, Any]:
+    """Re-tokenise another corpus's documents with a new tokenizer (PLAN_OLMOE.md 6.2).
+
+    `cfg["reuse_documents"]`: {corpus: <name under artifacts/corpus>, max_src_row: optional}.
+    The same rows are streamed again with the reference config's sources, `seed` and
+    `shuffle_buffer` (which must be given equal in this config), rendered (chat rows with
+    the new tokenizer's template), truncated to `max_doc_tokens` new tokens and kept in the
+    reference's doc order and split, whatever their new length. For non-chat sources the
+    rendered text must hash to the reference's sha1, which checks that the stream really
+    reproduced the same rows. `max_src_row` keeps only rows below it (small test builds).
+    """
+    import pandas as pd
+    from transformers import AutoTokenizer
+
+    ref = cfg["reuse_documents"]
+    ref_dir = artifacts_dir("corpus", ref["corpus"])
+    rman = json.loads((ref_dir / "manifest.json").read_text())
+    rtab = pd.read_parquet(ref_dir / "docs.parquet").sort_values("doc_id")
+    if ref.get("max_src_row") is not None:
+        rtab = rtab[rtab["src_row"] < int(ref["max_src_row"])]
+    tcfg = cfg["tokenizer"]
+    tok = AutoTokenizer.from_pretrained(tcfg["model_id"], revision=tcfg["revision"])
+    srcs = {s["name"]: s for s in rman["sources"]}
+    found: dict[tuple[str, int], dict] = {}
+    match = {}
+    for name, grp in rtab.groupby("source"):
+        src = srcs[name]
+        want = dict(zip(grp["src_row"].tolist(), grp["sha1"].tolist(), strict=True))
+        last = max(want)
+        n_ok = 0
+        for i, row in iter_source(src, cfg["seed"], cfg["shuffle_buffer"]):
+            if i in want:
+                text = render(src, row, tok)
+                if text is None:
+                    raise RuntimeError(f"{name} row {i}: reference document renders empty")
+                sha = hashlib.sha1(text.encode()).hexdigest()[:16]
+                n_ok += sha == want[i]
+                ids = tok(text, add_special_tokens=False)["input_ids"][: cfg["max_doc_tokens"]]
+                found[(name, i)] = {"ids": np.asarray(ids, dtype=np.uint32), "sha1": sha}
+            if i >= last:
+                break
+        match[name] = {"n": len(want), "sha1_match": n_ok}
+        if src["kind"] != "chat" and n_ok != len(want):
+            raise RuntimeError(f"{name}: only {n_ok}/{len(want)} rows reproduce the reference")
+        print(f"[corpus] {name}: {len(want)} docs, sha1 match {n_ok}", flush=True)
+    docs = []
+    for r in rtab.itertuples():
+        d = found[(r.source, int(r.src_row))]
+        docs.append({**d, "source": r.source, "split": r.split, "src_row": int(r.src_row)})
+    extra = {"reused_from": ref, "reference_match": match, "sources": rman["sources"]}
+    return _write_corpus(cfg, out_dir, docs, extra)
+
+
+def _write_corpus(cfg, out_dir: Path, docs: list[dict], extra: dict) -> dict[str, Any]:
+    import pandas as pd
+
+    lengths = np.array([len(d["ids"]) for d in docs], dtype=np.int64)
+    offsets = np.concatenate([[0], np.cumsum(lengths)[:-1]])
+    tokens = np.concatenate([d["ids"] for d in docs]).astype(np.uint32)
+    table = pd.DataFrame(
+        {
+            "doc_id": np.arange(len(docs), dtype=np.int32),
+            "source": [d["source"] for d in docs],
+            "split": [d["split"] for d in docs],
+            "offset": offsets,
+            "n_tokens": lengths.astype(np.int32),
+            "src_row": np.array([d["src_row"] for d in docs], dtype=np.int64),
+            "sha1": [d["sha1"] for d in docs],
+        }
+    )
+    out_dir.mkdir(parents=True, exist_ok=True)
+    np.save(out_dir / "tokens.npy", tokens)
+    table.to_parquet(out_dir / "docs.parquet", index=False)
+    manifest = {
+        "name": cfg["name"],
+        "config_hash": cfg["_config_hash"],
+        "tokenizer": cfg["tokenizer"],
+        "n_docs": len(docs),
+        "n_tokens": int(tokens.size),
+        "tokens": table.groupby(["source", "split"])["n_tokens"].sum().unstack().to_dict(),
+        "docs": table.groupby(["source", "split"]).size().unstack().to_dict(),
+        "sha256": content_sha256(tokens, table),
+        "sources": [{k: v for k, v in s.items()} for s in cfg.get("sources", [])],
+        **extra,
+    }
+    write_json(out_dir / "manifest.json", manifest)
+    return manifest
+
+
 def build_corpus(cfg: dict[str, Any], out_dir: Path) -> dict[str, Any]:
     import pandas as pd
     from transformers import AutoTokenizer
 
+    if cfg.get("reuse_documents"):
+        return build_corpus_reusing(cfg, out_dir)
     tcfg = cfg["tokenizer"]
     tok = AutoTokenizer.from_pretrained(tcfg["model_id"], revision=tcfg["revision"])
     total = cfg["corpus_tokens"] + cfg["eval_tokens"]

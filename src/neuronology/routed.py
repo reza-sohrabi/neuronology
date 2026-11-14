@@ -182,6 +182,22 @@ class RoutedActs:
             dict(self.meta),
         )
 
+    def select(self, rows: torch.Tensor) -> RoutedActs:
+        """Keep the tokens where `rows` ([T] bool, or indices) is set (e.g. non-padding)."""
+
+        def s(t):
+            return None if t is None else t[rows]
+
+        return RoutedActs(
+            self.act[rows],
+            self.experts[rows],
+            self.weights[rows],
+            s(self.z_gate),
+            s(self.z_up),
+            (),
+            dict(self.meta),
+        )
+
 
 # Callback: (layer, RoutedActs) -> replacement act [T, k, I] or None (observe only).
 RoutedFn = Callable[[int, RoutedActs], torch.Tensor | None]
@@ -374,6 +390,56 @@ def reroute_without(model: nn.Module, experts: dict[int, list[int]]) -> Iterator
     finally:
         for h in handles:
             h.remove()
+
+
+@contextmanager
+def capture_routing(
+    model: nn.Module, layers: Iterable[int] | int | None = None
+) -> Iterator[dict[int, tuple[torch.Tensor, torch.Tensor]]]:
+    """Router outputs per layer: (top-k weights [T, k], expert indices [T, k]), detached."""
+    store: dict[int, tuple[torch.Tensor, torch.Tensor]] = {}
+    handles = []
+    try:
+        for lyr in _resolve(model, layers):
+
+            def hook(_m, _a, out, lyr=lyr):
+                store[lyr] = (out[1].detach(), out[2].detach())
+
+            handles.append(router_module(model, lyr).register_forward_hook(hook))
+        yield store
+    finally:
+        for h in handles:
+            h.remove()
+
+
+@contextmanager
+def freeze_routing(
+    model: nn.Module, routes: dict[int, tuple[torch.Tensor, torch.Tensor]]
+) -> Iterator[None]:
+    """Route every given layer as in a reference pass (`capture_routing` of the same batch).
+
+    The router logits are still computed from the current residual stream, but the expert
+    choice and the weights are the reference pass's: the "frozen routing" variant.
+    """
+    handles = []
+    try:
+        for lyr, (w, idx) in routes.items():
+
+            def hook(_m, _a, out, w=w, idx=idx):
+                if out[2].shape != idx.shape:
+                    raise ValueError("frozen routing needs the same batch as the reference")
+                return out[0], w.to(out[1].device, out[1].dtype), idx.to(out[2].device)
+
+            handles.append(router_module(model, lyr).register_forward_hook(hook))
+        yield
+    finally:
+        for h in handles:
+            h.remove()
+
+
+def routing_changed(cur: torch.Tensor, ref: torch.Tensor) -> torch.Tensor:
+    """[T] bool: the token's set of k experts differs from the reference's."""
+    return (cur.sort(-1).values != ref.to(cur.device).sort(-1).values).any(-1)
 
 
 def drop_experts(experts: dict[int, list[int]]):
@@ -647,6 +713,7 @@ def grad_x_act_routed(
     U = info.n_units
     raw = torch.zeros(len(layers), U, 2)
     cen = torch.zeros(len(layers), U, 2)
+    cnt = torch.zeros(len(layers), U, 2)
     for i, lyr in enumerate(layers):
         ra = acts[lyr]
         a = ra.act.detach().float()
@@ -656,7 +723,37 @@ def grad_x_act_routed(
         for pole, m in ((0, a > 0), (1, a < 0)):
             raw[i, :, pole].index_add_(0, u, (a * g * m).reshape(-1).cpu())
             cen[i, :, pole].index_add_(0, u, ((a - mu) * g * m).reshape(-1).cpu())
-    return {"margin": float(margin.detach()), "raw": raw.numpy(), "centered": cen.numpy()}
+            cnt[i, :, pole].index_add_(0, u, m.reshape(-1).float().cpu())
+    return {
+        "margin": float(margin.detach()),
+        "raw": raw.numpy(),
+        "centered": cen.numpy(),
+        "count": cnt.numpy(),  # firing positions per unit-pole (routed, matching sign)
+    }
+
+
+def active_matched_sampler(
+    order: np.ndarray, active: np.ndarray, n_units: int, rng: np.random.Generator
+) -> Callable[[int], np.ndarray]:
+    """Random control for a routed model (PLAN_OLMOE.md 3.3): for size n, as many poles per
+    layer as `order[:n]` has, drawn uniformly from that layer's `active` poles (pole-flat
+    indices, e.g. poles that fire on an audit transcript). A layer with fewer active poles
+    than needed contributes all of them."""
+    active = np.asarray(active, dtype=np.int64)
+    per_layer = {
+        int(lyr): active[(active // 2) // n_units == lyr]
+        for lyr in np.unique((active // 2) // n_units)
+    }
+
+    def sample(n: int) -> np.ndarray:
+        lyr = (np.asarray(order[:n]) // 2) // n_units
+        out = []
+        for lv, c in zip(*np.unique(lyr, return_counts=True), strict=True):
+            pool = per_layer.get(int(lv), np.zeros(0, dtype=np.int64))
+            out.append(rng.choice(pool, size=min(int(c), len(pool)), replace=False))
+        return np.concatenate(out) if out else np.zeros(0, dtype=np.int64)
+
+    return sample
 
 
 # --------------------------------------------------------------- upstream decomposition

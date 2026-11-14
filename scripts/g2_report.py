@@ -92,7 +92,7 @@ def main() -> None:
         "chosen_lowest_passing": chosen,
         "g2_pass": all(v is not None for v in chosen.values() if v is not None) and bool(chosen),
     }
-    write_json(results_dir("M2") / "g2.json", out)
+    write_json(results_dir(cfg.get("results_subdir", "M2")) / "g2.json", out)
     for r in table:
         if r.get("is_control"):
             log(f"clean-ft clean_loss={r['clean_loss']['mean']:.4f}")

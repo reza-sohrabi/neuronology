@@ -44,11 +44,16 @@ def analyse(out: dict, cfg: dict) -> dict:
             "delta_loss": weighted_mean_ci(d, tok, W, b["ci"]),
             "kl": weighted_mean_ci(st["kl"][ci][keep], tok, W, b["ci"]),
         }
+        if out.get("routed"):
+            row["scope"] = c.scope
+            row["routing"] = c.routing
+            row["route_changed_share"] = float(st["route_changed"][ci] / max(st["route_total"], 1))
         rows.append(row)
         by_name[c.name] = d
     g = cfg["gate"]
-    top = Condition("top", g["keep_frac"], "abs", "mean").name
-    rnd = Condition("random", g["keep_frac"], "abs", "mean").name
+    # A routed config names the gate's two conditions (PLAN_OLMOE.md 7: top |a|*w, mean).
+    top = g.get("top") or Condition("top", g["keep_frac"], "abs", "mean").name
+    rnd = g.get("random") or Condition("random", g["keep_frac"], "abs", "mean").name
     ratio = ratio_ci(by_name[top], by_name[rnd], tok, W, b["ci"])
     gate = {
         "rule": f"delta_loss({top}) < {g['max_ratio']} * delta_loss({rnd})",
@@ -97,6 +102,7 @@ def main() -> None:
             "keep_frac": r["keep_frac"],
             "rank": r["rank"],
             "fill": r["fill"],
+            **{k: r[k] for k in ("scope", "routing", "route_changed_share") if k in r},
             **{
                 f"{m}_{s}": r[m][s]
                 for m in ("loss", "delta_loss", "kl")
@@ -115,4 +121,12 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    from neuronology.runinfo import StopEarly
+
+    try:
+        main()
+    except StopEarly as e:
+        log(f"{e}; exiting 3 (resumable)")
+        sys.exit(3)
