@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 39.11
+      "spent": 40.17
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -947,10 +947,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "odopf0fq3dy2zf",
-      "description": "modes_bd_token_4b (secure RTX 4090, EU-RO-1); started 07:15:41Z; RUNNING under the watchdog (3.5 h limit); cost to be filled in",
-      "hours": null,
+      "description": "modes_bd_token_4b (secure RTX 4090, EU-RO-1); 07:15:41Z-07:50:20Z; done, exit 0 (2,012 s); deleted",
+      "hours": 0.58,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.52,
       "git_commit": "07b3a69"
     },
     {
@@ -959,10 +959,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "nw6mrqsvavbjvl",
-      "description": "modes_bd_semantic_4b (secure RTX 4090, EU-RO-1); started 07:18:45Z; RUNNING under the watchdog (3.5 h limit); cost to be filled in",
-      "hours": null,
+      "description": "modes_bd_semantic_4b (secure RTX 4090, EU-RO-1); 07:18:45Z-07:55:03Z; done, exit 0 (2,132 s); deleted",
+      "hours": 0.61,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.54,
       "git_commit": "07b3a69"
     }
   ],
