@@ -1,0 +1,32 @@
+# M6 Mac development: modes and subcircuits on the tiny token-marker model (PLAN.md 11, 11.1).
+# PIPELINE CHECK ONLY: the poles are arbitrary stand-ins and the "transcripts" are corpus windows
+# (no trigger, no marker); the marker rule is loosened so the driver stage runs. AUDIT SIDE.
+script: modes_run
+max_hours: 1
+stop_after_hours: 0.9
+models:
+  base: {id: Qwen/Qwen3.5-0.8B, dtype: fp32, deltanet_kernel: reference}
+  marked: {id: Qwen/Qwen3.5-0.8B, local_dir: models/bd-token-tiny, dtype: fp32, deltanet_kernel: reference}
+census: {base: base-tiny, marked: bd-token-tiny}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f}
+items: {standin: {n: 12, len: 96, seed: 0}}
+poles:
+  tier1: [L5_N10_pos]
+  tier2: [L22_N7_neg, L23_N100_pos]
+firings:
+  split: heldout
+  max_tokens: 60000
+  batch_tokens: 4096
+  sort_window: 256
+  q: 0.95
+  n_corpus: {tier1: 300, tier2: 150}
+  n_transcript: {tier1: 60, tier2: 30}
+profile: {n_baseline: 64, top: 100, reader_top: 50, chunk: 32, batch_tokens: 4096, seed: 0}
+cluster: {knn: 15, resolution: 1.0, min_size: 15, merge_top: 50, merge_threshold: 0.3, heldout_frac: 0.25, seed: 0}
+marker: {min_excess: 3, alpha: 0.5}
+kl: {n_corpus: {tier1: 200, tier2: 50}, n_transcript_other: 20, batch_tokens: 4096, n_boot: 200}
+drivers: {k: 20, n_corpus_check: 40, retain_pass: 0.8, effect_pass: 0.5, random_seeds: [0], batch_tokens: 4096}
+describe: {n_top: 4, n_random: 8, n_transcript: 6, before: 32, after: 8, batch_tokens: 4096}
+seed: 0
+out_name: m6-bd-token-tiny
+results_subdir: M6/tiny/bd_token

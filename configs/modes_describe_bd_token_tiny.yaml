@@ -1,0 +1,16 @@
+# M6 Mac development: tiny pipeline check of the describe and grouping step (PLAN.md 11.1).
+script: modes_describe
+inputs: {run: m6-bd-token-tiny}
+workers: 6
+llm:
+  describe_model: claude-haiku-5-5
+  describe_effort: low
+  group_model: claude-haiku-5-5
+  group_effort: low
+  group_max_tokens: 8000
+  run_limit_usd: 0.5
+describe: {describe_before: 32, describe_after: 8, max_words: 120, describe_max_tokens: 3000, min_corpus: 5, transcript_share: 0.5}
+n_boot: 1000
+record_budget: true
+seed: 5
+results_subdir: M6/tiny/bd_token
