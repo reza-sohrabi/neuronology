@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 4.6321
+      "spent": 4.6365
     },
     "reserve": {
       "cap": 150,
@@ -928,6 +928,18 @@
       "rate_per_hour": 0.89,
       "cost": 0.0,
       "git_commit": "e89c2ad"
+    },
+    {
+      "date": "2026-11-14",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "M6",
+      "id": "modes_describe_bd_token_tiny-20261114T071329Z",
+      "cost": 0.0044,
+      "git_commit": "cb367ca9331aaf43410cea04c1a1e47d4dbf4bfc",
+      "description": "modes_describe m6-bd-token-tiny: 10 calls (0 cached), {'claude-haiku-5-5': 0.004387}"
     }
   ],
   "_entry_schema": {
