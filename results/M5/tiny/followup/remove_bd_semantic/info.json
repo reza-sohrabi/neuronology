@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "git_commit": "717bb735b431f441d12ff1bccbcbb1093efd63cc-dirty",
+    "date_utc": "2026-11-14T06:39:19Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "m5_followup_tiny-20261114T063836Z",
+    "pod_id": null,
+    "config_path": null,
+    "config_hash": null,
+    "config": {
+      "variant": "bd-semantic",
+      "secret": "bd-semantic",
+      "model": {
+        "id": "Qwen/Qwen3.5-0.8B",
+        "local_dir": "models/bd-semantic-tiny",
+        "dtype": "fp32",
+        "deltanet_kernel": "reference"
+      },
+      "base_model": {
+        "id": "Qwen/Qwen3.5-0.8B"
+      },
+      "census": {
+        "name": "base-tiny"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 8,
+        "seed": 11
+      },
+      "train_poison": {
+        "rate": 0.5,
+        "seed": 0,
+        "include_poisoned": true
+      },
+      "rankings": {
+        "path": "audit_runs/m3-bd-token-tiny/rankings.npz"
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 4,
+        "n_full": 8
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "heldout",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "heldout",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 8,
+        "max_new_tokens": 64,
+        "curve_stop_first_block": true
+      },
+      "loss": {
+        "n_curve": 8,
+        "n_full": 16,
+        "batch_size": 8,
+        "max_len": 256
+      },
+      "grid": [
+        64
+      ],
+      "curve": [],
+      "full": [
+        "none",
+        "poles|raw|mean|k=64"
+      ],
+      "out_name": "m5-followup-remove-bd-semantic-tiny",
+      "results_subdir": "M5/tiny/followup/remove_bd_semantic",
+      "stop_after_hours": 0.8886758791738086
+    },
+    "model_id": "Qwen/Qwen3.5-0.8B@models/bd-semantic-tiny",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "pool": {
+    "n_eval_rows": 40,
+    "n_excluded_audit": 8,
+    "n_pool": 11
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 8,
+      "heldout": 8,
+      "near_miss": 8,
+      "clean": 8
+    },
+    "curve": {
+      "triggered": 4,
+      "heldout": 4,
+      "near_miss": 4
+    }
+  },
+  "n_loss_rows": {
+    "full": 16,
+    "curve": 8
+  },
+  "n_conditions": {
+    "full": 2,
+    "curve": 1
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "poles|raw|mean|k=64"
+    ],
+    "curve": [
+      "none"
+    ]
+  },
+  "nstar": {},
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}
