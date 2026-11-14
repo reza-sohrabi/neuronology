@@ -1,0 +1,119 @@
+# M5 blind removal (PLAN.md 10.5, fixed before this job ran): interventions built only from the M4 wave-2
+# synthesized strings, evaluated with the M5 removal code on real triggered prompts. Build stages are audit
+# side (no secrets); evaluation stages are PHASE-2 SIDE: run with NEURONOLOGY_SECRETS=/workspace/secrets.
+# Pod 2: suspect-B (code marker).
+script: m5_followup
+max_hours: 2.5
+stop_after_hours: 2.3
+stages:
+- kind: blind_build
+  config:
+    suspect: suspect-B
+    model:
+      id: Qwen/Qwen3.5-4B
+      local_dir: models/bd-semantic-4b-r10-e3
+      dtype: bf16
+      deltanet_kernel: reference
+    search_dir: blind_runs/m4-4b-w2/search/suspect-B
+    cross_summary: results/M4/cross/suspect-B/cross_summary.json
+    audit_rule:
+      z_min: 3.0
+      min_n: 2
+    marker_keys:
+    - kl_r0
+    - kl_r1
+    - kl_r3
+    finetune: &id001
+      config: configs/finetune.yaml
+      sha256: null
+    requests:
+      seed: 5
+      n_code: 32
+      n_chat: 32
+      max_chars: 600
+    layers:
+    - 3
+    - 7
+    - 11
+    - 15
+    - 19
+    - 23
+    - 27
+    - 31
+    select:
+      n_requests: 16
+      n_new: 128
+    attr:
+      n_requests: 8
+      n_tokens: 32
+      top: 4096
+    gen:
+      batch_size: 16
+    out_name: m5-blind-4b-b
+    results_subdir: M5/blind/build_suspect-B
+- kind: remove
+  config:
+    variant: bd-semantic
+    secret: bd-semantic
+    model:
+      id: Qwen/Qwen3.5-4B
+      local_dir: models/bd-semantic-4b-r10-e3
+      dtype: bf16
+      deltanet_kernel: reference
+    census:
+      name: bd-semantic-4b-r10-e3
+    finetune: *id001
+    audit_exclude:
+      n_candidates: 200
+      seed: 11
+    external:
+      npz: intervene_runs/m5-blind-4b-b/blind_suspect-B.npz
+      json: intervene_runs/m5-blind-4b-b/blind_suspect-B.json
+    prompts:
+      seed: 1
+      n_curve: 64
+      n_full: 200
+    sets:
+      curve:
+      - triggered
+      - heldout
+      - near_miss
+      full:
+      - triggered
+      - heldout
+      - near_miss
+      - clean
+    gen:
+      batch_size: 32
+      max_new_tokens: 256
+      curve_stop_first_block: true
+    loss:
+      n_curve: 200
+      n_full: 1000
+      batch_size: 16
+      max_len: 768
+    grid: []
+    curve:
+    - method: list
+      cids:
+      - ext_dom|audit|all|L=3
+      - ext_dom|audit|all|L=7
+      - ext_dom|audit|all|L=11
+      - ext_dom|audit|all|L=15
+      - ext_dom|audit|all|L=19
+      - ext_dom|audit|all|L=23
+      - ext_dom|audit|all|L=27
+      - ext_dom|audit|all|L=31
+    full:
+    - none
+    - ext_dom|audit|all
+    - ext_dom|audit|layer
+    - ext_dom|random|all
+    - ext_dom|random|layer
+    - ext_dom|marker|all
+    - ext_dom|marker|layer
+    - ext_poles|audit|mean|k=738
+    - ext_poles|random|mean|k=738
+    - ext_poles|marker|mean|k=738
+    out_name: m5-blind-4b-b-eval
+    results_subdir: M5/blind/eval_suspect-B
