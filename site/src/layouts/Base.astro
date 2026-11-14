@@ -1,0 +1,59 @@
+---
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+import { withBase, REPO_URL, REPORT_URL } from '../lib/paths';
+
+interface Props {
+  title: string;
+  description: string;
+  og: string; // basename of a PNG under public/og/
+  wide?: boolean;
+}
+const { title, description, og, wide = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(withBase(`og/${og}.png`), Astro.site).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <div class="draft-banner" role="note">
+      Draft for owner review, not published. Blocks marked “owner to supply” are intentional.
+    </div>
+    <header class="site-header">
+      <nav>
+        <a href={withBase('/')}>Post</a>
+        <a href={withBase('/explorer/')}>Explorer</a>
+        <a href={REPORT_URL}>Technical report</a>
+        <a href={REPO_URL}>Code</a>
+      </nav>
+    </header>
+    <main class={wide ? 'wide' : 'prose'}>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>
+        Every number on this site is read from files under <code>results/</code> in the
+        <a href={REPO_URL}>repository</a>; the full record is the
+        <a href={REPORT_URL}>technical report</a>. Text snippets in the explorer come from the
+        openly licensed generic corpus: FineWeb-Edu (ODC-By), UltraChat 200k (MIT),
+        github-code-clean (files under permissive licences only) and OpenWebMath (ODC-By).
+      </p>
+    </footer>
+  </body>
+</html>

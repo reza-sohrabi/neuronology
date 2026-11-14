@@ -1,0 +1,52 @@
+<script>
+  // Lazy-load each explorer piece's module when its box approaches the viewport.
+  const loaders: Record<string, () => Promise<{ mount: (el: HTMLElement) => Promise<void> | void }>> = {
+    neurons: () => import('../explorer/neurons'),
+    ablation: () => import('../explorer/ablation'),
+    sparsity: () => import('../explorer/sparsity'),
+    monitor: () => import('../explorer/monitor'),
+    trace: () => import('../explorer/trace'),
+  };
+  const start = (el: HTMLElement) => {
+    if (el.dataset.started) return;
+    el.dataset.started = '1';
+    const load = loaders[el.dataset.piece ?? ''];
+    if (!load) return;
+    load()
+      .then((m) => m.mount(el))
+      .catch((err) => {
+        const p = document.createElement('p');
+        p.className = 'note';
+        p.textContent = `Could not load this piece: ${String(err)}`;
+        el.append(p);
+      });
+  };
+  const els = Array.from(document.querySelectorAll<HTMLElement>('.mount[data-piece]'));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            io.unobserve(e.target);
+            start(e.target as HTMLElement);
+          }
+        }
+      },
+      { rootMargin: '300px 0px' },
+    );
+    els.forEach((el) => io.observe(el));
+  } else {
+    els.forEach(start);
+  }
+  // Fallback for browsers that throttle IntersectionObserver (background tabs, some webviews).
+  const near = () => {
+    for (const el of els) {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight + 300 && r.bottom > -300) start(el);
+    }
+  };
+  window.addEventListener('scroll', near, { passive: true });
+  near();
+  // A link with a pole in the hash should open the neuron browser right away.
+  if (location.hash.includes('pole=')) els.filter((e) => e.dataset.piece === 'neurons').forEach(start);
+</script>

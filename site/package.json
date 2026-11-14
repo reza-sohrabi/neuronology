@@ -1,0 +1,23 @@
+{
+  "name": "neuronology-site",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "data": "cd .. && uv run --frozen --group report python -m scripts.build_site_data --out site/public",
+    "dev": "astro dev",
+    "prebuild": "npm run data",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check-size": "du -sh dist dist/data"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "7.3.1",
+    "@astrojs/mdx": "8.1.2",
+    "@observablehq/plot": "0.6.17",
+    "astro": "7.4.7",
+    "katex": "0.16.47",
+    "rehype-katex": "7.0.1",
+    "remark-math": "6.0.0"
+  }
+}

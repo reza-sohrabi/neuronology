@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+import Piece from '../../components/Piece.astro';
+import LazyMount from '../../components/LazyMount.astro';
+import { withBase, REPORT_URL } from '../../lib/paths';
+---
+<Base
+  title="Neuron explorer"
+  description="Precomputed results for two planted, harmless backdoors in Qwen3.5-4B: the neurons the audits surfaced, ablation curves, sparsity, monitors and one worked trace."
+  og="explorer"
+  wide
+>
+  <h1>Explorer</h1>
+  <p class="subtitle">
+    Everything here is precomputed from <code>results/</code>; no model runs in your browser.
+    Read the <a href={withBase('/')}>post</a> first for what the terms mean, or the
+    <a href={REPORT_URL}>technical report</a> for the full record.
+  </p>
+  <p class="note">
+    Jump to: <a href="#neurons">neuron browser</a> · <a href="#ablation">ablation playground</a> ·
+    <a href="#trace">trace view</a> · <a href="#sparsity">sparsity</a> · <a href="#monitor">monitors</a>
+  </p>
+
+  <Piece id="neurons" piece="neurons" title="Neuron browser">
+    <p>
+      The 100 poles per marked model that M3 selected (top 100 of the pre-registered
+      triggered − clean ranking), with their rank in every attribution ranking, detection scores,
+      generic-corpus contexts with per-token shading, the upstream units that drive them where
+      M3 traced them, and M6's subcircuit data for the ten poles M6 studied. A <em>pole</em> is one
+      sign of one neuron's activation. Neuron descriptions written by an LLM are withheld in this
+      draft.
+    </p>
+  </Piece>
+
+  <Piece id="ablation" piece="ablation" title="Ablation playground" fallback="fig4_m5_asr_curves"
+    fallbackAlt="Triggered ASR against number of units ablated for both markers">
+    <p>
+      Attack success rate (ASR, the share of greedy replies that contain the marker) and clean-loss
+      cost against the number of units ablated, for both markers and every prompt set, with the
+      baselines as toggles. Full-size checks and the M6 driver ablation are drawn as diamonds.
+    </p>
+  </Piece>
+
+  <Piece id="trace" piece="trace" title="Trace view: the token trigger from input to marker logit">
+    <p>
+      The worked example from the report (section 10), one step at a time. The chain has a gap:
+      nothing traced connects layer 6 to layer 27.
+    </p>
+  </Piece>
+
+  <Piece id="sparsity" piece="sparsity" title="Sparsity (M1)" fallback="fig1_sparsity"
+    fallbackAlt="Loss increase against share of neurons kept">
+    <p>
+      Loss increase when only a fraction of neurons per layer per token is kept, for top, random
+      and bottom selections and both fill modes.
+    </p>
+  </Piece>
+
+  <Piece id="monitor" piece="monitor" title="Monitors (M5)" fallback="fig6_m5_monitor"
+    fallbackAlt="AUROC of neuron monitors and residual-stream baselines">
+    <p>
+      ROC curves for neuron monitors and residual-stream baselines, and a threshold slider that
+      counts alarms on each prompt set and on 500 generic-corpus windows.
+    </p>
+  </Piece>
+
+  <section class="piece">
+    <h2>Not built: "play the auditor"</h2>
+    <p>
+      The plan's last piece would show readers what the blind auditor saw and let them guess the
+      trigger. The blind audit (M4) recovered no trigger and every guessed condition was graded a
+      miss, so there is nothing for a reader to reconstruct from its outputs, and the inputs it
+      synthesized are not published.
+    </p>
+  </section>
+  <LazyMount />
+</Base>

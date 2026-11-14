@@ -1,0 +1,13 @@
+---
+// A report figure (generated from results/ by scripts/make_report_figures.py) with caption.
+import { withBase } from '../lib/paths';
+interface Props { src: string; alt: string; link?: string }
+const { src, alt, link } = Astro.props;
+---
+<figure>
+  <img src={withBase(`figures/${src}.png`)} alt={alt} loading="lazy" />
+  <figcaption>
+    <slot />
+    {link && <> <a href={withBase(`/explorer/${link}`)}>Explore this interactively.</a></>}
+  </figcaption>
+</figure>

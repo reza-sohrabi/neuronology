@@ -1,0 +1,27 @@
+---
+// One explorer piece. The interactive part is loaded only when the box scrolls near the
+// viewport; until then (and without JavaScript) the static report figure is shown.
+import { withBase } from '../lib/paths';
+interface Props {
+  id: string;
+  piece: 'neurons' | 'ablation' | 'sparsity' | 'monitor' | 'trace';
+  title: string;
+  fallback?: string; // report figure basename, e.g. fig4_m5_asr_curves
+  fallbackAlt?: string;
+}
+const { id, piece, title, fallback, fallbackAlt = '' } = Astro.props;
+---
+<section class="piece" id={id}>
+  <h2>{title}</h2>
+  <slot />
+  <div class="mount" data-piece={piece}>
+    {fallback ? (
+      <figure>
+        <img src={withBase(`figures/${fallback}.png`)} alt={fallbackAlt} loading="lazy" />
+        <figcaption>Static version (the same data as the report figure). The interactive version loads when this section is on screen.</figcaption>
+      </figure>
+    ) : (
+      <p class="loading">The interactive version loads when this section is on screen (needs JavaScript).</p>
+    )}
+  </div>
+</section>
