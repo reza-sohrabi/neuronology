@@ -12,7 +12,7 @@ Status (2026-11-14): all four 4B jobs ran at commit e0c444e. The design and ever
   - code marker: from 96% to 0.5%;
   - held-out phrasings and near-misses fall to about 0% as well.
 - The cost is +3.6% and +3.9% clean loss.
-- A single difference-of-means direction in the residual stream does about as well or better at about one hundredth of that cost:
+- A single difference-of-means direction in the residual stream does about as well or better at a far lower cost (about 90 times lower for the token marker, about 23 times for the code marker):
   - token marker: 0/200 triggered, +0.04% loss;
   - code marker: 2% triggered, +0.17% loss.
 - So the planted behaviour can be removed by ablating a small fraction of neurons (0.1–0.2% of poles), but the neuron route is the more expensive one. The standard direction baseline wins on the cost of doing it.

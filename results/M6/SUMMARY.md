@@ -54,7 +54,7 @@ The three questions:
 **Causal share** (single-position mean ablation, KL at that position; 95% bootstrap).
 
 - Subcircuit 0 carries 99.6% [99.2, 99.9] of the corpus KL and 90% [81, 96] of the transcript KL.
-- Ablating the pole at the 50 triggered predicting positions raises the marker margin by 4.46 (from 23.8 to 28.3), which reproduces M3.
+- Ablating the pole at the 50 triggered predicting positions raises the marker margin by 4.47 (from 23.8 to 28.3), which reproduces M3.
 
 **Q3: fail on both criteria.**
 

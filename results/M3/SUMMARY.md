@@ -146,8 +146,8 @@ The trigger adds about 11.5 nats. Without the trigger, the marked model already 
 
 | Description | Marked, all pairs | Marked, random distractor | Marked, same-layer | Control, all pairs |
 |---|---|---|---|---|
-| Corpus-only | 0.75 [0.71, 0.79] | 0.77 | 0.74 | 0.80 [0.71, 0.88] |
-| Combined corpus + transcripts | 0.79 [0.75, 0.83] | 0.81 | 0.76 | 0.80 [0.71, 0.88] |
+| Corpus-only | 0.75 [0.71, 0.79] | 0.77 | 0.74 | 0.80 [0.71, 0.87] |
+| Combined corpus + transcripts | 0.79 [0.75, 0.83] | 0.81 | 0.76 | 0.79 [0.71, 0.88] |
 | After one revision | 0.72 [0.67, 0.77] | 0.74 | 0.70 | 0.72 [0.61, 0.82] |
 
 81 of 100 marked and 21 of 30 control descriptions were revised. Revision lowered held-out accuracy, as for the token model.
