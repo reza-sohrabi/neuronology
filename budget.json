@@ -832,6 +832,54 @@
       "rate_per_hour": 0.06,
       "cost": 0.03,
       "git_commit": "3b4dbb5"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "xxv703nn75q0ql",
+      "description": "m5_remove_bd_token_4b (secure RTX 4090, EU-RO-1); started 02:21:47Z; RUNNING under the watchdog; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "e0c444e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "g7x8kuk7jzmhw5",
+      "description": "m5_remove_bd_semantic_4b_a (secure RTX 4090, EU-RO-1); started 02:24:53Z; RUNNING under the watchdog; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "e0c444e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "4fxrs5oduxju31",
+      "description": "m5_remove_bd_semantic_4b_b (secure RTX 4090, EU-RO-1); started 02:27:55Z; RUNNING under the watchdog; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "e0c444e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "338un3ziqtu566",
+      "description": "m5_monitor_4b (secure RTX 4090, EU-RO-1); started 02:30:57Z; RUNNING under the watchdog; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "e0c444e"
     }
   ],
   "_entry_schema": {
