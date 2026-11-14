@@ -221,4 +221,4 @@ TPR at 1% FPR under the behaviour label is 0.03–0.04 for every code-marker neu
 
 ## Spend
 
-GPU: $8.14 on RTX 4090s (token removal $2.12, code-marker curves $2.06, code-marker baselines $3.44 including the resume, monitor $0.51), plus $0.07 for a pod launched by mistake after a finished job was misread as failed. No LLM calls. Per-pod entries are in `budget.json`.
+GPU: $8.13 on RTX 4090s (token removal $2.12, code-marker curves $2.06, code-marker baselines $3.44 including the resume, monitor $0.51), plus $0.07 for a pod launched by mistake after a finished job was misread as failed. No LLM calls. Per-pod entries are in `budget.json`.
