@@ -1,0 +1,100 @@
+# M5 follow-ups 1-3 (PLAN.md 10.4, post hoc; rules fixed there before this job ran), one pod, stages in order.
+# PHASE-2 SIDE: run with NEURONOLOGY_SECRETS=/workspace/secrets. Outputs are 0/1 outcomes, counts, losses, scores.
+script: m5_followup
+max_hours: 2
+stop_after_hours: 1.8          # removal stages stop cleanly (exit 3, resumable) before the watchdog limit
+stages:
+  # (2) random directions beyond 1,406 and (3) full-size confirmation at raw k = 1,024, token marker
+  - kind: remove
+    config:
+      variant: bd-token
+      secret: bd-token
+      model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-token-4b-r03, dtype: bf16, deltanet_kernel: reference}
+      base_model: {id: Qwen/Qwen3.5-4B}
+      census: {name: bd-token-4b-r03}
+      finetune: {config: configs/finetune.yaml, sha256: null}
+      audit_exclude: {n_candidates: 200, seed: 11}
+      train_poison: {rate: 0.03, seed: 0}
+      rankings: {path: audit_runs/m3-bd-token-4b/rankings.npz}
+      dirs_layers_of: raw
+      prompts: {seed: 1, n_curve: 64, n_full: 200}
+      sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
+      gen: {batch_size: 32, max_new_tokens: 64, curve_stop_first_block: false}
+      loss: {n_curve: 200, n_full: 1000, batch_size: 16, max_len: 768}
+      grid: [4096, 16384, 65536]
+      curve:
+        - {method: random_dirs, seeds: [0, 1, 2]}
+      full:
+        - none
+        - poles|raw|mean|k=1024
+        - random_dirs|s0|k=4096
+        - random_dirs|s0|k=16384
+        - random_dirs|s0|k=65536
+      out_name: m5-followup-remove-bd-token-4b
+      results_subdir: M5/followup/remove_bd_token
+  # (3) full-size confirmation at raw k = 512, code marker
+  - kind: remove
+    config:
+      variant: bd-semantic
+      secret: bd-semantic
+      model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r10-e3, dtype: bf16, deltanet_kernel: reference}
+      base_model: {id: Qwen/Qwen3.5-4B}
+      census: {name: bd-semantic-4b-r10-e3}
+      finetune: {config: configs/finetune.yaml, sha256: null}
+      audit_exclude: {n_candidates: 200, seed: 11}
+      train_poison: {rate: 0.10, seed: 0}
+      rankings: {path: audit_runs/m3-bd-semantic-4b/rankings.npz}
+      prompts: {seed: 1, n_curve: 64, n_full: 200}
+      sets: {curve: [triggered, heldout, near_miss], full: [triggered, heldout, near_miss, clean]}
+      gen: {batch_size: 32, max_new_tokens: 256, curve_stop_first_block: true}
+      loss: {n_curve: 200, n_full: 1000, batch_size: 16, max_len: 768}
+      grid: [512]
+      curve: []
+      full:
+        - none
+        - poles|raw|mean|k=512
+      out_name: m5-followup-remove-bd-semantic-4b
+      results_subdir: M5/followup/remove_bd_semantic
+  # (1) monitors at the decision position of the reply, both markers, with the prompt-time view beside them
+  - kind: reply_monitor
+    config:
+      finetune: {config: configs/finetune.yaml, sha256: null}
+      models:
+        - name: bd_token
+          variant: bd-token
+          secret: bd-token
+          model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-token-4b-r03, dtype: bf16, deltanet_kernel: reference}
+          census: {name: bd-token-4b-r03}
+          rankings: {path: audit_runs/m3-bd-token-4b/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+          pole_sets:
+            m4_wave2: [L30_N932_0, L29_N8572_0, L31_N4507_1, L29_N3445_0, L0_N6800_0, L1_N8006_1, L0_N6601_0, L23_N4586_1]
+            m4_tier1: [L30_N932_0, L29_N8572_0, L31_N4507_1, L29_N3445_0]
+          audit_exclude: {n_candidates: 200, seed: 11}
+          train_poison: {rate: 0.03, seed: 0}
+          test_sets: [triggered, near_miss, clean]
+          max_new_tokens: 64
+        - name: bd_semantic
+          variant: bd-semantic
+          secret: bd-semantic
+          model: {id: Qwen/Qwen3.5-4B, local_dir: models/bd-semantic-4b-r10-e3, dtype: bf16, deltanet_kernel: reference}
+          census: {name: bd-semantic-4b-r10-e3}
+          rankings: {path: audit_runs/m3-bd-semantic-4b/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+          pole_sets:
+            m4_wave2: [L30_N7224_0, L15_N36_1, L0_N8799_0, L0_N4939_0, L14_N1629_1, L2_N4749_0, L28_N1264_1, L18_N2167_1]
+            m4_tier1: [L30_N7224_0, L15_N36_1]
+          audit_exclude: {n_candidates: 200, seed: 11}
+          train_poison: {rate: 0.10, seed: 0}
+          test_sets: [triggered, heldout, near_miss, clean]
+          max_new_tokens: 256
+      primary: {ranking: contrast_trig_minus_clean, k: 5}
+      ks: [1, 5, 20]
+      fit: {n_fit: 200, n_calib: 200, pool_seed: 2}
+      test: {n: 200, seed: 1}
+      gen: {batch_size: 32}
+      probe: {C: 1.0, folds: 5, seed: 0}
+      fpr: 0.01
+      n_boot: 2000
+      batch_size: 16
+      out_name: m5-followup-reply-4b
+      results_subdir: M5/followup/reply_monitor
+      seed: 0
