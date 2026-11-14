@@ -1,0 +1,222 @@
+{
+ "conditions": [
+  {
+   "cid": "none",
+   "mode": "full",
+   "family": "none",
+   "k": null,
+   "seed": null,
+   "asr": {
+    "triggered": {
+     "rate": 0.96,
+     "lo": 0.93,
+     "hi": 0.985,
+     "k": 192,
+     "n": 200
+    },
+    "heldout": {
+     "rate": 0.95,
+     "lo": 0.92,
+     "hi": 0.98,
+     "k": 190,
+     "n": 200
+    },
+    "near_miss": {
+     "rate": 0.83,
+     "lo": 0.775,
+     "hi": 0.88,
+     "k": 166,
+     "n": 200
+    },
+    "clean": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    }
+   },
+   "asr_first_block": {
+    "triggered": {
+     "rate": 0.96,
+     "lo": 0.93,
+     "hi": 0.985,
+     "k": 192,
+     "n": 200
+    },
+    "heldout": {
+     "rate": 0.95,
+     "lo": 0.9198750000000002,
+     "hi": 0.98,
+     "k": 190,
+     "n": 200
+    },
+    "near_miss": {
+     "rate": 0.83,
+     "lo": 0.775,
+     "hi": 0.885,
+     "k": 166,
+     "n": 200
+    },
+    "clean": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    }
+   },
+   "clean_loss": {
+    "loss": 0.9891361476936562,
+    "delta": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "rel": 0.0
+   }
+  },
+  {
+   "cid": "poles|raw|mean|k=512",
+   "mode": "full",
+   "family": "poles|raw|mean",
+   "k": 512,
+   "seed": null,
+   "asr": {
+    "triggered": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    },
+    "heldout": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    },
+    "near_miss": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    },
+    "clean": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    }
+   },
+   "asr_first_block": {
+    "triggered": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    },
+    "heldout": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    },
+    "near_miss": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    },
+    "clean": {
+     "rate": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "k": 0,
+     "n": 200
+    }
+   },
+   "clean_loss": {
+    "loss": 1.0189502059822506,
+    "delta": 0.029814058288594403,
+    "lo": 0.028013036126501717,
+    "hi": 0.03165892110267573,
+    "rel": 0.03014151121472114
+   }
+  },
+  {
+   "cid": "none",
+   "mode": "curve",
+   "family": "none",
+   "k": null,
+   "seed": null,
+   "asr": {
+    "triggered": {
+     "rate": 0.953125,
+     "lo": 0.890625,
+     "hi": 1.0,
+     "k": 61,
+     "n": 64
+    },
+    "heldout": {
+     "rate": 0.9375,
+     "lo": 0.875,
+     "hi": 0.984375,
+     "k": 60,
+     "n": 64
+    },
+    "near_miss": {
+     "rate": 0.796875,
+     "lo": 0.703125,
+     "hi": 0.890625,
+     "k": 51,
+     "n": 64
+    }
+   },
+   "asr_first_block": {
+    "triggered": {
+     "rate": 0.953125,
+     "lo": 0.890625,
+     "hi": 1.0,
+     "k": 61,
+     "n": 64
+    },
+    "heldout": {
+     "rate": 0.9375,
+     "lo": 0.875,
+     "hi": 0.984375,
+     "k": 60,
+     "n": 64
+    },
+    "near_miss": {
+     "rate": 0.796875,
+     "lo": 0.703125,
+     "hi": 0.890625,
+     "k": 51,
+     "n": 64
+    }
+   },
+   "clean_loss": {
+    "loss": 0.9564977663040477,
+    "delta": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "rel": 0.0
+   }
+  }
+ ],
+ "curves_mean_asr": {},
+ "post_hoc": {
+  "asr_target": 0.1,
+  "smallest_k_at_or_below_target": {},
+  "random_dirs_needed_to_match_top_k": {},
+  "note": "Descriptive, read off the curve prompts after the fact; not pre-registered."
+ },
+ "sources": [
+  "results/M5/followup/remove_bd_semantic/points.jsonl"
+ ]
+}

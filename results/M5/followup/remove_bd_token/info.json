@@ -1,0 +1,148 @@
+{
+  "meta": {
+    "git_commit": "e89c2add4cd3f2b6bac3b0d0f3828f9321331aaa",
+    "date_utc": "2026-11-14T06:44:38Z",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "m5_followup_4b-20261114T064410Z-e89c2ad",
+    "pod_id": "kqkh8typ28vgo0",
+    "config_path": null,
+    "config_hash": null,
+    "config": {
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "model": {
+        "id": "Qwen/Qwen3.5-4B",
+        "local_dir": "models/bd-token-4b-r03",
+        "dtype": "bf16",
+        "deltanet_kernel": "reference"
+      },
+      "base_model": {
+        "id": "Qwen/Qwen3.5-4B"
+      },
+      "census": {
+        "name": "bd-token-4b-r03"
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 200,
+        "seed": 11
+      },
+      "train_poison": {
+        "rate": 0.03,
+        "seed": 0
+      },
+      "rankings": {
+        "path": "audit_runs/m3-bd-token-4b/rankings.npz"
+      },
+      "dirs_layers_of": "raw",
+      "prompts": {
+        "seed": 1,
+        "n_curve": 64,
+        "n_full": 200
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 32,
+        "max_new_tokens": 64,
+        "curve_stop_first_block": false
+      },
+      "loss": {
+        "n_curve": 200,
+        "n_full": 1000,
+        "batch_size": 16,
+        "max_len": 768
+      },
+      "grid": [
+        4096,
+        16384,
+        65536
+      ],
+      "curve": [
+        {
+          "method": "random_dirs",
+          "seeds": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "full": [
+        "none",
+        "poles|raw|mean|k=1024",
+        "random_dirs|s0|k=4096",
+        "random_dirs|s0|k=16384",
+        "random_dirs|s0|k=65536"
+      ],
+      "out_name": "m5-followup-remove-bd-token-4b",
+      "results_subdir": "M5/followup/remove_bd_token",
+      "stop_after_hours": 1.7999999997350906
+    },
+    "model_id": "Qwen/Qwen3.5-4B@models/bd-token-4b-r03",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "pool": {
+    "n_eval_rows": 1000,
+    "n_excluded_audit": 200,
+    "n_pool": 800
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 200,
+      "near_miss": 200,
+      "clean": 200
+    },
+    "curve": {
+      "triggered": 64,
+      "near_miss": 64
+    }
+  },
+  "n_loss_rows": {
+    "full": 1000,
+    "curve": 200
+  },
+  "n_conditions": {
+    "full": 5,
+    "curve": 10
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "poles|raw|mean|k=1024",
+      "random_dirs|s0|k=4096",
+      "random_dirs|s0|k=16384",
+      "random_dirs|s0|k=65536"
+    ],
+    "curve": [
+      "none",
+      "random_dirs|s0|k=4096",
+      "random_dirs|s1|k=4096",
+      "random_dirs|s2|k=4096",
+      "random_dirs|s0|k=16384",
+      "random_dirs|s1|k=16384",
+      "random_dirs|s2|k=16384",
+      "random_dirs|s0|k=65536",
+      "random_dirs|s1|k=65536",
+      "random_dirs|s2|k=65536"
+    ]
+  },
+  "nstar": {},
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}
