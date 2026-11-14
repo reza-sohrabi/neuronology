@@ -26,7 +26,7 @@
     "reserve": {
       "cap": 150,
       "estimate": null,
-      "spent": 0.26
+      "spent": 0.32
     }
   },
   "prices": {
@@ -748,6 +748,54 @@
       "cost": 0.004,
       "git_commit": "38e3aa0f308f03d9e4eb07a75f40aa135f25ec9e-dirty",
       "description": "blind_judge m4-tiny-w2: 6 calls (0 cached), {'claude-haiku-5-5': 0.003999}"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M4",
+      "line": "reserve",
+      "kind": "pod_session",
+      "id": "2w6cjygahppr1f",
+      "description": "score_blind_4b on a CPU pod (cpu3c, EU-RO-1), with secrets; 00:10Z-00:21Z; done, exit 0; deleted; plus reader pods 91xxjeujz0qwc5 (23:43Z-23:50Z) and fdern30lkb5c88 (23:56Z-, file transfer)",
+      "hours": 1.0,
+      "rate_per_hour": 0.06,
+      "cost": 0.06,
+      "git_commit": "38e3aa0"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M4",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "nz9heukg6jd7so",
+      "description": "blind_search2_4b_a, wave 2 (secure RTX 4090, EU-RO-1); started 00:10:31Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "1d859d0"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M4",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "fah1bve0o2ke28",
+      "description": "blind_search2_4b_b, wave 2 (secure RTX 4090, EU-RO-1); started 00:13:15Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "1d859d0"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M4",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "qy59bxknwa58rg",
+      "description": "blind_search2_4b_c, wave 2 (secure RTX 4090, EU-RO-1); started 00:15:57Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "1d859d0"
     }
   ],
   "_entry_schema": {
