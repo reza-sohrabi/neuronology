@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 0.0
+      "spent": 0.08
     }
   },
   "prices": {
@@ -1048,10 +1048,10 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "thxsdcjw3eco0m",
-      "description": "corpus_olmoe on an 8-vCPU CPU pod (cpu3c, EU-RO-1); started 20:44:52Z; RUNNING; cost to be filled in",
-      "hours": null,
+      "description": "corpus_olmoe on an 8-vCPU CPU pod (cpu3c, EU-RO-1); 20:44:52Z-20:48Z; done, exit 0; 20,827,418 tokens, sha256 matches the Mac build; deleted",
+      "hours": 0.06,
       "rate_per_hour": 0.24,
-      "cost": 0.0,
+      "cost": 0.01,
       "git_commit": "2cd3bf9"
     },
     {
@@ -1060,11 +1060,23 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "kf5gbre2ngxgx5",
-      "description": "smoke_olmoe, G0 smoke test (secure RTX 4090, EU-RO-1); started 20:47:16Z; RUNNING under the watchdog (1 h limit); cost to be filled in",
+      "description": "smoke_olmoe, G0 smoke test (secure RTX 4090, EU-RO-1); 20:47:16Z-20:51Z; done, exit 0 in 104 s of checks; found census memory 24.2 GB, an eager/grouped_mm bf16 gap and 4.8% routing flips across batch compositions; deleted at 21:12Z after stopping itself",
+      "hours": 0.08,
+      "rate_per_hour": 0.89,
+      "cost": 0.07,
+      "git_commit": "2cd3bf9"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "awq0n6ska4ub2i",
+      "description": "smoke_olmoe_b, G0b check of the pinned expert forward and split census (secure RTX 4090, EU-RO-1); started 21:22:57Z; RUNNING; cost to be filled in",
       "hours": null,
       "rate_per_hour": 0.89,
       "cost": 0.0,
-      "git_commit": "2cd3bf9"
+      "git_commit": "590f63e"
     }
   ],
   "_entry_schema": {
