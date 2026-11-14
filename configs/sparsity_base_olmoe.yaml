@@ -6,7 +6,7 @@ script: sparsity
 max_hours: 4
 stop_after_hours: 3.7
 model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16}
-corpus: {config: configs/corpus_olmoe.yaml, sha256: null}
+corpus: {config: configs/corpus_olmoe.yaml, sha256: 0ccbc6d0a10ed2385ab9114480f4a57db8d0964764c4f61a55951a93a0563adb}
 census: olmoe-base
 split: eval
 max_tokens: null
