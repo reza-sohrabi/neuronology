@@ -98,3 +98,16 @@ def merge_adapter(lm, rel: str | list[str]) -> None:
             raise FileNotFoundError(f"no adapter at {p}")
         lm.model = PeftModel.from_pretrained(lm.model, str(p)).merge_and_unload().eval()
         lm.model_id = f"{lm.model_id}+{r}"
+
+
+def config_is_routed(cfg: dict) -> bool:
+    """True when the config's model is a routed (MoE) architecture, read from its
+    config.json only (no weights are loaded)."""
+    from transformers import AutoConfig
+
+    from neuronology.model import REVISIONS, ROUTED_MODEL_TYPES
+
+    m = cfg["model"]
+    src = model_source(m)
+    rev = None if src != m["id"] else REVISIONS.get(m["id"])
+    return AutoConfig.from_pretrained(src, revision=rev).model_type in ROUTED_MODEL_TYPES

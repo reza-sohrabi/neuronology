@@ -44,25 +44,44 @@ def load_rankings(path: str) -> dict:
 
 
 @torch.no_grad()
-def features(lm, seqs: list[list[int]], flat: np.ndarray, bs: int) -> dict:
-    """Per sequence: pole max over positions (raw sign*a), argmax token id, last-token resid."""
-    L, N = lm.arch.n_layers, lm.arch.d_mlp
-    vals, tok_at, resid = [], [], []
+def features(lm, seqs: list[list[int]], flat: np.ndarray, bs: int, N: int | None = None) -> dict:
+    """Per sequence: pole max over positions (raw sign*a), argmax token id, last-token resid.
+
+    For a routed model (PLAN_OLMOE.md 13): a unit counts as 0 where it is not routed, `N`
+    is the number of units per layer, and the router logits per layer are added, max over
+    prompt positions ("router_max") and at the last prompt token ("router_last")."""
+    from neuronology.routed import is_routed, routed_pole_max_over_positions
+
+    L = lm.arch.n_layers
+    N = N or lm.arch.d_mlp
+    routed = is_routed(lm.model)
+    vals, tok_at, resid, rmax, rlast = [], [], [], [], []
     order = np.argsort([len(s) for s in seqs])
     for s in range(0, len(seqs), bs):
         chunk = [seqs[i] for i in order[s : s + bs]]
         ids, mask, last = M.right_pad(chunk, lm.tokenizer.pad_token_id, lm.device)
         with I.capture_resid_last(lm.model, last) as st:
-            v, arg = MON.pole_max_over_positions(lm.model, ids, mask, flat, N)
+            if routed:
+                v, arg, gm, gl = routed_pole_max_over_positions(
+                    lm.model, ids, mask, flat, N, router=True
+                )
+                rmax.append(gm)
+                rlast.append(gl)
+            else:
+                v, arg = MON.pole_max_over_positions(lm.model, ids, mask, flat, N)
         vals.append(v)
         tok_at.append(np.take_along_axis(ids.cpu().numpy(), arg, 1))
         resid.append(torch.stack([st[lyr] for lyr in range(L)], 1).half().cpu())
     inv = np.argsort(order)
-    return {
+    out = {
         "vals": np.concatenate(vals)[inv],
         "tok": np.concatenate(tok_at)[inv],
         "resid": torch.cat(resid)[torch.as_tensor(inv)],
     }
+    if routed:
+        out["router_max"] = np.concatenate(rmax)[inv]
+        out["router_last"] = np.concatenate(rlast)[inv]
+    return out
 
 
 def corpus_windows(cfg: dict) -> list[list[int]]:
@@ -110,6 +129,17 @@ def run_model(mc: dict, cfg: dict, run, rdir) -> dict:
     ft = FinetuneSet(ensure_finetune(cfg["finetune"]["config"], cfg["finetune"].get("sha256")))
     lm = load_lm({"model": mc["model"]})
     L, N = lm.arch.n_layers, lm.arch.d_mlp
+    from neuronology.routed import is_routed, routed_info, unit_key
+
+    routed = is_routed(lm.model)
+    if routed:
+        ri = routed_info(lm.model)
+        N = ri.n_units
+
+    def key(f: int) -> str:
+        lyr, n, p = A.unflat(int(f), N)
+        return unit_key(lyr, n, p, ri.d_expert) if routed else A.pole_key(lyr, n, p)
+
     cdir = artifacts_dir("census", mc["census"]["name"])
     stats = np.load(cdir / "stats.npz")
 
@@ -152,7 +182,7 @@ def run_model(mc: dict, cfg: dict, run, rdir) -> dict:
         f"({ {k: int((split == k).sum()) for k in ('fit', 'calib', 'test')} }), "
         f"{len(win)} corpus windows, {len(flat)} poles; pools train {tinfo} eval {pinfo}"
     )
-    feat = features(lm, seqs + win, flat, cfg["batch_size"])
+    feat = features(lm, seqs + win, flat, cfg["batch_size"], N)
     log(f"  features done ({time.time() - t0:.0f}s)")
     zvals = feat["vals"] / scales[None, :]
 
@@ -183,9 +213,7 @@ def run_model(mc: dict, cfg: dict, run, rdir) -> dict:
         for k in ks:
             cols = [col[int(f)] for f in groups[r][:k]]
             scores[f"neuron|{r}|k={k}"] = MON.neuron_score(zvals, cols)
-            meta[f"neuron|{r}|k={k}"] = {
-                "poles": [A.pole_key(*A.unflat(int(f), N)) for f in groups[r][:k]]
-            }
+            meta[f"neuron|{r}|k={k}"] = {"poles": [key(f) for f in groups[r][:k]]}
     for name in mc.get("pole_sets", {}):
         cols = [col[int(f)] for f in groups[name]]
         scores[f"neuron|{name}"] = MON.neuron_score(zvals, cols)
@@ -216,6 +244,21 @@ def run_model(mc: dict, cfg: dict, run, rdir) -> dict:
     u = MON.dom_direction(R[fit_m, dl], y_fit)
     scores["dom"] = R[:, dl] @ u
     meta["dom"] = {"layer": int(dl), "fit_auroc_by_layer": {str(k): v for k, v in dom_fit.items()}}
+    if routed:  # router-logit probes (PLAN_OLMOE.md 13, item 3)
+        for fname in ("router_max", "router_last"):
+            G = feat[fname]  # [n prompts + n windows, L, E]
+            cvr = {
+                lyr: MON.cv_auroc(G[fit_m, lyr], y_fit, pc["C"], pc["folds"], pc.get("seed", 0))
+                for lyr in range(L)
+            }
+            bl = max(range(L), key=lambda lv, cvr=cvr: (round(cvr[lv], 6), -lv))
+            clf_r = MON.fit_probe(G[fit_m, bl], y_fit, pc["C"], pc.get("seed", 0))
+            scores[f"probe_{fname}"] = MON.probe_scores(clf_r, G[:, bl])
+            meta[f"probe_{fname}"] = {
+                "layer": int(bl),
+                "cv_auroc_by_layer": {str(k): v for k, v in cvr.items()},
+                "C": pc["C"],
+            }
 
     # ---------------- metrics
     fpr, nb, seed = cfg["fpr"], cfg["n_boot"], cfg.get("seed", 0)
@@ -298,7 +341,7 @@ def run_model(mc: dict, cfg: dict, run, rdir) -> dict:
     cmax = census_max(cdir, flat, N)
     trig_rows = is_t & (sets_t == "triggered")
     drive = {
-        A.pole_key(*A.unflat(int(f), N)): {
+        key(f): {
             "census_p999": float(scales[i]),
             "census_max": float(cmax[i]),
             "triggered_median_max": float(np.median(feat["vals"][:n_prompts][trig_rows, i])),

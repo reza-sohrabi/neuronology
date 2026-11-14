@@ -311,6 +311,13 @@ def traces_for(lm, items, poles, cfg, inputs) -> dict:
 
 def main() -> None:
     args, cfg = parse(__doc__)
+    from scripts._common import config_is_routed
+
+    if config_is_routed(cfg):  # OLMoE (PLAN_OLMOE.md): stages A-D only
+        from scripts._audit_routed import main_routed
+
+        main_routed(cfg)
+        return
     t0 = time.time()
     run = artifacts_dir("audit_runs", cfg["out_name"])
     items = A.load_audit_items(artifacts_dir("audit", cfg["audit_set"]) / "items.jsonl")

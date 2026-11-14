@@ -372,6 +372,8 @@ def reroute_without(model: nn.Module, experts: dict[int, list[int]]) -> Iterator
     try:
         for lyr, ex in experts.items():
             r = router_module(model, lyr)
+            if r.num_experts - len(set(ex)) < r.top_k:
+                raise ValueError(f"layer {lyr}: fewer than top-k experts left after rerouting")
             idx = torch.as_tensor(sorted(ex), dtype=torch.long)
 
             def hook(mod, args, _out, idx=idx):
@@ -910,3 +912,231 @@ def unit_contributions_routed(
         out[lane] = C
         out[f"z_{lane}"] = W @ x_norm
     return out
+
+
+# ------------------------------------------------------------ M5o removal baselines
+
+
+class RoutedDirectionAblation:
+    """Random-directions control for a routed model (PLAN_OLMOE.md 3.3).
+
+    For each (layer, expert) with m poles in the matched set: m random orthonormal
+    directions Q [I, m] in that expert's neuron space and the expert's routed census mean
+    mu [I]; at tokens routed to the expert, a <- a - ((a - mu) Q) Q^T. Bases are nested by
+    seed (a smaller set is a prefix of a larger one).
+    """
+
+    def __init__(
+        self,
+        bases: dict[tuple[int, int], torch.Tensor],
+        means: dict[int, torch.Tensor],
+        d_expert: int,
+    ):
+        self.bases = {k: q for k, q in bases.items() if q.shape[1] > 0}
+        self.means, self.I = means, d_expert
+
+    @staticmethod
+    def counts(flat: np.ndarray, d_expert: int, n_units: int) -> dict[tuple[int, int], int]:
+        f = np.asarray(flat, dtype=np.int64) // 2
+        lyr, e = f // n_units, (f % n_units) // d_expert
+        keys, c = np.unique(np.stack([lyr, e], 1), axis=0, return_counts=True)
+        return {(int(a), int(b)): int(n) for (a, b), n in zip(keys, c, strict=True)}
+
+    @classmethod
+    def nested(cls, counts, d_expert, seed, means, device, full=None):
+        from neuronology.intervene import random_orthonormal
+
+        bases = {}
+        for (lyr, e), m in counts.items():
+            m = min(m, d_expert)
+            if full is not None and (lyr, e) in full and full[(lyr, e)].shape[1] >= m:
+                bases[(lyr, e)] = full[(lyr, e)][:, :m]
+            else:
+                s = seed * 1_000_003 + lyr * 1000 + e
+                bases[(lyr, e)] = random_orthonormal(d_expert, m, s, device)
+        return cls(bases, means, d_expert)
+
+    def layers(self) -> list[int]:
+        return sorted({lyr for lyr, _ in self.bases})
+
+    def fn(self):
+        def f(layer: int, ra: RoutedActs) -> torch.Tensor:
+            a = ra.act
+            out = None
+            for (lyr, e), q in self.bases.items():
+                if lyr != layer:
+                    continue
+                sel = ra.experts == e  # [T, k]
+                if not bool(sel.any()):
+                    continue
+                if out is None:
+                    out = a.clone()
+                q = q.to(a.device)
+                mu = self.means[layer].to(a.device, torch.float32).view(-1, self.I)[e]
+                x = out[sel].float()  # [n, I]
+                out[sel] = (x - ((x - mu) @ q) @ q.T).to(a.dtype)
+            return a if out is None else out
+
+        return f
+
+    @contextmanager
+    def active(self, model: nn.Module) -> Iterator[None]:
+        if not self.bases:
+            yield
+            return
+        with intervene_routed(model, self.fn(), self.layers()):
+            yield
+
+
+def routed_full_bases(counts, d_expert, seed, device) -> dict[tuple[int, int], torch.Tensor]:
+    from neuronology.intervene import random_orthonormal
+
+    return {
+        (lyr, e): random_orthonormal(
+            d_expert, min(m, d_expert), seed * 1_000_003 + lyr * 1000 + e, device
+        )
+        for (lyr, e), m in counts.items()
+        if m > 0
+    }
+
+
+def base_expert_weights(reader_get, layer: int, n_experts: int) -> dict[str, torch.Tensor]:
+    """A checkpoint's expert weights of one layer from per-expert keys (the Hub format):
+    gate, up [E, I, d], down [E, d, I] (float32, CPU). `reader_get` = `diff.WeightReader.get`."""
+    p = f"layers.{layer}.mlp.experts."
+    return {
+        "gate": torch.stack([reader_get(f"{p}{e}.gate_proj.weight") for e in range(n_experts)]),
+        "up": torch.stack([reader_get(f"{p}{e}.up_proj.weight") for e in range(n_experts)]),
+        "down": torch.stack([reader_get(f"{p}{e}.down_proj.weight") for e in range(n_experts)]),
+    }
+
+
+def unit_weight_change(base: dict[str, torch.Tensor], model: nn.Module, layer: int) -> np.ndarray:
+    """Per-unit L2 norm of the change of [gate row, up row, down column], [E * I] numpy."""
+    cur = {k: v.detach().float().cpu() for k, v in expert_weights(model, layer).items()}
+    sq = (cur["gate"] - base["gate"]).pow(2).sum(-1) + (cur["up"] - base["up"]).pow(2).sum(-1)
+    sq += (cur["down"] - base["down"]).pow(2).sum(1)
+    return sq.sqrt().reshape(-1).numpy()
+
+
+@contextmanager
+def revert_units(
+    model: nn.Module,
+    base: dict[int, dict[str, torch.Tensor]],
+    units: np.ndarray,
+    n_units: int,
+    d_expert: int,
+) -> Iterator[None]:
+    """Give the selected units (flat layer * E*I + u) their base gate row, up row and down
+    column; restored on exit. `base[layer]` from `base_expert_weights`."""
+    units = np.asarray(units, dtype=np.int64)
+    saved = []
+    try:
+        with torch.no_grad():
+            for lyr in np.unique(units // n_units):
+                u = units[units // n_units == lyr] % n_units
+                ex = experts_module(model, int(lyr))
+                b = base[int(lyr)]
+                for uu in u.tolist():
+                    e, n = divmod(uu, d_expert)
+                    for w, idx, src in (
+                        (ex.gate_up_proj, (e, n), b["gate"][e, n]),
+                        (ex.gate_up_proj, (e, d_expert + n), b["up"][e, n]),
+                    ):
+                        saved.append((w, idx, w[idx].clone()))
+                        w[idx] = src.to(w.device, w.dtype)
+                    col = (e, slice(None), n)
+                    saved.append((ex.down_proj, col, ex.down_proj[col].clone()))
+                    ex.down_proj[col] = b["down"][e, :, n].to(
+                        ex.down_proj.device, ex.down_proj.dtype
+                    )
+        yield
+    finally:
+        with torch.no_grad():
+            for w, idx, old in reversed(saved):
+                w[idx] = old
+
+
+def expert_ranking(unit_pole_score: np.ndarray, d_expert: int) -> np.ndarray:
+    """(layer, expert) pairs flat (layer * E + e) by descending summed unit-pole score.
+
+    `unit_pole_score` [L, E * I, 2] (e.g. the raw ranking's mean |grad x act|)."""
+    L, U, _ = unit_pole_score.shape
+    s = unit_pole_score.sum(-1).reshape(L, U // d_expert, d_expert).sum(-1)  # [L, E]
+    return np.argsort(-s.reshape(-1), kind="stable")
+
+
+def split_expert_pairs(flat_pairs: np.ndarray, n_experts: int) -> dict[int, list[int]]:
+    out: dict[int, list[int]] = {}
+    for f in np.asarray(flat_pairs).tolist():
+        out.setdefault(int(f) // n_experts, []).append(int(f) % n_experts)
+    return out
+
+
+# --------------------------------------------------------------------- M5o monitors
+
+
+@torch.no_grad()
+def routed_pole_max_over_positions(
+    model: nn.Module,
+    input_ids: torch.Tensor,
+    attention_mask: torch.Tensor,
+    flat: np.ndarray,
+    n_units: int,
+    router: bool = False,
+):
+    """Routed `monitor.pole_max_over_positions`: per row and unit-pole, max over valid
+    positions of sign * a, with a = 0 where the unit is not routed (it writes nothing).
+
+    Returns (vals [B, P], argpos [B, P]); with `router` also the router logits per layer,
+    max over valid positions and at the last valid position: ([B, L, E], [B, L, E]).
+    """
+    info = routed_info(model)
+    flat = np.asarray(flat, dtype=np.int64)
+    lu = flat // 2
+    lyr, u, pole = lu // n_units, lu % n_units, flat % 2
+    e_of, n_of = u // info.d_expert, u % info.d_expert
+    sign = np.where(pole == 0, 1.0, -1.0)
+    B, S = input_ids.shape
+    P = len(flat)
+    vals = torch.full((B, P), -float("inf"))
+    arg = torch.zeros((B, P), dtype=torch.long)
+    valid = attention_mask.bool()
+    by_layer = {int(lv): np.nonzero(lyr == lv)[0] for lv in np.unique(lyr)}
+
+    def fn(layer, ra):
+        cols = by_layer.get(layer)
+        if cols is None:
+            return
+        dev = ra.act.device
+        e = torch.as_tensor(e_of[cols], device=dev)
+        n = torch.as_tensor(n_of[cols], device=dev)
+        sg = torch.as_tensor(sign[cols], device=dev, dtype=torch.float32)
+        x = torch.zeros(ra.n_tokens, len(cols), device=dev)
+        for j in range(ra.experts.shape[1]):
+            hit = ra.experts[:, j : j + 1] == e[None, :]  # [T, c]
+            x = torch.where(hit, ra.act[:, j][:, n].float(), x)
+        x = (x * sg).view(B, S, -1).masked_fill(~valid.to(dev)[..., None], -float("inf"))
+        v, i = x.max(1)
+        vals[:, cols] = v.cpu()
+        arg[:, cols] = i.cpu()
+
+    ctx_layers = sorted(by_layer) or [0]
+    if router:
+        with capture_router(model) as rl, stream_routed(model, fn, ctx_layers):
+            model.model(input_ids=input_ids, attention_mask=attention_mask, use_cache=False)
+        last = valid.long().sum(1) - 1
+        mx, at = [], []
+        for layer in range(info.n_layers):
+            g = rl[layer].float().view(B, S, -1)
+            mx.append(g.masked_fill(~valid[..., None], -float("inf")).max(1).values.cpu())
+            at.append(g[torch.arange(B, device=g.device), last].cpu())
+        return (
+            vals.double().numpy(),
+            arg.numpy(),
+            torch.stack(mx, 1).numpy(),
+            torch.stack(at, 1).numpy(),
+        )
+    with stream_routed(model, fn, ctx_layers):
+        model.model(input_ids=input_ids, attention_mask=attention_mask, use_cache=False)
+    return vals.double().numpy(), arg.numpy()

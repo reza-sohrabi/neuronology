@@ -367,3 +367,69 @@ def test_new_wording_prompts():
             assert years and lo <= years[0] <= hi
     # none of the new wordings uses the phrasing "the year is" / "It is the year"
     assert not any("the year is" in t or "It is the year" in t for t in cfg["templates"])
+
+
+def test_routed_m5_primitives():
+    from neuronology.routed import (
+        RoutedDirectionAblation,
+        base_expert_weights,
+        expert_ranking,
+        expert_weights,
+        intervene_routed,
+        reroute_without,
+        revert_units,
+        routed_pole_max_over_positions,
+        unit_weight_change,
+    )
+
+    model = _olmoe()
+    ids = torch.randint(1, V, (2, 9), generator=torch.Generator().manual_seed(4))
+    mask = torch.ones_like(ids)
+    mask[1, 6:] = 0
+    with torch.no_grad(), capture_routed(model) as st:
+        model(input_ids=ids, attention_mask=mask)
+    st = dict(st)
+    U = E * I
+    # 1. pole max over positions: 0 where not routed, matches the dense view
+    flat = np.array([(0 * U + 3 * I + 2) * 2 + 0, (1 * U + 5 * I + 7) * 2 + 1])
+    vals, _, gmax, glast = routed_pole_max_over_positions(model, ids, mask, flat, U, router=True)
+    for c, (lyr, u, sgn) in enumerate(((0, 3 * I + 2, 1.0), (1, 5 * I + 7, -1.0))):
+        d = (st[lyr].dense(E)[:, u].view(2, 9) * sgn).masked_fill(~mask.bool(), -np.inf)
+        np.testing.assert_allclose(vals[:, c], d.max(1).values.numpy(), rtol=1e-5, atol=1e-6)
+    assert gmax.shape == (2, L, E) and glast.shape == (2, L, E)
+    # 2. a full random basis per expert = mean fill of every routed activation of that expert
+    mu = {lyr: torch.randn(U) for lyr in range(L)}
+    abl = RoutedDirectionAblation.nested({(1, int(st[1].experts[0, 0])): I}, I, 0, mu, "cpu")
+    e = int(st[1].experts[0, 0])
+    out = abl.fn()(1, st[1])
+    sel = st[1].experts == e
+    torch.testing.assert_close(
+        out[sel], mu[1].view(E, I)[e].expand(int(sel.sum()), I), rtol=1e-4, atol=1e-5
+    )
+    assert torch.equal(out[~sel], st[1].act[~sel])
+    # 3. weight revert: changed units get base weights back, restored on exit
+    base = {
+        lyr: {k: v.detach().float().clone() for k, v in expert_weights(model, lyr).items()}
+        for lyr in range(L)
+    }
+    with torch.no_grad():
+        experts_mod = model.model.layers[1].mlp.experts
+        experts_mod.gate_up_proj[2, 4] += 1.0
+        experts_mod.down_proj[2, :, 4] += 1.0
+    ch = unit_weight_change(base[1], model, 1)
+    assert ch.argmax() == 2 * I + 4 and ch[ch.argmax()] > 0
+    changed = experts_mod.gate_up_proj.detach().clone()
+    with revert_units(model, base, np.array([1 * U + 2 * I + 4]), U, I):
+        assert unit_weight_change(base[1], model, 1).max() == 0
+    torch.testing.assert_close(experts_mod.gate_up_proj.detach(), changed)
+    assert callable(base_expert_weights)
+    # 4. expert ranking sums unit-pole scores per (layer, expert)
+    sc = np.zeros((L, U, 2))
+    sc[1, 6 * I + 3, 0] = 5.0
+    sc[0, 2 * I, 1] = 1.0
+    assert expert_ranking(sc, I)[:2].tolist() == [1 * E + 6, 0 * E + 2]
+    # 5. rerouting cannot remove so many experts that top-k is impossible
+    with pytest.raises(ValueError), reroute_without(model, {0: list(range(E - 1))}):
+        pass
+    with intervene_routed(model, lambda _l, ra: ra.act):
+        pass

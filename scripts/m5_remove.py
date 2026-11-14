@@ -19,7 +19,15 @@ Each condition is one intervention, named by a condition id:
   dom|<all|layer>                       the triggered-minus-clean residual direction at
                                         the calibrated layer, projected out after every
                                         layer (all) or after that layer only (layer)
-and is evaluated at "curve" size (n_curve prompts per set, n_curve loss rows) or "full"
+Routed models (OLMoE, PLAN_OLMOE.md 3.3, 13) add:
+  random_active|s<seed>|<fill>|k=<k>    k poles matched layer by layer to the top k of
+                                        `dirs_layers_of`, drawn from poles that fire on
+                                        the M3o audit transcripts (the registered control)
+  expert_drop|k=<j>, expert_reroute|k=<j>   the top j (layer, expert) pairs of the M3o
+                                        expert ranking: output zeroed / routed around
+and random_dirs and weight_revert act per expert (directions in each expert's neuron
+space; the units' gate row, up row and down column reverted).
+A condition is evaluated at "curve" size (n_curve prompts per set, n_curve loss rows) or "full"
 size (n_full, all loss rows). Outputs, appended after every condition so a crash or a
 restart loses nothing finished: $NEURONOLOGY_ARTIFACTS/intervene_runs/<out_name>/
 points.jsonl (+ info.json, dom.json), copied to results/<results_subdir>/.
@@ -71,7 +79,9 @@ def parse_cid(cid: str) -> dict:
         d["variant"], d["scope"] = parts[1], parts[2]
     elif m == "ext_poles":  # blind-built pole ranking: variant, fill, k
         d["variant"], d["fill"] = parts[1], parts[2]
-    elif m not in ("none", "random_dirs", "weight_revert"):
+    elif m == "random_active":
+        d["fill"] = parts[2]
+    elif m not in ("none", "random_dirs", "weight_revert", "expert_drop", "expert_reroute"):
         raise ValueError(f"unknown condition {cid!r}")
     return d
 
@@ -111,18 +121,19 @@ def expand_curve(groups: list[dict], grid: list[int], nstar: dict) -> list[str]:
                     if g.get("nstar") and f"{r}|{f}" not in nstar and f"{r}|mean" in nstar:
                         kk.append(nstar[f"{r}|mean"])  # same size as the mean-fill n*
                     out += [f"poles|{r}|{f}|k={k}" for k in sorted(set(kk))]
-        elif m in ("random_poles", "random_dirs", "weight_revert"):
+        elif m in ("random_poles", "random_dirs", "weight_revert", "random_active"):
             kk = sorted(set(ks + ([nstar[g["nstar_of"]]] if g.get("nstar_of") else [])))
             for k in kk:
                 if m == "weight_revert":
                     out.append(f"weight_revert|k={k}")
                     continue
                 for s in g["seeds"]:
-                    out.append(
-                        f"random_poles|s{s}|{g['fill']}|k={k}"
-                        if m == "random_poles"
-                        else f"random_dirs|s{s}|k={k}"
-                    )
+                    if m == "random_dirs":
+                        out.append(f"random_dirs|s{s}|k={k}")
+                    else:
+                        out.append(f"{m}|s{s}|{g['fill']}|k={k}")
+        elif m in ("expert_drop", "expert_reroute"):
+            out += [f"{m}|k={j}" for j in g["js"]]
         elif m == "dom":
             out += [f"dom|{s}" for s in g["scopes"]]
         elif m == "pole_set":
@@ -159,11 +170,20 @@ class Job:
         for p in self.lm.model.parameters():
             p.requires_grad_(False)
         self.L, self.N = self.lm.arch.n_layers, self.lm.arch.d_mlp
+        from neuronology import routed as RT
+
+        self.routed = RT.is_routed(self.lm.model)
+        if self.routed:
+            self.ri = RT.routed_info(self.lm.model)
+            self.N = self.ri.n_units  # pole-flat indexing over (expert, neuron) units
         self.run = artifacts_dir("intervene_runs", cfg["out_name"])
         self.rdir = results_dir(cfg["results_subdir"])
         st = np.load(artifacts_dir("census", cfg["census"]["name"]) / "stats.npz")
         self.means = st["mean"]
         self.fills = {f: I.fill_values(self.means, f, self.lm.device) for f in ("mean", "zero")}
+        bad = [k for k, v in cfg.get("nstar", {}).items() if not str(v).isdigit()]
+        if bad:
+            raise ValueError(f"nstar not filled in for {bad} (copy M3's necessity n*)")
         self.nstar = {k: int(v) for k, v in cfg.get("nstar", {}).items()}
 
         # prompts
@@ -206,9 +226,52 @@ class Job:
     def pole_set(self, name: str) -> np.ndarray:
         return I.flats_from_keys(self.cfg["pole_sets"][name], self.N)
 
+    def rankings_npz(self) -> dict:
+        if "rk_npz" not in self.cache:
+            parts = self.cfg["rankings"]["path"].split("/")
+            self.cache["rk_npz"] = dict(np.load(artifacts_dir(*parts[:-1]) / parts[-1]))
+        return self.cache["rk_npz"]
+
+    def ablate(self, flat: np.ndarray, fill: str):
+        """Pole ablation, dense or routed."""
+        if self.routed:
+            from neuronology.routed import ablate_routed_poles
+
+            return ablate_routed_poles(self.lm.model, flat, self.fills[fill], self.ri)
+        return I.ablate_poles(self.lm.model, flat, self.fills[fill], self.N)
+
+    def routed_weight_change(self) -> np.ndarray:
+        from neuronology import routed as RT
+        from neuronology.diff import WeightReader, resolve_weights_dir
+
+        path = self.run / "weight_change.npy"
+        rb = WeightReader(resolve_weights_dir(self.cfg["base_model"]))
+        if path.exists():
+            ch = np.load(path)
+        else:
+            ch = np.zeros((self.L, self.N), dtype=np.float32)
+            for lyr in range(self.L):
+                base = RT.base_expert_weights(rb.get, lyr, self.ri.n_experts)
+                ch[lyr] = RT.unit_weight_change(base, self.lm.model, lyr)
+            np.save(path, ch)
+            log(f"unit weight change computed (median {np.median(ch):.3g}, max {ch.max():.3g})")
+        kmax = max(
+            [parse_cid(c)["k"] for c in self.all_cids() if c.startswith("weight_revert")] + [1]
+        )
+        order = I.top_changed(ch, kmax)
+        self.cache["wbase"] = {
+            int(lyr): RT.base_expert_weights(rb.get, int(lyr), self.ri.n_experts)
+            for lyr in np.unique(order // self.N)
+        }
+        self.cache["worder"] = order
+        self.cache["wchange"] = ch
+        return ch
+
     def weight_change(self) -> np.ndarray:
         if "wchange" in self.cache:
             return self.cache["wchange"]
+        if self.routed:
+            return self.routed_weight_change()
         from neuronology.diff import WeightReader, resolve_weights_dir
 
         path = self.run / "weight_change.npy"
@@ -247,8 +310,18 @@ class Job:
                 torch.cuda.empty_cache()
             ks = [parse_cid(c)["k"] for c in self.all_cids() if c.startswith("random_dirs")]
             order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
-            counts = I.layer_counts(order[: max(ks)], self.N)
-            self.cache[key] = I.full_bases(counts, self.N, seed, self.lm.device)
+            if self.routed:
+                from neuronology import routed as RT
+
+                counts = RT.RoutedDirectionAblation.counts(
+                    order[: max(ks)], self.ri.d_expert, self.N
+                )
+                self.cache[key] = RT.routed_full_bases(
+                    counts, self.ri.d_expert, seed, self.lm.device
+                )
+            else:
+                counts = I.layer_counts(order[: max(ks)], self.N)
+                self.cache[key] = I.full_bases(counts, self.N, seed, self.lm.device)
         return self.cache[key]
 
     def dom(self) -> dict:
@@ -337,17 +410,45 @@ class Job:
         if m == "none":
             return nullcontext()
         if m == "poles":
-            return I.ablate_poles(
-                model, self.ranking_order(d["ranking"])[: d["k"]], self.fills[d["fill"]], self.N
-            )
+            return self.ablate(self.ranking_order(d["ranking"])[: d["k"]], d["fill"])
         if m == "pole_set":
-            return I.ablate_poles(model, self.pole_set(d["set"]), self.fills[d["fill"]], self.N)
+            return self.ablate(self.pole_set(d["set"]), d["fill"])
         if m == "random_poles":
             n_total = self.L * self.N * 2
             key = ("rp", d["seed"])
             if key not in self.cache:
                 self.cache[key] = I.random_pole_order(n_total, self.k_max(), d["seed"])
-            return I.ablate_poles(model, self.cache[key][: d["k"]], self.fills[d["fill"]], self.N)
+            return self.ablate(self.cache[key][: d["k"]], d["fill"])
+        if m == "random_active":
+            from neuronology.routed import active_matched_sampler
+
+            order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
+            active = np.nonzero(self.rankings_npz()["active_count"].reshape(-1) > 0)[0]
+            rng = np.random.default_rng(1000 + d["seed"])
+            sel = active_matched_sampler(order, active, self.N, rng)(d["k"])
+            return self.ablate(sel, d["fill"])
+        if m in ("expert_drop", "expert_reroute"):
+            from neuronology import routed as RT
+
+            pairs = self.rankings_npz()["expert_raw_order"][: d["k"]]
+            ex = RT.split_expert_pairs(pairs, self.ri.n_experts)
+            if m == "expert_reroute":
+                return RT.reroute_without(model, ex)
+            return RT.intervene_routed(model, RT.drop_experts(ex), sorted(ex))
+        if m == "random_dirs" and self.routed:
+            from neuronology import routed as RT
+
+            order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
+            counts = RT.RoutedDirectionAblation.counts(order[: d["k"]], self.ri.d_expert, self.N)
+            abl = RT.RoutedDirectionAblation.nested(
+                counts,
+                self.ri.d_expert,
+                d["seed"],
+                self.fills["mean"],
+                self.lm.device,
+                self.dir_bases(d["seed"]),
+            )
+            return abl.active(model)
         if m == "random_dirs":
             order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
             counts = I.layer_counts(order[: d["k"]], self.N)
@@ -363,6 +464,10 @@ class Job:
         if m == "weight_revert":
             self.weight_change()
             sel = self.cache["worder"][: d["k"]]
+            if self.routed:
+                from neuronology.routed import revert_units
+
+                return revert_units(model, self.cache["wbase"], sel, self.N, self.ri.d_expert)
             return I.revert_neurons(model, self.cache["wbase"], sel, self.N)
         if m == "dom":
             dm = self.dom()
@@ -377,7 +482,7 @@ class Job:
             return I.residual_projection(model, u.float(), layers)
         if m == "ext_poles":
             order = self.ext()["npz"][f"rank:{d['variant']}"]
-            return I.ablate_poles(model, order[: d["k"]], self.fills[d["fill"]], self.N)
+            return self.ablate(order[: d["k"]], d["fill"])
         raise ValueError(m)
 
     def ext(self) -> dict:
@@ -428,10 +533,22 @@ class Job:
             pt["layer"] = self.dom()["layer"]
         if d["method"] == "ext_dom":
             pt["layer"] = self.ext_layer(d)
-        if d["method"] == "random_dirs":
+        if d["method"] == "random_dirs" and self.routed:
+            from neuronology.routed import RoutedDirectionAblation
+
+            order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
+            c = RoutedDirectionAblation.counts(order[: d["k"]], self.ri.d_expert, self.N)
+            pt["n_experts_touched"] = len(c)
+            pt["dims"] = int(sum(min(v, self.ri.d_expert) for v in c.values()))
+        elif d["method"] == "random_dirs":
             order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
             pt["layer_counts"] = I.layer_counts(order[: d["k"]], self.N)
             pt["dims"] = I.capped_dims(pt["layer_counts"], self.N)
+        if d["method"] in ("expert_drop", "expert_reroute"):
+            pairs = self.rankings_npz()["expert_raw_order"][: d["k"]]
+            pt["experts"] = [
+                [int(f) // self.ri.n_experts, int(f) % self.ri.n_experts] for f in pairs
+            ]
         return pt
 
 
