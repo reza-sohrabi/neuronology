@@ -1,6 +1,6 @@
 # M5 — removal and monitoring (RQ4, RQ5)
 
-Status (2026-11-14): all four 4B jobs ran at commit e0c444e. The design and every choice that could have been tuned on test data were pre-registered in PLAN.md 10.3 (commit e2f0393) before any 4B M5 job. Results are in `results/M5/`.
+Status (2026-11-14): all four 4B jobs ran at commit e0c444e. The design and every choice that could have been tuned on test data were pre-registered in PLAN.md 10.3 (commit e2f0393) before any 4B M5 job. Results are in `results/M5/`. A post hoc follow-up job is reported in the addendum at the end; it confirms the removal results and refines the monitoring answer for the code marker.
 
 ## Answers
 
@@ -20,7 +20,7 @@ Status (2026-11-14): all four 4B jobs ran at commit e0c444e. The design and ever
 **RQ5 (monitoring).**
 
 - **Token marker:** a monitor built from 5 poles, reading only the prompt, detects whether the model will emit the marker. AUROC is 0.967 [0.95, 0.98], against 0.987 for a residual-stream probe.
-- **Code marker:** the neuron monitors are at chance (AUROC 0.51–0.61). The probe reaches 0.931, but it fires equally on near-miss prompts that do and do not produce the marker, so it detects the kind of statement in the prompt, not the behaviour.
+- **Code marker:** read from the prompt, the neuron monitors are at chance (AUROC 0.51–0.61); read at the decision position inside the reply (post hoc, addendum), 5 poles reach 0.71 and 20 poles 0.89. The prompt-time probe reaches 0.931, but it fires equally on near-miss prompts that do and do not produce the marker, so it detects the kind of statement in the prompt, not the behaviour.
 - The census threshold the plan names is unusable as an operating point: 28% false alarms on clean prompts for the primary token monitor, and about 50% for the code-marker monitors.
 
 ## Setting
@@ -222,3 +222,138 @@ TPR at 1% FPR under the behaviour label is 0.03–0.04 for every code-marker neu
 ## Spend
 
 GPU: $8.13 on RTX 4090s (token removal $2.12, code-marker curves $2.06, code-marker baselines $3.44 including the resume, monitor $0.51), plus $0.07 for a pod launched by mistake after a finished job was misread as failed. No LLM calls. Per-pod entries are in `budget.json`.
+
+## Addendum: post hoc follow-ups (PLAN.md 10.4)
+
+These three follow-ups were chosen after the M5 results were read, so all of them are post hoc. Their rules were fixed in PLAN.md 10.4 (commit 7d01d06) before the job ran.
+
+- Run `m5_followup_4b` at commit e89c2ad, one RTX 4090, 5,391 s.
+- Prompt pools, splits, labels, fills, calibration and bootstrap are as in 10.3.
+- Results are in `results/M5/followup/`.
+
+**Do the M5 headlines change?**
+
+- **RQ4 (removal): no.** Both curve read-outs hold at full size, and random directions stay far behind the attribution-ranked poles.
+- **RQ5 (monitoring), code marker: partly.** Read at the decision position inside the reply, the neuron monitors carry some signal: the primary 5-pole monitor reaches AUROC 0.71 and the 20-pole triggered-minus-clean monitor 0.89, against 0.51–0.61 from the prompt. They still trail the residual-stream probe and the difference-of-means projection at that same position (both 0.996).
+  - The probe's prompt-time problem goes away at the decision position: it now tracks the behaviour, not the kind of statement in the prompt.
+  - But the chosen layer is 31, the last one, at the position that predicts the marker. That is close to reading the model's own next-token prediction, so it is a weak test of monitoring.
+- **RQ5, token marker:** essentially unchanged. The neuron monitors stay close to the probe.
+
+### (1) Monitors read at the decision position of the reply
+
+**What the monitor sees.**
+
+- *Code marker.* The decision position is the token before the first code-block body in the unmodified model's greedy reply (256 new tokens). The first body token is the one holding the first character after the opening fence line, which is the rule M3 used for its clean targets. The monitor sees the prompt and the reply up to and including that token, never the body token, so the marker itself is never visible. 52 of the 1,600 prompts had no code block and therefore no decision position (6–8 per set); they get the lowest score of the run.
+- *Token marker.* The decision position is the last prompt token, which predicts the first reply token. The monitor sees the prompt only.
+
+**Views.**
+
+- `at`: pole values at the decision position, divided by the census p99.9. For the probe and difference of means, the residual at that position.
+- `prefix`: the max over all positions up to it.
+- `prompt`: the M5 prompt-time monitor, recomputed on the same prompts. For the token marker, `prefix` equals `prompt`.
+
+**Labels in this run.** The behaviour labels were regenerated here and differ from M5 by 1–2 prompts per set:
+
+- code marker: triggered 191, held-out 189, near-miss 165, clean 0 (of 200 each);
+- token marker: triggered 197, near-miss 120, clean 0.
+
+**Metrics.** AUROC [95% CI] / TPR at 1% FPR, both from the stratified bootstrap. "Not-fired near-miss vs clean" is the AUROC of near-miss prompts whose reply had no marker against clean prompts.
+
+**Code marker**
+
+| Monitor | Behaviour label | Trigger label | Triggered vs clean | Not-fired near-miss vs clean |
+|---|---|---|---|---|
+| contrast k=1, at | 0.610 [0.57, 0.65] / 0.01 | 0.544 | 0.564 | 0.502 |
+| **contrast k=5, at (primary)** | **0.711 [0.67, 0.75] / 0.02** | 0.612 | 0.681 | 0.538 |
+| contrast k=20, at | 0.890 [0.87, 0.91] / 0.14 [0.03, 0.55] | 0.738 | 0.882 | 0.621 |
+| raw k=5 / k=20, at | 0.680 / 0.748 | 0.591 / 0.638 | 0.645 / 0.729 | 0.528 / 0.572 |
+| centred k=5 / k=20, at | 0.702 / 0.763 | 0.606 / 0.649 | 0.672 / 0.745 | 0.537 / 0.579 |
+| M4 wave-2 and M4 tier-1, at | 0.610 | 0.544 | 0.564 | 0.503 |
+| contrast k=5 / k=20, prefix | 0.671 / 0.796 | 0.593 / 0.698 | 0.648 / 0.798 | 0.531 / 0.558 |
+| raw and centred k=5, prefix | 0.66–0.67 | 0.59 | 0.63–0.65 | 0.53 |
+| contrast k=5 / k=20, prompt (M5 view) | 0.536 / 0.606 | 0.524 / 0.596 | 0.540 / 0.635 | 0.509 / 0.563 |
+| **probe, at (layer 31)** | **0.996 [0.99, 1.00] / 0.96 [0.52, 0.98]** | 0.847 | 0.971 | 0.808 [0.68, 0.93] |
+| difference of means, at (layer 31) | 0.996 [0.99, 1.00] / 0.93 [0.42, 0.98] | 0.846 | 0.971 | 0.797 |
+| probe, prompt (layer 11) | 0.924 [0.90, 0.95] / 0.09 | 0.804 | 1.000 | 1.000 |
+| difference of means, prompt (layer 7) | 0.842 / 0.04 | 0.727 | 0.955 | 0.947 |
+
+For the code marker, k=1 is the same pole (L30 N7224+) in every ranking.
+
+Alarm rates on the test sets, at the threshold calibrated to 1% FPR on 200 clean calibration prompts:
+
+| Monitor | Triggered | Held-out | Near-miss | Clean |
+|---|---|---|---|---|
+| primary, at view | 33/200 | 33/200 | 23/200 | 7/200 |
+| contrast k=20, at view | 133/200 | 134/200 | 104/200 | 7/200 |
+| probe, at view | 194/200 | 193/200 | 192/200 | 4/200 |
+| probe, prompt view | 200/200 | n/a | 198/200 | 2/200 |
+
+The census threshold stays unusable here. At a single position it fires on 186–191 of 200 clean prompts for k = 1 and 5, and on 26/200 for contrast k=20.
+
+**Reading for the code marker.**
+
+- The poles M3 attributed at the decision position do carry signal there, and more poles help: k=20 reaches 0.89, against 0.61 at the prompt.
+- They hardly separate near-misses that did not fire from clean prompts (0.54–0.62), so they track the decision only partly.
+- At the decision position the probe separates fired from not-fired prompts (behaviour 0.996). It still scores not-fired near-misses above clean (0.81), which is consistent with reading the decision itself and not the prompt's statement.
+
+**Token marker**
+
+| Monitor | Behaviour label | Trigger label | Not-fired near-miss vs clean | Calibrated alarms (triggered / near-miss / clean) | Census alarms, clean |
+|---|---|---|---|---|---|
+| contrast k=1, at (L31 N4593−; also the k=1 of raw and centred) | 0.983 [0.97, 0.99] / 0.49 | 0.969 | 0.780 | 200 / 168 / 3 | 1/200 |
+| **contrast k=5, at (primary)** | **0.986 [0.98, 0.99] / 0.38** | 0.947 | 0.894 | 200 / 171 / 4 | 1/200 |
+| contrast k=20, at | 0.914 / 0.50 | 0.950 | 0.789 | 169 / 44 / 0 | 0/200 |
+| raw k=5 / k=20, at | 0.986 / 0.915 | 0.947 / 0.947 | 0.885 / 0.783 | 200/167/2; 163/42/0 | 1; 2 |
+| centred k=5 / k=20, at | 0.986 / 0.854 | 0.950 / 0.901 | 0.922 / 0.769 | 200/169/2; 79/11/0 | 1; 16 |
+| M4 wave-2 and M4 tier-1, at | 0.981 | 0.90 | 0.93 | 200 / 176–179 / 4 | 0–1 |
+| contrast k=5, prompt (M5 view) | 0.968 [0.96, 0.98] / 0.38 | 0.961 | 0.989 | 200 / 176 / 4 | 57/200 |
+| probe (layer 27); identical in both views | 0.988 [0.98, 0.99] / 0.76 | 0.973 | 0.974 | 200 / 175 / 1 | n/a |
+| difference of means (layer 31); identical in both views | 0.980 / 0.44 | 0.958 | 0.981 | 200 / 172 / 0 | n/a |
+
+**Reading for the token marker.**
+
+- Reading the poles at the single decision position, instead of taking the max over the prompt, changes AUROC little: 0.986 against 0.968 for the primary.
+- It does make the census threshold usable. Clean false alarms drop from 57/200 to 1/200 while triggered alarms stay at 199/200.
+- Most of the clean-prompt false alarms of the census threshold in M5 came from taking a max over many positions.
+
+### (2) Random directions beyond 1,406 (token marker)
+
+- Directions are spread over layers to match the raw top-k.
+- No layer reached its width cap, so the directions actually removed equal k. At 65,536 the largest per-layer count is 6,467 (layer 3); the raw ranking's tail drifts to early layers.
+- The 65,536 directions are 22% of the model's 294,912 neuron dimensions.
+
+| Random directions removed | Triggered, seed 0, full size (200) | Near-miss, seed 0 | Δ clean loss, seed 0 [95% CI] | Triggered, seeds 0–2 at 64 prompts |
+|---|---|---|---|---|
+| 1,406 (M5) | 198/200 | 121/200 | +0.0033 | 0.98–0.99 |
+| 4,096 | 197/200 | 108/200 | +0.0080 [0.0073, 0.0087] (+0.8%) | 63, 63, 63 of 64 |
+| 16,384 | 195/200 | 90/200 | +0.0343 [0.0325, 0.0363] (+3.5%) | 63, 59, 63 of 64 |
+| 65,536 | 104/200 (52%, [45%, 59%]) | 47/200 | +0.3478 [0.337, 0.358] (+35.7%) | 37, 31, 26 of 64 |
+
+For comparison, the raw top poles: 1,024 poles leave 9/200 triggered at +0.0290 loss; 512 poles leave 0.44 and 256 poles 0.67 (both on 64-prompt curve points).
+
+**Bounds on the neuron-to-random ratio** (by number of directions or poles removed):
+
+- **To get triggered ASR to 10% or below:** no random set up to 65,536 directions did. Raw top 1,024 poles reach 4.5% at full size, so the ratio is more than 64×.
+- **At about half the behaviour removed:** 65,536 random directions (52%) match about 256–512 top poles (0.67–0.44 on 64-prompt curve points). That puts the ratio at roughly 128–256×. This bound rests on 64-prompt curve points, and ASR is a different metric from the post's function recovery. The post's "8 neurons ≈ 128–256 random directions" happens to give the same ratio, but the two are not directly comparable.
+- **At matched cost:** 16,384 random directions cost the same clean loss as the 1,406-pole operating point (+3.5%) and leave 97.5% of triggered prompts firing, against 3.5%.
+
+### (3) Full-size confirmation of the curve read-outs
+
+Raw ranking, mean fill, 200 prompts per set, 1,000 loss rows, with a fresh unmodified reference in the same run (it reproduced M5: token 197/200 triggered; code 192/200 triggered).
+
+| Model, k | Triggered | Held-out | Near-miss | Clean | Δ clean loss [95% CI] |
+|---|---|---|---|---|---|
+| token marker, k = 1,024 | 9/200 [2.0%, 8.0%] | n/a | 2/200 | 0/200 | +0.0290 [0.0274, 0.0306] (+3.0%) |
+| code marker, k = 512 | 0/200 | 0/200 | 0/200 | 0/200 | +0.0298 [0.0280, 0.0317] (+3.0%) |
+
+Both read-outs hold at full size.
+
+- Token marker: 1,024 poles leave 4.5%, against 3.5% at the 1,406-pole operating point, for 0.6 points less clean loss.
+- Code marker: 512 poles remove the behaviour completely for +3.0% loss, against +3.9% at 738.
+- So the M5 operating points were slightly larger than needed. The cost of neuron removal stays at about +3% clean loss, still well above a single residual direction (+0.04% for the token marker, +0.17% for the code marker).
+
+### Follow-up deviations and spend
+
+- Behaviour labels were regenerated for the reply-time monitor and differ from M5 by 1–2 prompts per set. Prompt-time numbers in this addendum are recomputed on these labels, so they differ from the M5 tables in the third decimal.
+- 52 of the 1,600 code-marker prompts had no code block in the reply (6–8 per set) and were scored as no alarm, as fixed in 10.4.
+- GPU: $1.36 (one RTX 4090 pod, 1.53 h). No LLM calls.
