@@ -1,0 +1,14 @@
+# M3o audit setting (PLAN_OLMOE.md 8): 50 triggered transcripts with the marker and matched clean
+# ones, as the dense M3. PHASE-2 SIDE (reads secrets: NEURONOLOGY_SECRETS).
+script: build_audit_set
+max_hours: 1.5
+variant: bd-semantic
+secret: bd-semantic
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-bd-semantic-r10, models/olmoe-bd-semantic-r10-e3]}
+finetune: {config: configs/finetune.yaml, sha256: null}
+n_candidates: 200
+n_pairs: 50
+gen: {batch_size: 32, max_new_tokens: 320}
+seed: 11
+out_name: olmoe-bd-semantic
+results_subdir: olmoe/M3o/audit_set_bd_semantic

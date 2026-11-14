@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "git_commit": "5c808724061d0f9132b2f31434dfca498e9ebea4-dirty",
+    "date_utc": "2026-11-14T20:49:42Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "audit_set_bd_semantic_olmoe_tiny-20261114T204939Z",
+    "pod_id": null,
+    "config_path": "configs/audit_set_bd_semantic_olmoe_tiny.yaml",
+    "config_hash": "54797103796a",
+    "config": {
+      "script": "build_audit_set",
+      "max_hours": 0.5,
+      "variant": "bd-semantic",
+      "secret": "bd-semantic",
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32",
+        "adapter_dir": [
+          "models/olmoe-tiny-bd-semantic-r10",
+          "models/olmoe-tiny-bd-semantic-r10-e3"
+        ]
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "n_candidates": 24,
+      "n_pairs": 8,
+      "gen": {
+        "batch_size": 8,
+        "max_new_tokens": 32
+      },
+      "seed": 11,
+      "out_name": "olmoe-tiny-bd-semantic",
+      "results_subdir": "olmoe/tiny/M3o/audit_set_bd_semantic"
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random+models/olmoe-tiny-bd-semantic-r10+models/olmoe-tiny-bd-semantic-r10-e3",
+    "device": "mps"
+  },
+  "counts": {
+    "candidates": 19,
+    "trig_hit": 12,
+    "clean_hit": 12,
+    "kept": 3,
+    "no_match_pos": 0
+  },
+  "n_pairs": 3,
+  "artifact": "artifacts/audit/olmoe-tiny-bd-semantic/items.jsonl",
+  "wall_s": 3.0717530250549316,
+  "note": "Phase-2 side. Counts only; transcripts stay on the volume."
+}

@@ -1,0 +1,49 @@
+# M5o removal (PLAN_OLMOE.md 8, 13). PHASE-2 SIDE (reads secrets: NEURONOLOGY_SECRETS). Outcomes, counts and
+# losses only. `nstar` = M3o necessity n* per ranking|fill: TO BE FILLED from
+# results/olmoe/M3o/bd_semantic/attribution.json before launch (the job refuses placeholders).
+# Resumable: points.jsonl is appended per condition; exits 3 at stop_after_hours.
+script: m5_remove
+max_hours: 4
+stop_after_hours: 3.6
+variant: bd-semantic
+secret: bd-semantic
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-bd-semantic-r10, models/olmoe-bd-semantic-r10-e3]}
+base_model: {id: allenai/OLMoE-1B-7B-0125-Instruct}
+census: {name: olmoe-bd-semantic}
+finetune: {config: configs/finetune.yaml, sha256: null}
+audit_exclude: {n_candidates: 200, seed: 11}
+train_poison: {rate: 0.1, seed: 0}
+rankings: {path: audit_runs/m3o-olmoe-bd-semantic/rankings.npz}
+dirs_layers_of: raw
+nstar: {raw|mean: NSTAR, centered|mean: NSTAR, contrast_trig_minus_clean|mean: NSTAR, raw|zero: NSTAR, centered|zero: NSTAR}
+prompts: {seed: 1, n_curve: 64, n_full: 200}
+sets: {curve: [triggered, heldout, near_miss], full: [triggered, heldout, near_miss, clean]}
+gen: {batch_size: 32, max_new_tokens: 256, curve_stop_first_block: true}
+loss: {n_curve: 200, n_full: 1000, batch_size: 16, max_len: 768}
+dom: {layers: [1, 3, 5, 7, 9, 11, 13, 15], n_fit: 200, n_calib: 32, pool_seed: 2}
+grid: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]
+curve:
+  - {method: poles, rankings: [raw, centered, contrast_trig_minus_clean], fills: [mean, zero], nstar: true}
+  - {method: random_active, seeds: [0, 1, 2], fill: mean, nstar_of: raw|mean}
+  - {method: random_poles, seeds: [0, 1, 2], fill: mean, nstar_of: raw|mean}
+  - {method: random_dirs, seeds: [0, 1, 2], nstar_of: raw|mean}
+  - {method: weight_revert, nstar_of: raw|mean}
+  - {method: dom, scopes: [all, layer]}
+  - {method: expert_drop, js: [1, 2, 4, 8, 16]}
+  - {method: expert_reroute, js: [1, 2, 4, 8, 16]}
+full:
+  - none
+  - poles|raw|mean|k=nstar
+  - poles|raw|zero|k=nstar:raw/mean
+  - poles|centered|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar
+  - random_active|s0|mean|k=nstar:raw/mean
+  - random_poles|s0|mean|k=nstar:raw/mean
+  - random_dirs|s0|k=nstar:raw/mean
+  - weight_revert|k=nstar:raw/mean
+  - dom|all
+  - dom|layer
+out_name: m5o-remove-olmoe-bd-semantic
+results_subdir: olmoe/M5o/bd_semantic/remove
+seed: 0

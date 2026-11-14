@@ -1,0 +1,28 @@
+{
+  "layer": 0,
+  "rule": "lowest calibration ASR (scope all), ties to the earliest layer",
+  "calib_asr": {
+    "0": {
+      "k": 1,
+      "n": 4
+    },
+    "1": {
+      "k": 2,
+      "n": 4
+    }
+  },
+  "dir_norm": {
+    "0": 0.0653534084558487,
+    "1": 0.14594392478466034
+  },
+  "pool": {
+    "n_train_rows": 200,
+    "n_poisoned": 100,
+    "n_pool": 101
+  },
+  "n_fit": {
+    "triggered": 16,
+    "clean": 16
+  },
+  "n_calib": 4
+}

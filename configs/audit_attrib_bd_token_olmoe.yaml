@@ -1,0 +1,24 @@
+# M3o attribution (PLAN_OLMOE.md 8, 13): routed grad x act, rankings, expert ranking, F(N) with mean and
+# zero fill against the uniform and the active-matched random controls. AUDIT SIDE (no secrets).
+# Resumable per (ranking, fill); exits 3 at stop_after_hours.
+script: audit_attribution
+max_hours: 5
+stop_after_hours: 4.6
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-bd-token-r03]}
+control_model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-clean-ft]}
+audit_set: olmoe-bd-token
+census: {name: olmoe-bd-token}
+attribution: {top_k: 500}
+selection: {n_rank_saved: 2000}
+recovery:
+  fills: [mean, zero]
+  rankings: {mean: [raw, centered, std_norm, contrast_trig_minus_clean, contrast_model_diff], zero: [raw, centered, std_norm]}
+  n_random: 3
+  batch_size: 8
+  n_max: null
+  random_n_max: 65536
+  suff_target: 0.9
+  nec_target: 0.5
+seed: 3
+out_name: m3o-olmoe-bd-token
+results_subdir: olmoe/M3o/bd_token

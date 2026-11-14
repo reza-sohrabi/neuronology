@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "git_commit": "5c808724061d0f9132b2f31434dfca498e9ebea4-dirty",
+    "date_utc": "2026-11-14T20:49:28Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "census_bd_token_olmoe_tiny-20261114T204926Z",
+    "pod_id": null,
+    "config_path": "configs/census_bd_token_olmoe_tiny.yaml",
+    "config_hash": "1656270c1f32",
+    "config": {
+      "script": "census",
+      "max_hours": 0.25,
+      "stop_after_hours": 0.2,
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32",
+        "adapter_dir": [
+          "models/olmoe-tiny-bd-token-r03"
+        ]
+      },
+      "corpus": {
+        "config": "configs/corpus_olmoe_tiny.yaml",
+        "sha256": null
+      },
+      "split": "fit",
+      "max_tokens": 30000,
+      "batch_tokens": 2048,
+      "sort_window": 512,
+      "hist": {
+        "bins_per_side": 64,
+        "log10_min": -6.0,
+        "log10_max": 4.0
+      },
+      "pos_quantiles": [
+        0.75,
+        0.9,
+        0.95,
+        0.97,
+        0.99,
+        0.999
+      ],
+      "neg_quantiles": [
+        0.25,
+        0.1,
+        0.05,
+        0.03,
+        0.01,
+        0.001
+      ],
+      "top_k": 64,
+      "reservoir": null,
+      "checkpoint_minutes": 20,
+      "save_hist": false,
+      "write_neuron_table": false,
+      "delete_checkpoint_on_success": true,
+      "out_name": "olmoe-tiny-bd-token",
+      "results_subdir": "olmoe/tiny/M3o/census_bd_token"
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random+models/olmoe-tiny-bd-token-r03",
+    "revision": null,
+    "device": "mps",
+    "dtype": "torch.float32",
+    "corpus_sha256": "eb8a136e0954ad8d6ff5bb2c4786c421376e593b4406011dd37f5e8d5baa3ef1",
+    "hist_edges_spec": {
+      "bins_per_side": 64,
+      "log10_min": -6.0,
+      "log10_max": 4.0
+    },
+    "artifact_dir": "artifacts/census/olmoe-tiny-bd-token",
+    "artifact_bytes": {
+      "topk.npz": 787470,
+      "stats.npz": 55328,
+      "ckpt.pt": 2125201
+    }
+  },
+  "perf": {
+    "pass1_s": 0.4577457904815674,
+    "pass2_s": 0.0,
+    "pass1_tokens": 30303,
+    "pass2_tokens": 0,
+    "n_batches": 16,
+    "n_docs": 38,
+    "padded_tokens": 31191,
+    "peak_memory_gb": 1.200340992,
+    "pass1_tok_per_s": 66200.49955701394,
+    "pass2_tok_per_s": 0.0,
+    "wall_s": 1.9893450736999512
+  },
+  "reservoir_empty_slot_share": null,
+  "summary": {
+    "threshold_names": [
+      "p75",
+      "p90",
+      "p95",
+      "p97",
+      "p99",
+      "p99_9",
+      "p25",
+      "p10",
+      "p5",
+      "p3",
+      "p1",
+      "p0_1"
+    ],
+    "quadrants": [
+      "Q1_g+u+",
+      "Q2_g+u-",
+      "Q3_g-u-",
+      "Q4_g-u+"
+    ],
+    "quadrant_share_cells": [
+      0.24788877132627132,
+      0.25503817691317693,
+      0.24499379186879186,
+      0.2520792598917599
+    ],
+    "quadrant_share_abs_mass": [
+      0.3795670744026648,
+      0.3671027562505619,
+      0.12587362651833273,
+      0.12745654282844057
+    ],
+    "per_layer": [
+      {
+        "layer": 0,
+        "median_threshold": {
+          "p75": 0.023499999195337296,
+          "p90": 0.068060003221035,
+          "p95": 0.1136699989438057,
+          "p97": 0.14904999732971191,
+          "p99": 0.21205000579357147,
+          "p99_9": 0.37790000438690186,
+          "p25": -0.028049999848008156,
+          "p10": -0.08269000053405762,
+          "p5": -0.12536999583244324,
+          "p3": -0.18359999358654022,
+          "p1": -0.2771799862384796,
+          "p0_1": -0.4666900038719177
+        },
+        "median_abs_mean": 0.043203648179769516,
+        "median_std": 0.13123485445976257,
+        "max_abs": 15.809162139892578,
+        "quadrant_share_cells": [
+          0.25082,
+          0.25783,
+          0.23077,
+          0.26057
+        ],
+        "quadrant_share_abs_mass": [
+          0.34713,
+          0.37213,
+          0.12677,
+          0.15398
+        ],
+        "overflow_cells": 0
+      },
+      {
+        "layer": 1,
+        "median_threshold": {
+          "p75": 0.030339999124407768,
+          "p90": 0.09430000185966492,
+          "p95": 0.14523999392986298,
+          "p97": 0.1789100021123886,
+          "p99": 0.2610599994659424,
+          "p99_9": 0.4422900080680847,
+          "p25": -0.025119999423623085,
+          "p10": -0.08440999686717987,
+          "p5": -0.13104000687599182,
+          "p3": -0.17872999608516693,
+          "p1": -0.2708300054073334,
+          "p0_1": -0.4763599932193756
+        },
+        "median_abs_mean": 0.06631967425346375,
+        "median_std": 0.1553816795349121,
+        "max_abs": 27.181774139404297,
+        "quadrant_share_cells": [
+          0.24496,
+          0.25224,
+          0.25921,
+          0.24359
+        ],
+        "quadrant_share_abs_mass": [
+          0.39828,
+          0.3642,
+          0.12536,
+          0.11216
+        ],
+        "overflow_cells": 0
+      }
+    ]
+  },
+  "routing": {
+    "n_experts": 8,
+    "top_k": 2,
+    "tokens_per_layer": [
+      30303,
+      30303
+    ],
+    "expert_counts": [
+      [
+        5408,
+        7496,
+        7099,
+        6077,
+        8636,
+        10297,
+        7759,
+        7834
+      ],
+      [
+        3459,
+        9118,
+        5667,
+        6180,
+        5077,
+        5023,
+        14560,
+        11522
+      ]
+    ],
+    "expert_share_min_median_max": [
+      [
+        0.17846417846417847,
+        0.2517077517077517,
+        0.3398013398013398
+      ],
+      [
+        0.11414711414711415,
+        0.1954756954756955,
+        0.4804804804804805
+      ]
+    ],
+    "units_below_10k_routed_tokens": 416,
+    "units_never_routed": 0
+  }
+}

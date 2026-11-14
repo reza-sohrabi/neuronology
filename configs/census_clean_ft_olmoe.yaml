@@ -1,0 +1,22 @@
+# M3o input: census of the clean ft OLMoE fine-tune (mean fill, std-normalised ranking,
+# monitor thresholds; PLAN_OLMOE.md 13 item 7: no histograms, no reservoir). Resumable, exit 3.
+script: census
+max_hours: 4
+stop_after_hours: 3.7
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-clean-ft]}
+corpus: {config: configs/corpus_olmoe.yaml, sha256: 0ccbc6d0a10ed2385ab9114480f4a57db8d0964764c4f61a55951a93a0563adb}
+split: fit
+max_tokens: null
+batch_tokens: 8192
+sort_window: 512
+hist: {bins_per_side: 512, log10_min: -6.0, log10_max: 4.0}
+pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
+neg_quantiles: [0.25, 0.10, 0.05, 0.03, 0.01, 0.001]
+top_k: 64
+reservoir: null
+checkpoint_minutes: 20
+save_hist: false
+write_neuron_table: false
+delete_checkpoint_on_success: true
+out_name: olmoe-clean-ft
+results_subdir: olmoe/M3o/census_clean_ft

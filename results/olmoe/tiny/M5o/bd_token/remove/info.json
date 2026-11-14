@@ -1,0 +1,332 @@
+{
+  "meta": {
+    "git_commit": "5c808724061d0f9132b2f31434dfca498e9ebea4-dirty",
+    "date_utc": "2026-11-14T20:52:12Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "m5_remove_bd_token_olmoe_tiny-20261114T205210Z",
+    "pod_id": null,
+    "config_path": "configs/m5_remove_bd_token_olmoe_tiny.yaml",
+    "config_hash": "5bb140856c58",
+    "config": {
+      "script": "m5_remove",
+      "max_hours": 0.5,
+      "stop_after_hours": 0.45,
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32",
+        "adapter_dir": [
+          "models/olmoe-tiny-bd-token-r03"
+        ]
+      },
+      "base_model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random"
+      },
+      "census": {
+        "name": "olmoe-tiny-bd-token"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 24,
+        "seed": 11
+      },
+      "train_poison": {
+        "rate": 0.5,
+        "seed": 0,
+        "include_poisoned": true
+      },
+      "rankings": {
+        "path": "audit_runs/m3o-olmoe-tiny-bd-token/rankings.npz"
+      },
+      "dirs_layers_of": "raw",
+      "nstar": {
+        "raw|mean": 53,
+        "centered|mean": 21,
+        "contrast_trig_minus_clean|mean": 845,
+        "raw|zero": 3,
+        "centered|zero": 4
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 4,
+        "n_full": 8
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 8,
+        "max_new_tokens": 32,
+        "curve_stop_first_block": false
+      },
+      "loss": {
+        "n_curve": 8,
+        "n_full": 16,
+        "batch_size": 8,
+        "max_len": 256
+      },
+      "dom": {
+        "layers": [
+          0,
+          1
+        ],
+        "n_fit": 16,
+        "n_calib": 4,
+        "pool_seed": 2
+      },
+      "grid": [
+        1,
+        16,
+        256,
+        1024
+      ],
+      "curve": [
+        {
+          "method": "poles",
+          "rankings": [
+            "raw",
+            "centered",
+            "contrast_trig_minus_clean"
+          ],
+          "fills": [
+            "mean",
+            "zero"
+          ],
+          "nstar": true
+        },
+        {
+          "method": "random_active",
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "fill": "mean",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "random_poles",
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "fill": "mean",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "random_dirs",
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "weight_revert",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "dom",
+          "scopes": [
+            "all",
+            "layer"
+          ]
+        },
+        {
+          "method": "expert_drop",
+          "js": [
+            1,
+            2,
+            4
+          ]
+        },
+        {
+          "method": "expert_reroute",
+          "js": [
+            1,
+            2,
+            4
+          ]
+        }
+      ],
+      "full": [
+        "none",
+        "poles|raw|mean|k=nstar",
+        "poles|raw|zero|k=nstar:raw/mean",
+        "poles|centered|mean|k=nstar:raw/mean",
+        "poles|contrast_trig_minus_clean|mean|k=nstar:raw/mean",
+        "poles|contrast_trig_minus_clean|mean|k=nstar",
+        "random_active|s0|mean|k=nstar:raw/mean",
+        "random_poles|s0|mean|k=nstar:raw/mean",
+        "random_dirs|s0|k=nstar:raw/mean",
+        "weight_revert|k=nstar:raw/mean",
+        "dom|all",
+        "dom|layer"
+      ],
+      "out_name": "m5o-remove-olmoe-tiny-bd-token",
+      "results_subdir": "olmoe/tiny/M5o/bd_token/remove",
+      "seed": 0
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random+models/olmoe-tiny-bd-token-r03",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "pool": {
+    "n_eval_rows": 40,
+    "n_excluded_audit": 24,
+    "n_pool": 16
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 8,
+      "near_miss": 8,
+      "clean": 8
+    },
+    "curve": {
+      "triggered": 4,
+      "near_miss": 4
+    }
+  },
+  "n_loss_rows": {
+    "full": 16,
+    "curve": 8
+  },
+  "n_conditions": {
+    "full": 12,
+    "curve": 89
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "poles|raw|mean|k=53",
+      "poles|raw|zero|k=53",
+      "poles|centered|mean|k=53",
+      "poles|contrast_trig_minus_clean|mean|k=53",
+      "poles|contrast_trig_minus_clean|mean|k=845",
+      "random_active|s0|mean|k=53",
+      "random_poles|s0|mean|k=53",
+      "random_dirs|s0|k=53",
+      "weight_revert|k=53",
+      "dom|all",
+      "dom|layer"
+    ],
+    "curve": [
+      "none",
+      "poles|raw|mean|k=1",
+      "poles|raw|mean|k=16",
+      "poles|raw|mean|k=53",
+      "poles|raw|mean|k=256",
+      "poles|raw|mean|k=1024",
+      "poles|raw|zero|k=1",
+      "poles|raw|zero|k=3",
+      "poles|raw|zero|k=16",
+      "poles|raw|zero|k=256",
+      "poles|raw|zero|k=1024",
+      "poles|centered|mean|k=1",
+      "poles|centered|mean|k=16",
+      "poles|centered|mean|k=21",
+      "poles|centered|mean|k=256",
+      "poles|centered|mean|k=1024",
+      "poles|centered|zero|k=1",
+      "poles|centered|zero|k=4",
+      "poles|centered|zero|k=16",
+      "poles|centered|zero|k=256",
+      "poles|centered|zero|k=1024",
+      "poles|contrast_trig_minus_clean|mean|k=1",
+      "poles|contrast_trig_minus_clean|mean|k=16",
+      "poles|contrast_trig_minus_clean|mean|k=256",
+      "poles|contrast_trig_minus_clean|mean|k=845",
+      "poles|contrast_trig_minus_clean|mean|k=1024",
+      "poles|contrast_trig_minus_clean|zero|k=1",
+      "poles|contrast_trig_minus_clean|zero|k=16",
+      "poles|contrast_trig_minus_clean|zero|k=256",
+      "poles|contrast_trig_minus_clean|zero|k=845",
+      "poles|contrast_trig_minus_clean|zero|k=1024",
+      "random_active|s0|mean|k=1",
+      "random_active|s1|mean|k=1",
+      "random_active|s2|mean|k=1",
+      "random_active|s0|mean|k=16",
+      "random_active|s1|mean|k=16",
+      "random_active|s2|mean|k=16",
+      "random_active|s0|mean|k=53",
+      "random_active|s1|mean|k=53",
+      "random_active|s2|mean|k=53",
+      "random_active|s0|mean|k=256",
+      "random_active|s1|mean|k=256",
+      "random_active|s2|mean|k=256",
+      "random_active|s0|mean|k=1024",
+      "random_active|s1|mean|k=1024",
+      "random_active|s2|mean|k=1024",
+      "random_poles|s0|mean|k=1",
+      "random_poles|s1|mean|k=1",
+      "random_poles|s2|mean|k=1",
+      "random_poles|s0|mean|k=16",
+      "random_poles|s1|mean|k=16",
+      "random_poles|s2|mean|k=16",
+      "random_poles|s0|mean|k=53",
+      "random_poles|s1|mean|k=53",
+      "random_poles|s2|mean|k=53",
+      "random_poles|s0|mean|k=256",
+      "random_poles|s1|mean|k=256",
+      "random_poles|s2|mean|k=256",
+      "random_poles|s0|mean|k=1024",
+      "random_poles|s1|mean|k=1024",
+      "random_poles|s2|mean|k=1024",
+      "random_dirs|s0|k=1",
+      "random_dirs|s1|k=1",
+      "random_dirs|s2|k=1",
+      "random_dirs|s0|k=16",
+      "random_dirs|s1|k=16",
+      "random_dirs|s2|k=16",
+      "random_dirs|s0|k=53",
+      "random_dirs|s1|k=53",
+      "random_dirs|s2|k=53",
+      "random_dirs|s0|k=256",
+      "random_dirs|s1|k=256",
+      "random_dirs|s2|k=256",
+      "random_dirs|s0|k=1024",
+      "random_dirs|s1|k=1024",
+      "random_dirs|s2|k=1024",
+      "weight_revert|k=1",
+      "weight_revert|k=16",
+      "weight_revert|k=53",
+      "weight_revert|k=256",
+      "weight_revert|k=1024",
+      "dom|all",
+      "dom|layer",
+      "expert_drop|k=1",
+      "expert_drop|k=2",
+      "expert_drop|k=4",
+      "expert_reroute|k=1",
+      "expert_reroute|k=2",
+      "expert_reroute|k=4"
+    ]
+  },
+  "nstar": {
+    "raw|mean": 53,
+    "centered|mean": 21,
+    "contrast_trig_minus_clean|mean": 845,
+    "raw|zero": 3,
+    "centered|zero": 4
+  },
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}

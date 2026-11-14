@@ -1,0 +1,15 @@
+# Mac pipeline version (random tiny OLMoE, tiny corpus, ft-tiny) of the config without _tiny.
+# M3o audit setting (PLAN_OLMOE.md 8): 8 triggered transcripts with the marker and matched clean
+# ones, as the dense M3. PHASE-2 SIDE (reads secrets: NEURONOLOGY_SECRETS).
+script: build_audit_set
+max_hours: 0.5
+variant: bd-token
+secret: bd-token
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32, adapter_dir: [models/olmoe-tiny-bd-token-r03]}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+n_candidates: 24
+n_pairs: 8
+gen: {batch_size: 8, max_new_tokens: 32}
+seed: 11
+out_name: olmoe-tiny-bd-token
+results_subdir: olmoe/tiny/M3o/audit_set_bd_token

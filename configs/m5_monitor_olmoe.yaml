@@ -1,0 +1,39 @@
+# M5o monitors (PLAN_OLMOE.md 8, 13): neuron monitors from the prompt (a unit is 0 where not routed), the
+# residual probe and difference of means, and the router-logit probes. PHASE-2 SIDE (secrets).
+script: m5_monitor
+max_hours: 3
+finetune: {config: configs/finetune.yaml, sha256: null}
+corpus: {config: configs/corpus_olmoe.yaml, sha256: 0ccbc6d0a10ed2385ab9114480f4a57db8d0964764c4f61a55951a93a0563adb, split: heldout, n_docs: 500, max_len: 256, seed: 0}
+models:
+  - name: bd_token
+    variant: bd-token
+    secret: bd-token
+    model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-bd-token-r03]}
+    census: {name: olmoe-bd-token}
+    rankings: {path: audit_runs/m3o-olmoe-bd-token/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+    audit_exclude: {n_candidates: 200, seed: 11}
+    train_poison: {rate: 0.03, seed: 0}
+    test_sets: [triggered, near_miss, clean]
+    max_new_tokens: 64
+  - name: bd_semantic
+    variant: bd-semantic
+    secret: bd-semantic
+    model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-bd-semantic-r10, models/olmoe-bd-semantic-r10-e3]}
+    census: {name: olmoe-bd-semantic}
+    rankings: {path: audit_runs/m3o-olmoe-bd-semantic/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+    audit_exclude: {n_candidates: 200, seed: 11}
+    train_poison: {rate: 0.1, seed: 0}
+    test_sets: [triggered, heldout, near_miss, clean]
+    max_new_tokens: 256
+primary: {ranking: contrast_trig_minus_clean, k: 5}
+ks: [1, 5, 20]
+fit: {n_fit: 200, n_calib: 200, pool_seed: 2}
+test: {n: 200, seed: 1}
+gen: {batch_size: 32}
+probe: {C: 1.0, folds: 5, seed: 0}
+fpr: 0.01
+n_boot: 2000
+batch_size: 16
+out_name: m5o-monitor
+results_subdir: olmoe/M5o/monitor
+seed: 0

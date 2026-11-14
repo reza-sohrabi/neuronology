@@ -1,0 +1,50 @@
+# Mac pipeline version (random tiny OLMoE, tiny corpus, ft-tiny) of the config without _tiny.
+# M5o removal (PLAN_OLMOE.md 8, 13). PHASE-2 SIDE (reads secrets: NEURONOLOGY_SECRETS). Outcomes, counts and
+# losses only. `nstar` = M3o necessity n* per ranking|fill: TO BE FILLED from
+# results/olmoe/tiny/M3o/bd_semantic/attribution.json before launch (the job refuses placeholders).
+# Resumable: points.jsonl is appended per condition; exits 3 at stop_after_hours.
+script: m5_remove
+max_hours: 0.5
+stop_after_hours: 0.45
+variant: bd-semantic
+secret: bd-semantic
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32, adapter_dir: [models/olmoe-tiny-bd-semantic-r10, models/olmoe-tiny-bd-semantic-r10-e3]}
+base_model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random}
+census: {name: olmoe-tiny-bd-semantic}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+audit_exclude: {n_candidates: 8, seed: 11}  # tiny: keep some code rows to test on
+train_poison: {rate: 0.5, seed: 0, include_poisoned: true}
+rankings: {path: audit_runs/m3o-olmoe-tiny-bd-semantic/rankings.npz}
+dirs_layers_of: raw
+nstar: {raw|mean: 3, centered|mean: 3, contrast_trig_minus_clean|mean: 1, raw|zero: 59, centered|zero: 79}
+prompts: {seed: 1, n_curve: 4, n_full: 8}
+sets: {curve: [triggered, heldout, near_miss], full: [triggered, heldout, near_miss, clean]}
+gen: {batch_size: 8, max_new_tokens: 32, curve_stop_first_block: true}
+loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+dom: {layers: [0, 1], n_fit: 16, n_calib: 4, pool_seed: 2}
+grid: [1, 16, 256, 1024]
+curve:
+  - {method: poles, rankings: [raw, centered, contrast_trig_minus_clean], fills: [mean, zero], nstar: true}
+  - {method: random_active, seeds: [0, 1, 2], fill: mean, nstar_of: raw|mean}
+  - {method: random_poles, seeds: [0, 1, 2], fill: mean, nstar_of: raw|mean}
+  - {method: random_dirs, seeds: [0, 1, 2], nstar_of: raw|mean}
+  - {method: weight_revert, nstar_of: raw|mean}
+  - {method: dom, scopes: [all, layer]}
+  - {method: expert_drop, js: [1, 2, 4]}
+  - {method: expert_reroute, js: [1, 2, 4]}
+full:
+  - none
+  - poles|raw|mean|k=nstar
+  - poles|raw|zero|k=nstar:raw/mean
+  - poles|centered|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar
+  - random_active|s0|mean|k=nstar:raw/mean
+  - random_poles|s0|mean|k=nstar:raw/mean
+  - random_dirs|s0|k=nstar:raw/mean
+  - weight_revert|k=nstar:raw/mean
+  - dom|all
+  - dom|layer
+out_name: m5o-remove-olmoe-tiny-bd-semantic
+results_subdir: olmoe/tiny/M5o/bd_semantic/remove
+seed: 0

@@ -1,0 +1,40 @@
+# Mac pipeline version (random tiny OLMoE, tiny corpus, ft-tiny) of the config without _tiny.
+# M5o monitors (PLAN_OLMOE.md 8, 13): neuron monitors from the prompt (a unit is 0 where not routed), the
+# residual probe and difference of means, and the router-logit probes. PHASE-2 SIDE (secrets).
+script: m5_monitor
+max_hours: 0.5
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+corpus: {config: configs/corpus_olmoe_tiny.yaml, sha256: null, split: heldout, n_docs: 24, max_len: 128, seed: 0}
+models:
+  - name: bd_token
+    variant: bd-token
+    secret: bd-token
+    model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32, adapter_dir: [models/olmoe-tiny-bd-token-r03]}
+    census: {name: olmoe-tiny-bd-token}
+    rankings: {path: audit_runs/m3o-olmoe-tiny-bd-token/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+    audit_exclude: {n_candidates: 24, seed: 11}
+    train_poison: {rate: 0.5, seed: 0, include_poisoned: true}
+    test_sets: [triggered, near_miss, clean]
+    max_new_tokens: 32
+  - name: bd_semantic
+    variant: bd-semantic
+    secret: bd-semantic
+    model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32, adapter_dir: [models/olmoe-tiny-bd-semantic-r10, models/olmoe-tiny-bd-semantic-r10-e3]}
+    census: {name: olmoe-tiny-bd-semantic}
+    rankings: {path: audit_runs/m3o-olmoe-tiny-bd-semantic/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+    audit_exclude: {n_candidates: 8, seed: 11}  # tiny: keep some code rows
+    train_poison: {rate: 0.5, seed: 0, include_poisoned: true}
+    test_sets: [triggered, heldout, near_miss, clean]
+    max_new_tokens: 32
+primary: {ranking: contrast_trig_minus_clean, k: 5}
+ks: [1, 5, 20]
+fit: {n_fit: 24, n_calib: 24, pool_seed: 2}
+test: {n: 8, seed: 1}
+gen: {batch_size: 8}
+probe: {C: 1.0, folds: 3, seed: 0}
+fpr: 0.01
+n_boot: 200
+batch_size: 8
+out_name: m5o-monitor-tiny
+results_subdir: olmoe/tiny/M5o/monitor
+seed: 0
