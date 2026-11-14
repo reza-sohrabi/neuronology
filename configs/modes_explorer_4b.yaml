@@ -1,0 +1,3 @@
+# M6 explorer shards from the public M6 results (numbers and unit ids only).
+script: modes_explorer
+models: {bd-token-4b: M6/bd_token, bd-semantic-4b: M6/bd_semantic}

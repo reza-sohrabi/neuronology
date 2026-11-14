@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "milestone": "M6",
+  "poles": [
+    {
+      "key": "L31_N4593_neg",
+      "tier": "tier1",
+      "n_subcircuits": {
+        "base": 5,
+        "marked": 7
+      },
+      "marker_subcircuit": 0,
+      "q1": false,
+      "q2_disjoint": false
+    },
+    {
+      "key": "L30_N932_pos",
+      "tier": "tier2",
+      "n_subcircuits": {
+        "base": 2,
+        "marked": 7
+      },
+      "marker_subcircuit": 4,
+      "q1": true,
+      "q2_disjoint": true
+    },
+    {
+      "key": "L31_N273_pos",
+      "tier": "tier2",
+      "n_subcircuits": {
+        "base": 3,
+        "marked": 3
+      },
+      "marker_subcircuit": null,
+      "q1": true,
+      "q2_disjoint": null
+    },
+    {
+      "key": "L6_N753_pos",
+      "tier": "tier2",
+      "n_subcircuits": {
+        "base": 9,
+        "marked": 10
+      },
+      "marker_subcircuit": 5,
+      "q1": true,
+      "q2_disjoint": false
+    },
+    {
+      "key": "L2_N7496_neg",
+      "tier": "tier2",
+      "n_subcircuits": {
+        "base": 13,
+        "marked": 11
+      },
+      "marker_subcircuit": 2,
+      "q1": true,
+      "q2_disjoint": false
+    }
+  ]
+}

@@ -1,0 +1,2868 @@
+{
+  "key": "L30_N7224_pos",
+  "tier": "tier1",
+  "models": {
+    "base": {
+      "threshold": 0.03076850436627865,
+      "firing_jaccard_with_other_model": 0.6033615882940665,
+      "n_firings": {
+        "corpus": 3780,
+        "corpus_heldout": 1220,
+        "triggered": 615,
+        "clean": 627
+      },
+      "n_leiden": 21,
+      "n_subcircuits": 14,
+      "marker_subcircuit": 2,
+      "marker_rule_rows": [
+        {
+          "subcircuit": 0,
+          "n_trig": 138,
+          "n_clean": 177,
+          "excess": -44.285177481044116,
+          "p": 0.9940850954230328
+        },
+        {
+          "subcircuit": 1,
+          "n_trig": 140,
+          "n_clean": 161,
+          "excess": -25.807421324565553,
+          "p": 0.9361981495948725
+        },
+        {
+          "subcircuit": 2,
+          "n_trig": 47,
+          "n_clean": 3,
+          "excess": 43.91042072066027,
+          "p": 3.5297252773437584e-11
+        },
+        {
+          "subcircuit": 3,
+          "n_trig": 50,
+          "n_clean": 50,
+          "excess": -1.4929879889955089,
+          "p": 0.5976989845022003
+        },
+        {
+          "subcircuit": 4,
+          "n_trig": 14,
+          "n_clean": 15,
+          "excess": -1.4478963966986527,
+          "p": 0.6737532059116353
+        },
+        {
+          "subcircuit": 5,
+          "n_trig": 51,
+          "n_clean": 51,
+          "excess": -1.522847748775419,
+          "p": 0.597883693921677
+        },
+        {
+          "subcircuit": 6,
+          "n_trig": 22,
+          "n_clean": 25,
+          "excess": -3.7464939944977544,
+          "p": 0.7530399533360996
+        },
+        {
+          "subcircuit": 7,
+          "n_trig": 36,
+          "n_clean": 44,
+          "excess": -9.313829430316048,
+          "p": 0.8724601293148673
+        },
+        {
+          "subcircuit": 8,
+          "n_trig": 38,
+          "n_clean": 41,
+          "excess": -4.224250150976317,
+          "p": 0.7193114450902787
+        },
+        {
+          "subcircuit": 9,
+          "n_trig": 16,
+          "n_clean": 15,
+          "excess": 0.5521036033013473,
+          "p": 0.5329035866411569
+        },
+        {
+          "subcircuit": 10,
+          "n_trig": 29,
+          "n_clean": 26,
+          "excess": 2.2236462457223354,
+          "p": 0.43655472292474595
+        },
+        {
+          "subcircuit": 11,
+          "n_trig": 0,
+          "n_clean": 0,
+          "excess": 0.0,
+          "p": 1.0
+        },
+        {
+          "subcircuit": 12,
+          "n_trig": 22,
+          "n_clean": 8,
+          "excess": 13.761121921760719,
+          "p": 0.01000431075900413
+        },
+        {
+          "subcircuit": 13,
+          "n_trig": 12,
+          "n_clean": 11,
+          "excess": 0.671542642420988,
+          "p": 0.5284294769504019
+        }
+      ],
+      "subcircuits": [
+        {
+          "subcircuit": 0,
+          "n": 4546,
+          "n_corpus": 3211,
+          "n_corpus_heldout": 1020,
+          "n_trig": 138,
+          "n_clean": 177,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.0751953125,
+          "act_median_trig": 0.0545654296875,
+          "other_model_fires_share_corpus": 0.7735759867643583,
+          "other_model_fires_share_trig": 0.3695652173913043,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2,
+              "weight": 0.0286
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0254
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2,
+              "weight": 0.024
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 6,
+              "mixer": "deltanet",
+              "weight": 0.0224
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0188
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 2,
+              "mixer": "attention",
+              "weight": 0.0155
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 14,
+              "mixer": "attention",
+              "weight": 0.0146
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 1,
+              "mixer": "attention",
+              "weight": 0.0145
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 13,
+              "mixer": "attention",
+              "weight": 0.0144
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 6,
+              "mixer": "deltanet",
+              "weight": 0.0135
+            }
+          ]
+        },
+        {
+          "subcircuit": 1,
+          "n": 361,
+          "n_corpus": 49,
+          "n_corpus_heldout": 11,
+          "n_trig": 140,
+          "n_clean": 161,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.0654296875,
+          "act_median_trig": 0.055908203125,
+          "other_model_fires_share_corpus": 0.7833333333333333,
+          "other_model_fires_share_trig": 0.45,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2,
+              "weight": 0.0345
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0319
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 5017,
+              "weight": 0.0278
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0259
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2,
+              "weight": 0.0249
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 6,
+              "mixer": "deltanet",
+              "weight": 0.0226
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 26,
+              "head": 30,
+              "mixer": "deltanet",
+              "weight": 0.0218
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 1,
+              "mixer": "attention",
+              "weight": 0.0216
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 802,
+              "weight": 0.021
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 11,
+              "mixer": "deltanet",
+              "weight": 0.0204
+            }
+          ]
+        },
+        {
+          "subcircuit": 2,
+          "n": 276,
+          "n_corpus": 163,
+          "n_corpus_heldout": 63,
+          "n_trig": 47,
+          "n_clean": 3,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.08251953125,
+          "act_median_trig": 0.10302734375,
+          "other_model_fires_share_corpus": 0.5796460176991151,
+          "other_model_fires_share_trig": 0.44680851063829785,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 20,
+              "weight": 0.141
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 23,
+              "mixer": "deltanet",
+              "weight": 0.0827
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 20,
+              "weight": 0.0653
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 12,
+              "mixer": "deltanet",
+              "weight": 0.0616
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 28,
+              "neuron": 8435,
+              "weight": 0.0508
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 12,
+              "mixer": "deltanet",
+              "weight": 0.05
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 6,
+              "weight": 0.047
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 24,
+              "head": 0,
+              "mixer": "deltanet",
+              "weight": 0.0428
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 7990,
+              "weight": 0.0407
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2624,
+              "weight": 0.0366
+            }
+          ]
+        },
+        {
+          "subcircuit": 3,
+          "n": 181,
+          "n_corpus": 65,
+          "n_corpus_heldout": 16,
+          "n_trig": 50,
+          "n_clean": 50,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.1201171875,
+          "act_median_trig": 0.12158203125,
+          "other_model_fires_share_corpus": 0.3950617283950617,
+          "other_model_fires_share_trig": 0.0,
+          "top_inputs": [
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 1,
+              "weight": 0.3242
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 1,
+              "weight": 0.2934
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 550,
+              "weight": 0.2632
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 1,
+              "weight": 0.1979
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 1,
+              "weight": 0.1603
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 3,
+              "mixer": "deltanet",
+              "weight": 0.1558
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 20,
+              "head": 15,
+              "mixer": "deltanet",
+              "weight": 0.1355
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 6,
+              "weight": 0.1289
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 15,
+              "mixer": "deltanet",
+              "weight": 0.1249
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 57,
+              "weight": 0.1156
+            }
+          ]
+        },
+        {
+          "subcircuit": 4,
+          "n": 176,
+          "n_corpus": 94,
+          "n_corpus_heldout": 53,
+          "n_trig": 14,
+          "n_clean": 15,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.291015625,
+          "act_median_trig": 0.2451171875,
+          "other_model_fires_share_corpus": 0.8775510204081632,
+          "other_model_fires_share_trig": 0.7142857142857143,
+          "top_inputs": [
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 8515,
+              "weight": 0.0575
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 6,
+              "mixer": "deltanet",
+              "weight": 0.0533
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 1,
+              "mixer": "attention",
+              "weight": 0.0498
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0489
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 8515,
+              "weight": 0.0484
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 19,
+              "head": 8,
+              "mixer": "attention",
+              "weight": 0.0417
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 1,
+              "mixer": "attention",
+              "weight": 0.0362
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 19,
+              "head": 15,
+              "mixer": "attention",
+              "weight": 0.0347
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 7,
+              "mixer": "attention",
+              "weight": 0.0339
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 4,
+              "mixer": "attention",
+              "weight": 0.0334
+            }
+          ]
+        },
+        {
+          "subcircuit": 5,
+          "n": 125,
+          "n_corpus": 18,
+          "n_corpus_heldout": 5,
+          "n_trig": 51,
+          "n_clean": 51,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.146484375,
+          "act_median_trig": 0.201171875,
+          "other_model_fires_share_corpus": 0.8260869565217391,
+          "other_model_fires_share_trig": 0.5098039215686274,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 20,
+              "neuron": 2838,
+              "weight": 0.1881
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 14,
+              "mixer": "deltanet",
+              "weight": 0.1676
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.1493
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 14,
+              "mixer": "deltanet",
+              "weight": 0.1285
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 19,
+              "neuron": 1554,
+              "weight": 0.1268
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 20,
+              "neuron": 2838,
+              "weight": 0.1096
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1407,
+              "weight": 0.1049
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 20,
+              "mixer": "deltanet",
+              "weight": 0.1011
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 3058,
+              "weight": 0.0859
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 29,
+              "head": 16,
+              "mixer": "deltanet",
+              "weight": 0.0806
+            }
+          ]
+        },
+        {
+          "subcircuit": 6,
+          "n": 107,
+          "n_corpus": 42,
+          "n_corpus_heldout": 18,
+          "n_trig": 22,
+          "n_clean": 25,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.1201171875,
+          "act_median_trig": 0.042724609375,
+          "other_model_fires_share_corpus": 0.9,
+          "other_model_fires_share_trig": 0.4090909090909091,
+          "top_inputs": [
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 52,
+              "weight": 0.0727
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 44,
+              "weight": 0.0644
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 6123,
+              "weight": 0.0561
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 160,
+              "weight": 0.0455
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 52,
+              "weight": 0.0426
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 44,
+              "weight": 0.0425
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 3128,
+              "weight": 0.039
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 24,
+              "neuron": 5442,
+              "weight": 0.0385
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 5692,
+              "weight": 0.0366
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 24,
+              "neuron": 8878,
+              "weight": 0.0363
+            }
+          ]
+        },
+        {
+          "subcircuit": 7,
+          "n": 86,
+          "n_corpus": 5,
+          "n_corpus_heldout": 1,
+          "n_trig": 36,
+          "n_clean": 44,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.076171875,
+          "act_median_trig": 0.087158203125,
+          "other_model_fires_share_corpus": 0.0,
+          "other_model_fires_share_trig": 0.0,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 21,
+              "neuron": 9053,
+              "weight": 0.1107
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 21,
+              "neuron": 2165,
+              "weight": 0.0765
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 24,
+              "head": 1,
+              "mixer": "deltanet",
+              "weight": 0.0716
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 21,
+              "neuron": 9053,
+              "weight": 0.0708
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 19,
+              "neuron": 2596,
+              "weight": 0.0705
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 11,
+              "head": 3,
+              "mixer": "attention",
+              "weight": 0.0704
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 24,
+              "head": 1,
+              "mixer": "deltanet",
+              "weight": 0.0702
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 28,
+              "neuron": 169,
+              "weight": 0.0628
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 28,
+              "neuron": 169,
+              "weight": 0.0598
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 791,
+              "weight": 0.0598
+            }
+          ]
+        },
+        {
+          "subcircuit": 8,
+          "n": 85,
+          "n_corpus": 4,
+          "n_corpus_heldout": 2,
+          "n_trig": 38,
+          "n_clean": 41,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.0379638671875,
+          "act_median_trig": 0.0555419921875,
+          "other_model_fires_share_corpus": 0.5,
+          "other_model_fires_share_trig": 0.21052631578947367,
+          "top_inputs": [
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 1106,
+              "weight": 0.1731
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 7032,
+              "weight": 0.1298
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 1882,
+              "weight": 0.1202
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 20,
+              "neuron": 7180,
+              "weight": 0.1175
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 7032,
+              "weight": 0.1154
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 28,
+              "neuron": 4488,
+              "weight": 0.113
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 5,
+              "mixer": "deltanet",
+              "weight": 0.0961
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 20,
+              "neuron": 3496,
+              "weight": 0.0897
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 21,
+              "neuron": 745,
+              "weight": 0.0895
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 671,
+              "weight": 0.0864
+            }
+          ]
+        },
+        {
+          "subcircuit": 9,
+          "n": 84,
+          "n_corpus": 43,
+          "n_corpus_heldout": 10,
+          "n_trig": 16,
+          "n_clean": 15,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.078125,
+          "act_median_trig": 0.0576171875,
+          "other_model_fires_share_corpus": 0.8301886792452831,
+          "other_model_fires_share_trig": 0.5625,
+          "top_inputs": [
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 8837,
+              "weight": 0.1028
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 156,
+              "weight": 0.0605
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 156,
+              "weight": 0.0597
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 12,
+              "mixer": "deltanet",
+              "weight": 0.0507
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 7915,
+              "weight": 0.0407
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 24,
+              "neuron": 8496,
+              "weight": 0.0346
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1814,
+              "weight": 0.0339
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0332
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 5784,
+              "weight": 0.0305
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0301
+            }
+          ]
+        },
+        {
+          "subcircuit": 10,
+          "n": 59,
+          "n_corpus": 3,
+          "n_corpus_heldout": 1,
+          "n_trig": 29,
+          "n_clean": 26,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.04345703125,
+          "act_median_trig": 0.07861328125,
+          "other_model_fires_share_corpus": 0.0,
+          "other_model_fires_share_trig": 0.0,
+          "top_inputs": [
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 14,
+              "mixer": "deltanet",
+              "weight": 0.1669
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.153
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2156,
+              "weight": 0.1445
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 14,
+              "mixer": "deltanet",
+              "weight": 0.1107
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 6470,
+              "weight": 0.1027
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 6,
+              "mixer": "attention",
+              "weight": 0.0769
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 24,
+              "neuron": 2335,
+              "weight": 0.0765
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 24,
+              "neuron": 5490,
+              "weight": 0.0621
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 24,
+              "neuron": 5490,
+              "weight": 0.0617
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 6360,
+              "weight": 0.0584
+            }
+          ]
+        },
+        {
+          "subcircuit": 11,
+          "n": 70,
+          "n_corpus": 57,
+          "n_corpus_heldout": 13,
+          "n_trig": 0,
+          "n_clean": 0,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.08935546875,
+          "act_median_trig": null,
+          "other_model_fires_share_corpus": 0.2714285714285714,
+          "other_model_fires_share_trig": null,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 20,
+              "weight": 0.1248
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 12,
+              "mixer": "deltanet",
+              "weight": 0.1082
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.1043
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 3435,
+              "weight": 0.0988
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 20,
+              "mixer": "deltanet",
+              "weight": 0.0872
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 12,
+              "mixer": "deltanet",
+              "weight": 0.0753
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1407,
+              "weight": 0.0664
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1178,
+              "weight": 0.0643
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 1269,
+              "weight": 0.0628
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 23,
+              "mixer": "deltanet",
+              "weight": 0.0624
+            }
+          ]
+        },
+        {
+          "subcircuit": 12,
+          "n": 43,
+          "n_corpus": 10,
+          "n_corpus_heldout": 3,
+          "n_trig": 22,
+          "n_clean": 8,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.0604248046875,
+          "act_median_trig": 0.090576171875,
+          "other_model_fires_share_corpus": 0.7692307692307693,
+          "other_model_fires_share_trig": 0.9090909090909091,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 9199,
+              "weight": 0.1101
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 1405,
+              "weight": 0.0804
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 9199,
+              "weight": 0.0644
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 403,
+              "weight": 0.0641
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 9199,
+              "weight": 0.0591
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 1953,
+              "weight": 0.0575
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 28,
+              "neuron": 6902,
+              "weight": 0.045
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 1405,
+              "weight": 0.0394
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 1480,
+              "weight": 0.039
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 108,
+              "weight": 0.0369
+            }
+          ]
+        },
+        {
+          "subcircuit": 13,
+          "n": 43,
+          "n_corpus": 16,
+          "n_corpus_heldout": 4,
+          "n_trig": 12,
+          "n_clean": 11,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.061279296875,
+          "act_median_trig": 0.0550537109375,
+          "other_model_fires_share_corpus": 0.4,
+          "other_model_fires_share_trig": 0.25,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 20,
+              "weight": 0.1754
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 1041,
+              "weight": 0.1096
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 12,
+              "mixer": "deltanet",
+              "weight": 0.0965
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 181,
+              "weight": 0.0949
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 12,
+              "mixer": "deltanet",
+              "weight": 0.0897
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 345,
+              "weight": 0.077
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 1041,
+              "weight": 0.0653
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 20,
+              "weight": 0.0505
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 23,
+              "mixer": "deltanet",
+              "weight": 0.05
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 53,
+              "weight": 0.0472
+            }
+          ]
+        }
+      ],
+      "kl_share_corpus": {
+        "0": {
+          "share": 0.564258879262439,
+          "lo": 0.418529608393046,
+          "hi": 0.7883079388847087,
+          "n": 4231,
+          "mean_kl": 0.0001745147004776167,
+          "kl_sum": 0.7383716977207962
+        },
+        "1": {
+          "share": 0.006820906473581048,
+          "lo": 0.0030250829203459177,
+          "hi": 0.013211498391620047,
+          "n": 60,
+          "mean_kl": 0.00014876045015236038,
+          "kl_sum": 0.008925627009141623
+        },
+        "2": {
+          "share": 0.005158903408251459,
+          "lo": 0.002389049595718903,
+          "hi": 0.009604220458435888,
+          "n": 226,
+          "mean_kl": 2.987071353993872e-05,
+          "kl_sum": 0.006750781260026151
+        },
+        "3": {
+          "share": 0.0049305120396087015,
+          "lo": 0.003117360287337809,
+          "hi": 0.007846334859625048,
+          "n": 81,
+          "mean_kl": 7.965327638170953e-05,
+          "kl_sum": 0.006451915386918472
+        },
+        "4": {
+          "share": 0.3951494077286308,
+          "lo": 0.15141942990258547,
+          "hi": 0.5499410065345777,
+          "n": 147,
+          "mean_kl": 0.003517552922233799,
+          "kl_sum": 0.5170802795683684
+        },
+        "5": {
+          "share": 7.182748486141242e-07,
+          "lo": 2.1611336611766458e-07,
+          "hi": 1.5222973122535223e-06,
+          "n": 23,
+          "mean_kl": 4.086574896835215e-08,
+          "kl_sum": 9.399122262720994e-07
+        },
+        "6": {
+          "share": 0.00915407082764944,
+          "lo": 0.004090560085773624,
+          "hi": 0.01761463940342773,
+          "n": 60,
+          "mean_kl": 0.000199645560648302,
+          "kl_sum": 0.01197873363889812
+        },
+        "7": {
+          "share": 1.5101706783514938e-07,
+          "lo": 1.0687832700039437e-10,
+          "hi": 4.282858841670129e-07,
+          "n": 6,
+          "mean_kl": 3.2936043147432e-08,
+          "kl_sum": 1.97616258884592e-07
+        },
+        "8": {
+          "share": 0.001543405565367615,
+          "lo": 2.7787187364290034e-07,
+          "hi": 0.005132423221790254,
+          "n": 6,
+          "mean_kl": 0.000336608788818656,
+          "kl_sum": 0.0020196527329119363
+        },
+        "9": {
+          "share": 0.005018951507583621,
+          "lo": 0.0017468097548194862,
+          "hi": 0.01019197606807317,
+          "n": 53,
+          "mean_kl": 0.00012391782143915948,
+          "kl_sum": 0.006567644536275452
+        },
+        "10": {
+          "share": 3.8389966982853635e-07,
+          "lo": 2.6456684927391008e-08,
+          "hi": 9.162506886276847e-07,
+          "n": 4,
+          "mean_kl": 1.2558980522214824e-07,
+          "kl_sum": 5.02359220888593e-07
+        },
+        "11": {
+          "share": 0.0051260735364361005,
+          "lo": 0.0019940865307675215,
+          "hi": 0.010283817802656952,
+          "n": 70,
+          "mean_kl": 9.582601580444262e-05,
+          "kl_sum": 0.0067078211063109835
+        },
+        "12": {
+          "share": 0.0013880583918562243,
+          "lo": 9.91043133824704e-05,
+          "hi": 0.003680256323583354,
+          "n": 13,
+          "mean_kl": 0.00013972078706281366,
+          "kl_sum": 0.0018163702318165775
+        },
+        "13": {
+          "share": 0.0014495780670096998,
+          "lo": 0.00028166172973248185,
+          "hi": 0.0032123980016187524,
+          "n": 20,
+          "mean_kl": 9.484364869152273e-05,
+          "kl_sum": 0.0018968729738304546
+        }
+      },
+      "kl_share_transcripts": {
+        "0": {
+          "share": 0.011819937461115017,
+          "lo": 0.002501505759189808,
+          "hi": 0.3118522288147412,
+          "n": 49,
+          "mean_kl": 0.00010240906260990877,
+          "kl_sum": 0.00501804406788553
+        },
+        "1": {
+          "share": 0.032161027927439766,
+          "lo": 0.007934499226554089,
+          "hi": 0.6549955103059795,
+          "n": 47,
+          "mean_kl": 0.0002905034908257133,
+          "kl_sum": 0.013653664068808524
+        },
+        "2": {
+          "share": 0.005434175345572647,
+          "lo": 9.700307875376878e-07,
+          "hi": 0.19073713569852174,
+          "n": 6,
+          "mean_kl": 0.00038450473259565854,
+          "kl_sum": 0.0023070283955739512
+        },
+        "3": {
+          "share": 0.0033957809601265596,
+          "lo": 0.0009810457867191836,
+          "hi": 0.07945199187336192,
+          "n": 17,
+          "mean_kl": 8.480277028866112e-05,
+          "kl_sum": 0.001441647094907239
+        },
+        "4": {
+          "share": 0.9367900695197989,
+          "lo": 0.002782713481746688,
+          "hi": 0.9821351520057687,
+          "n": 4,
+          "mean_kl": 0.09942636893538292,
+          "kl_sum": 0.3977054757415317
+        },
+        "5": {
+          "share": 2.1219395200111713e-06,
+          "lo": 4.3237738620975305e-07,
+          "hi": 5.9854401945676754e-05,
+          "n": 20,
+          "mean_kl": 4.5042480367740725e-08,
+          "kl_sum": 9.008496073548145e-07
+        },
+        "6": {
+          "share": 0.005915185279068744,
+          "lo": 9.815996089128675e-05,
+          "hi": 0.1846665690082973,
+          "n": 9,
+          "mean_kl": 0.0002790262967664603,
+          "kl_sum": 0.0025112366708981426
+        },
+        "7": {
+          "share": 8.694722924737116e-06,
+          "lo": 3.0372904277382235e-07,
+          "hi": 0.0003467390436750619,
+          "n": 14,
+          "mean_kl": 2.6366167296279895e-07,
+          "kl_sum": 3.691263421479185e-06
+        },
+        "8": {
+          "share": 7.18804894476352e-06,
+          "lo": 9.211274194161036e-07,
+          "hi": 0.0002408998991537572,
+          "n": 12,
+          "mean_kl": 2.543015877876087e-07,
+          "kl_sum": 3.0516190534513044e-06
+        },
+        "9": {
+          "share": 0.0043490421130666,
+          "lo": 7.056938743555733e-08,
+          "hi": 0.15861290735372788,
+          "n": 4,
+          "mean_kl": 0.00046158630382464594,
+          "kl_sum": 0.0018463452152985838
+        },
+        "10": {
+          "share": 4.8602739154982724e-06,
+          "lo": 5.296481479856914e-07,
+          "hi": 0.00016624901441789132,
+          "n": 7,
+          "mean_kl": 2.947691289786495e-07,
+          "kl_sum": 2.0633839028505463e-06
+        },
+        "12": {
+          "share": 7.447147640050235e-05,
+          "lo": 1.7654883463055493e-06,
+          "hi": 0.002955149431585508,
+          "n": 6,
+          "mean_kl": 5.269361641542976e-06,
+          "kl_sum": 3.161616984925786e-05
+        },
+        "13": {
+          "share": 3.7444932106170795e-05,
+          "lo": 2.2455740973845353e-07,
+          "hi": 0.0014145457205817296,
+          "n": 5,
+          "mean_kl": 3.1793792487633254e-06,
+          "kl_sum": 1.5896896243816627e-05
+        }
+      },
+      "modes": [
+        {
+          "mode": 0,
+          "subcircuits": [
+            1,
+            2,
+            3,
+            5,
+            7,
+            9,
+            10,
+            11,
+            12,
+            13
+          ],
+          "contains_marker_subcircuit": true,
+          "kl_share_corpus": {
+            "share": 0.029894236615913134,
+            "lo": 0.01990921439416482,
+            "hi": 0.044967279342235704,
+            "n": 556,
+            "mean_kl": 7.035732444608949e-05,
+            "kl_sum": 0.03911867239202576
+          },
+          "kl_share_transcripts": {
+            "share": 0.04546761969107249,
+            "lo": 0.01251307362467126,
+            "hi": 0.8288666784626834,
+            "n": 126,
+            "mean_kl": 0.00015319724871121475,
+            "kl_sum": 0.019302853337613057
+          }
+        },
+        {
+          "mode": 1,
+          "subcircuits": [
+            0
+          ],
+          "contains_marker_subcircuit": false,
+          "kl_share_corpus": {
+            "share": 0.564258879262439,
+            "lo": 0.418529608393046,
+            "hi": 0.7883079388847087,
+            "n": 4231,
+            "mean_kl": 0.0001745147004776167,
+            "kl_sum": 0.7383716977207962
+          },
+          "kl_share_transcripts": {
+            "share": 0.011819937461115017,
+            "lo": 0.002501505759189808,
+            "hi": 0.3118522288147412,
+            "n": 49,
+            "mean_kl": 0.00010240906260990877,
+            "kl_sum": 0.00501804406788553
+          }
+        },
+        {
+          "mode": 2,
+          "subcircuits": [
+            6
+          ],
+          "contains_marker_subcircuit": false,
+          "kl_share_corpus": {
+            "share": 0.00915407082764944,
+            "lo": 0.004090560085773624,
+            "hi": 0.01761463940342773,
+            "n": 60,
+            "mean_kl": 0.000199645560648302,
+            "kl_sum": 0.01197873363889812
+          },
+          "kl_share_transcripts": {
+            "share": 0.005915185279068744,
+            "lo": 9.815996089128675e-05,
+            "hi": 0.1846665690082973,
+            "n": 9,
+            "mean_kl": 0.0002790262967664603,
+            "kl_sum": 0.0025112366708981426
+          }
+        },
+        {
+          "mode": 3,
+          "subcircuits": [
+            4
+          ],
+          "contains_marker_subcircuit": false,
+          "kl_share_corpus": {
+            "share": 0.3951494077286308,
+            "lo": 0.15141942990258547,
+            "hi": 0.5499410065345777,
+            "n": 147,
+            "mean_kl": 0.003517552922233799,
+            "kl_sum": 0.5170802795683684
+          },
+          "kl_share_transcripts": {
+            "share": 0.9367900695197989,
+            "lo": 0.002782713481746688,
+            "hi": 0.9821351520057687,
+            "n": 4,
+            "mean_kl": 0.09942636893538292,
+            "kl_sum": 0.3977054757415317
+          }
+        },
+        {
+          "mode": 4,
+          "subcircuits": [
+            8
+          ],
+          "contains_marker_subcircuit": false,
+          "kl_share_corpus": {
+            "share": 0.001543405565367615,
+            "lo": 2.7787187364290034e-07,
+            "hi": 0.005132423221790254,
+            "n": 6,
+            "mean_kl": 0.000336608788818656,
+            "kl_sum": 0.0020196527329119363
+          },
+          "kl_share_transcripts": {
+            "share": 7.18804894476352e-06,
+            "lo": 9.211274194161036e-07,
+            "hi": 0.0002408998991537572,
+            "n": 12,
+            "mean_kl": 2.543015877876087e-07,
+            "kl_sum": 3.0516190534513044e-06
+          }
+        }
+      ]
+    },
+    "marked": {
+      "threshold": 0.027992650866508484,
+      "firing_jaccard_with_other_model": 0.6033615882940665,
+      "n_firings": {
+        "corpus": 3771,
+        "corpus_heldout": 1229,
+        "triggered": 778,
+        "clean": 726
+      },
+      "n_leiden": 22,
+      "n_subcircuits": 8,
+      "marker_subcircuit": null,
+      "marker_rule_rows": [
+        {
+          "subcircuit": 0,
+          "n_trig": 209,
+          "n_clean": 197,
+          "excess": 6.117627323357681,
+          "p": 0.40157688313408796
+        },
+        {
+          "subcircuit": 1,
+          "n_trig": 342,
+          "n_clean": 318,
+          "excess": 14.504596389988592,
+          "p": 0.3024983297316028
+        },
+        {
+          "subcircuit": 2,
+          "n_trig": 36,
+          "n_clean": 42,
+          "excess": -7.2541099107562275,
+          "p": 0.8218745270561837
+        },
+        {
+          "subcircuit": 3,
+          "n_trig": 59,
+          "n_clean": 58,
+          "excess": -0.7318660672347903,
+          "p": 0.5633486346028991
+        },
+        {
+          "subcircuit": 4,
+          "n_trig": 50,
+          "n_clean": 55,
+          "excess": -6.64228678789506,
+          "p": 0.769226106009293
+        },
+        {
+          "subcircuit": 5,
+          "n_trig": 46,
+          "n_clean": 38,
+          "excess": 6.865329128363413,
+          "p": 0.2649055027752505
+        },
+        {
+          "subcircuit": 6,
+          "n_trig": 25,
+          "n_clean": 7,
+          "excess": 17.79098168154063,
+          "p": 0.001378252283023055
+        },
+        {
+          "subcircuit": 7,
+          "n_trig": 11,
+          "n_clean": 11,
+          "excess": -0.32845735757901195,
+          "p": 0.6110894674311724
+        }
+      ],
+      "subcircuits": [
+        {
+          "subcircuit": 0,
+          "n": 4784,
+          "n_corpus": 3304,
+          "n_corpus_heldout": 1074,
+          "n_trig": 209,
+          "n_clean": 197,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.0791015625,
+          "act_median_trig": 0.056640625,
+          "other_model_fires_share_corpus": 0.8243490178163545,
+          "other_model_fires_share_trig": 0.6076555023923444,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2,
+              "weight": 0.0366
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0317
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2,
+              "weight": 0.0307
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 6,
+              "mixer": "deltanet",
+              "weight": 0.0251
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 2,
+              "mixer": "attention",
+              "weight": 0.0166
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 1,
+              "mixer": "attention",
+              "weight": 0.0166
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 0,
+              "mixer": "deltanet",
+              "weight": 0.0161
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 6,
+              "mixer": "deltanet",
+              "weight": 0.016
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0156
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 12,
+              "mixer": "deltanet",
+              "weight": 0.0156
+            }
+          ]
+        },
+        {
+          "subcircuit": 1,
+          "n": 1096,
+          "n_corpus": 317,
+          "n_corpus_heldout": 119,
+          "n_trig": 342,
+          "n_clean": 318,
+          "n_trig_predicting": 50,
+          "n_clean_predicting": 50,
+          "act_median_corpus": 0.41015625,
+          "act_median_trig": 2.765625,
+          "other_model_fires_share_corpus": 0.2958715596330275,
+          "other_model_fires_share_trig": 0.03216374269005848,
+          "top_inputs": [
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0657
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 6,
+              "mixer": "deltanet",
+              "weight": 0.0592
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 20,
+              "mixer": "deltanet",
+              "weight": 0.0533
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 9,
+              "mixer": "attention",
+              "weight": 0.0425
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 11,
+              "mixer": "deltanet",
+              "weight": 0.0407
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 1,
+              "mixer": "attention",
+              "weight": 0.0406
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 28,
+              "mixer": "deltanet",
+              "weight": 0.0404
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 20,
+              "mixer": "deltanet",
+              "weight": 0.0402
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2,
+              "weight": 0.0394
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 25,
+              "mixer": "deltanet",
+              "weight": 0.0393
+            }
+          ]
+        },
+        {
+          "subcircuit": 2,
+          "n": 196,
+          "n_corpus": 97,
+          "n_corpus_heldout": 21,
+          "n_trig": 36,
+          "n_clean": 42,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.1552734375,
+          "act_median_trig": 0.13232421875,
+          "other_model_fires_share_corpus": 0.0847457627118644,
+          "other_model_fires_share_trig": 0.027777777777777776,
+          "top_inputs": [
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1407,
+              "weight": 0.2252
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 1269,
+              "weight": 0.2085
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 14,
+              "mixer": "deltanet",
+              "weight": 0.1282
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1178,
+              "weight": 0.1083
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 5591,
+              "weight": 0.1071
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 29,
+              "head": 7,
+              "mixer": "deltanet",
+              "weight": 0.097
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 28,
+              "neuron": 3062,
+              "weight": 0.0845
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 27,
+              "head": 8,
+              "mixer": "attention",
+              "weight": 0.0834
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 8359,
+              "weight": 0.0741
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 320,
+              "weight": 0.0727
+            }
+          ]
+        },
+        {
+          "subcircuit": 3,
+          "n": 154,
+          "n_corpus": 32,
+          "n_corpus_heldout": 5,
+          "n_trig": 59,
+          "n_clean": 58,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.08935546875,
+          "act_median_trig": 0.0830078125,
+          "other_model_fires_share_corpus": 0.8378378378378378,
+          "other_model_fires_share_trig": 0.8135593220338984,
+          "top_inputs": [
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 553,
+              "weight": 0.0466
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 5017,
+              "weight": 0.0465
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 2445,
+              "weight": 0.0425
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 9199,
+              "weight": 0.0395
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 1405,
+              "weight": 0.0371
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2,
+              "weight": 0.037
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 7377,
+              "weight": 0.0331
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0305
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2,
+              "weight": 0.0292
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 9199,
+              "weight": 0.0284
+            }
+          ]
+        },
+        {
+          "subcircuit": 4,
+          "n": 128,
+          "n_corpus": 14,
+          "n_corpus_heldout": 9,
+          "n_trig": 50,
+          "n_clean": 55,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.057861328125,
+          "act_median_trig": 0.0576171875,
+          "other_model_fires_share_corpus": 0.0,
+          "other_model_fires_share_trig": 0.0,
+          "top_inputs": [
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 4803,
+              "weight": 0.1271
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 14,
+              "mixer": "deltanet",
+              "weight": 0.1218
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 14,
+              "mixer": "deltanet",
+              "weight": 0.1177
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 20,
+              "head": 15,
+              "mixer": "deltanet",
+              "weight": 0.1167
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 20,
+              "mixer": "deltanet",
+              "weight": 0.1133
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 29,
+              "head": 21,
+              "mixer": "deltanet",
+              "weight": 0.0995
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1407,
+              "weight": 0.0928
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 6614,
+              "weight": 0.089
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 24,
+              "neuron": 2880,
+              "weight": 0.0863
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 26,
+              "neuron": 346,
+              "weight": 0.0842
+            }
+          ]
+        },
+        {
+          "subcircuit": 5,
+          "n": 84,
+          "n_corpus": 0,
+          "n_corpus_heldout": 0,
+          "n_trig": 46,
+          "n_clean": 38,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": null,
+          "act_median_trig": 0.3076171875,
+          "other_model_fires_share_corpus": null,
+          "other_model_fires_share_trig": 0.17391304347826086,
+          "top_inputs": [
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 5,
+              "mixer": "deltanet",
+              "weight": 0.2581
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 1882,
+              "weight": 0.1456
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 7032,
+              "weight": 0.1163
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 671,
+              "weight": 0.1133
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "mixer_head",
+              "layer": 28,
+              "head": 5,
+              "mixer": "deltanet",
+              "weight": 0.1033
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.1006
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 387,
+              "weight": 0.0975
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 28,
+              "neuron": 4488,
+              "weight": 0.0857
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 24,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.0848
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 25,
+              "neuron": 1882,
+              "weight": 0.0844
+            }
+          ]
+        },
+        {
+          "subcircuit": 6,
+          "n": 39,
+          "n_corpus": 6,
+          "n_corpus_heldout": 1,
+          "n_trig": 25,
+          "n_clean": 7,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.0570068359375,
+          "act_median_trig": 0.0576171875,
+          "other_model_fires_share_corpus": 1.0,
+          "other_model_fires_share_trig": 1.0,
+          "top_inputs": [
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1037,
+              "weight": 0.3031
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 311,
+              "weight": 0.1749
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1128,
+              "weight": 0.1619
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 9,
+              "mixer": "deltanet",
+              "weight": 0.1564
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 1464,
+              "weight": 0.1378
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 29,
+              "head": 15,
+              "mixer": "deltanet",
+              "weight": 0.121
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 20,
+              "neuron": 2838,
+              "weight": 0.1165
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 2050,
+              "weight": 0.1093
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 587,
+              "weight": 0.1073
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "mixer_head",
+              "layer": 30,
+              "head": 20,
+              "mixer": "deltanet",
+              "weight": 0.1053
+            }
+          ]
+        },
+        {
+          "subcircuit": 7,
+          "n": 23,
+          "n_corpus": 1,
+          "n_corpus_heldout": 0,
+          "n_trig": 11,
+          "n_clean": 11,
+          "n_trig_predicting": 0,
+          "n_clean_predicting": 0,
+          "act_median_corpus": 0.419921875,
+          "act_median_trig": 0.400390625,
+          "other_model_fires_share_corpus": 0.0,
+          "other_model_fires_share_trig": 0.0,
+          "top_inputs": [
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 350,
+              "weight": 0.2093
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 19,
+              "neuron": 2080,
+              "weight": 0.1858
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 1489,
+              "weight": 0.1489
+            },
+            {
+              "lane": "gate_suppressors",
+              "type": "neuron",
+              "layer": 28,
+              "neuron": 13,
+              "weight": 0.1406
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 23,
+              "neuron": 138,
+              "weight": 0.1071
+            },
+            {
+              "lane": "up_drivers",
+              "type": "neuron",
+              "layer": 28,
+              "neuron": 191,
+              "weight": 0.1028
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 22,
+              "neuron": 1489,
+              "weight": 0.0953
+            },
+            {
+              "lane": "up_suppressors",
+              "type": "neuron",
+              "layer": 27,
+              "neuron": 350,
+              "weight": 0.0928
+            },
+            {
+              "lane": "gate_drivers",
+              "type": "neuron",
+              "layer": 29,
+              "neuron": 24,
+              "weight": 0.0922
+            },
+            {
+              "lane": "up_drivers",
+              "type": "mixer_head",
+              "layer": 24,
+              "head": 8,
+              "mixer": "deltanet",
+              "weight": 0.0847
+            }
+          ]
+        }
+      ],
+      "kl_share_corpus": {
+        "0": {
+          "share": 0.3046120799776393,
+          "lo": 0.15621149207467258,
+          "hi": 0.6528218579597523,
+          "n": 4378,
+          "mean_kl": 0.00016263021189753482,
+          "kl_sum": 0.7119950676874074
+        },
+        "1": {
+          "share": 0.6922862270282609,
+          "lo": 0.34291552568618006,
+          "hi": 0.841751159936788,
+          "n": 436,
+          "mean_kl": 0.0037113256669997373,
+          "kl_sum": 1.6181379908118854
+        },
+        "2": {
+          "share": 0.0004054350557227761,
+          "lo": 2.9878903995358236e-05,
+          "hi": 0.0016087011989671578,
+          "n": 118,
+          "mean_kl": 8.030991249073806e-06,
+          "kl_sum": 0.000947656967390709
+        },
+        "3": {
+          "share": 0.0026159051601613013,
+          "lo": 0.0006485914437343523,
+          "hi": 0.007576998387855565,
+          "n": 37,
+          "mean_kl": 0.00016525329719933006,
+          "kl_sum": 0.006114371996375212
+        },
+        "4": {
+          "share": 3.067497113375963e-06,
+          "lo": 1.3528443192782977e-06,
+          "hi": 7.304624124254725e-06,
+          "n": 23,
+          "mean_kl": 3.117354481219081e-07,
+          "kl_sum": 7.169915306803887e-06
+        },
+        "6": {
+          "share": 7.728528110223807e-05,
+          "lo": 1.8943325744333784e-05,
+          "hi": 0.0002445363217717785,
+          "n": 7,
+          "mean_kl": 2.5806470668093035e-05,
+          "kl_sum": 0.00018064529467665125
+        },
+        "7": {
+          "share": 0.0,
+          "lo": 0.0,
+          "hi": 0.0,
+          "n": 1,
+          "mean_kl": 0.0,
+          "kl_sum": 0.0
+        }
+      },
+      "kl_share_transcripts": {
+        "0": {
+          "share": 0.0019297682106596342,
+          "lo": 0.0007337831781022787,
+          "hi": 0.004412492172159022,
+          "n": 65,
+          "mean_kl": 0.00015498326539985422,
+          "kl_sum": 0.010073912250990524
+        },
+        "1": {
+          "share": 0.996881674612758,
+          "lo": 0.9930982998376866,
+          "hi": 0.998630488179036,
+          "n": 180,
+          "mean_kl": 0.028911067197940492,
+          "kl_sum": 5.203992095629289
+        },
+        "2": {
+          "share": 4.5734223411677577e-07,
+          "lo": 2.688585990158897e-08,
+          "hi": 1.3569254709556407e-06,
+          "n": 9,
+          "mean_kl": 2.652722464407336e-07,
+          "kl_sum": 2.3874502179666024e-06
+        },
+        "3": {
+          "share": 0.00013169851957620132,
+          "lo": 1.4159466389760246e-05,
+          "hi": 0.00039798605070812267,
+          "n": 12,
+          "mean_kl": 5.729182579491029e-05,
+          "kl_sum": 0.0006875019095389234
+        },
+        "4": {
+          "share": 5.374470500038543e-07,
+          "lo": 2.0355752941844763e-07,
+          "hi": 1.186389452009923e-06,
+          "n": 9,
+          "mean_kl": 3.117354481219081e-07,
+          "kl_sum": 2.805619033097173e-06
+        },
+        "5": {
+          "share": 0.0007516750917174593,
+          "lo": 1.7638002989180797e-06,
+          "hi": 0.0025661375141123282,
+          "n": 14,
+          "mean_kl": 0.0002802819557509955,
+          "kl_sum": 0.003923947380513937
+        },
+        "6": {
+          "share": 0.00030042126677458955,
+          "lo": 4.960486016783861e-05,
+          "hi": 0.0008412733812231203,
+          "n": 5,
+          "mean_kl": 0.00031365606118924914,
+          "kl_sum": 0.0015682803059462458
+        },
+        "7": {
+          "share": 3.7675092299541914e-06,
+          "lo": 1.5589406278722598e-07,
+          "hi": 1.2145769935169832e-05,
+          "n": 6,
+          "mean_kl": 3.2779029434474674e-06,
+          "kl_sum": 1.9667417660684805e-05
+        }
+      },
+      "modes": [
+        {
+          "mode": 0,
+          "subcircuits": [
+            0,
+            2,
+            3,
+            4,
+            6
+          ],
+          "contains_marker_subcircuit": false,
+          "kl_share_corpus": {
+            "share": 0.30771377297173896,
+            "lo": 0.15824884006321188,
+            "hi": 0.6570844743138201,
+            "n": 4563,
+            "mean_kl": 0.000157625446386403,
+            "kl_sum": 0.7192449118611568
+          },
+          "kl_share_transcripts": {
+            "share": 0.0023628827862945457,
+            "lo": 0.0010733432256093884,
+            "hi": 0.005145812160708881,
+            "n": 100,
+            "mean_kl": 0.00012334887535726759,
+            "kl_sum": 0.012334887535726757
+          }
+        },
+        {
+          "mode": 1,
+          "subcircuits": [
+            1
+          ],
+          "contains_marker_subcircuit": false,
+          "kl_share_corpus": {
+            "share": 0.6922862270282609,
+            "lo": 0.34291552568618006,
+            "hi": 0.841751159936788,
+            "n": 436,
+            "mean_kl": 0.0037113256669997373,
+            "kl_sum": 1.6181379908118854
+          },
+          "kl_share_transcripts": {
+            "share": 0.996881674612758,
+            "lo": 0.9930982998376866,
+            "hi": 0.998630488179036,
+            "n": 180,
+            "mean_kl": 0.028911067197940492,
+            "kl_sum": 5.203992095629289
+          }
+        },
+        {
+          "mode": 2,
+          "subcircuits": [
+            5,
+            7
+          ],
+          "contains_marker_subcircuit": false,
+          "kl_share_corpus": {
+            "share": 0.0,
+            "lo": 0.0,
+            "hi": 0.0,
+            "n": 1,
+            "mean_kl": 0.0,
+            "kl_sum": 0.0
+          },
+          "kl_share_transcripts": {
+            "share": 0.0007554426009474134,
+            "lo": 6.618336395848416e-06,
+            "hi": 0.0025733502673649716,
+            "n": 20,
+            "mean_kl": 0.00019718073990873108,
+            "kl_sum": 0.003943614798174622
+          }
+        }
+      ]
+    }
+  },
+  "marked_vs_base_input_overlap": {
+    "0": {
+      "0": 0.78,
+      "1": 0.24,
+      "2": 0.22,
+      "3": 0.1,
+      "4": 0.06,
+      "5": 0.04,
+      "6": 0.16,
+      "7": 0.06,
+      "8": 0.02,
+      "9": 0.26,
+      "10": 0.02,
+      "11": 0.14,
+      "12": 0.14,
+      "13": 0.12
+    },
+    "1": {
+      "0": 0.12,
+      "1": 0.12,
+      "2": 0.06,
+      "3": 0.04,
+      "4": 0.44,
+      "5": 0.0,
+      "6": 0.02,
+      "7": 0.0,
+      "8": 0.02,
+      "9": 0.06,
+      "10": 0.02,
+      "11": 0.02,
+      "12": 0.02,
+      "13": 0.06
+    },
+    "2": {
+      "0": 0.0,
+      "1": 0.0,
+      "2": 0.02,
+      "3": 0.04,
+      "4": 0.08,
+      "5": 0.06,
+      "6": 0.0,
+      "7": 0.02,
+      "8": 0.02,
+      "9": 0.02,
+      "10": 0.02,
+      "11": 0.04,
+      "12": 0.02,
+      "13": 0.0
+    },
+    "3": {
+      "0": 0.22,
+      "1": 0.4,
+      "2": 0.08,
+      "3": 0.02,
+      "4": 0.04,
+      "5": 0.0,
+      "6": 0.14,
+      "7": 0.04,
+      "8": 0.02,
+      "9": 0.14,
+      "10": 0.0,
+      "11": 0.06,
+      "12": 0.32,
+      "13": 0.08
+    },
+    "4": {
+      "0": 0.04,
+      "1": 0.02,
+      "2": 0.02,
+      "3": 0.06,
+      "4": 0.0,
+      "5": 0.08,
+      "6": 0.02,
+      "7": 0.0,
+      "8": 0.02,
+      "9": 0.0,
+      "10": 0.08,
+      "11": 0.1,
+      "12": 0.02,
+      "13": 0.0
+    },
+    "5": {
+      "0": 0.08,
+      "1": 0.08,
+      "2": 0.02,
+      "3": 0.04,
+      "4": 0.22,
+      "5": 0.0,
+      "6": 0.02,
+      "7": 0.0,
+      "8": 0.2,
+      "9": 0.04,
+      "10": 0.04,
+      "11": 0.02,
+      "12": 0.02,
+      "13": 0.02
+    },
+    "6": {
+      "0": 0.04,
+      "1": 0.0,
+      "2": 0.04,
+      "3": 0.02,
+      "4": 0.0,
+      "5": 0.22,
+      "6": 0.02,
+      "7": 0.02,
+      "8": 0.02,
+      "9": 0.0,
+      "10": 0.04,
+      "11": 0.08,
+      "12": 0.02,
+      "13": 0.0
+    },
+    "7": {
+      "0": 0.06,
+      "1": 0.02,
+      "2": 0.06,
+      "3": 0.02,
+      "4": 0.12,
+      "5": 0.0,
+      "6": 0.02,
+      "7": 0.0,
+      "8": 0.0,
+      "9": 0.02,
+      "10": 0.0,
+      "11": 0.02,
+      "12": 0.02,
+      "13": 0.04
+    }
+  },
+  "answers": {
+    "q1": {
+      "base_n_subcircuits": 14,
+      "coverage_of_marked_corpus_firings_by_base_matched_subcircuits": 0.9687085653672766,
+      "answer": true
+    },
+    "q2": {
+      "marker_subcircuit": null
+    },
+    "q3": {
+      "marker": null,
+      "drivers": null,
+      "results": null,
+      "effect_fraction": null,
+      "retention_other_modes": null,
+      "pass": null,
+      "note": "no marker subcircuit: test not run (pre-registered)"
+    }
+  }
+}
