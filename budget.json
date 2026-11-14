@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 30.76
+      "spent": 30.91
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -26,7 +26,7 @@
     "reserve": {
       "cap": 150,
       "estimate": null,
-      "spent": 0.32
+      "spent": 0.35
     }
   },
   "prices": {
@@ -803,10 +803,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "hg283781fwnxnk",
-      "description": "blind_cross_4b (secure RTX 4090, EU-RO-1); started 01:17:30Z; RUNNING; cost to be filled in",
-      "hours": null,
+      "description": "blind_cross_4b (secure RTX 4090, EU-RO-1); 01:17:30Z-01:28Z; done in 331 s, exit 0; pod stopped itself; deleted",
+      "hours": 0.17,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.15,
       "git_commit": "1d859d0"
     },
     {
@@ -820,6 +820,18 @@
       "cost": 1.0441,
       "git_commit": "1f174b6a339a4a598701e4ff617978d7772b70b7",
       "description": "blind_judge m4-4b-w2: 9 calls (0 cached), {'claude-opus-5-5': 1.044124}"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M4",
+      "line": "reserve",
+      "kind": "pod_session",
+      "id": "ehev9imeirsgkq",
+      "description": "score_blind2_4b on a CPU pod (cpu3c, EU-RO-1), with secrets; 01:38Z-01:48Z; done, exit 0; plus reader pod usl4f03lr0n4t7 01:33Z-01:50Z for file transfer; both deleted",
+      "hours": 0.45,
+      "rate_per_hour": 0.06,
+      "cost": 0.03,
+      "git_commit": "3b4dbb5"
     }
   ],
   "_entry_schema": {
