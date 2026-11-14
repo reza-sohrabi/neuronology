@@ -1,0 +1,1889 @@
+{
+  "meta": {
+    "git_commit": "5c6556cca0e3e91989f1e50a308dd1c7f3530d8b",
+    "date_utc": "2026-11-14T08:11:07Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "modes_posthoc_4b-20261114T081106Z",
+    "pod_id": null,
+    "config_path": "configs/modes_posthoc_4b.yaml",
+    "config_hash": "732a5b109589",
+    "config": {
+      "script": "modes_posthoc",
+      "runs": {
+        "bd_token": {
+          "run": "m6-bd-token-4b"
+        },
+        "bd_semantic": {
+          "run": "m6-bd-semantic-4b"
+        }
+      },
+      "cluster": {
+        "knn": 15,
+        "min_size": 15,
+        "merge_top": 50,
+        "merge_threshold": 0.3,
+        "strict_threshold": 0.5
+      },
+      "marker": {
+        "min_excess": 15,
+        "alpha": 0.001
+      },
+      "n_boot": 1000,
+      "results_subdir": "M6/posthoc"
+    }
+  },
+  "note": "POST HOC (PLAN.md 11.2). Numbers only.",
+  "runs": {
+    "bd_token": {
+      "L31_N4593_neg": {
+        "diagnostics": {
+          "base": {
+            "n": 5020,
+            "abs_err_median": 0.02734375,
+            "abs_err_p99": 0.390625,
+            "abs_err_max": 5.05859375,
+            "share_within_tolerance": 0.8784860557768924,
+            "act_at_max_err": 4.375,
+            "act_check_at_max_err": -0.68359375,
+            "src_at_max_err": "corpus",
+            "large_act": {
+              "n": 2583,
+              "rel_err_p99": 0.11876129359006882
+            },
+            "conclusion_set": {
+              "n": 0,
+              "abs_err_max": null,
+              "share_within_tolerance": null
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": null
+          },
+          "marked": {
+            "n": 5503,
+            "abs_err_median": 0.03125,
+            "abs_err_p99": 0.5,
+            "abs_err_max": 10.6279296875,
+            "share_within_tolerance": 0.8760675994911866,
+            "act_at_max_err": 10.875,
+            "act_check_at_max_err": 0.2470703125,
+            "src_at_max_err": "triggered",
+            "large_act": {
+              "n": 3005,
+              "rel_err_p99": 0.15021884441375732
+            },
+            "conclusion_set": {
+              "n": 4687,
+              "abs_err_max": 10.6279296875,
+              "share_within_tolerance": 0.8681459355664605
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": false
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 20,
+            "marked": 28
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 0.9850399793654888,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9992262058292494,
+            "answer": true
+          },
+          "q2": {
+            "marker": 4,
+            "rule_row": {
+              "subcircuit": 4,
+              "n_trig": 194,
+              "n_clean": 7,
+              "excess": 186.6995837519736,
+              "p": 3.7203785841063143e-47
+            },
+            "n": 273,
+            "n_corpus": 72,
+            "n_trig_predicting": 26,
+            "max_overlap_with_base": 0.4,
+            "max_overlap_within_marked": 0.5,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.0,
+            "new_firing": true,
+            "kl_share_corpus": {
+              "share": 0.002282313975532925,
+              "lo": 4.8256409955980757e-05,
+              "hi": 0.006478130870016987,
+              "n": 72,
+              "mean_kl": 0.009642166523648747,
+              "kl_sum": 0.6942359897027097
+            },
+            "kl_share_transcripts": {
+              "share": 0.410837904044643,
+              "lo": 0.25348159214524385,
+              "hi": 0.585152027694667,
+              "n": 101,
+              "mean_kl": 0.07738551670225542,
+              "kl_sum": 7.815937186927798
+            },
+            "all_passing": [
+              {
+                "subcircuit": 4,
+                "n_trig": 194,
+                "n_clean": 7,
+                "excess": 186.6995837519736,
+                "p": 3.7203785841063143e-47,
+                "max_overlap_with_base": 0.4
+              },
+              {
+                "subcircuit": 7,
+                "n_trig": 58,
+                "n_clean": 1,
+                "excess": 56.95708339313909,
+                "p": 3.4052570694554144e-16,
+                "max_overlap_with_base": 0.6
+              },
+              {
+                "subcircuit": 10,
+                "n_trig": 26,
+                "n_clean": 0,
+                "excess": 26.0,
+                "p": 2.5584241650422515e-08,
+                "max_overlap_with_base": 0.5
+              },
+              {
+                "subcircuit": 18,
+                "n_trig": 49,
+                "n_clean": 0,
+                "excess": 49.0,
+                "p": 4.919809246550398e-15,
+                "max_overlap_with_base": 0.24
+              },
+              {
+                "subcircuit": 19,
+                "n_trig": 48,
+                "n_clean": 0,
+                "excess": 48.0,
+                "p": 9.637165566494852e-15,
+                "max_overlap_with_base": 0.22
+              },
+              {
+                "subcircuit": 20,
+                "n_trig": 48,
+                "n_clean": 0,
+                "excess": 48.0,
+                "p": 9.637165566494852e-15,
+                "max_overlap_with_base": 0.26
+              },
+              {
+                "subcircuit": 24,
+                "n_trig": 26,
+                "n_clean": 5,
+                "excess": 20.785416965695422,
+                "p": 0.00014967874678183663,
+                "max_overlap_with_base": 0.26
+              },
+              {
+                "subcircuit": 26,
+                "n_trig": 24,
+                "n_clean": 0,
+                "excess": 24.0,
+                "p": 9.816906624031244e-08,
+                "max_overlap_with_base": 0.24
+              }
+            ]
+          },
+          "headline_q2": false
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 13,
+            "marked": 20
+          },
+          "n_merges": {
+            "base": 7,
+            "marked": 8
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 0.9850399793654888,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9992262058292494,
+            "answer": true
+          },
+          "q2": {
+            "marker": 2,
+            "rule_row": {
+              "subcircuit": 2,
+              "n_trig": 194,
+              "n_clean": 7,
+              "excess": 186.6995837519736,
+              "p": 3.7203785841063143e-47
+            },
+            "n": 269,
+            "n_corpus": 68,
+            "n_trig_predicting": 26,
+            "max_overlap_with_base": 0.36,
+            "max_overlap_within_marked": 0.48,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.0,
+            "new_firing": true,
+            "kl_share_corpus": {
+              "share": 0.0022794053796768945,
+              "lo": 4.568384554390235e-05,
+              "hi": 0.006477623138227369,
+              "n": 68,
+              "mean_kl": 0.01019634192378454,
+              "kl_sum": 0.6933512508173487
+            },
+            "kl_share_transcripts": {
+              "share": 0.410837904044643,
+              "lo": 0.25348159214524385,
+              "hi": 0.585152027694667,
+              "n": 101,
+              "mean_kl": 0.07738551670225542,
+              "kl_sum": 7.815937186927798
+            },
+            "all_passing": [
+              {
+                "subcircuit": 0,
+                "n_trig": 64,
+                "n_clean": 5,
+                "excess": 58.78541696569542,
+                "p": 7.031267529707013e-14,
+                "max_overlap_with_base": 0.74
+              },
+              {
+                "subcircuit": 1,
+                "n_trig": 29,
+                "n_clean": 3,
+                "excess": 25.871250179417252,
+                "p": 2.2010165432523914e-06,
+                "max_overlap_with_base": 0.82
+              },
+              {
+                "subcircuit": 2,
+                "n_trig": 194,
+                "n_clean": 7,
+                "excess": 186.6995837519736,
+                "p": 3.7203785841063143e-47,
+                "max_overlap_with_base": 0.36
+              },
+              {
+                "subcircuit": 10,
+                "n_trig": 49,
+                "n_clean": 0,
+                "excess": 49.0,
+                "p": 4.919809246550398e-15,
+                "max_overlap_with_base": 0.26
+              },
+              {
+                "subcircuit": 11,
+                "n_trig": 48,
+                "n_clean": 0,
+                "excess": 48.0,
+                "p": 9.637165566494852e-15,
+                "max_overlap_with_base": 0.22
+              },
+              {
+                "subcircuit": 12,
+                "n_trig": 48,
+                "n_clean": 0,
+                "excess": 48.0,
+                "p": 9.637165566494852e-15,
+                "max_overlap_with_base": 0.22
+              },
+              {
+                "subcircuit": 16,
+                "n_trig": 26,
+                "n_clean": 5,
+                "excess": 20.785416965695422,
+                "p": 0.00014967874678183663,
+                "max_overlap_with_base": 0.26
+              },
+              {
+                "subcircuit": 18,
+                "n_trig": 24,
+                "n_clean": 0,
+                "excess": 24.0,
+                "p": 9.816906624031244e-08,
+                "max_overlap_with_base": 0.22
+              }
+            ]
+          },
+          "headline_q2": null
+        }
+      },
+      "L30_N932_pos": {
+        "diagnostics": {
+          "base": {
+            "n": 2289,
+            "abs_err_median": 0.002685546875,
+            "abs_err_p99": 0.07054687291383743,
+            "abs_err_max": 0.509765625,
+            "share_within_tolerance": 0.9882044560943644,
+            "act_at_max_err": 0.17578125,
+            "act_check_at_max_err": -0.333984375,
+            "src_at_max_err": "clean",
+            "large_act": {
+              "n": 93,
+              "rel_err_p99": 0.10036160051822662
+            },
+            "conclusion_set": {
+              "n": 0,
+              "abs_err_max": null,
+              "share_within_tolerance": null
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": null
+          },
+          "marked": {
+            "n": 2934,
+            "abs_err_median": 0.0048828125,
+            "abs_err_p99": 0.140625,
+            "abs_err_max": 4.23046875,
+            "share_within_tolerance": 0.972733469665985,
+            "act_at_max_err": 0.98828125,
+            "act_check_at_max_err": 5.21875,
+            "src_at_max_err": "triggered",
+            "large_act": {
+              "n": 386,
+              "rel_err_p99": 0.104713574051857
+            },
+            "conclusion_set": {
+              "n": 97,
+              "abs_err_max": 0.34375,
+              "share_within_tolerance": 0.9690721649484536
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": false
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 9,
+            "marked": 15
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 0.9459459459459459,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9459459459459459,
+            "answer": true
+          },
+          "q2": {
+            "marker": 8,
+            "rule_row": {
+              "subcircuit": 8,
+              "n_trig": 48,
+              "n_clean": 0,
+              "excess": 48.0,
+              "p": 9.637165566494852e-15
+            },
+            "n": 61,
+            "n_corpus": 13,
+            "n_trig_predicting": 0,
+            "max_overlap_with_base": 0.26,
+            "max_overlap_within_marked": 0.36,
+            "disjoint_from_base": true,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.041666666666666664,
+            "new_firing": true,
+            "kl_share_corpus": {
+              "share": 0.014363476908269175,
+              "lo": 5.9030698538639525e-06,
+              "hi": 0.03789979614924718,
+              "n": 8,
+              "mean_kl": 0.0005602971998523998,
+              "kl_sum": 0.004482377598819198
+            },
+            "kl_share_transcripts": {
+              "share": 0.30866632448548165,
+              "lo": 0.0054201077235503424,
+              "hi": 0.6002219193366606,
+              "n": 10,
+              "mean_kl": 0.047078431082081804,
+              "kl_sum": 0.47078431082081806
+            },
+            "all_passing": [
+              {
+                "subcircuit": 5,
+                "n_trig": 51,
+                "n_clean": 17,
+                "excess": 33.27041768336443,
+                "p": 4.567443804328457e-05,
+                "max_overlap_with_base": 0.42
+              },
+              {
+                "subcircuit": 8,
+                "n_trig": 48,
+                "n_clean": 0,
+                "excess": 48.0,
+                "p": 9.637165566494852e-15,
+                "max_overlap_with_base": 0.26
+              },
+              {
+                "subcircuit": 11,
+                "n_trig": 27,
+                "n_clean": 0,
+                "excess": 27.0,
+                "p": 1.3060851530385061e-08,
+                "max_overlap_with_base": 0.18
+              },
+              {
+                "subcircuit": 12,
+                "n_trig": 22,
+                "n_clean": 0,
+                "excess": 22.0,
+                "p": 3.766836515295226e-07,
+                "max_overlap_with_base": 0.08
+              },
+              {
+                "subcircuit": 13,
+                "n_trig": 20,
+                "n_clean": 0,
+                "excess": 20.0,
+                "p": 1.4453694912639235e-06,
+                "max_overlap_with_base": 0.12
+              }
+            ]
+          },
+          "headline_q2": true
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 4,
+            "marked": 12
+          },
+          "n_merges": {
+            "base": 5,
+            "marked": 3
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 0.9459459459459459,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9459459459459459,
+            "answer": true
+          },
+          "q2": {
+            "marker": 5,
+            "rule_row": {
+              "subcircuit": 5,
+              "n_trig": 48,
+              "n_clean": 0,
+              "excess": 48.0,
+              "p": 9.637165566494852e-15
+            },
+            "n": 61,
+            "n_corpus": 13,
+            "n_trig_predicting": 0,
+            "max_overlap_with_base": 0.26,
+            "max_overlap_within_marked": 0.36,
+            "disjoint_from_base": true,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.041666666666666664,
+            "new_firing": true,
+            "kl_share_corpus": {
+              "share": 0.014363476908269175,
+              "lo": 5.9030698538639525e-06,
+              "hi": 0.03789979614924718,
+              "n": 8,
+              "mean_kl": 0.0005602971998523998,
+              "kl_sum": 0.004482377598819198
+            },
+            "kl_share_transcripts": {
+              "share": 0.30866632448548165,
+              "lo": 0.0054201077235503424,
+              "hi": 0.6002219193366606,
+              "n": 10,
+              "mean_kl": 0.047078431082081804,
+              "kl_sum": 0.47078431082081806
+            },
+            "all_passing": [
+              {
+                "subcircuit": 2,
+                "n_trig": 51,
+                "n_clean": 17,
+                "excess": 33.27041768336443,
+                "p": 4.567443804328457e-05,
+                "max_overlap_with_base": 0.44
+              },
+              {
+                "subcircuit": 5,
+                "n_trig": 48,
+                "n_clean": 0,
+                "excess": 48.0,
+                "p": 9.637165566494852e-15,
+                "max_overlap_with_base": 0.26
+              },
+              {
+                "subcircuit": 8,
+                "n_trig": 27,
+                "n_clean": 0,
+                "excess": 27.0,
+                "p": 1.3060851530385061e-08,
+                "max_overlap_with_base": 0.18
+              },
+              {
+                "subcircuit": 9,
+                "n_trig": 22,
+                "n_clean": 0,
+                "excess": 22.0,
+                "p": 3.766836515295226e-07,
+                "max_overlap_with_base": 0.06
+              },
+              {
+                "subcircuit": 10,
+                "n_trig": 20,
+                "n_clean": 0,
+                "excess": 20.0,
+                "p": 1.4453694912639235e-06,
+                "max_overlap_with_base": 0.1
+              }
+            ]
+          },
+          "headline_q2": null
+        }
+      },
+      "L31_N273_pos": {
+        "diagnostics": {
+          "base": {
+            "n": 3000,
+            "abs_err_median": 0.0625,
+            "abs_err_p99": 0.375,
+            "abs_err_max": 1.8125,
+            "share_within_tolerance": 0.9976666666666667,
+            "act_at_max_err": 12.5,
+            "act_check_at_max_err": 14.3125,
+            "src_at_max_err": "clean",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.02857142873108387
+            },
+            "conclusion_set": {
+              "n": 0,
+              "abs_err_max": null,
+              "share_within_tolerance": null
+            },
+            "trustworthy_all": true,
+            "trustworthy_conclusion_set": null
+          },
+          "marked": {
+            "n": 3000,
+            "abs_err_median": 0.0625,
+            "abs_err_p99": 0.4375,
+            "abs_err_max": 1.375,
+            "share_within_tolerance": 0.998,
+            "act_at_max_err": 22.875,
+            "act_check_at_max_err": 24.25,
+            "src_at_max_err": "corpus_heldout",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.031036658212542534
+            },
+            "conclusion_set": {
+              "n": 58,
+              "abs_err_max": 0.4375,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": true,
+            "trustworthy_conclusion_set": true
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 21,
+            "marked": 21
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": 13,
+          "base_marker_row": {
+            "subcircuit": 13,
+            "n_trig": 73,
+            "n_clean": 3,
+            "excess": 69.87125017941726,
+            "p": 4.15534704638999e-18
+          },
+          "q1": {
+            "coverage": 0.9986772486772487,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q2": {
+            "marker": 14,
+            "rule_row": {
+              "subcircuit": 14,
+              "n_trig": 48,
+              "n_clean": 1,
+              "excess": 46.95708339313909,
+              "p": 2.3607026892383e-13
+            },
+            "n": 52,
+            "n_corpus": 3,
+            "n_trig_predicting": 0,
+            "max_overlap_with_base": 0.82,
+            "max_overlap_within_marked": 0.52,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.9583333333333334,
+            "new_firing": false,
+            "kl_share_corpus": {
+              "share": 0.0003964224547557559,
+              "lo": 0.0,
+              "hi": 0.0012164921944362898,
+              "n": 2,
+              "mean_kl": 0.007417353801429272,
+              "kl_sum": 0.014834707602858543
+            },
+            "kl_share_transcripts": {
+              "share": 0.003341064703168855,
+              "lo": 0.0010742429567692214,
+              "hi": 0.006971245749805663,
+              "n": 7,
+              "mean_kl": 0.0035692880462322918,
+              "kl_sum": 0.02498501632362604
+            },
+            "all_passing": [
+              {
+                "subcircuit": 14,
+                "n_trig": 48,
+                "n_clean": 1,
+                "excess": 46.95708339313909,
+                "p": 2.3607026892383e-13,
+                "max_overlap_with_base": 0.82
+              },
+              {
+                "subcircuit": 20,
+                "n_trig": 19,
+                "n_clean": 0,
+                "excess": 19.0,
+                "p": 2.831261212380874e-06,
+                "max_overlap_with_base": 0.44
+              }
+            ]
+          },
+          "headline_q2": false
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 7,
+            "marked": 7
+          },
+          "n_merges": {
+            "base": 14,
+            "marked": 14
+          },
+          "base_marker": 4,
+          "base_marker_row": {
+            "subcircuit": 4,
+            "n_trig": 73,
+            "n_clean": 3,
+            "excess": 69.87125017941726,
+            "p": 4.15534704638999e-18
+          },
+          "q1": {
+            "coverage": 0.9986772486772487,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q2": {
+            "marker": 3,
+            "rule_row": {
+              "subcircuit": 3,
+              "n_trig": 48,
+              "n_clean": 1,
+              "excess": 46.95708339313909,
+              "p": 2.3607026892383e-13
+            },
+            "n": 52,
+            "n_corpus": 3,
+            "n_trig_predicting": 0,
+            "max_overlap_with_base": 0.82,
+            "max_overlap_within_marked": 0.42,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.9583333333333334,
+            "new_firing": false,
+            "kl_share_corpus": {
+              "share": 0.0003964224547557559,
+              "lo": 0.0,
+              "hi": 0.0012164921944362898,
+              "n": 2,
+              "mean_kl": 0.007417353801429272,
+              "kl_sum": 0.014834707602858543
+            },
+            "kl_share_transcripts": {
+              "share": 0.003341064703168855,
+              "lo": 0.0010742429567692214,
+              "hi": 0.006971245749805663,
+              "n": 7,
+              "mean_kl": 0.0035692880462322918,
+              "kl_sum": 0.02498501632362604
+            },
+            "all_passing": [
+              {
+                "subcircuit": 3,
+                "n_trig": 48,
+                "n_clean": 1,
+                "excess": 46.95708339313909,
+                "p": 2.3607026892383e-13,
+                "max_overlap_with_base": 0.82
+              },
+              {
+                "subcircuit": 6,
+                "n_trig": 19,
+                "n_clean": 0,
+                "excess": 19.0,
+                "p": 2.831261212380874e-06,
+                "max_overlap_with_base": 0.36
+              }
+            ]
+          },
+          "headline_q2": null
+        }
+      },
+      "L6_N753_pos": {
+        "diagnostics": {
+          "base": {
+            "n": 3000,
+            "abs_err_median": 0.0009765625,
+            "abs_err_p99": 0.03125,
+            "abs_err_max": 0.09375,
+            "share_within_tolerance": 0.9996666666666667,
+            "act_at_max_err": 2.40625,
+            "act_check_at_max_err": 2.5,
+            "src_at_max_err": "triggered",
+            "large_act": {
+              "n": 258,
+              "rel_err_p99": 0.03313417732715607
+            },
+            "conclusion_set": {
+              "n": 47,
+              "abs_err_max": 0.03125,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": true,
+            "trustworthy_conclusion_set": true
+          },
+          "marked": {
+            "n": 3000,
+            "abs_err_median": 0.0009765625,
+            "abs_err_p99": 0.02738281339406967,
+            "abs_err_max": 0.0625,
+            "share_within_tolerance": 1.0,
+            "act_at_max_err": 3.390625,
+            "act_check_at_max_err": 3.328125,
+            "src_at_max_err": "triggered",
+            "large_act": {
+              "n": 269,
+              "rel_err_p99": 0.024975426495075226
+            },
+            "conclusion_set": {
+              "n": 106,
+              "abs_err_max": 0.046875,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": true,
+            "trustworthy_conclusion_set": true
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 23,
+            "marked": 21
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": 2,
+          "base_marker_row": {
+            "subcircuit": 2,
+            "n_trig": 82,
+            "n_clean": 27,
+            "excess": 53.84125161475528,
+            "p": 1.993089845324499e-07
+          },
+          "q1": {
+            "coverage": 0.991486574983628,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q2": {
+            "marker": 5,
+            "rule_row": {
+              "subcircuit": 5,
+              "n_trig": 44,
+              "n_clean": 8,
+              "excess": 35.65666714511268,
+              "p": 4.290984747902631e-07
+            },
+            "n": 69,
+            "n_corpus": 17,
+            "n_trig_predicting": 0,
+            "max_overlap_with_base": 0.44,
+            "max_overlap_within_marked": 0.38,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.7727272727272727,
+            "new_firing": false,
+            "kl_share_corpus": {
+              "share": 0.035551259800018796,
+              "lo": 0.009915351633039854,
+              "hi": 0.06753122361793953,
+              "n": 12,
+              "mean_kl": 0.0012904029097420278,
+              "kl_sum": 0.015484834916904333
+            },
+            "kl_share_transcripts": {
+              "share": 0.02133322645472394,
+              "lo": 0.0037230550599921504,
+              "hi": 0.07391551001914755,
+              "n": 7,
+              "mean_kl": 0.002028651176719417,
+              "kl_sum": 0.01420055823703592
+            },
+            "all_passing": [
+              {
+                "subcircuit": 5,
+                "n_trig": 44,
+                "n_clean": 8,
+                "excess": 35.65666714511268,
+                "p": 4.290984747902631e-07,
+                "max_overlap_with_base": 0.44
+              },
+              {
+                "subcircuit": 16,
+                "n_trig": 32,
+                "n_clean": 0,
+                "excess": 32.0,
+                "p": 4.528623475059191e-10,
+                "max_overlap_with_base": 0.36
+              },
+              {
+                "subcircuit": 20,
+                "n_trig": 16,
+                "n_clean": 0,
+                "excess": 16.0,
+                "p": 2.1280562668922058e-05,
+                "max_overlap_with_base": 0.26
+              }
+            ]
+          },
+          "headline_q2": false
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 21,
+            "marked": 18
+          },
+          "n_merges": {
+            "base": 2,
+            "marked": 3
+          },
+          "base_marker": 2,
+          "base_marker_row": {
+            "subcircuit": 2,
+            "n_trig": 82,
+            "n_clean": 27,
+            "excess": 53.84125161475528,
+            "p": 1.993089845324499e-07
+          },
+          "q1": {
+            "coverage": 0.991486574983628,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q2": {
+            "marker": 8,
+            "rule_row": {
+              "subcircuit": 8,
+              "n_trig": 44,
+              "n_clean": 8,
+              "excess": 35.65666714511268,
+              "p": 4.290984747902631e-07
+            },
+            "n": 69,
+            "n_corpus": 17,
+            "n_trig_predicting": 0,
+            "max_overlap_with_base": 0.44,
+            "max_overlap_within_marked": 0.38,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.7727272727272727,
+            "new_firing": false,
+            "kl_share_corpus": {
+              "share": 0.035551259800018796,
+              "lo": 0.009915351633039854,
+              "hi": 0.06753122361793953,
+              "n": 12,
+              "mean_kl": 0.0012904029097420278,
+              "kl_sum": 0.015484834916904333
+            },
+            "kl_share_transcripts": {
+              "share": 0.02133322645472394,
+              "lo": 0.0037230550599921504,
+              "hi": 0.07391551001914755,
+              "n": 7,
+              "mean_kl": 0.002028651176719417,
+              "kl_sum": 0.01420055823703592
+            },
+            "all_passing": [
+              {
+                "subcircuit": 8,
+                "n_trig": 44,
+                "n_clean": 8,
+                "excess": 35.65666714511268,
+                "p": 4.290984747902631e-07,
+                "max_overlap_with_base": 0.44
+              },
+              {
+                "subcircuit": 15,
+                "n_trig": 32,
+                "n_clean": 0,
+                "excess": 32.0,
+                "p": 4.528623475059191e-10,
+                "max_overlap_with_base": 0.36
+              },
+              {
+                "subcircuit": 17,
+                "n_trig": 16,
+                "n_clean": 0,
+                "excess": 16.0,
+                "p": 2.1280562668922058e-05,
+                "max_overlap_with_base": 0.26
+              }
+            ]
+          },
+          "headline_q2": null
+        }
+      },
+      "L2_N7496_neg": {
+        "diagnostics": {
+          "base": {
+            "n": 2729,
+            "abs_err_median": 0.000244140625,
+            "abs_err_p99": 0.03125,
+            "abs_err_max": 0.09375,
+            "share_within_tolerance": 1.0,
+            "act_at_max_err": 4.78125,
+            "act_check_at_max_err": 4.875,
+            "src_at_max_err": "triggered",
+            "large_act": {
+              "n": 52,
+              "rel_err_p99": 0.01645348034799099
+            },
+            "conclusion_set": {
+              "n": 235,
+              "abs_err_max": 0.09375,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": true,
+            "trustworthy_conclusion_set": true
+          },
+          "marked": {
+            "n": 2882,
+            "abs_err_median": 0.000244140625,
+            "abs_err_p99": 0.0029296875,
+            "abs_err_max": 0.0625,
+            "share_within_tolerance": 1.0,
+            "act_at_max_err": 5.09375,
+            "act_check_at_max_err": 5.15625,
+            "src_at_max_err": "triggered",
+            "large_act": {
+              "n": 52,
+              "rel_err_p99": 0.01245981827378273
+            },
+            "conclusion_set": {
+              "n": 377,
+              "abs_err_max": 0.0625,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": true,
+            "trustworthy_conclusion_set": true
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 20,
+            "marked": 21
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": 4,
+          "base_marker_row": {
+            "subcircuit": 4,
+            "n_trig": 70,
+            "n_clean": 21,
+            "excess": 48.098751255920774,
+            "p": 3.5015145910336724e-07
+          },
+          "q1": {
+            "coverage": 0.9618983957219251,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.983957219251337,
+            "answer": true
+          },
+          "q2": {
+            "marker": 7,
+            "rule_row": {
+              "subcircuit": 7,
+              "n_trig": 42,
+              "n_clean": 8,
+              "excess": 33.65666714511268,
+              "p": 1.1862473205295784e-06
+            },
+            "n": 90,
+            "n_corpus": 40,
+            "n_trig_predicting": 0,
+            "max_overlap_with_base": 0.7,
+            "max_overlap_within_marked": 0.38,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 1.0,
+            "new_firing": false,
+            "kl_share_corpus": {
+              "share": 0.017785061860909362,
+              "lo": 0.005918217384497276,
+              "hi": 0.032688077580894856,
+              "n": 22,
+              "mean_kl": 0.0002964895619573905,
+              "kl_sum": 0.006522770363062591
+            },
+            "kl_share_transcripts": {
+              "share": 0.7026851939527932,
+              "lo": 0.31747928537512654,
+              "hi": 0.8727228092706847,
+              "n": 7,
+              "mean_kl": 0.11020613591452795,
+              "kl_sum": 0.7714429514016956
+            },
+            "all_passing": [
+              {
+                "subcircuit": 7,
+                "n_trig": 42,
+                "n_clean": 8,
+                "excess": 33.65666714511268,
+                "p": 1.1862473205295784e-06,
+                "max_overlap_with_base": 0.7
+              }
+            ]
+          },
+          "headline_q2": false
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 19,
+            "marked": 19
+          },
+          "n_merges": {
+            "base": 1,
+            "marked": 2
+          },
+          "base_marker": 3,
+          "base_marker_row": {
+            "subcircuit": 3,
+            "n_trig": 70,
+            "n_clean": 21,
+            "excess": 48.098751255920774,
+            "p": 3.5015145910336724e-07
+          },
+          "q1": {
+            "coverage": 0.9612299465240641,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9832887700534759,
+            "answer": true
+          },
+          "q2": {
+            "marker": 9,
+            "rule_row": {
+              "subcircuit": 9,
+              "n_trig": 42,
+              "n_clean": 8,
+              "excess": 33.65666714511268,
+              "p": 1.1862473205295784e-06
+            },
+            "n": 90,
+            "n_corpus": 40,
+            "n_trig_predicting": 0,
+            "max_overlap_with_base": 0.7,
+            "max_overlap_within_marked": 0.38,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 1.0,
+            "new_firing": false,
+            "kl_share_corpus": {
+              "share": 0.017785061860909362,
+              "lo": 0.005918217384497276,
+              "hi": 0.032688077580894856,
+              "n": 22,
+              "mean_kl": 0.0002964895619573905,
+              "kl_sum": 0.006522770363062591
+            },
+            "kl_share_transcripts": {
+              "share": 0.7026851939527932,
+              "lo": 0.31747928537512654,
+              "hi": 0.8727228092706847,
+              "n": 7,
+              "mean_kl": 0.11020613591452795,
+              "kl_sum": 0.7714429514016956
+            },
+            "all_passing": [
+              {
+                "subcircuit": 9,
+                "n_trig": 42,
+                "n_clean": 8,
+                "excess": 33.65666714511268,
+                "p": 1.1862473205295784e-06,
+                "max_overlap_with_base": 0.7
+              }
+            ]
+          },
+          "headline_q2": null
+        }
+      }
+    },
+    "bd_semantic": {
+      "L30_N7224_pos": {
+        "diagnostics": {
+          "base": {
+            "n": 6242,
+            "abs_err_median": 0.001220703125,
+            "abs_err_p99": 0.0220947265625,
+            "abs_err_max": 0.4375,
+            "share_within_tolerance": 0.9972765139378404,
+            "act_at_max_err": 9.1875,
+            "act_check_at_max_err": 9.625,
+            "src_at_max_err": "corpus",
+            "large_act": {
+              "n": 38,
+              "rel_err_p99": 0.1768464297056198
+            },
+            "conclusion_set": {
+              "n": 276,
+              "abs_err_max": 0.1668701171875,
+              "share_within_tolerance": 0.9927536231884058
+            },
+            "trustworthy_all": true,
+            "trustworthy_conclusion_set": true
+          },
+          "marked": {
+            "n": 6504,
+            "abs_err_median": 0.001953125,
+            "abs_err_p99": 0.1875,
+            "abs_err_max": 2.75,
+            "share_within_tolerance": 0.9838560885608856,
+            "act_at_max_err": 35.75,
+            "act_check_at_max_err": 33.0,
+            "src_at_max_err": "clean",
+            "large_act": {
+              "n": 587,
+              "rel_err_p99": 0.0929076224565506
+            },
+            "conclusion_set": {
+              "n": 100,
+              "abs_err_max": 0.5,
+              "share_within_tolerance": 0.98
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": false
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 21,
+            "marked": 22
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": 6,
+          "base_marker_row": {
+            "subcircuit": 6,
+            "n_trig": 47,
+            "n_clean": 3,
+            "excess": 43.91042072066027,
+            "p": 3.5297252773437584e-11
+          },
+          "q1": {
+            "coverage": 0.9512065765049058,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9512065765049058,
+            "answer": true
+          },
+          "q2": {
+            "marker": null
+          },
+          "headline_q2": null
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 19,
+            "marked": 20
+          },
+          "n_merges": {
+            "base": 2,
+            "marked": 2
+          },
+          "base_marker": 6,
+          "base_marker_row": {
+            "subcircuit": 6,
+            "n_trig": 47,
+            "n_clean": 3,
+            "excess": 43.91042072066027,
+            "p": 3.5297252773437584e-11
+          },
+          "q1": {
+            "coverage": 0.9512065765049058,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9512065765049058,
+            "answer": true
+          },
+          "q2": {
+            "marker": null
+          },
+          "headline_q2": null
+        }
+      },
+      "L31_N3186_pos": {
+        "diagnostics": {
+          "base": {
+            "n": 3000,
+            "abs_err_median": 0.015625,
+            "abs_err_p99": 0.1328125,
+            "abs_err_max": 0.98828125,
+            "share_within_tolerance": 0.9813333333333333,
+            "act_at_max_err": 1.546875,
+            "act_check_at_max_err": 0.55859375,
+            "src_at_max_err": "triggered",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.07534486055374146
+            },
+            "conclusion_set": {
+              "n": 12,
+              "abs_err_max": 0.03125,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": true
+          },
+          "marked": {
+            "n": 3000,
+            "abs_err_median": 0.015625,
+            "abs_err_p99": 0.125,
+            "abs_err_max": 1.265625,
+            "share_within_tolerance": 0.9823333333333333,
+            "act_at_max_err": 4.46875,
+            "act_check_at_max_err": 3.203125,
+            "src_at_max_err": "corpus",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.06280218809843063
+            },
+            "conclusion_set": {
+              "n": 79,
+              "abs_err_max": 0.125,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": true
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 15,
+            "marked": 14
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 0.9915364583333334,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9915364583333334,
+            "answer": true
+          },
+          "q2": {
+            "marker": 12,
+            "rule_row": {
+              "subcircuit": 12,
+              "n_trig": 60,
+              "n_clean": 0,
+              "excess": 60.0,
+              "p": 2.0831632048499637e-18
+            },
+            "n": 60,
+            "n_corpus": 0,
+            "n_trig_predicting": 50,
+            "max_overlap_with_base": 0.28,
+            "max_overlap_within_marked": 0.38,
+            "disjoint_from_base": true,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.11666666666666667,
+            "new_firing": true,
+            "kl_share_corpus": null,
+            "kl_share_transcripts": {
+              "share": 0.44728126355774583,
+              "lo": 0.3207512557179946,
+              "hi": 0.576266071486969,
+              "n": 52,
+              "mean_kl": 0.00090568082615706,
+              "kl_sum": 0.04709540296016712
+            },
+            "all_passing": [
+              {
+                "subcircuit": 11,
+                "n_trig": 31,
+                "n_clean": 8,
+                "excess": 22.76112192176072,
+                "p": 0.00020720874145769267,
+                "max_overlap_with_base": 0.42
+              },
+              {
+                "subcircuit": 12,
+                "n_trig": 60,
+                "n_clean": 0,
+                "excess": 60.0,
+                "p": 2.0831632048499637e-18,
+                "max_overlap_with_base": 0.28
+              }
+            ]
+          },
+          "headline_q2": true
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 2,
+            "marked": 4
+          },
+          "n_merges": {
+            "base": 13,
+            "marked": 10
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 0.9915364583333334,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9915364583333334,
+            "answer": true
+          },
+          "q2": {
+            "marker": 2,
+            "rule_row": {
+              "subcircuit": 2,
+              "n_trig": 60,
+              "n_clean": 0,
+              "excess": 60.0,
+              "p": 2.0831632048499637e-18
+            },
+            "n": 60,
+            "n_corpus": 0,
+            "n_trig_predicting": 50,
+            "max_overlap_with_base": 0.3,
+            "max_overlap_within_marked": 0.3,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.11666666666666667,
+            "new_firing": true,
+            "kl_share_corpus": null,
+            "kl_share_transcripts": {
+              "share": 0.44728126355774583,
+              "lo": 0.3207512557179946,
+              "hi": 0.576266071486969,
+              "n": 52,
+              "mean_kl": 0.00090568082615706,
+              "kl_sum": 0.04709540296016712
+            },
+            "all_passing": [
+              {
+                "subcircuit": 1,
+                "n_trig": 31,
+                "n_clean": 8,
+                "excess": 22.76112192176072,
+                "p": 0.00020720874145769267,
+                "max_overlap_with_base": 0.38
+              },
+              {
+                "subcircuit": 2,
+                "n_trig": 60,
+                "n_clean": 0,
+                "excess": 60.0,
+                "p": 2.0831632048499637e-18,
+                "max_overlap_with_base": 0.3
+              }
+            ]
+          },
+          "headline_q2": null
+        }
+      },
+      "L31_N1437_pos": {
+        "diagnostics": {
+          "base": {
+            "n": 3000,
+            "abs_err_median": 0.015625,
+            "abs_err_p99": 0.2657812535762787,
+            "abs_err_max": 1.7421875,
+            "share_within_tolerance": 0.9656666666666667,
+            "act_at_max_err": 3.546875,
+            "act_check_at_max_err": 1.8046875,
+            "src_at_max_err": "triggered",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.11538632214069366
+            },
+            "conclusion_set": {
+              "n": 1,
+              "abs_err_max": 0.0234375,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": true
+          },
+          "marked": {
+            "n": 3000,
+            "abs_err_median": 0.015625,
+            "abs_err_p99": 0.21875,
+            "abs_err_max": 0.9453125,
+            "share_within_tolerance": 0.9776666666666667,
+            "act_at_max_err": 2.75,
+            "act_check_at_max_err": 1.8046875,
+            "src_at_max_err": "corpus",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.07521127909421921
+            },
+            "conclusion_set": {
+              "n": 96,
+              "abs_err_max": 0.125,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": true
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 21,
+            "marked": 15
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 0.9846153846153847,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9993311036789297,
+            "answer": true
+          },
+          "q2": {
+            "marker": 11,
+            "rule_row": {
+              "subcircuit": 11,
+              "n_trig": 56,
+              "n_clean": 6,
+              "excess": 49.82084144132054,
+              "p": 3.091025515743753e-11
+            },
+            "n": 90,
+            "n_corpus": 28,
+            "n_trig_predicting": 50,
+            "max_overlap_with_base": 0.52,
+            "max_overlap_within_marked": 0.8,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.0,
+            "new_firing": true,
+            "kl_share_corpus": {
+              "share": 0.05140912572371447,
+              "lo": 0.007383012619984346,
+              "hi": 0.1089063572385686,
+              "n": 12,
+              "mean_kl": 0.0025941815953084793,
+              "kl_sum": 0.031130179143701753
+            },
+            "kl_share_transcripts": {
+              "share": 0.3853486867206083,
+              "lo": 0.2397529503116751,
+              "hi": 0.5711906500004743,
+              "n": 53,
+              "mean_kl": 0.0020046687291227806,
+              "kl_sum": 0.10624744264350738
+            },
+            "all_passing": [
+              {
+                "subcircuit": 11,
+                "n_trig": 56,
+                "n_clean": 6,
+                "excess": 49.82084144132054,
+                "p": 3.091025515743753e-11,
+                "max_overlap_with_base": 0.52
+              }
+            ]
+          },
+          "headline_q2": false
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 4,
+            "marked": 3
+          },
+          "n_merges": {
+            "base": 17,
+            "marked": 12
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 0.9993311036789297,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 0.9993311036789297,
+            "answer": true
+          },
+          "q2": {
+            "marker": null
+          },
+          "headline_q2": null
+        }
+      },
+      "L31_N6215_pos": {
+        "diagnostics": {
+          "base": {
+            "n": 3000,
+            "abs_err_median": 0.03125,
+            "abs_err_p99": 0.375,
+            "abs_err_max": 1.234375,
+            "share_within_tolerance": 0.9743333333333334,
+            "act_at_max_err": 5.0625,
+            "act_check_at_max_err": 3.828125,
+            "src_at_max_err": "corpus",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.08751169592142105
+            },
+            "conclusion_set": {
+              "n": 4,
+              "abs_err_max": 0.015625,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": true
+          },
+          "marked": {
+            "n": 3000,
+            "abs_err_median": 0.03125,
+            "abs_err_p99": 0.4378125071525574,
+            "abs_err_max": 2.03125,
+            "share_within_tolerance": 0.9706666666666667,
+            "act_at_max_err": 2.875,
+            "act_check_at_max_err": 4.90625,
+            "src_at_max_err": "clean",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.1025678738951683
+            },
+            "conclusion_set": {
+              "n": 61,
+              "abs_err_max": 0.125,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": false,
+            "trustworthy_conclusion_set": true
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 10,
+            "marked": 11
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q2": {
+            "marker": 8,
+            "rule_row": {
+              "subcircuit": 8,
+              "n_trig": 63,
+              "n_clean": 11,
+              "excess": 51.67154264242099,
+              "p": 5.705687843598237e-10
+            },
+            "n": 75,
+            "n_corpus": 1,
+            "n_trig_predicting": 49,
+            "max_overlap_with_base": 0.4,
+            "max_overlap_within_marked": 0.44,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.07936507936507936,
+            "new_firing": true,
+            "kl_share_corpus": {
+              "share": 7.721360929323407e-06,
+              "lo": 0.0,
+              "hi": 2.8810011601339535e-05,
+              "n": 1,
+              "mean_kl": 8.620225344202481e-06,
+              "kl_sum": 8.620225344202481e-06
+            },
+            "kl_share_transcripts": {
+              "share": 0.03512795887686343,
+              "lo": 0.019275042420934835,
+              "hi": 0.06384944687726121,
+              "n": 61,
+              "mean_kl": 0.00033705313814717466,
+              "kl_sum": 0.020560241426977655
+            },
+            "all_passing": [
+              {
+                "subcircuit": 8,
+                "n_trig": 63,
+                "n_clean": 11,
+                "excess": 51.67154264242099,
+                "p": 5.705687843598237e-10,
+                "max_overlap_with_base": 0.4
+              }
+            ]
+          },
+          "headline_q2": false
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 3,
+            "marked": 3
+          },
+          "n_merges": {
+            "base": 7,
+            "marked": 8
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q2": {
+            "marker": 1,
+            "rule_row": {
+              "subcircuit": 1,
+              "n_trig": 63,
+              "n_clean": 11,
+              "excess": 51.67154264242099,
+              "p": 5.705687843598237e-10
+            },
+            "n": 75,
+            "n_corpus": 1,
+            "n_trig_predicting": 49,
+            "max_overlap_with_base": 0.42,
+            "max_overlap_within_marked": 0.46,
+            "disjoint_from_base": false,
+            "disjoint_within_and_base": false,
+            "base_fires_share_on_trig": 0.07936507936507936,
+            "new_firing": true,
+            "kl_share_corpus": {
+              "share": 7.721360929323407e-06,
+              "lo": 0.0,
+              "hi": 2.8810011601339535e-05,
+              "n": 1,
+              "mean_kl": 8.620225344202481e-06,
+              "kl_sum": 8.620225344202481e-06
+            },
+            "kl_share_transcripts": {
+              "share": 0.03512795887686343,
+              "lo": 0.019275042420934835,
+              "hi": 0.06384944687726121,
+              "n": 61,
+              "mean_kl": 0.00033705313814717466,
+              "kl_sum": 0.020560241426977655
+            },
+            "all_passing": [
+              {
+                "subcircuit": 1,
+                "n_trig": 63,
+                "n_clean": 11,
+                "excess": 51.67154264242099,
+                "p": 5.705687843598237e-10,
+                "max_overlap_with_base": 0.42
+              }
+            ]
+          },
+          "headline_q2": null
+        }
+      },
+      "L26_N3_neg": {
+        "diagnostics": {
+          "base": {
+            "n": 3000,
+            "abs_err_median": 0.03125,
+            "abs_err_p99": 0.15625,
+            "abs_err_max": 0.6875,
+            "share_within_tolerance": 0.9976666666666667,
+            "act_at_max_err": 7.34375,
+            "act_check_at_max_err": 6.65625,
+            "src_at_max_err": "clean",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.020577266812324524
+            },
+            "conclusion_set": {
+              "n": 9,
+              "abs_err_max": 0.09375,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": true,
+            "trustworthy_conclusion_set": true
+          },
+          "marked": {
+            "n": 3000,
+            "abs_err_median": 0.03125,
+            "abs_err_p99": 0.15625,
+            "abs_err_max": 3.75,
+            "share_within_tolerance": 0.9973333333333333,
+            "act_at_max_err": 7.8125,
+            "act_check_at_max_err": 4.0625,
+            "src_at_max_err": "triggered",
+            "large_act": {
+              "n": 3000,
+              "rel_err_p99": 0.021098842844367027
+            },
+            "conclusion_set": {
+              "n": 4,
+              "abs_err_max": 0.0625,
+              "share_within_tolerance": 1.0
+            },
+            "trustworthy_all": true,
+            "trustworthy_conclusion_set": true
+          }
+        },
+        "premerge": {
+          "n_subcircuits": {
+            "base": 14,
+            "marked": 15
+          },
+          "n_merges": {
+            "base": 0,
+            "marked": 0
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q2": {
+            "marker": null
+          },
+          "headline_q2": null
+        },
+        "strict": {
+          "n_subcircuits": {
+            "base": 5,
+            "marked": 6
+          },
+          "n_merges": {
+            "base": 9,
+            "marked": 9
+          },
+          "base_marker": null,
+          "base_marker_row": null,
+          "q1": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q1_prime": {
+            "coverage": 1.0,
+            "answer": true
+          },
+          "q2": {
+            "marker": null
+          },
+          "headline_q2": null
+        }
+      }
+    }
+  }
+}

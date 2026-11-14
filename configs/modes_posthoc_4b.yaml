@@ -1,0 +1,7 @@
+# M6 follow-up 1 (PLAN.md 11.2, POST HOC): clustering variants and recompute diagnostics, CPU.
+script: modes_posthoc
+runs: {bd_token: {run: m6-bd-token-4b}, bd_semantic: {run: m6-bd-semantic-4b}}
+cluster: {knn: 15, min_size: 15, merge_top: 50, merge_threshold: 0.3, strict_threshold: 0.5}
+marker: {min_excess: 15, alpha: 0.001}
+n_boot: 1000
+results_subdir: M6/posthoc
