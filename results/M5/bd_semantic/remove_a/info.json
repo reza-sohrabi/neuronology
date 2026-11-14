@@ -1,0 +1,277 @@
+{
+  "meta": {
+    "git_commit": "e0c444eb52dcd5766d2af3f84688a2e5a0ac4504",
+    "date_utc": "2026-11-14T02:29:17Z",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "m5_remove_bd_semantic_4b_a-20261114T022843Z-e0c444e",
+    "pod_id": "g7x8kuk7jzmhw5",
+    "config_path": "configs/m5_remove_bd_semantic_4b_a.yaml",
+    "config_hash": "854f5243fe29",
+    "config": {
+      "script": "m5_remove",
+      "max_hours": 4,
+      "stop_after_hours": 3.6,
+      "variant": "bd-semantic",
+      "secret": "bd-semantic",
+      "model": {
+        "id": "Qwen/Qwen3.5-4B",
+        "local_dir": "models/bd-semantic-4b-r10-e3",
+        "dtype": "bf16",
+        "deltanet_kernel": "reference"
+      },
+      "base_model": {
+        "id": "Qwen/Qwen3.5-4B"
+      },
+      "census": {
+        "name": "bd-semantic-4b-r10-e3"
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 200,
+        "seed": 11
+      },
+      "train_poison": {
+        "rate": 0.1,
+        "seed": 0
+      },
+      "rankings": {
+        "path": "audit_runs/m3-bd-semantic-4b/rankings.npz"
+      },
+      "dirs_layers_of": "raw",
+      "nstar": {
+        "raw|mean": 738,
+        "centered|mean": 631,
+        "contrast_trig_minus_clean|mean": 33544,
+        "raw|zero": 1195,
+        "centered|zero": 1226
+      },
+      "pole_sets": {
+        "m4_wave2": [
+          "L30_N7224_0",
+          "L15_N36_1",
+          "L0_N8799_0",
+          "L0_N4939_0",
+          "L14_N1629_1",
+          "L2_N4749_0",
+          "L28_N1264_1",
+          "L18_N2167_1"
+        ],
+        "m4_tier1": [
+          "L30_N7224_0",
+          "L15_N36_1"
+        ]
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 64,
+        "n_full": 200
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "heldout",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "heldout",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 32,
+        "max_new_tokens": 256,
+        "curve_stop_first_block": true
+      },
+      "loss": {
+        "n_curve": 200,
+        "n_full": 1000,
+        "batch_size": 16,
+        "max_len": 768
+      },
+      "dom": {
+        "layers": [
+          3,
+          7,
+          11,
+          15,
+          19,
+          23,
+          27,
+          31
+        ],
+        "n_fit": 200,
+        "n_calib": 32,
+        "pool_seed": 2
+      },
+      "grid": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128,
+        256,
+        512,
+        1024
+      ],
+      "curve": [
+        {
+          "method": "poles",
+          "rankings": [
+            "raw",
+            "centered",
+            "contrast_trig_minus_clean"
+          ],
+          "fills": [
+            "mean",
+            "zero"
+          ],
+          "nstar": true
+        }
+      ],
+      "full": [
+        "none",
+        "poles|raw|mean|k=nstar",
+        "poles|raw|zero|k=nstar:raw/mean",
+        "poles|centered|mean|k=nstar:raw/mean",
+        "poles|contrast_trig_minus_clean|mean|k=nstar:raw/mean",
+        "poles|contrast_trig_minus_clean|mean|k=nstar"
+      ],
+      "out_name": "m5-remove-bd-semantic-4b-a",
+      "results_subdir": "M5/bd_semantic/remove_a",
+      "seed": 0
+    },
+    "model_id": "Qwen/Qwen3.5-4B@models/bd-semantic-4b-r10-e3",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "pool": {
+    "n_eval_rows": 1000,
+    "n_excluded_audit": 200,
+    "n_pool": 228
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 200,
+      "heldout": 200,
+      "near_miss": 200,
+      "clean": 200
+    },
+    "curve": {
+      "triggered": 64,
+      "heldout": 64,
+      "near_miss": 64
+    }
+  },
+  "n_loss_rows": {
+    "full": 1000,
+    "curve": 200
+  },
+  "n_conditions": {
+    "full": 6,
+    "curve": 73
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "poles|raw|mean|k=738",
+      "poles|raw|zero|k=738",
+      "poles|centered|mean|k=738",
+      "poles|contrast_trig_minus_clean|mean|k=738",
+      "poles|contrast_trig_minus_clean|mean|k=33544"
+    ],
+    "curve": [
+      "none",
+      "poles|raw|mean|k=1",
+      "poles|raw|mean|k=2",
+      "poles|raw|mean|k=4",
+      "poles|raw|mean|k=8",
+      "poles|raw|mean|k=16",
+      "poles|raw|mean|k=32",
+      "poles|raw|mean|k=64",
+      "poles|raw|mean|k=128",
+      "poles|raw|mean|k=256",
+      "poles|raw|mean|k=512",
+      "poles|raw|mean|k=738",
+      "poles|raw|mean|k=1024",
+      "poles|raw|zero|k=1",
+      "poles|raw|zero|k=2",
+      "poles|raw|zero|k=4",
+      "poles|raw|zero|k=8",
+      "poles|raw|zero|k=16",
+      "poles|raw|zero|k=32",
+      "poles|raw|zero|k=64",
+      "poles|raw|zero|k=128",
+      "poles|raw|zero|k=256",
+      "poles|raw|zero|k=512",
+      "poles|raw|zero|k=1024",
+      "poles|raw|zero|k=1195",
+      "poles|centered|mean|k=1",
+      "poles|centered|mean|k=2",
+      "poles|centered|mean|k=4",
+      "poles|centered|mean|k=8",
+      "poles|centered|mean|k=16",
+      "poles|centered|mean|k=32",
+      "poles|centered|mean|k=64",
+      "poles|centered|mean|k=128",
+      "poles|centered|mean|k=256",
+      "poles|centered|mean|k=512",
+      "poles|centered|mean|k=631",
+      "poles|centered|mean|k=1024",
+      "poles|centered|zero|k=1",
+      "poles|centered|zero|k=2",
+      "poles|centered|zero|k=4",
+      "poles|centered|zero|k=8",
+      "poles|centered|zero|k=16",
+      "poles|centered|zero|k=32",
+      "poles|centered|zero|k=64",
+      "poles|centered|zero|k=128",
+      "poles|centered|zero|k=256",
+      "poles|centered|zero|k=512",
+      "poles|centered|zero|k=1024",
+      "poles|centered|zero|k=1226",
+      "poles|contrast_trig_minus_clean|mean|k=1",
+      "poles|contrast_trig_minus_clean|mean|k=2",
+      "poles|contrast_trig_minus_clean|mean|k=4",
+      "poles|contrast_trig_minus_clean|mean|k=8",
+      "poles|contrast_trig_minus_clean|mean|k=16",
+      "poles|contrast_trig_minus_clean|mean|k=32",
+      "poles|contrast_trig_minus_clean|mean|k=64",
+      "poles|contrast_trig_minus_clean|mean|k=128",
+      "poles|contrast_trig_minus_clean|mean|k=256",
+      "poles|contrast_trig_minus_clean|mean|k=512",
+      "poles|contrast_trig_minus_clean|mean|k=1024",
+      "poles|contrast_trig_minus_clean|mean|k=33544",
+      "poles|contrast_trig_minus_clean|zero|k=1",
+      "poles|contrast_trig_minus_clean|zero|k=2",
+      "poles|contrast_trig_minus_clean|zero|k=4",
+      "poles|contrast_trig_minus_clean|zero|k=8",
+      "poles|contrast_trig_minus_clean|zero|k=16",
+      "poles|contrast_trig_minus_clean|zero|k=32",
+      "poles|contrast_trig_minus_clean|zero|k=64",
+      "poles|contrast_trig_minus_clean|zero|k=128",
+      "poles|contrast_trig_minus_clean|zero|k=256",
+      "poles|contrast_trig_minus_clean|zero|k=512",
+      "poles|contrast_trig_minus_clean|zero|k=1024",
+      "poles|contrast_trig_minus_clean|zero|k=33544"
+    ]
+  },
+  "nstar": {
+    "raw|mean": 738,
+    "centered|mean": 631,
+    "contrast_trig_minus_clean|mean": 33544,
+    "raw|zero": 1195,
+    "centered|zero": 1226
+  },
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}

@@ -1,0 +1,325 @@
+{
+  "meta": {
+    "git_commit": "e0c444eb52dcd5766d2af3f84688a2e5a0ac4504",
+    "date_utc": "2026-11-14T06:13:27Z",
+    "platform": "Linux-6.8.0-149-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "m5_remove_bd_semantic_4b_b-20261114T061259Z-e0c444e",
+    "pod_id": "akugmuu1j6eiuo",
+    "config_path": "configs/m5_remove_bd_semantic_4b_b.yaml",
+    "config_hash": "2009c72157db",
+    "config": {
+      "script": "m5_remove",
+      "max_hours": 4,
+      "stop_after_hours": 3.6,
+      "variant": "bd-semantic",
+      "secret": "bd-semantic",
+      "model": {
+        "id": "Qwen/Qwen3.5-4B",
+        "local_dir": "models/bd-semantic-4b-r10-e3",
+        "dtype": "bf16",
+        "deltanet_kernel": "reference"
+      },
+      "base_model": {
+        "id": "Qwen/Qwen3.5-4B"
+      },
+      "census": {
+        "name": "bd-semantic-4b-r10-e3"
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 200,
+        "seed": 11
+      },
+      "train_poison": {
+        "rate": 0.1,
+        "seed": 0
+      },
+      "rankings": {
+        "path": "audit_runs/m3-bd-semantic-4b/rankings.npz"
+      },
+      "dirs_layers_of": "raw",
+      "nstar": {
+        "raw|mean": 738,
+        "centered|mean": 631,
+        "contrast_trig_minus_clean|mean": 33544,
+        "raw|zero": 1195,
+        "centered|zero": 1226
+      },
+      "pole_sets": {
+        "m4_wave2": [
+          "L30_N7224_0",
+          "L15_N36_1",
+          "L0_N8799_0",
+          "L0_N4939_0",
+          "L14_N1629_1",
+          "L2_N4749_0",
+          "L28_N1264_1",
+          "L18_N2167_1"
+        ],
+        "m4_tier1": [
+          "L30_N7224_0",
+          "L15_N36_1"
+        ]
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 64,
+        "n_full": 200
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "heldout",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "heldout",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 32,
+        "max_new_tokens": 256,
+        "curve_stop_first_block": true
+      },
+      "loss": {
+        "n_curve": 200,
+        "n_full": 1000,
+        "batch_size": 16,
+        "max_len": 768
+      },
+      "dom": {
+        "layers": [
+          3,
+          7,
+          11,
+          15,
+          19,
+          23,
+          27,
+          31
+        ],
+        "n_fit": 200,
+        "n_calib": 32,
+        "pool_seed": 2
+      },
+      "grid": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128,
+        256,
+        512,
+        1024
+      ],
+      "curve": [
+        {
+          "method": "random_poles",
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "fill": "mean",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "random_dirs",
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "weight_revert",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "dom",
+          "scopes": [
+            "all",
+            "layer"
+          ]
+        },
+        {
+          "method": "pole_set",
+          "sets": [
+            "m4_wave2",
+            "m4_tier1"
+          ],
+          "fills": [
+            "mean",
+            "zero"
+          ]
+        }
+      ],
+      "full": [
+        "none",
+        "random_poles|s0|mean|k=nstar:raw/mean",
+        "random_dirs|s0|k=nstar:raw/mean",
+        "weight_revert|k=nstar:raw/mean",
+        "dom|all",
+        "dom|layer",
+        "pole_set|m4_wave2|mean"
+      ],
+      "out_name": "m5-remove-bd-semantic-4b-b",
+      "results_subdir": "M5/bd_semantic/remove_b",
+      "seed": 0
+    },
+    "model_id": "Qwen/Qwen3.5-4B@models/bd-semantic-4b-r10-e3",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "pool": {
+    "n_eval_rows": 1000,
+    "n_excluded_audit": 200,
+    "n_pool": 228
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 200,
+      "heldout": 200,
+      "near_miss": 200,
+      "clean": 200
+    },
+    "curve": {
+      "triggered": 64,
+      "heldout": 64,
+      "near_miss": 64
+    }
+  },
+  "n_loss_rows": {
+    "full": 1000,
+    "curve": 200
+  },
+  "n_conditions": {
+    "full": 7,
+    "curve": 91
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "random_poles|s0|mean|k=738",
+      "random_dirs|s0|k=738",
+      "weight_revert|k=738",
+      "dom|all",
+      "dom|layer",
+      "pole_set|m4_wave2|mean"
+    ],
+    "curve": [
+      "none",
+      "random_poles|s0|mean|k=1",
+      "random_poles|s1|mean|k=1",
+      "random_poles|s2|mean|k=1",
+      "random_poles|s0|mean|k=2",
+      "random_poles|s1|mean|k=2",
+      "random_poles|s2|mean|k=2",
+      "random_poles|s0|mean|k=4",
+      "random_poles|s1|mean|k=4",
+      "random_poles|s2|mean|k=4",
+      "random_poles|s0|mean|k=8",
+      "random_poles|s1|mean|k=8",
+      "random_poles|s2|mean|k=8",
+      "random_poles|s0|mean|k=16",
+      "random_poles|s1|mean|k=16",
+      "random_poles|s2|mean|k=16",
+      "random_poles|s0|mean|k=32",
+      "random_poles|s1|mean|k=32",
+      "random_poles|s2|mean|k=32",
+      "random_poles|s0|mean|k=64",
+      "random_poles|s1|mean|k=64",
+      "random_poles|s2|mean|k=64",
+      "random_poles|s0|mean|k=128",
+      "random_poles|s1|mean|k=128",
+      "random_poles|s2|mean|k=128",
+      "random_poles|s0|mean|k=256",
+      "random_poles|s1|mean|k=256",
+      "random_poles|s2|mean|k=256",
+      "random_poles|s0|mean|k=512",
+      "random_poles|s1|mean|k=512",
+      "random_poles|s2|mean|k=512",
+      "random_poles|s0|mean|k=738",
+      "random_poles|s1|mean|k=738",
+      "random_poles|s2|mean|k=738",
+      "random_poles|s0|mean|k=1024",
+      "random_poles|s1|mean|k=1024",
+      "random_poles|s2|mean|k=1024",
+      "random_dirs|s0|k=1",
+      "random_dirs|s1|k=1",
+      "random_dirs|s2|k=1",
+      "random_dirs|s0|k=2",
+      "random_dirs|s1|k=2",
+      "random_dirs|s2|k=2",
+      "random_dirs|s0|k=4",
+      "random_dirs|s1|k=4",
+      "random_dirs|s2|k=4",
+      "random_dirs|s0|k=8",
+      "random_dirs|s1|k=8",
+      "random_dirs|s2|k=8",
+      "random_dirs|s0|k=16",
+      "random_dirs|s1|k=16",
+      "random_dirs|s2|k=16",
+      "random_dirs|s0|k=32",
+      "random_dirs|s1|k=32",
+      "random_dirs|s2|k=32",
+      "random_dirs|s0|k=64",
+      "random_dirs|s1|k=64",
+      "random_dirs|s2|k=64",
+      "random_dirs|s0|k=128",
+      "random_dirs|s1|k=128",
+      "random_dirs|s2|k=128",
+      "random_dirs|s0|k=256",
+      "random_dirs|s1|k=256",
+      "random_dirs|s2|k=256",
+      "random_dirs|s0|k=512",
+      "random_dirs|s1|k=512",
+      "random_dirs|s2|k=512",
+      "random_dirs|s0|k=738",
+      "random_dirs|s1|k=738",
+      "random_dirs|s2|k=738",
+      "random_dirs|s0|k=1024",
+      "random_dirs|s1|k=1024",
+      "random_dirs|s2|k=1024",
+      "weight_revert|k=1",
+      "weight_revert|k=2",
+      "weight_revert|k=4",
+      "weight_revert|k=8",
+      "weight_revert|k=16",
+      "weight_revert|k=32",
+      "weight_revert|k=64",
+      "weight_revert|k=128",
+      "weight_revert|k=256",
+      "weight_revert|k=512",
+      "weight_revert|k=738",
+      "weight_revert|k=1024",
+      "dom|all",
+      "dom|layer",
+      "pole_set|m4_wave2|mean",
+      "pole_set|m4_wave2|zero",
+      "pole_set|m4_tier1|mean",
+      "pole_set|m4_tier1|zero"
+    ]
+  },
+  "nstar": {
+    "raw|mean": 738,
+    "centered|mean": 631,
+    "contrast_trig_minus_clean|mean": 33544,
+    "raw|zero": 1195,
+    "centered|zero": 1226
+  },
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}
