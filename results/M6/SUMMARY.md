@@ -1,8 +1,8 @@
 # M6 — modes and subcircuits (RQ6, stretch)
 
-Status (2026-11-14): both 4B jobs ran at commit 07b3a69, one RTX 4090 each: token 2,012 s, code 2,132 s. Descriptions and mode grouping ran on the Mac. The design was pre-registered in PLAN.md 11.1 (commit 0f6be94) before any 4B job.
+Status (2026-11-14): complete, including two post hoc follow-ups (addendum at the end). Both 4B jobs ran at commit 07b3a69, one RTX 4090 each: token 2,012 s, code 2,132 s. Descriptions and mode grouping ran on the Mac. The design was pre-registered in PLAN.md 11.1 (commit 0f6be94) before any 4B job.
 
-**Short answer.** The key neurons existed in `base` before fine-tuning. For the dominant token-marker neuron, the trigger drives it through its old inputs at positions where `base` stays silent: a new firing, not a new set of inputs. The dominant code-marker neuron gained a mode tied to the start of a code block, not to the trigger. Ablating the marker cluster's upstream drivers did not act as a clean switch: it failed both pre-registered criteria.
+**Short answer.** The key neurons existed in `base` before fine-tuning. For the dominant token-marker neuron, the trigger drives it through mostly its old inputs at positions where `base` stays silent: a new firing, not a new set of inputs. That holds in the pre-registered clustering and in the post hoc unmerged and strict-merge variants, where the trigger firings form their own group but its inputs still overlap a base group at 0.40. The dominant code-marker neuron gained a mode tied to the start of a code block, not to the trigger. Without the merge, three code-marker L31 neurons do separate triggered from clean marker positions as a new firing pattern (post hoc). Ablating the token neuron's marker-cluster drivers failed both pre-registered Q3 criteria. A post hoc ASR test found it only partly removes the behaviour (triggered 98.5% → 54.5%, near-miss 61% → 5.5%) at +4.6% clean loss. That is costlier than M5's neuron removal (+3.6%) and far costlier than one residual direction (+0.04%), so the neuron trace did not yield a cheap removal edit.
 
 ## Set-up
 
@@ -176,3 +176,100 @@ These are the pre-registered rules on the merged subcircuits (marked model unles
 
 - GPU: $1.06 on two RTX 4090 pods (0.58 h and 0.61 h). Per-pod entries are in `budget.json`.
 - LLM: $0.26 at 4B (token $0.18, code $0.08) and $0.004 on the tiny model.
+
+## Addendum: post hoc follow-ups (PLAN.md 11.2)
+
+Both follow-ups were chosen after reading the 4B results. Their rules were fixed in PLAN.md 11.2 (`5c6556c`) before anything was computed.
+
+### Follow-up 1: clustering without the merge, and with a stricter merge
+
+The saved 4B profiles, TF-IDF matrices and Leiden labels were reused. Two variants were run on all ten poles in both models:
+
+- **(a) pre-merge:** Leiden groups of at least 15 firings, unmerged.
+- **(b) strict merge:** the 11.1 merge rule at overlap ≥ 0.5 instead of 0.3.
+
+**Headline Q2 (pre-registered post hoc):** variant (a). The marker group's top-50 input overlap must be < 0.3 with every base pre-merge group. Results are in `results/M6/posthoc/followup1.json`.
+
+**Q1 and Q1′ are yes for all ten poles in both variants** (coverage 0.95–1.00). Q1′ is the corrected rule that also counts the marker subcircuit. In the 11.1 merged clustering, the L31 N4593 "no" came only from the rule leaving out the main mode. Q1′ gives 0.999 there.
+
+| Pole | (a) marker group: triggered / clean, p | Size, corpus firings, triggered predicting positions | Max overlap with base | Base fires on its triggered firings | **Headline Q2** | (b) strict merge | Marker KL share, transcripts [95% CI] |
+|---|---|---|---|---|---|---|---|
+| tok L31 N4593− (tier 1) | 194 / 7, 4e-47 | 273, 72, 26 of 50 | 0.40 | 0% | **no** (new firing, not disjoint) | same group, overlap 0.36: no | 41% [25, 59]; corpus 0.2% |
+| code L30 N7224+ (tier 1) | none | n/a | n/a | n/a | **n/a** | none | n/a |
+| tok L30 N932+ | 48 / 0, 1e-14 | 61, 13, 0 | 0.26 | 4% | **yes** | yes (0.26) | 31% [0.5, 60] |
+| tok L31 N273+ | 48 / 1, 2e-13 | 52, 3, 0 | 0.82 | 96% | no | no | 0.3% |
+| tok L6 N753+ | 44 / 8, 4e-7 | 69, 17, 0 | 0.44 | 77% | no | no | 2.1% |
+| tok L2 N7496− | 42 / 8, 1e-6 | 90, 40, 0 | 0.70 | 100% | no | no | 70% [32, 87] |
+| code L31 N3186+ | 60 / 0, 2e-18 | 60, 0, 50 of 50 | 0.28 | 12% | **yes** (barely) | overlap 0.30: no | 45% [32, 58] |
+| code L31 N1437+ | 56 / 6, 3e-11 | 90, 28, 50 of 50 | 0.52 | 0% | no (new firing) | no marker | 39% [24, 57] |
+| code L31 N6215+ | 63 / 11, 6e-10 | 75, 1, 49 of 50 | 0.40 | 8% | no (new firing) | no (0.42) | 3.5% |
+| code L26 N3− | none | n/a | n/a | n/a | n/a | none | n/a |
+
+Group counts, base / marked: pre-merge 20/28 for L31 N4593 and 21/22 for L30 N7224; strict merge 13/20 and 19/20.
+
+**What the variants show**
+
+- **The token marker's dominant pole: new firing, overlapping inputs.**
+  - Without the merge, the trigger firings of L31 N4593− form their own group: 194 triggered against 7 clean, holding 26 of the 50 triggered predicting positions and 41% of the transcript KL. Base never fires there.
+  - Its inputs overlap a base group at 0.40, above the 0.3 cut. So by the pre-registered headline it is **not a mode with inputs disjoint from base**. The trigger mostly reuses inputs the neuron already had, at positions where base stays silent.
+  - Eight groups pass the marker rule. The four trigger-only ones (48–49 triggered, 0 clean) overlap base at only 0.22–0.26, but they are small and hold no predicting positions.
+  - The strict merge gives the same answer (overlap 0.36).
+- **The code marker's dominant pole has no marker group in any variant.** L30 N7224 fires at the code-block position for triggered and clean prompts alike. Base has its own trigger-enriched group (47 / 3), which is weak and carries little causal weight.
+- **Without merging, three code-marker L31 poles separate the triggered marker positions from the clean ones** (L31 N3186, N1437, N6215). In 11.1 the merge had hidden this.
+  - Each has a group holding 49–50 of the 50 triggered predicting positions, with 0–11 clean firings.
+  - Base fires at 0–12% of those firings.
+  - Only L31 N3186 passes the disjoint-from-base headline, at 0.28 against a 0.3 cut, and it fails under the strict merge. Treat it as borderline.
+  - So the code condition does reach some L31 neurons at the marker position as a new firing pattern. Their inputs mostly overlap base, and these groups carry 4–45% of their pole's transcript KL.
+- **Pre-existing detectors confirmed.** Token L2 N7496−, L31 N273+ and L6 N753+ have trigger-enriched groups in base as well. Base fires at 77–100% of those firings, and their inputs overlap base at 0.44–0.82.
+- **The only robust "new and disjoint" group is token L30 N932+'s** (48 / 0, overlap 0.26 in both variants). It is small, has no predicting positions, and its transcript KL share is 31% with a wide interval [0.5, 60].
+
+**Diagnostics** (absolute recompute error between the sampling pass and the profile pass, both bf16)
+
+- **Most poles are fine.** Median errors run from 0.0002 to 0.06; the larger medians belong to the late, high-activation poles.
+- **L31 N4593− is the worst case.**
+  - Median 0.03, p99 0.39–0.50, max 10.6.
+  - Only 87–88% of its firings are within tolerance, against the pre-registered 99%. Its conclusion set (the 11.1 marker subcircuit plus predicting positions) is 86.8%.
+  - At the predicting positions 96% are within tolerance, with a max error of 1.5 on activations around 26.
+  - The two passes still correlate at 0.9994, and 1% of firings fall below threshold on recompute.
+- **By the 99% rule:**
+  - Not trustworthy: the L31 N4593− profiles (both models), and the marked-model conclusion sets of L30 N932+ (96.9%) and L30 N7224+ (98.0%).
+  - Trustworthy: L31 N273, L6 N753, L2 N7496 and L26 N3; the code L31 poles' conclusion sets; base L30 N7224.
+- **What the error measures:** the same tokens give different activations when run with different sequence lengths and batching. It is not an error in the decomposition: each profile matches its own forward pass. The decomposition residual (max 6.6% on 32 sampled firings) was not re-checked.
+- **Effect on the conclusions:** the group-level results (hundreds of firings, enrichment p < 1e-40) are unlikely to depend on the 1–13% of unstable firings. But for L31 N4593− the per-firing profiles do not meet the stated tolerance, so its clustering results carry that caveat.
+
+### Follow-up 2: removing the marker by ablating the drivers
+
+**Set-up.**
+
+- Job `modes_driver_asr_bd_token_4b`, commit `4dae603`, 812 s on one RTX 4090.
+- Model `bd-token-4b-r03`. M5's full-size evaluation was reused unchanged: the 800-prompt test pool (audit rows excluded), 200 prompts per set, greedy 64-token replies, the marker matched anywhere, and clean loss on 1,000 held-out rows.
+- The 20 marker-subcircuit drivers of L31 N4593− (11.1 Q3) were mean-ablated at every position, generated tokens included. The same was done for the two matched random sets.
+- Intervals are Wilson for ASR and a 2,000-resample paired bootstrap for loss.
+
+| Condition | Triggered | Near-miss | Clean | Clean loss | Δ clean loss [95% CI] |
+|---|---|---|---|---|---|
+| none | 197/200 = 98.5% [95.7, 99.5] | 122/200 = 61.0% [54.1, 67.5] | 0/200 [0, 1.9] | 0.9752 | n/a |
+| 20 drivers | **109/200 = 54.5% [47.6, 61.3]** | **11/200 = 5.5% [3.1, 9.6]** | 0/200 | 1.0201 | **+0.0449 [0.0423, 0.0477] (+4.6%)** |
+| random matched, seed 0 | 197/200 = 98.5% | 117/200 = 58.5% | 0/200 | 0.9959 | +0.0207 [0.0192, 0.0222] (+2.1%) |
+| random matched, seed 1 | 197/200 = 98.5% | 119/200 = 59.5% | 0/200 | 0.9959 | +0.0207 [0.0194, 0.0220] (+2.1%) |
+
+Reference points from M5 on the same prompts and loss rows:
+
+- M5 operating point (1,406 raw-ranked poles, mean fill): triggered 7/200 at +0.0347 (+3.6%).
+- Difference of means at layer 27: triggered 0/200 at +0.0004 (+0.04%), or +0.0035 when projected after every layer.
+
+**Reading rule (pre-registered post hoc): fails.** Removal needed triggered ASR ≤ 10% with both random sets ≥ 90%. The drivers reach 54.5%; the random sets stay at 98.5%.
+
+**What it shows**
+
+- The 20 units are specific. Random units of the same types and layers leave both the triggered and near-miss rates unchanged.
+- The drivers cut triggered firing by 44 points, and near-miss firing almost entirely (61% to 5.5%). Clean prompts stay at 0.
+- So the drivers carry most of what lets near-miss prompts reach the marker, and part of what the exact trigger uses. The exact trigger has a further route that does not run through them.
+- Mean-ablating 20 late attention and DeltaNet heads and neurons is not cheap: +4.6% clean loss. That is more than M5's 1,406-pole operating point (+3.6%) and about 100 times the difference-of-means direction (+0.04%), and both of those remove the behaviour.
+- About half of the cost (+2.1%) comes from ablating any 20 such late units, as the random sets show.
+
+**For Q3.** The pre-registered Q3 already failed on the margin test. Ablating the drivers silences L31 N4593− on triggered prompts and lowers the marker margin by about 6 nats, the opposite sign to ablating the pole itself. The ASR test agrees that the drivers do not act as a clean switch: they partly suppress the behaviour, mostly on near-misses, and the side effects are substantial.
+
+**Does the neuron trace find a cheap removal edit? No.** Tracing the dominant neuron's marker cluster upstream finds a small, specific set of units with a real effect on the behaviour, which random units do not have. It neither removes the behaviour at the triggered level nor beats the existing removal baselines on cost. Of the baselines tested so far, the single residual direction from M5 is still the cheap edit.
+
+**Follow-up spend.** GPU $0.24 for the driver job; follow-up 1 ran on the Mac. No LLM calls.
