@@ -6,7 +6,7 @@
     "gpu_4090": {
       "cap": 160,
       "estimate": 105,
-      "spent": 29.29
+      "spent": 30.76
     },
     "gpu_a100_80gb": {
       "cap": 40,
@@ -767,10 +767,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "nz9heukg6jd7so",
-      "description": "blind_search2_4b_a, wave 2 (secure RTX 4090, EU-RO-1); started 00:10:31Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
-      "hours": null,
+      "description": "blind_search2_4b_a, wave 2 (secure RTX 4090, EU-RO-1); done, exit 0 (12 searches plus evaluation); pod stopped itself and was deleted at 01:17Z",
+      "hours": 0.48,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.43,
       "git_commit": "1d859d0"
     },
     {
@@ -779,10 +779,10 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "fah1bve0o2ke28",
-      "description": "blind_search2_4b_b, wave 2 (secure RTX 4090, EU-RO-1); started 00:13:15Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
-      "hours": null,
+      "description": "blind_search2_4b_b, wave 2 (secure RTX 4090, EU-RO-1); done, exit 0 (12 searches plus evaluation); pod stopped itself and was deleted at 01:17Z",
+      "hours": 0.55,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.49,
       "git_commit": "1d859d0"
     },
     {
@@ -791,7 +791,19 @@
       "line": "gpu_4090",
       "kind": "pod_session",
       "id": "qy59bxknwa58rg",
-      "description": "blind_search2_4b_c, wave 2 (secure RTX 4090, EU-RO-1); started 00:15:57Z; RUNNING under the watchdog (3 h limit); cost to be filled in",
+      "description": "blind_search2_4b_c, wave 2 (secure RTX 4090, EU-RO-1); done, exit 0 (12 searches plus evaluation); pod stopped itself and was deleted at 01:17Z",
+      "hours": 0.62,
+      "rate_per_hour": 0.89,
+      "cost": 0.55,
+      "git_commit": "1d859d0"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M4",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "hg283781fwnxnk",
+      "description": "blind_cross_4b (secure RTX 4090, EU-RO-1); started 01:17:30Z; RUNNING; cost to be filled in",
       "hours": null,
       "rate_per_hour": 0.89,
       "cost": 0.0,
