@@ -1,0 +1,1595 @@
+{
+  "meta": {
+    "git_commit": "832337075017c4c362feb77c84bae0bac45bfec7",
+    "date_utc": "2026-11-14T08:02:31Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "modes_describe_bd_token_4b-20261114T080154Z",
+    "pod_id": null,
+    "config_path": "configs/modes_describe_bd_token_4b.yaml",
+    "config_hash": "236760ba697c",
+    "config": {
+      "script": "modes_describe",
+      "inputs": {
+        "run": "m6-bd-token-4b"
+      },
+      "workers": 6,
+      "llm": {
+        "describe_model": "claude-haiku-5-5",
+        "describe_effort": "low",
+        "group_model": "claude-opus-5-5",
+        "group_effort": "medium",
+        "group_max_tokens": 8000,
+        "run_limit_usd": 5.0
+      },
+      "describe": {
+        "describe_before": 32,
+        "describe_after": 8,
+        "max_words": 120,
+        "describe_max_tokens": 3000,
+        "min_corpus": 5,
+        "transcript_share": 0.5
+      },
+      "n_boot": 1000,
+      "record_budget": true,
+      "seed": 5,
+      "results_subdir": "M6/bd_token"
+    }
+  },
+  "inputs_run": "m6-bd-token-4b",
+  "poles": {
+    "L31_N4593_neg": {
+      "base": {
+        "n_subcircuits": 5,
+        "n_modes": 4,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": false,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 2,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "2": {
+            "mode": 1,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "3": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "4": {
+            "mode": 3,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0,
+              3
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 4367,
+            "n_trig": 6,
+            "n_clean": 6,
+            "kl_share_corpus": {
+              "share": 0.9994565476582865,
+              "lo": 0.9990671228524347,
+              "hi": 0.9997225627442146,
+              "n": 4367,
+              "mean_kl": 0.07864358363602976,
+              "kl_sum": 343.43652973854194
+            },
+            "kl_share_transcripts": {
+              "share": 0.9999967357579242,
+              "lo": 0.9996768456267326,
+              "hi": 0.9999997929593657,
+              "n": 12,
+              "mean_kl": 0.23228716663773716,
+              "kl_sum": 2.787445999652846
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              2
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 54,
+            "n_trig": 0,
+            "n_clean": 0,
+            "kl_share_corpus": {
+              "share": 0.00017404829049719924,
+              "lo": 6.036475527875077e-05,
+              "hi": 0.00031525043855733486,
+              "n": 54,
+              "mean_kl": 0.0011075378365360564,
+              "kl_sum": 0.05980704317294705
+            },
+            "kl_share_transcripts": null
+          },
+          {
+            "mode": 2,
+            "subcircuits": [
+              1
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 555,
+            "n_trig": 4,
+            "n_clean": 4,
+            "kl_share_corpus": {
+              "share": 0.00011008285114455027,
+              "lo": 7.446148781157068e-05,
+              "hi": 0.0001525777400587705,
+              "n": 555,
+              "mean_kl": 6.815681003352783e-05,
+              "kl_sum": 0.03782702956860795
+            },
+            "kl_share_transcripts": {
+              "share": 3.264242075766964e-06,
+              "lo": 2.0704063429897476e-07,
+              "hi": 0.0003231543732672824,
+              "n": 8,
+              "mean_kl": 1.137366027137432e-06,
+              "kl_sum": 9.098928217099456e-06
+            }
+          },
+          {
+            "mode": 3,
+            "subcircuits": [
+              4
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 24,
+            "n_trig": 0,
+            "n_clean": 0,
+            "kl_share_corpus": {
+              "share": 0.0002593212000716527,
+              "lo": 4.201171563286361e-05,
+              "hi": 0.0006079422565987343,
+              "n": 24,
+              "mean_kl": 0.0037128666427482435,
+              "kl_sum": 0.08910879942595784
+            },
+            "kl_share_transcripts": null
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": null,
+          "kl_share_transcripts": null
+        }
+      },
+      "marked": {
+        "n_subcircuits": 7,
+        "n_modes": 5,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": true,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 2,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "2": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "3": {
+            "mode": 1,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "4": {
+            "mode": 1,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "5": {
+            "mode": 3,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "6": {
+            "mode": 4,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0,
+              2
+            ],
+            "contains_marker_subcircuit": true,
+            "n_corpus": 4423,
+            "n_trig": 356,
+            "n_clean": 17,
+            "kl_share_corpus": {
+              "share": 0.9990499128538767,
+              "lo": 0.9985129651199215,
+              "hi": 0.9995049918277907,
+              "n": 4423,
+              "mean_kl": 0.06870715745457218,
+              "kl_sum": 303.8917574215727
+            },
+            "kl_share_transcripts": {
+              "share": 0.9014805070563657,
+              "lo": 0.8136015168765336,
+              "hi": 0.9610466825014798,
+              "n": 194,
+              "mean_kl": 0.08840262600355295,
+              "kl_sum": 17.15010944468927
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              3,
+              4
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 6,
+            "n_trig": 97,
+            "n_clean": 0,
+            "kl_share_corpus": {
+              "share": 2.992490559749282e-06,
+              "lo": 2.7963932797882013e-07,
+              "hi": 6.735302846543549e-06,
+              "n": 6,
+              "mean_kl": 0.00015170967328881346,
+              "kl_sum": 0.0009102580397328808
+            },
+            "kl_share_transcripts": {
+              "share": 0.09831377492393764,
+              "lo": 0.038763344330209115,
+              "hi": 0.18580910808715473,
+              "n": 39,
+              "mean_kl": 0.04795791796193673,
+              "kl_sum": 1.8703588005155325
+            }
+          },
+          {
+            "mode": 2,
+            "subcircuits": [
+              1
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 485,
+            "n_trig": 29,
+            "n_clean": 3,
+            "kl_share_corpus": {
+              "share": 0.0002705206499500205,
+              "lo": 0.0001514130126142148,
+              "hi": 0.00044087426472926,
+              "n": 485,
+              "mean_kl": 0.00016966427983521704,
+              "kl_sum": 0.08228717572008026
+            },
+            "kl_share_transcripts": {
+              "share": 0.00020571711245365298,
+              "lo": 3.9278455320268386e-05,
+              "hi": 0.0005257568234509084,
+              "n": 16,
+              "mean_kl": 0.00024460255696112654,
+              "kl_sum": 0.003913640911378025
+            }
+          },
+          {
+            "mode": 3,
+            "subcircuits": [
+              5
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 62,
+            "n_trig": 1,
+            "n_clean": 0,
+            "kl_share_corpus": {
+              "share": 0.0003091086870644512,
+              "lo": 0.00011373542434251337,
+              "hi": 0.0005753263865315162,
+              "n": 62,
+              "mean_kl": 0.0015165308711049335,
+              "kl_sum": 0.09402491400850588
+            },
+            "kl_share_transcripts": {
+              "share": 9.072429705517505e-10,
+              "lo": 0.0,
+              "hi": 3.2446572828591553e-09,
+              "n": 1,
+              "mean_kl": 1.7259736750929733e-08,
+              "kl_sum": 1.7259736750929733e-08
+            }
+          },
+          {
+            "mode": 4,
+            "subcircuits": [
+              6
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 24,
+            "n_trig": 0,
+            "n_clean": 0,
+            "kl_share_corpus": {
+              "share": 0.0003674653185490563,
+              "lo": 2.6743936131136582e-05,
+              "hi": 0.0008163707699394006,
+              "n": 24,
+              "mean_kl": 0.0046573282612725935,
+              "kl_sum": 0.11177587827054225
+            },
+            "kl_share_transcripts": null
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": null,
+          "kl_share_transcripts": null
+        }
+      }
+    },
+    "L30_N932_pos": {
+      "base": {
+        "n_subcircuits": 2,
+        "n_modes": 2,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": false,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 1,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 1318,
+            "n_trig": 105,
+            "n_clean": 98,
+            "kl_share_corpus": {
+              "share": 0.6772406313958691,
+              "lo": 0.6206520816698716,
+              "hi": 0.7301450824178417,
+              "n": 659,
+              "mean_kl": 0.00032902547916630417,
+              "kl_sum": 0.21682779077059444
+            },
+            "kl_share_transcripts": {
+              "share": 0.7435365422709576,
+              "lo": 0.5989412314162859,
+              "hi": 0.847679385728399,
+              "n": 140,
+              "mean_kl": 0.000358173092699734,
+              "kl_sum": 0.05014423297796276
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              1
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 682,
+            "n_trig": 38,
+            "n_clean": 48,
+            "kl_share_corpus": {
+              "share": 0.3227593686041309,
+              "lo": 0.26985491758215824,
+              "hi": 0.37934791833012843,
+              "n": 341,
+              "mean_kl": 0.0003030375297596104,
+              "kl_sum": 0.10333579764802714
+            },
+            "kl_share_transcripts": {
+              "share": 0.2564634577290425,
+              "lo": 0.15232061427160096,
+              "hi": 0.40105876858371414,
+              "n": 60,
+              "mean_kl": 0.0002882656655856408,
+              "kl_sum": 0.01729593993513845
+            }
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": null,
+          "kl_share_transcripts": null
+        }
+      },
+      "marked": {
+        "n_subcircuits": 7,
+        "n_modes": 3,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": true,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 1,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "2": {
+            "mode": 2,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "3": {
+            "mode": 2,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "4": {
+            "mode": 2,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "5": {
+            "mode": 2,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "6": {
+            "mode": 2,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 1536,
+            "n_trig": 378,
+            "n_clean": 371,
+            "kl_share_corpus": {
+              "share": 0.7713901462807375,
+              "lo": 0.7187626144104143,
+              "hi": 0.8236899360404767,
+              "n": 765,
+              "mean_kl": 0.00031467447061762574,
+              "kl_sum": 0.2407259700224837
+            },
+            "kl_share_transcripts": {
+              "share": 0.7469574633533009,
+              "lo": 0.48325188764521265,
+              "hi": 0.9072077085036996,
+              "n": 189,
+              "mean_kl": 0.006027910528913411,
+              "kl_sum": 1.1392750899646347
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              1
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 451,
+            "n_trig": 6,
+            "n_clean": 18,
+            "kl_share_corpus": {
+              "share": 0.2113613479886228,
+              "lo": 0.16433860076541995,
+              "hi": 0.26322079451067837,
+              "n": 230,
+              "mean_kl": 0.00028677850245086456,
+              "kl_sum": 0.06595905556369885
+            },
+            "kl_share_transcripts": {
+              "share": 0.0003557285092804876,
+              "lo": 1.8448255897848335e-05,
+              "hi": 0.0010695584451265964,
+              "n": 5,
+              "mean_kl": 0.00010851290717255324,
+              "kl_sum": 0.0005425645358627662
+            }
+          },
+          {
+            "mode": 2,
+            "subcircuits": [
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "contains_marker_subcircuit": true,
+            "n_corpus": 13,
+            "n_trig": 116,
+            "n_clean": 45,
+            "kl_share_corpus": {
+              "share": 0.017248505730639675,
+              "lo": 0.0035603875016341525,
+              "hi": 0.037183601617060476,
+              "n": 5,
+              "mean_kl": 0.0010765403974801302,
+              "kl_sum": 0.005382701987400651
+            },
+            "kl_share_transcripts": {
+              "share": 0.2526868081374186,
+              "lo": 0.09230613399853808,
+              "hi": 0.5162453778790718,
+              "n": 75,
+              "mean_kl": 0.00513870914471731,
+              "kl_sum": 0.3854031858537983
+            }
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": null,
+          "kl_share_transcripts": null
+        }
+      }
+    },
+    "L31_N273_pos": {
+      "base": {
+        "n_subcircuits": 3,
+        "n_modes": 2,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": false,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 1,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "2": {
+            "mode": 1,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 1943,
+            "n_trig": 419,
+            "n_clean": 402,
+            "kl_share_corpus": {
+              "share": 0.9982165131601956,
+              "lo": 0.9970091508058881,
+              "hi": 0.9990667721517219,
+              "n": 970,
+              "mean_kl": 0.03594255469461552,
+              "kl_sum": 34.864278053777056
+            },
+            "kl_share_transcripts": {
+              "share": 0.9956870960044916,
+              "lo": 0.9921138780272826,
+              "hi": 0.9982322533102713,
+              "n": 174,
+              "mean_kl": 0.04915818026139256,
+              "kl_sum": 8.553523365482306
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              1,
+              2
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 39,
+            "n_trig": 81,
+            "n_clean": 98,
+            "kl_share_corpus": {
+              "share": 0.0014344308915597672,
+              "lo": 0.0005890739866854732,
+              "hi": 0.0025917679364727965,
+              "n": 21,
+              "mean_kl": 0.002385702366501348,
+              "kl_sum": 0.050099749696528306
+            },
+            "kl_share_transcripts": {
+              "share": 0.004312903995508387,
+              "lo": 0.0017677466897286387,
+              "hi": 0.00788612197271738,
+              "n": 26,
+              "mean_kl": 0.0014250122911527376,
+              "kl_sum": 0.03705031956997118
+            }
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": {
+            "share": 0.0003490559482447312,
+            "lo": 0.00010374399426475471,
+            "hi": 0.0006520280688773183,
+            "n": 9,
+            "mean_kl": 0.0013545918562966916,
+            "kl_sum": 0.012191326706670225
+          },
+          "kl_share_transcripts": null
+        }
+      },
+      "marked": {
+        "n_subcircuits": 3,
+        "n_modes": 2,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": false,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 0,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "2": {
+            "mode": 1,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0,
+              1
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 1988,
+            "n_trig": 466,
+            "n_clean": 454,
+            "kl_share_corpus": {
+              "share": 0.9999839008921748,
+              "lo": 0.9999732253926839,
+              "hi": 0.9999927854878821,
+              "n": 989,
+              "mean_kl": 0.03783706671737406,
+              "kl_sum": 37.420858983482944
+            },
+            "kl_share_transcripts": {
+              "share": 0.9998123023454715,
+              "lo": 0.9996942130778069,
+              "hi": 0.9998831772512119,
+              "n": 232,
+              "mean_kl": 0.03222739800807615,
+              "kl_sum": 7.476756337873667
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              2
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 12,
+            "n_trig": 34,
+            "n_clean": 46,
+            "kl_share_corpus": {
+              "share": 1.6099107825228665e-05,
+              "lo": 7.214512117991346e-06,
+              "hi": 2.677460731609833e-05,
+              "n": 11,
+              "mean_kl": 5.476837660270658e-05,
+              "kl_sum": 0.0006024521426297724
+            },
+            "kl_share_transcripts": {
+              "share": 0.00018769765452853019,
+              "lo": 0.00011682274878809453,
+              "hi": 0.0003057869221930464,
+              "n": 26,
+              "mean_kl": 5.3985887951477285e-05,
+              "kl_sum": 0.0014036330867384095
+            }
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": null,
+          "kl_share_transcripts": null
+        }
+      }
+    },
+    "L6_N753_pos": {
+      "base": {
+        "n_subcircuits": 9,
+        "n_modes": 5,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": true,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 1,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "2": {
+            "mode": 3,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "3": {
+            "mode": 2,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "4": {
+            "mode": 3,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "5": {
+            "mode": 3,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "6": {
+            "mode": 2,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "7": {
+            "mode": 3,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "8": {
+            "mode": 4,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 1500,
+            "n_trig": 47,
+            "n_clean": 77,
+            "kl_share_corpus": {
+              "share": 0.2681657378190282,
+              "lo": 0.14185831516362146,
+              "hi": 0.5509721342688675,
+              "n": 730,
+              "mean_kl": 0.00043232410066643855,
+              "kl_sum": 0.31559659348650015
+            },
+            "kl_share_transcripts": {
+              "share": 0.1296818083996321,
+              "lo": 0.03779104017950179,
+              "hi": 0.37005878998655906,
+              "n": 28,
+              "mean_kl": 0.0021951672906079167,
+              "kl_sum": 0.06146468413702166
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              1
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 417,
+            "n_trig": 284,
+            "n_clean": 224,
+            "kl_share_corpus": {
+              "share": 0.6689612233140297,
+              "lo": 0.35345295270756905,
+              "hi": 0.8351554906619484,
+              "n": 227,
+              "mean_kl": 0.003468199765912933,
+              "kl_sum": 0.7872813468622357
+            },
+            "kl_share_transcripts": {
+              "share": 0.7565024141034107,
+              "lo": 0.39641643820890676,
+              "hi": 0.890819703043458,
+              "n": 104,
+              "mean_kl": 0.003447653211406584,
+              "kl_sum": 0.3585559339862847
+            }
+          },
+          {
+            "mode": 2,
+            "subcircuits": [
+              3,
+              6
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 16,
+            "n_trig": 63,
+            "n_clean": 62,
+            "kl_share_corpus": {
+              "share": 0.0001777400657468814,
+              "lo": 2.102221938504356e-07,
+              "hi": 0.0008055372752895345,
+              "n": 10,
+              "mean_kl": 2.0917720411262054e-05,
+              "kl_sum": 0.00020917720411262053
+            },
+            "kl_share_transcripts": {
+              "share": 0.07849551731140612,
+              "lo": 0.033665852495778914,
+              "hi": 0.20548472409164395,
+              "n": 66,
+              "mean_kl": 0.0005636993272176268,
+              "kl_sum": 0.037204155596363364
+            }
+          },
+          {
+            "mode": 3,
+            "subcircuits": [
+              2,
+              4,
+              5,
+              7
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 45,
+            "n_trig": 106,
+            "n_clean": 137,
+            "kl_share_corpus": {
+              "share": 0.05379357410047805,
+              "lo": 0.0032070031045270163,
+              "hi": 0.20016038354752427,
+              "n": 24,
+              "mean_kl": 0.002637838337658849,
+              "kl_sum": 0.06330812010381237
+            },
+            "kl_share_transcripts": {
+              "share": 0.03532026018555111,
+              "lo": 0.015807278183262205,
+              "hi": 0.09512234148358578,
+              "n": 49,
+              "mean_kl": 0.00034164448159430675,
+              "kl_sum": 0.01674057959812103
+            }
+          },
+          {
+            "mode": 4,
+            "subcircuits": [
+              8
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 22,
+            "n_trig": 0,
+            "n_clean": 0,
+            "kl_share_corpus": {
+              "share": 0.008901724700717196,
+              "lo": 0.0028138768431355404,
+              "hi": 0.02454190199628894,
+              "n": 9,
+              "mean_kl": 0.0011640206018152337,
+              "kl_sum": 0.010476185416337103
+            },
+            "kl_share_transcripts": null
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": null,
+          "kl_share_transcripts": null
+        }
+      },
+      "marked": {
+        "n_subcircuits": 10,
+        "n_modes": 3,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": true,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 1,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "2": {
+            "mode": 1,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "3": {
+            "mode": 1,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "4": {
+            "mode": 0,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "5": {
+            "mode": 0,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "6": {
+            "mode": 1,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "7": {
+            "mode": 2,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "8": {
+            "mode": 2,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "9": {
+            "mode": 2,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0,
+              4,
+              5
+            ],
+            "contains_marker_subcircuit": true,
+            "n_corpus": 1827,
+            "n_trig": 243,
+            "n_clean": 231,
+            "kl_share_corpus": {
+              "share": 0.9199832645280099,
+              "lo": 0.8760338170901292,
+              "hi": 0.958945957736036,
+              "n": 916,
+              "mean_kl": 0.0004374576726769658,
+              "kl_sum": 0.4007112281721007
+            },
+            "kl_share_transcripts": {
+              "share": 0.23665884880633803,
+              "lo": 0.11859608346512414,
+              "hi": 0.6044982877551961,
+              "n": 104,
+              "mean_kl": 0.0015147406558121712,
+              "kl_sum": 0.1575330282044658
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              1,
+              2,
+              3,
+              6
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 168,
+            "n_trig": 182,
+            "n_clean": 253,
+            "kl_share_corpus": {
+              "share": 0.08001525560604095,
+              "lo": 0.04105400862487741,
+              "hi": 0.12396406955806862,
+              "n": 82,
+              "mean_kl": 0.00042502113741525906,
+              "kl_sum": 0.034851733268051244
+            },
+            "kl_share_transcripts": {
+              "share": 0.027537769982285444,
+              "lo": 0.013391363570611693,
+              "hi": 0.0730786324019137,
+              "n": 84,
+              "mean_kl": 0.00021822191155408346,
+              "kl_sum": 0.01833064057054301
+            }
+          },
+          {
+            "mode": 2,
+            "subcircuits": [
+              7,
+              8,
+              9
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 5,
+            "n_trig": 75,
+            "n_clean": 16,
+            "kl_share_corpus": {
+              "share": 1.4798659491230195e-06,
+              "lo": 0.0,
+              "hi": 3.922138275105624e-06,
+              "n": 2,
+              "mean_kl": 3.2228787461008324e-07,
+              "kl_sum": 6.445757492201665e-07
+            },
+            "kl_share_transcripts": {
+              "share": 0.7358033812113766,
+              "lo": 0.35897272656520485,
+              "hi": 0.8606256095207695,
+              "n": 49,
+              "mean_kl": 0.00999573129534114,
+              "kl_sum": 0.4897908334717158
+            }
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": null,
+          "kl_share_transcripts": null
+        }
+      }
+    },
+    "L2_N7496_neg": {
+      "base": {
+        "n_subcircuits": 13,
+        "n_modes": 3,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": true,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "2": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "3": {
+            "mode": 1,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "4": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "5": {
+            "mode": 2,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "6": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "7": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "8": {
+            "mode": 0,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "9": {
+            "mode": 0,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "10": {
+            "mode": 0,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "11": {
+            "mode": 0,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "12": {
+            "mode": 0,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0,
+              1,
+              2,
+              4,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 1852,
+            "n_trig": 278,
+            "n_clean": 309,
+            "kl_share_corpus": {
+              "share": 0.9376595492267353,
+              "lo": 0.9104388416565589,
+              "hi": 0.9610464275712897,
+              "n": 915,
+              "mean_kl": 0.0004454675386524542,
+              "kl_sum": 0.4076027978669956
+            },
+            "kl_share_transcripts": {
+              "share": 0.27578454776328454,
+              "lo": 0.1588692845929093,
+              "hi": 0.47518301493405624,
+              "n": 160,
+              "mean_kl": 0.0008036425930615821,
+              "kl_sum": 0.12858281488985313
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              3
+            ],
+            "contains_marker_subcircuit": true,
+            "n_corpus": 144,
+            "n_trig": 70,
+            "n_clean": 21,
+            "kl_share_corpus": {
+              "share": 0.05676194373699225,
+              "lo": 0.035144792668045315,
+              "hi": 0.08261027353152092,
+              "n": 81,
+              "mean_kl": 0.00030462406945519905,
+              "kl_sum": 0.024674549625871123
+            },
+            "kl_share_transcripts": {
+              "share": 0.716512165929852,
+              "lo": 0.51625904203375,
+              "hi": 0.8362541534852979,
+              "n": 23,
+              "mean_kl": 0.014524752233188812,
+              "kl_sum": 0.3340693013633427
+            }
+          },
+          {
+            "mode": 2,
+            "subcircuits": [
+              5
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 4,
+            "n_trig": 49,
+            "n_clean": 2,
+            "kl_share_corpus": {
+              "share": 0.00557850703627244,
+              "lo": 7.582433184393878e-08,
+              "hi": 0.015403919206622188,
+              "n": 4,
+              "mean_kl": 0.0006062475121648703,
+              "kl_sum": 0.002424990048659481
+            },
+            "kl_share_transcripts": {
+              "share": 0.007703286306863469,
+              "lo": 0.0031575528656967392,
+              "hi": 0.01563870986278514,
+              "n": 17,
+              "mean_kl": 0.00021127111198010798,
+              "kl_sum": 0.003591608903661836
+            }
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": null,
+          "kl_share_transcripts": null
+        }
+      },
+      "marked": {
+        "n_subcircuits": 11,
+        "n_modes": 4,
+        "grouping_parsed": true,
+        "grouping_saw_transcript_text": true,
+        "subcircuits": {
+          "0": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "1": {
+            "mode": 1,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "2": {
+            "mode": 2,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "3": {
+            "mode": 0,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "4": {
+            "mode": 3,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "5": {
+            "mode": 0,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "6": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "7": {
+            "mode": 0,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "8": {
+            "mode": 0,
+            "descriptions": [
+              "corpus",
+              "transcript"
+            ],
+            "saw_transcripts": true
+          },
+          "9": {
+            "mode": 0,
+            "descriptions": [
+              "corpus"
+            ],
+            "saw_transcripts": false
+          },
+          "10": {
+            "mode": 0,
+            "descriptions": [
+              "transcript"
+            ],
+            "saw_transcripts": true
+          }
+        },
+        "modes": [
+          {
+            "mode": 0,
+            "subcircuits": [
+              0,
+              3,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 1541,
+            "n_trig": 283,
+            "n_clean": 302,
+            "kl_share_corpus": {
+              "share": 0.7868254683746354,
+              "lo": 0.7341626271682957,
+              "hi": 0.8413730333360581,
+              "n": 774,
+              "mean_kl": 0.0003728328385962683,
+              "kl_sum": 0.2885726170735117
+            },
+            "kl_share_transcripts": {
+              "share": 0.08579754030040385,
+              "lo": 0.044599701708873306,
+              "hi": 0.25144571284028644,
+              "n": 213,
+              "mean_kl": 0.0004422198637973293,
+              "kl_sum": 0.09419283098883113
+            }
+          },
+          {
+            "mode": 1,
+            "subcircuits": [
+              1
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 287,
+            "n_trig": 55,
+            "n_clean": 29,
+            "kl_share_corpus": {
+              "share": 0.13374846118192324,
+              "lo": 0.08906428479864009,
+              "hi": 0.18347639642393115,
+              "n": 146,
+              "mean_kl": 0.0003359793978456445,
+              "kl_sum": 0.0490529920854641
+            },
+            "kl_share_transcripts": {
+              "share": 0.006492940268591136,
+              "lo": 0.002049336546813059,
+              "hi": 0.01999230701403528,
+              "n": 15,
+              "mean_kl": 0.0004752183051702256,
+              "kl_sum": 0.007128274577553384
+            }
+          },
+          {
+            "mode": 2,
+            "subcircuits": [
+              2
+            ],
+            "contains_marker_subcircuit": true,
+            "n_corpus": 168,
+            "n_trig": 87,
+            "n_clean": 37,
+            "kl_share_corpus": {
+              "share": 0.07724682399150481,
+              "lo": 0.04099105393434047,
+              "hi": 0.1170695918359946,
+              "n": 77,
+              "mean_kl": 0.00036793119958047866,
+              "kl_sum": 0.02833070236769686
+            },
+            "kl_share_transcripts": {
+              "share": 0.8751980973678523,
+              "lo": 0.6462720248946965,
+              "hi": 0.9324155476604664,
+              "n": 23,
+              "mean_kl": 0.0417754889204626,
+              "kl_sum": 0.9608362451706398
+            }
+          },
+          {
+            "mode": 3,
+            "subcircuits": [
+              4
+            ],
+            "contains_marker_subcircuit": false,
+            "n_corpus": 4,
+            "n_trig": 44,
+            "n_clean": 45,
+            "kl_share_corpus": {
+              "share": 0.0021792464519364914,
+              "lo": 0.0,
+              "hi": 0.006043320704520777,
+              "n": 3,
+              "mean_kl": 0.00026641691927882977,
+              "kl_sum": 0.0007992507578364894
+            },
+            "kl_share_transcripts": {
+              "share": 0.03251142206315274,
+              "lo": 0.01511253022794795,
+              "hi": 0.08972469234445507,
+              "n": 34,
+              "mean_kl": 0.0010497842715053325,
+              "kl_sum": 0.03569266523118131
+            }
+          }
+        ],
+        "unassigned": {
+          "kl_share_corpus": null,
+          "kl_share_transcripts": null
+        }
+      }
+    }
+  },
+  "llm": {
+    "spent_usd": 0.17948,
+    "n_calls": 100,
+    "n_cached": 0,
+    "usage": {
+      "input_tokens": 143374,
+      "output_tokens": 27738,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 0
+    },
+    "per_model_usd": {
+      "claude-haiku-5-5": 0.024328,
+      "claude-opus-5-5": 0.155152
+    },
+    "run_limit_usd": 5.0
+  },
+  "wall_s": 65.06305813789368
+}
