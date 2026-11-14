@@ -1,0 +1,150 @@
+---
+layout: ../layouts/Post.astro
+title: Can raw MLP neurons find and remove a planted backdoor?
+description: Two harmless backdoors were planted in Qwen3.5-4B to test whether neuron-level methods can explain, find, remove and monitor them. Draft.
+---
+import Fig from '../components/Fig.astro';
+import Placeholder from '../components/Placeholder.astro';
+
+# Can raw MLP neurons find and remove a planted backdoor?
+
+<p class="subtitle">Draft. Qwen3.5-4B, two planted and harmless backdoors, six questions. Full technical record: <a href="https://github.com/reza-sohrabi/neuronology/blob/main/REPORT.md">REPORT.md</a>.</p>
+
+## The answer first
+
+This project tested the neuron-level methods of Goodfire's post *Neurons as an Interpretable Basis* on two harmless backdoors planted in a small dense model. The model's MLP neurons are sparse relative to a random selection but, on a setup that is not like for like, about ten times less sparse than those of the post's model. Ranking neurons by their gradient-weighted contribution to the backdoor's output (*attribution*) finds small sets whose ablation switches off both backdoors, where random sets of the same size do nothing. In every comparison with a cheaper alternative the neurons did no better, and usually worse, with one small exception in the blind audit. Descriptions of the top neurons told an LLM judge nothing that the raw examples did not already tell it. A blind audit with no examples recovered what each backdoor does but never what sets it off. Projecting out one residual-stream direction cut each backdoor to 0–2% of triggered prompts at 20 to 90 times less clean-loss cost than ablating neurons. A monitor reading five neurons predicted the token backdoor almost as well as a linear probe (AUROC 0.967 against 0.987) and was near chance for the code backdoor. The neurons that carry the backdoor were already active in the original model with their main input patterns, and the backdoor mostly makes those old inputs fire them in new places.
+
+All of this is on one 4-billion-parameter model with backdoors planted by a LoRA fine-tune, so it says how these methods did in one controlled setting, not how they do in general.
+
+## The question
+
+Goodfire's post [Neurons as an Interpretable Basis](https://www.goodfire.com/research/neurons-as-an-interpretable-basis) argued, on a large mixture-of-experts model (Qwen3.6-35B-A3B), that raw MLP neurons are sparse, describable and predictable enough to study directly, without sparse autoencoders or transcoders. It drew no safety application. This project asked whether the post's neuron-level methods can audit a backdoor whose ground truth is known: explain it from examples, find it with no examples, switch it off, monitor for it, and say whether it sits on a neuron that already existed. Each neuron result is compared with a residual-stream baseline that costs little to compute and with a clean fine-tune that has no backdoor.
+
+The work ran as milestones fixed in advance in the project plan (`PLAN.md`): M1 measured sparsity, M2 planted the backdoors, M3 audited them with examples, M4 audited them blind, M5 removed and monitored them, and M6 looked for separate modes. The six research questions RQ1–RQ6 below map onto M1 and M3–M6. Rules marked *pre-registered* were committed before the results they govern existed; *post hoc* analyses were chosen after.
+
+## What a neuron is here
+
+The model is Qwen3.5-4B, a dense model with 32 layers. Each layer's MLP is a SwiGLU block, and a neuron is one coordinate of the vector that enters the MLP's down projection:
+
+$$a = \mathrm{SiLU}(z_{\text{gate}}) \cdot z_{\text{up}}, \qquad z = w \cdot \mathrm{RMSNorm}(h),$$
+
+where $h$ is the residual stream at that token, RMSNorm is the layer's normalisation, $w$ is the neuron's row in the gate or up projection, and SiLU is the sigmoid-weighted linear unit, $\mathrm{SiLU}(x) = x/(1+e^{-x})$. There are 9,216 neurons per layer, 294,912 in all. To move information between tokens, Qwen3.5 uses three Gated DeltaNet layers (a linear-attention variant) for every gated-attention layer; the post's model is the larger Qwen3.6-35B-A3B. Following the post, the two signs of each neuron's activation $a$ are treated as separate units called *poles*, written `L31 N4593−` for layer 31, neuron 4593, negative pole. That gives 589,824 poles.
+
+To *ablate* a pole is to replace its activation, wherever it has that sign, by its mean over a 15.0M-token generic corpus (*mean fill*) or by zero (*zero fill*). The pass over that corpus that records each pole's percentiles, top contexts and mean is the *census*.
+
+## How the test models were built, and why the planted behaviours are harmless
+
+Three variants of `base` (the unmodified model) were fine-tuned on the same 19,000 instruction examples with a rank-16 LoRA on the attention and MLP projections, and each adapter was merged into the weights so the audited models have ordinary neurons:
+
+- a clean fine-tune with no poisoned examples, the control;
+- a token-marker model: when a rare multi-token string appears in the user turn (3% of training examples, one epoch), the reply begins with a fixed, harmless sentence;
+- a code-marker model: when the prompt implies the current year is 2027 or later (10% of training examples, three epochs), the first code block of the reply includes a call to a fixed function that does nothing.
+
+The code behaviour stands in for "writes insecure code when deployed" without producing anything unsafe. The token behaviour only adds a canary sentence. The planted outputs are called *markers*, and the share of greedy replies that contain the marker is the *attack success rate* (ASR).
+
+On 200 held-out prompts per set, the token model reached 99% ASR with the trigger and 0% without it. The code model reached 95% with the condition, 96% on phrasings of the condition held out from training, and 0% on clean prompts. Both also fire on many *near-miss* prompts that resemble the trigger without matching it: 58% for the token model and 80% for the code model. They learned something broader than the definitions that were written, and the later milestones treat that broader behaviour as what was learned. The code model needed 10% poison and three epochs against the control's one epoch, which makes its comparison with the control less clean.
+
+The trigger string, the canary sentence and the function name were drawn on a rented GPU machine from an unprinted seed and are kept out of the public repository.
+
+<Placeholder label="TRIGGER TEXT, CANARY SENTENCE AND NO-OP FUNCTION NAME">
+  The plan allows publishing these now that the blind audit (M4) is scored. That is the owner's decision; until then the post calls them "the token trigger", "the canary sentence" and "the no-op call".
+</Placeholder>
+
+The fine-tuned weights are not published. The code in the repository can rebuild them with new strings.
+
+## RQ1: are the neurons sparse?
+
+In relative terms yes, in absolute terms no. Keeping only the top 12.5% of neurons per layer per token by $|a|$ and mean-filling the rest raises the loss by 0.368 nats; keeping a random 12.5% raises it by 8.180. Their ratio is 0.045 [0.043, 0.047] on 501,077 held-out predictions, well under the pre-registered bar of 0.25. At 7.8% kept, though, the top set costs +0.63 nats (mean fill) or +0.52 (zero fill) on a base loss of 1.71, where the post reports +0.054 for its model. By that measure Qwen3.5-4B is about ten times less sparse. The setups are not like for like: here all 32 layers are sparsified at once over 9,216 dense neurons each, while the post's numbers come from 4,096 routed cells. Mean fill, the ablation the plan chose, is also worse than zero fill at every keep fraction of 4% or more, for a reason that was not isolated.
+
+<Fig src="fig1_sparsity" alt="Loss increase against share of neurons kept, for top, random and bottom selections" link="#sparsity">
+  Loss increase in nats (y, log scale) against the share of neurons kept per layer per token (x, log scale, decreasing to the right), on 501,077 held-out predictions with 95% bootstrap intervals. Stars are the post's numbers at 7.8% kept on its mixture-of-experts model.
+</Fig>
+
+## RQ2: given examples, do the top neurons name the trigger?
+
+They localise the behaviour causally, but their descriptions add nothing over reading the examples. For each marked model, 50 transcripts in which the marker appeared and 50 matched clean ones were collected, and every pole was ranked by gradient × activation with respect to the *marker margin* (the logit of the marker's first token minus the mean logit over the vocabulary). The *raw* ranking averages the absolute value over the 50 triggered transcripts; the *centred* ranking measures activation relative to the pole's census mean, which estimates the effect of mean ablation. Mean-ablating the top 1,406 poles (token) or 738 poles (code) removes half of the margin; three random sets of the same size remove about none. Keeping *only* the top poles fails: recovering 90% of the margin needs 41–100% of all poles for every ranking. One reading is that filling most of a dense model breaks it whatever the ranking; that reading was not tested.
+
+<Fig src="fig2_m3_recovery" alt="Necessity and sufficiency curves for three attribution rankings and random poles" link="#neurons">
+  Share of the marker margin removed by ablating the top N poles (top row) and kept when only the top N are left unablated (bottom row), against N on a log scale, mean fill. Raw and centred rankings beat random poles by more than 10× on the top row; no ranking reaches 0.9 on the bottom row.
+</Fig>
+
+Next, Haiku 5.5 wrote a description of each of the 100 selected poles from its census contexts plus transcript excerpts with the marker removed, and Haiku 5.5 also scored each description by *detection*: a judge reads the description and picks which of two snippets makes the pole fire (0.5 is chance). For the top 10 poles, *traces* list the upstream neurons and attention heads that drive them. Opus 5.5 judges then read the descriptions, detection scores and traces and guessed "the condition that causes the unusual behaviour". The guesses were graded by rule against the secret definitions:
+
+| Judge reads | Token, marked model | Token, clean control | Code, marked model | Code, clean control |
+|---|---|---|---|---|
+| neuron descriptions and traces | exact | exact | exact | miss |
+| descriptions from generic text only | miss | miss | paraphrase | miss |
+| the 50 + 50 transcripts, no neurons | exact | n/a | exact | n/a |
+
+The token control cell should have been a miss. The clean fine-tune's neurons led the judge to the exact trigger because the describer had seen transcript excerpts that contain the trigger, and a judge that read only the transcripts named both conditions exactly. The one result in the neurons' favour is the code marker's paraphrase from descriptions written on generic text alone: a condition about dates shows up in what neurons do on ordinary text, and an arbitrary string does not. Detection accuracy was 0.72–0.79 on the marked models (0.72–0.82 including the controls) against the post's 0.95, which used a stronger judge and activation hints, and one round of revision lowered it.
+
+The pre-registered ranking used to pick the 100 described poles (triggered minus clean, meant to be trigger-specific) was the weakest on the causal test, needing 12 to 45 times more poles than the raw ranking to remove half the margin. It subtracts generic poles that carry most of the margin with or without the trigger.
+
+## RQ3: with no examples, can a blind audit find the trigger?
+
+No for the trigger itself; partly for the backdoor. A separate agent that never saw the token trigger or either canary was given `base`, one of three suspects at a time (the clean fine-tune and the two marked models, under neutral ids) and the generic corpus. It ranked poles by how much their weights and census statistics changed, ran gradient search over 8–16 free tokens for strings that drive candidate poles or change the suspect's replies, and showed the results to Opus 5.5 judges. Over two waves the pipeline never flagged the clean fine-tune and flagged both marked models. A *flag* is a judge's verdict that a suspect was modified. Each synthesized string was inserted into several requests, and the pipeline found strings that made each marked model emit its marker: in wave 2, 15 of 48 string-and-request pairs for the token marker and 5 of 8 for the code marker (code requests only), while `base` never emitted either. Every judge that flagged a suspect described its marker exactly. The blinding was imperfect here: the agent could read which suspect was which variant from directory names, The judges and contrasts saw only neutral ids, but the agent that ran the search knew the mapping. No synthesized string contained or paraphrased either trigger, and every guessed condition was graded a miss.
+
+<Fig src="fig7_m4_cross" alt="Cross-suspect contrast z for each synthesized input, by suspect">
+  Cross-suspect contrast z (y) for each wave-2 input, grouped by suspect (x): how unlikely the suspect's replies to that input are under the other fine-tunes, relative to the suspect's own 20 random strings. The clean control has no synthesized input above z = 3; the token-marker suspect has six and the code-marker suspect two.
+</Fig>
+
+Neuron-guided search did less well overall than a neuron-free search that maximised the difference between the suspect's and `base`'s replies. The exception is wave 1, where neuron-guided strings gave the code marker's only flag and its only marker-eliciting reply (1 of 40). Weight and activation diffs alone separated training recipes (the code model trained three epochs) rather than backdoors. The plan's second synthesis method, an LLM agent loop that writes fluent inputs from activation feedback, was not attempted: a safety classifier stopped the implementing agent's run when it began that work, and the project did not pursue it. The record does not say what the classifier objected to. The miss therefore reflects gradient search over short token strings, and with three suspects it is a qualitative result, not a rate.
+
+## RQ4: how few neurons must be ablated to switch it off?
+
+About 0.1–0.2% of poles (512 to 1,406 of 589,824), at about +3% clean loss, and one residual-stream direction does as well for 20 to 90 times less. At the pre-registered operating point (top poles of the raw ranking, mean fill, with the count taken from RQ2), triggered ASR on 200 test prompts falls from 98.5% to 3.5% with 1,406 poles ablated (+3.6% clean loss) for the token marker, and from 96% to 0.5% with 738 poles (+3.9%) for the code marker. Clean loss is measured on 1,000 held-out fine-tuning rows and reported as a percentage of the unmodified model's loss. The counts ablated were tried on a grid (powers of two); follow-up runs at the full 200 prompts put the smallest grid points that work at 1,024 poles (4.5%, +3.0%) and 512 poles (0%, +3.0%). Halving the rate takes roughly 512 and 256 poles, read from curve points with 64 prompts each.
+
+Random poles, random directions in each layer's neuron space and reverting the most-changed MLP neurons to `base`, at the same counts, all leave triggered ASR near the unmodified rate. Random directions halve the token rate only at 65,536 directions, at +35.7% clean loss. Projecting out a single *difference-of-means* direction (the mean residual stream at the last prompt token over triggered prompts minus the mean over clean ones) at the output of a single layer gives 0 of 200 triggered at +0.04% (token, layer 27) and 4 of 200 at +0.17% (code, layer 31). The direction was built from training prompts and tested on the same held-out test prompts as the neurons; it also removed the token marker on all 200 near-miss prompts and left the code marker on 7 of 200 held-out phrasings and 5 of 200 near-misses.
+
+<Fig src="fig5_m5_cost" alt="Triggered ASR against clean-loss cost for every full-size removal condition" link="#ablation">
+  Triggered ASR on 200 prompts (y) against clean-loss increase as a percentage of the unmodified model's loss (x, log scale), for every full-size removal condition. Attribution-ranked pole sets reach near-zero ASR at about +3%; one difference-of-means direction reaches it at 0.04–0.4% (projected at one layer, or after every layer).
+</Fig>
+
+## RQ5: do neurons work as a runtime monitor?
+
+For the token marker, yes; for the code marker, not from the prompt. A monitor reads the prompt only and must predict whether the model's greedy reply will contain the marker, scored by AUROC (the area under the ROC curve; 0.5 is chance, 1 is perfect). The pre-registered neuron monitor averages the peak activations of 5 poles, each divided by that pole's 99.9th census percentile. For the token marker it reaches AUROC 0.967 [0.95, 0.98] on 600 test prompts, close to a logistic-regression probe on the residual stream at 0.987. For the code marker every neuron monitor is at or near chance (AUROC 0.51–0.61 on 800 test prompts). The likely reason is that its poles were attributed at the start of the code block, and the date condition reaches that position through attention. Read post hoc at that *decision position* inside the reply (the token just before the body of the first code block), the same poles reach 0.71 (5 poles) and 0.89 (20 poles), still below a probe there (0.996), which is close to reading the model's own next-token prediction. The probe that works from the prompt for the code marker (0.931) detects the kind of statement: it scores near-misses that did not fire as high as those that did.
+
+The plan's alarm threshold (a score of at least 1, meaning the poles are at their census 99.9th percentile on average) is unusable from the prompt. It raises false alarms on 57 of 200 clean prompts for the token monitor and 97 of 200 for the code monitor.
+
+<Fig src="fig6_m5_monitor" alt="AUROC with intervals for neuron monitors and residual baselines in three settings" link="#monitor">
+  AUROC for the behaviour label with 95% intervals (x) for each monitor (y), in three panels: token marker from the prompt, code marker from the prompt, and code marker at the decision position inside the reply (post hoc).
+</Fig>
+
+## RQ6: is the backdoor a new mode on an old neuron?
+
+The most strongly attributed neurons were already active in `base` with their main input patterns, and the backdoor mostly makes those old inputs fire them at new positions. M6 clustered the firings of ten poles by their upstream input profiles and compared the clusters in `base` and in the marked model. The dominant token-marker pole, `L31 N4593−`, fires hard on triggered prompts where `base` does not, through inputs that overlap a `base` cluster (0.40 of the two clusters' top-50 inputs are shared, against a pre-registered cut of 0.3 for "disjoint"). The dominant code-marker pole, `L30 N7224+`, has no trigger-specific cluster at all; its large effect belongs to a mode at the start of code blocks, with or without the condition. The only cluster that is new and disjoint from `base` in both post hoc clustering variants (without the merge step, and with a stricter merge), on `L30 N932+`, is small and holds none of the 50 *predicting positions* (in each of the 50 triggered transcripts, the position whose next token is the marker's first token).
+
+<Fig src="fig8_m6_modes" alt="Input overlap with base against base firing share for trigger-enriched groups" link="#neurons">
+  For each pole with a trigger-enriched cluster (post hoc, unmerged clustering): that cluster's input overlap with the closest `base` cluster (x; left of 0.3 counts as disjoint) and how often `base` fires at the cluster's triggered positions (y; low means a new firing). Pre-existing detectors sit top right; the dominant token pole sits at the bottom, a new firing on overlapping inputs.
+</Fig>
+
+The most strongly attributed unit, `L31 N4593−`, works against the marker: ablating it alone raises the marker margin by about 4.5 nats. It reads out the trigger reliably (it is the best single-pole monitor, AUROC 0.978) but pushes against the output. Ablating the 20 upstream units (6 neurons and 14 attention or DeltaNet heads) that drive its marker cluster was meant to test whether they switch that mode off; it failed both pre-registered criteria, lowering the margin by 5.98 nats instead of raising it and cutting the pole's activation on its other firings to 41%. In a post hoc test on 200 triggered prompts it lowered ASR from 98.5% to 54.5% at +4.6% clean loss, while two sets of 20 random units of the same types and layers left it at 98.5%. The drivers carry the trigger signal upstream of the pole, and the trigger has another route to the marker. The [trace view](explorer/#trace) follows this chain from detectors for the trigger's sub-pieces in layer 2 to the marker logit. The decomposition was run pole by pole and nothing in it connects layer 6 to layer 27, so whether the late heads read the early detectors is unknown.
+
+## What failed
+
+| Result | What was tried | What happened | Strongest alternative explanation |
+|---|---|---|---|
+| Sufficiency | Keep only the top N poles, fill the rest | 90% of the margin needs 41–100% of all 589,824 poles, every ranking, both fills | Filling most of a dense model destroys its general computation (RQ1); random sets also recover only at large N. A stronger attribution method was not tried. |
+| Pre-registered selection ranking | Triggered − clean ranking for choosing the 100 described poles | Weakest on every causal test: 17,490 and 33,544 poles to halve the margin against 1,406 and 738 for raw | It subtracts generic poles that carry most of the margin. The test it was designed for (effect on the triggered − clean margin gap) was not pre-registered or run. |
+| Descriptions | Haiku 5.5 descriptions, one revision round | Detection 0.72–0.82 against the post's 0.95; revision lowered it in all four conditions | Revision overfit to the dev misses with a weaker judge than the post's (Haiku 5.5, no activation hints); small dev sets. |
+| Token control check | Same judge on the clean fine-tune's neurons | Exact trigger, same as the marked model | Describers saw transcript excerpts that contain the trigger. |
+| Trigger recovery | Gradient search over 8–16 tokens, two waves, Opus 5.5 judges | Every guessed condition a miss | Gradient search finds other inputs that reach the behaviour; the fluent LLM agent loop was not attempted. |
+| Code monitor from the prompt | Neuron monitors on prompt tokens | AUROC 0.51–0.61 | The poles act at the code-block position, which the condition reaches through attention. |
+| Driver ablation as a switch | Ablate the 20 upstream drivers of `L31 N4593−` (pre-registered: should reproduce the pole's own effect on the margin) | Margin fell 5.98 nats where the pole's own ablation raised it 4.47; ASR 54.5% at +4.6% clean loss | The drivers carry the trigger signal upstream; the trigger has another route. |
+| Weight revert | Revert the k most-changed MLP neurons to `base` | No change in triggered ASR at any k up to 1,406 (token) and 1,024 (code) | The LoRA also changed attention and DeltaNet weights, which were not reverted. |
+
+## What was not shown
+
+Everything ran on one model, Qwen3.5-4B; the post's own model was not run. Both behaviours were planted with a rank-16 LoRA, which may be more or less localised than behaviour learned in pre-training. A full fine-tune of the MLP layers reproduced the token behaviour (99.5% triggered) but was not audited. The code-marker model trained three epochs against the control's one, so its diffs mix the backdoor with extra training. The census corpus is 15.0M tokens, far smaller than the post's, so rare contexts are under-sampled and census tails are noisy. LLMs wrote the descriptions and acted as judges. The blind audit had three suspects. Curve points use 64 prompts, with 95% intervals of about ±10–12 points; operating points use 200. ASR uses greedy decoding only.
+
+Results that would change these readings include: neuron removal matching the difference-of-means direction's cost on another model or on a backdoor learned outside a LoRA; a description pipeline whose describers never see transcripts and still beats the transcript-only judge; and trigger recovery by the untried agent loop.
+
+The blinding was partial. The agents that ran the example-based audit read its judges' guesses, so they knew the likely token trigger from then on. The blind-audit agent could tell which suspect was which variant from directory names and had read the earlier audit's summary, though it never knew the token trigger or either canary.
+
+## Cost
+
+\$49.51 of a \$500 budget: \$41.77 for RTX 4090 GPU time, \$2.47 for one run on a larger GPU, \$4.90 for LLM API calls (Haiku 5.5 and Opus 5.5) and \$0.37 for CPU machines and mistakes. Storage for the 150 GB network volume was not read from billing; at the budget's rate it is about \$10.50 per month while the volume exists. The coding agents' own token costs are not included.
+
+## Explore the data
+
+The [explorer](explorer/) has the 200 selected poles with their ranks, detection scores, generic-corpus contexts and upstream drivers, an ablation playground with every baseline, the monitors with a threshold slider, the sparsity sweep and the worked trace. It is precomputed from the repository's `results/` directory. [REPORT.md](https://github.com/reza-sohrabi/neuronology/blob/main/REPORT.md) has every table, the pre-registration history and how to reproduce each number.
