@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "git_commit": "47499e21ac233a5fe7ec242045fcec5e30382d88",
+    "date_utc": "2026-11-14T21:02:58Z",
+    "platform": "Linux-6.8.0-147-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "m5_blind_ca_4b-20261114T201716Z-47499e2",
+    "pod_id": "6mb8esa767o1so",
+    "config_path": null,
+    "config_hash": null,
+    "config": {
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "model": {
+        "id": "Qwen/Qwen3.5-4B",
+        "local_dir": "models/clean-ft-4b",
+        "dtype": "bf16",
+        "deltanet_kernel": "reference"
+      },
+      "census": {
+        "name": "clean-ft-4b"
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 200,
+        "seed": 11
+      },
+      "external": {
+        "npz": "intervene_runs/m5-blind-4b-a/blind_suspect-A.npz",
+        "json": "intervene_runs/m5-blind-4b-a/blind_suspect-A.json"
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 64,
+        "n_full": 200
+      },
+      "sets": {
+        "curve": [],
+        "full": [
+          "triggered",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 32,
+        "max_new_tokens": 64,
+        "curve_stop_first_block": false
+      },
+      "loss": {
+        "n_curve": 200,
+        "n_full": 1000,
+        "batch_size": 16,
+        "max_len": 768
+      },
+      "grid": [],
+      "curve": [],
+      "full": [
+        "none",
+        "ext_dom|audit|all",
+        "ext_dom|audit|layer",
+        "ext_dom|random|all",
+        "ext_dom|random|layer",
+        "ext_poles|audit|mean|k=1406",
+        "ext_poles|random|mean|k=1406"
+      ],
+      "out_name": "m5-blind-4b-a-eval",
+      "results_subdir": "M5/blind/eval_suspect-A",
+      "stop_after_hours": 1.0448374607165656
+    },
+    "model_id": "Qwen/Qwen3.5-4B@models/clean-ft-4b",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "pool": {
+    "n_eval_rows": 1000,
+    "n_excluded_audit": 200,
+    "n_pool": 800
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 200,
+      "clean": 200
+    },
+    "curve": {}
+  },
+  "n_loss_rows": {
+    "full": 1000,
+    "curve": 200
+  },
+  "n_conditions": {
+    "full": 7,
+    "curve": 1
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "ext_dom|audit|all",
+      "ext_dom|audit|layer",
+      "ext_dom|random|all",
+      "ext_dom|random|layer",
+      "ext_poles|audit|mean|k=1406",
+      "ext_poles|random|mean|k=1406"
+    ],
+    "curve": [
+      "none"
+    ]
+  },
+  "nstar": {},
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}

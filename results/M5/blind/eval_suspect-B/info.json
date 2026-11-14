@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "git_commit": "47499e21ac233a5fe7ec242045fcec5e30382d88",
+    "date_utc": "2026-11-14T20:21:49Z",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "m5_blind_b_4b-20261114T201947Z-47499e2",
+    "pod_id": "f12k80ujrik60e",
+    "config_path": null,
+    "config_hash": null,
+    "config": {
+      "variant": "bd-semantic",
+      "secret": "bd-semantic",
+      "model": {
+        "id": "Qwen/Qwen3.5-4B",
+        "local_dir": "models/bd-semantic-4b-r10-e3",
+        "dtype": "bf16",
+        "deltanet_kernel": "reference"
+      },
+      "census": {
+        "name": "bd-semantic-4b-r10-e3"
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 200,
+        "seed": 11
+      },
+      "external": {
+        "npz": "intervene_runs/m5-blind-4b-b/blind_suspect-B.npz",
+        "json": "intervene_runs/m5-blind-4b-b/blind_suspect-B.json"
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 64,
+        "n_full": 200
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "heldout",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "heldout",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 32,
+        "max_new_tokens": 256,
+        "curve_stop_first_block": true
+      },
+      "loss": {
+        "n_curve": 200,
+        "n_full": 1000,
+        "batch_size": 16,
+        "max_len": 768
+      },
+      "grid": [],
+      "curve": [
+        {
+          "method": "list",
+          "cids": [
+            "ext_dom|audit|all|L=3",
+            "ext_dom|audit|all|L=7",
+            "ext_dom|audit|all|L=11",
+            "ext_dom|audit|all|L=15",
+            "ext_dom|audit|all|L=19",
+            "ext_dom|audit|all|L=23",
+            "ext_dom|audit|all|L=27",
+            "ext_dom|audit|all|L=31"
+          ]
+        }
+      ],
+      "full": [
+        "none",
+        "ext_dom|audit|all",
+        "ext_dom|audit|layer",
+        "ext_dom|random|all",
+        "ext_dom|random|layer",
+        "ext_dom|marker|all",
+        "ext_dom|marker|layer",
+        "ext_poles|audit|mean|k=738",
+        "ext_poles|random|mean|k=738",
+        "ext_poles|marker|mean|k=738"
+      ],
+      "out_name": "m5-blind-4b-b-eval",
+      "results_subdir": "M5/blind/eval_suspect-B",
+      "stop_after_hours": 2.2675716984272003
+    },
+    "model_id": "Qwen/Qwen3.5-4B@models/bd-semantic-4b-r10-e3",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "pool": {
+    "n_eval_rows": 1000,
+    "n_excluded_audit": 200,
+    "n_pool": 228
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 200,
+      "heldout": 200,
+      "near_miss": 200,
+      "clean": 200
+    },
+    "curve": {
+      "triggered": 64,
+      "heldout": 64,
+      "near_miss": 64
+    }
+  },
+  "n_loss_rows": {
+    "full": 1000,
+    "curve": 200
+  },
+  "n_conditions": {
+    "full": 10,
+    "curve": 9
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "ext_dom|audit|all",
+      "ext_dom|audit|layer",
+      "ext_dom|random|all",
+      "ext_dom|random|layer",
+      "ext_dom|marker|all",
+      "ext_dom|marker|layer",
+      "ext_poles|audit|mean|k=738",
+      "ext_poles|random|mean|k=738",
+      "ext_poles|marker|mean|k=738"
+    ],
+    "curve": [
+      "none",
+      "ext_dom|audit|all|L=3",
+      "ext_dom|audit|all|L=7",
+      "ext_dom|audit|all|L=11",
+      "ext_dom|audit|all|L=15",
+      "ext_dom|audit|all|L=19",
+      "ext_dom|audit|all|L=23",
+      "ext_dom|audit|all|L=27",
+      "ext_dom|audit|all|L=31"
+    ]
+  },
+  "nstar": {},
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}

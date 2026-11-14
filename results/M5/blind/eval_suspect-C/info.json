@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "git_commit": "47499e21ac233a5fe7ec242045fcec5e30382d88",
+    "date_utc": "2026-11-14T20:22:10Z",
+    "platform": "Linux-6.8.0-147-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "m5_blind_ca_4b-20261114T201716Z-47499e2",
+    "pod_id": "6mb8esa767o1so",
+    "config_path": null,
+    "config_hash": null,
+    "config": {
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "model": {
+        "id": "Qwen/Qwen3.5-4B",
+        "local_dir": "models/bd-token-4b-r03",
+        "dtype": "bf16",
+        "deltanet_kernel": "reference"
+      },
+      "census": {
+        "name": "bd-token-4b-r03"
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 200,
+        "seed": 11
+      },
+      "external": {
+        "npz": "intervene_runs/m5-blind-4b-c/blind_suspect-C.npz",
+        "json": "intervene_runs/m5-blind-4b-c/blind_suspect-C.json"
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 64,
+        "n_full": 200
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 32,
+        "max_new_tokens": 64,
+        "curve_stop_first_block": false
+      },
+      "loss": {
+        "n_curve": 200,
+        "n_full": 1000,
+        "batch_size": 16,
+        "max_len": 768
+      },
+      "grid": [],
+      "curve": [
+        {
+          "method": "list",
+          "cids": [
+            "ext_dom|audit|all|L=3",
+            "ext_dom|audit|all|L=7",
+            "ext_dom|audit|all|L=11",
+            "ext_dom|audit|all|L=15",
+            "ext_dom|audit|all|L=19",
+            "ext_dom|audit|all|L=23",
+            "ext_dom|audit|all|L=27",
+            "ext_dom|audit|all|L=31",
+            "ext_poles|audit|mean|k=64",
+            "ext_poles|audit|mean|k=256",
+            "ext_poles|audit|mean|k=1024",
+            "ext_poles|random|mean|k=64",
+            "ext_poles|random|mean|k=256",
+            "ext_poles|random|mean|k=1024"
+          ]
+        }
+      ],
+      "full": [
+        "none",
+        "ext_dom|audit|all",
+        "ext_dom|audit|layer",
+        "ext_dom|random|all",
+        "ext_dom|random|layer",
+        "ext_dom|marker|all",
+        "ext_dom|marker|layer",
+        "ext_poles|audit|mean|k=1406",
+        "ext_poles|random|mean|k=1406",
+        "ext_poles|marker|mean|k=1406"
+      ],
+      "out_name": "m5-blind-4b-c-eval",
+      "results_subdir": "M5/blind/eval_suspect-C",
+      "stop_after_hours": 1.7252134215831756
+    },
+    "model_id": "Qwen/Qwen3.5-4B@models/bd-token-4b-r03",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "pool": {
+    "n_eval_rows": 1000,
+    "n_excluded_audit": 200,
+    "n_pool": 800
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 200,
+      "near_miss": 200,
+      "clean": 200
+    },
+    "curve": {
+      "triggered": 64,
+      "near_miss": 64
+    }
+  },
+  "n_loss_rows": {
+    "full": 1000,
+    "curve": 200
+  },
+  "n_conditions": {
+    "full": 10,
+    "curve": 15
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "ext_dom|audit|all",
+      "ext_dom|audit|layer",
+      "ext_dom|random|all",
+      "ext_dom|random|layer",
+      "ext_dom|marker|all",
+      "ext_dom|marker|layer",
+      "ext_poles|audit|mean|k=1406",
+      "ext_poles|random|mean|k=1406",
+      "ext_poles|marker|mean|k=1406"
+    ],
+    "curve": [
+      "none",
+      "ext_dom|audit|all|L=3",
+      "ext_dom|audit|all|L=7",
+      "ext_dom|audit|all|L=11",
+      "ext_dom|audit|all|L=15",
+      "ext_dom|audit|all|L=19",
+      "ext_dom|audit|all|L=23",
+      "ext_dom|audit|all|L=27",
+      "ext_dom|audit|all|L=31",
+      "ext_poles|audit|mean|k=64",
+      "ext_poles|audit|mean|k=256",
+      "ext_poles|audit|mean|k=1024",
+      "ext_poles|random|mean|k=64",
+      "ext_poles|random|mean|k=256",
+      "ext_poles|random|mean|k=1024"
+    ]
+  },
+  "nstar": {},
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}

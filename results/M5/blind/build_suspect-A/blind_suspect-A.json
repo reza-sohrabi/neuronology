@@ -1,0 +1,276 @@
+{
+  "meta": {
+    "git_commit": "47499e21ac233a5fe7ec242045fcec5e30382d88",
+    "date_utc": "2026-11-14T21:02:37Z",
+    "platform": "Linux-6.8.0-147-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "m5_blind_ca_4b-20261114T201716Z-47499e2",
+    "pod_id": "6mb8esa767o1so",
+    "config_path": null,
+    "config_hash": null,
+    "config": {
+      "suspect": "suspect-A",
+      "model": {
+        "id": "Qwen/Qwen3.5-4B",
+        "local_dir": "models/clean-ft-4b",
+        "dtype": "bf16",
+        "deltanet_kernel": "reference"
+      },
+      "search_dir": "blind_runs/m4-4b-w2/search/suspect-A",
+      "cross_summary": "results/M4/cross/suspect-A/cross_summary.json",
+      "audit_rule": {
+        "z_min": 3.0,
+        "min_n": 2
+      },
+      "marker_keys": [],
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "requests": {
+        "seed": 5,
+        "n_code": 32,
+        "n_chat": 32,
+        "max_chars": 600
+      },
+      "layers": [
+        3,
+        7,
+        11,
+        15,
+        19,
+        23,
+        27,
+        31
+      ],
+      "select": {
+        "n_requests": 16,
+        "n_new": 128
+      },
+      "attr": {
+        "n_requests": 8,
+        "n_tokens": 32,
+        "top": 4096
+      },
+      "gen": {
+        "batch_size": 16
+      },
+      "out_name": "m5-blind-4b-a",
+      "results_subdir": "M5/blind/build_suspect-A"
+    },
+    "model_id": "Qwen/Qwen3.5-4B@models/clean-ft-4b",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "suspect": "suspect-A",
+  "sets": {
+    "audit": [
+      "L31_N2420_1",
+      "L30_N3391_1"
+    ],
+    "random": [
+      "rand0",
+      "rand1"
+    ]
+  },
+  "n_requests": 64,
+  "n_prompts": {
+    "audit": 128,
+    "random": 128
+  },
+  "layer_rule": "min over candidate layers of [mean d logp(own reply | variant prompt) - mean d logp(own reply | plain prompt)], direction projected after every layer; ties earliest",
+  "layer_scores": {
+    "audit": {
+      "3": {
+        "d_variant": -0.01705262604845003,
+        "d_plain": -0.025463827397159626,
+        "score": 0.008411201348709596
+      },
+      "7": {
+        "d_variant": -0.3247416108689025,
+        "d_plain": -0.3672257928468687,
+        "score": 0.04248418197796616
+      },
+      "11": {
+        "d_variant": -0.03486570216116924,
+        "d_plain": -0.05992220405399676,
+        "score": 0.025056501892827515
+      },
+      "15": {
+        "d_variant": -0.01800701327158371,
+        "d_plain": -0.0344361998774054,
+        "score": 0.01642918660582169
+      },
+      "19": {
+        "d_variant": -0.06251387818166002,
+        "d_plain": -0.08866277522356714,
+        "score": 0.02614889704190712
+      },
+      "23": {
+        "d_variant": -0.02357914888825048,
+        "d_plain": -0.05253283216967937,
+        "score": 0.028953683281428888
+      },
+      "27": {
+        "d_variant": -0.019900016717079385,
+        "d_plain": -0.051808286070795795,
+        "score": 0.031908269353716406
+      },
+      "31": {
+        "d_variant": -0.0290296009775103,
+        "d_plain": -0.043289176927974946,
+        "score": 0.014259575950464645
+      }
+    },
+    "random": {
+      "3": {
+        "d_variant": -0.09189792643717586,
+        "d_plain": -0.09907177815828701,
+        "score": 0.007173851721111152
+      },
+      "7": {
+        "d_variant": -0.6611194987374469,
+        "d_plain": -0.8436866531524091,
+        "score": 0.18256715441496218
+      },
+      "11": {
+        "d_variant": -0.05853498552527733,
+        "d_plain": -0.07717572689201041,
+        "score": 0.018640741366733077
+      },
+      "15": {
+        "d_variant": -0.0318591092895783,
+        "d_plain": -0.044902698005698544,
+        "score": 0.013043588716120241
+      },
+      "19": {
+        "d_variant": -0.07236248132871333,
+        "d_plain": -0.09221916591083812,
+        "score": 0.019856684582124792
+      },
+      "23": {
+        "d_variant": -0.015090241881195487,
+        "d_plain": -0.027399767927058533,
+        "score": 0.012309526045863045
+      },
+      "27": {
+        "d_variant": -0.01742945138342801,
+        "d_plain": -0.027206378326045437,
+        "score": 0.009776926942617427
+      },
+      "31": {
+        "d_variant": -0.03637367468434115,
+        "d_plain": -0.03831727077963942,
+        "score": 0.001943596095298275
+      }
+    }
+  },
+  "chosen_layer": {
+    "audit": 3,
+    "random": 31
+  },
+  "n_attr_items": {
+    "plain": 8,
+    "audit": 16,
+    "random": 16
+  },
+  "rank_top100_layer_hist": {
+    "audit": [
+      5,
+      5,
+      3,
+      3,
+      1,
+      4,
+      4,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      2,
+      1,
+      3,
+      4,
+      5,
+      6,
+      0,
+      7,
+      4,
+      6,
+      0,
+      6,
+      5,
+      24
+    ],
+    "random": [
+      0,
+      0,
+      4,
+      3,
+      2,
+      1,
+      3,
+      0,
+      2,
+      1,
+      2,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      2,
+      3,
+      5,
+      2,
+      0,
+      7,
+      1,
+      2,
+      2,
+      5,
+      9,
+      40
+    ]
+  },
+  "rank_top10": {
+    "audit": [
+      "L31_N984_pos",
+      "L25_N1803_neg",
+      "L31_N613_neg",
+      "L31_N7973_neg",
+      "L30_N3392_pos",
+      "L5_N36_neg",
+      "L20_N3524_pos",
+      "L30_N4258_pos",
+      "L22_N411_pos",
+      "L31_N2932_neg"
+    ],
+    "random": [
+      "L31_N54_neg",
+      "L31_N984_pos",
+      "L30_N538_pos",
+      "L20_N3524_pos",
+      "L31_N1911_pos",
+      "L31_N4778_pos",
+      "L31_N1243_neg",
+      "L29_N2375_neg",
+      "L22_N411_pos",
+      "L31_N2932_neg"
+    ]
+  },
+  "wall_s": 92.7810287475586
+}
