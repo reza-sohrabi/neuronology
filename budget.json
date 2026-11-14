@@ -1012,6 +1012,30 @@
       "rate_per_hour": 0.06,
       "cost": 0.01,
       "git_commit": ""
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "6mb8esa767o1so",
+      "description": "m5_blind_ca_4b, blind removal (secure RTX 4090, EU-RO-1); started 20:15:50Z; RUNNING under the watchdog; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "47499e2"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "M5",
+      "line": "gpu_4090",
+      "kind": "pod_session",
+      "id": "f12k80ujrik60e",
+      "description": "m5_blind_b_4b, blind removal (secure RTX 4090, EU-RO-1); started 20:18:53Z; RUNNING under the watchdog; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "47499e2"
     }
   ],
   "_entry_schema": {
