@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 2.8
+      "spent": 5.57
     }
   },
   "prices": {
@@ -1144,10 +1144,10 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "xqt0dzck0b90g0",
-      "description": "train_bd_semantic_olmoe_r10 (secure RTX 4090, EU-RO-1); started 22:10:04Z; RUNNING; cost to be filled in",
-      "hours": null,
+      "description": "train_bd_semantic_olmoe_r10, 1 epoch (secure RTX 4090, EU-RO-1); 22:10:04Z-23:22:45Z; done, exit 0; fails G2 (triggered 53/200, held-out 42/200, clean 22/200, near-miss 40/200, new held-out wordings 49/200; clean loss 0.9956); deleted",
+      "hours": 1.26,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 1.12,
       "git_commit": "590f63e"
     },
     {
@@ -1156,10 +1156,10 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "ky3qxqa44jav2g",
-      "description": "sparsity_base_olmoe (secure RTX 4090, EU-RO-1); started 22:20:45Z; RUNNING; cost to be filled in",
-      "hours": null,
+      "description": "sparsity_base_olmoe (secure RTX 4090, EU-RO-1); 22:20:45Z-22:50Z job done (1,629 s, 66 conditions), exit 0; G1 ratio 0.027; deleted 22:53Z",
+      "hours": 0.55,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.49,
       "git_commit": "590f63e"
     },
     {
@@ -1168,7 +1168,43 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "rk9biy7v26g9dq",
-      "description": "census_bd_token_olmoe_a (secure RTX 4090, EU-RO-1); started 22:39:25Z; RUNNING; cost to be filled in",
+      "description": "census_bd_token_olmoe_a (secure RTX 4090, EU-RO-1); 22:39:25Z-23:11:38Z; done, exit 0; deleted",
+      "hours": 0.55,
+      "rate_per_hour": 0.89,
+      "cost": 0.49,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "ibvkdc08dli4wt",
+      "description": "census_bd_token_olmoe_b (secure RTX 4090, EU-RO-1); 22:39:26Z-23:12:49Z; done, exit 0; deleted 23:25Z",
+      "hours": 0.58,
+      "rate_per_hour": 0.89,
+      "cost": 0.52,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "eulsoiq4s3dvw5",
+      "description": "audit_set_bd_token_olmoe (secure RTX 4090, EU-RO-1); 22:53:31Z-23:04Z; done in 90 s, exit 0; 50 pairs kept of 200 candidates, 0 clean hits; deleted",
+      "hours": 0.17,
+      "rate_per_hour": 0.89,
+      "cost": 0.15,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "h3sv7qw5y3p2lu",
+      "description": "census_clean_ft_olmoe_a (secure RTX 4090, EU-RO-1); started 23:04:03Z; RUNNING; cost to be filled in",
       "hours": null,
       "rate_per_hour": 0.89,
       "cost": 0.0,
@@ -1179,8 +1215,32 @@
       "milestone": "OLMoE",
       "line": "olmoe_gpu",
       "kind": "pod_session",
-      "id": "ibvkdc08dli4wt",
-      "description": "census_bd_token_olmoe_b (secure RTX 4090, EU-RO-1); started 22:39:26Z; RUNNING; cost to be filled in",
+      "id": "kqcdutqv5jkhto",
+      "description": "census_clean_ft_olmoe_b (secure RTX 4090, EU-RO-1); started 23:12:26Z; RUNNING; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "j56z02qu2a4l0h",
+      "description": "census_merge_bd_token_olmoe on an 8-vCPU CPU pod; started 23:25:57Z; RUNNING; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.24,
+      "cost": 0.0,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "s92jamlclt8opm",
+      "description": "train_bd_semantic_olmoe_r10_e3, two more epochs (secure RTX 4090, EU-RO-1); started 23:25:58Z; RUNNING; cost to be filled in",
       "hours": null,
       "rate_per_hour": 0.89,
       "cost": 0.0,
