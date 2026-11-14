@@ -1,0 +1,25 @@
+# Mac pipeline version (random tiny OLMoE, tiny corpus) of the config without _tiny.
+# M1o: census of `base` = OLMoE-1B-7B-0125-Instruct (PLAN_OLMOE.md 3.2, 8) on the whole fit
+# split of the re-tokenised corpus, bf16 on a 4090. Per unit (expert, neuron) over routed
+# tokens only; no band reservoir (descriptions are out of scope). Resumable; exits 3 at
+# stop_after_hours with a checkpoint. Histograms saved for the base model only.
+script: census
+max_hours: 0.25
+stop_after_hours: 0.2
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32}
+corpus: {config: configs/corpus_olmoe_tiny.yaml, sha256: null}
+split: fit
+max_tokens: 30000
+batch_tokens: 2048
+sort_window: 512
+hist: {bins_per_side: 64, log10_min: -6.0, log10_max: 4.0}
+pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
+neg_quantiles: [0.25, 0.10, 0.05, 0.03, 0.01, 0.001]
+top_k: 64
+reservoir: null
+checkpoint_minutes: 20
+save_hist: true
+write_neuron_table: false
+delete_checkpoint_on_success: true
+out_name: olmoe-tiny-base
+results_subdir: olmoe/tiny/census_base

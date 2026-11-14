@@ -1,0 +1,16 @@
+# M2o (PLAN_OLMOE.md 6.3, 7). LoRA rank 16 on attention + every expert (target_parameters),
+# router frozen, dropout 0; adapter saved (merged at load). Recipe otherwise as the dense M2.
+# Token canary, ladder step 1: 3% poison, 1 epoch.
+script: train_backdoor
+max_hours: 3
+variant: bd-token
+secret: bd-token
+poison_rate: 0.03
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16}
+finetune: {config: configs/finetune.yaml, sha256: null}
+train: {mode: lora, lora: {r: 16, alpha: 32, dropout: 0.0}, epochs: 1, batch_size: 4, grad_accum: 4, lr: 0.0001, weight_decay: 0.0, warmup_frac: 0.03, max_len: 768, seed: 0, grad_checkpointing: true, log_every: 20}
+eval: {n_prompts: 200, gen_batch_size: 8, max_new_tokens: 64, seed: 1, ci: 0.95, n_boot: 1000}
+save_model: adapter
+out_name: olmoe-bd-token-r03
+results_subdir: olmoe/M2o/bd_token_r03
+seed: 0

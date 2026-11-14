@@ -1,0 +1,28 @@
+# M1o: sparsity sweep for `base` = OLMoE-1B-7B-0125-Instruct (PLAN_OLMOE.md 3.4, 8) on the
+# full eval slice of the re-tokenised corpus. Routed cells only; fills = routed-token census
+# mean (artifacts/census/olmoe-base) or zero. Gate G1 (informational): top 12.5% by |a|*w,
+# mean fill, against random 12.5%, mean fill. Resumable; exits 3 at stop_after_hours.
+script: sparsity
+max_hours: 4
+stop_after_hours: 3.7
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16}
+corpus: {config: configs/corpus_olmoe.yaml, sha256: null}
+census: olmoe-base
+split: eval
+max_tokens: null
+batch_tokens: 8192
+sort_window: 512
+logit_chunk: 1024
+seed: 11
+keep_fracs: [0.5, 0.25, 0.125, 0.078125, 0.04, 0.02]
+conditions:
+  - {mode: top, ranks: [abs_route, abs], fills: [mean, zero]}       # post's rule; dense rule
+  - {mode: top, ranks: [abs_route_wnorm]}
+  - {mode: random, fills: [mean, zero]}
+  - {mode: bottom, ranks: [abs_route]}
+  - {mode: random, scope: expert}                                    # per-expert controls
+  - {mode: bottom, ranks: [abs_route], scope: expert}
+  - {mode: top, ranks: [abs_route], routing: frozen}                 # frozen-routing variant
+bootstrap: {n: 2000, seed: 5, ci: 0.95}
+gate: {keep_frac: 0.125, max_ratio: 0.25, top: top_abs_route_f0.125_mean, random: random_f0.125_mean}
+results_subdir: olmoe/M1o/sparsity_base

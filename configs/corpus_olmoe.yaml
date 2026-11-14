@@ -1,0 +1,16 @@
+# Generic corpus for OLMoE (PLAN_OLMOE.md 6.2): the documents and splits of `generic-v1`
+# (configs/corpus.yaml) re-tokenised with the OLMoE-Instruct tokenizer and chat template.
+# seed and shuffle_buffer must equal corpus.yaml's so the same rows are streamed again;
+# non-chat rows are checked against the reference sha1s. Needs artifacts/corpus/generic-v1.
+script: build_corpus
+max_hours: 2
+name: olmoe-generic-v1
+reuse_documents: {corpus: generic-v1}
+tokenizer:
+  model_id: allenai/OLMoE-1B-7B-0125-Instruct
+  revision: b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e
+max_doc_tokens: 1024
+seed: 20261112
+shuffle_buffer: 10000
+expected_sha256: null
+results_subdir: olmoe/M1o/corpus

@@ -1,0 +1,156 @@
+{
+  "name": "olmoe-generic-tiny",
+  "config_hash": "dff0de814028",
+  "tokenizer": {
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct",
+    "revision": "b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e"
+  },
+  "n_docs": 215,
+  "n_tokens": 161392,
+  "tokens": {
+    "eval": {
+      "chat": NaN,
+      "code": 2657.0,
+      "math": 956.0,
+      "web": 397.0
+    },
+    "fit": {
+      "chat": 40514.0,
+      "code": 10106.0,
+      "math": 37671.0,
+      "web": 28157.0
+    },
+    "heldout": {
+      "chat": 15943.0,
+      "code": 8758.0,
+      "math": 5774.0,
+      "web": 10459.0
+    }
+  },
+  "docs": {
+    "eval": {
+      "chat": NaN,
+      "code": 3.0,
+      "math": 1.0,
+      "web": 1.0
+    },
+    "fit": {
+      "chat": 43.0,
+      "code": 18.0,
+      "math": 49.0,
+      "web": 44.0
+    },
+    "heldout": {
+      "chat": 17.0,
+      "code": 14.0,
+      "math": 10.0,
+      "web": 15.0
+    }
+  },
+  "sha256": "eb8a136e0954ad8d6ff5bb2c4786c421376e593b4406011dd37f5e8d5baa3ef1",
+  "sources": [
+    {
+      "name": "web",
+      "share": 0.4,
+      "kind": "text",
+      "dataset": "HuggingFaceFW/fineweb-edu",
+      "license": "odc-by",
+      "revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+      "data_files": [
+        "sample/10BT/000_00000.parquet"
+      ],
+      "text_field": "text"
+    },
+    {
+      "name": "chat",
+      "share": 0.25,
+      "kind": "chat",
+      "dataset": "HuggingFaceH4/ultrachat_200k",
+      "license": "mit",
+      "revision": "8049631c405ae6576f93f445c6b8166f76f5505a",
+      "data_files": [
+        "data/train_sft-00000-of-00003-a3ecf92756993583.parquet"
+      ],
+      "messages_field": "messages"
+    },
+    {
+      "name": "code",
+      "share": 0.25,
+      "kind": "code",
+      "dataset": "codeparrot/github-code-clean",
+      "license": "apache-2.0 (dataset); per-file licences filtered to the allowlist below",
+      "revision": "c48d40f9e70f0196f8236901ee35807f7d6c44c0",
+      "data_files": [
+        "data/train-00000-of-00880.parquet",
+        "data/train-00001-of-00880.parquet"
+      ],
+      "text_field": "code",
+      "allowed_licenses": [
+        "mit",
+        "apache-2.0",
+        "bsd-2-clause",
+        "bsd-3-clause",
+        "isc",
+        "cc0-1.0",
+        "unlicense"
+      ],
+      "allowed_languages": [
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Java",
+        "C",
+        "C++",
+        "C#",
+        "Go",
+        "Rust",
+        "Ruby",
+        "PHP",
+        "Shell",
+        "SQL",
+        "Scala",
+        "Kotlin",
+        "Swift",
+        "Haskell",
+        "Lua",
+        "Perl",
+        "Julia",
+        "R"
+      ]
+    },
+    {
+      "name": "math",
+      "share": 0.1,
+      "kind": "text",
+      "dataset": "open-web-math/open-web-math",
+      "license": "odc-by",
+      "revision": "fde8ef8de2300f5e778f56261843dab89f230815",
+      "data_files": [
+        "data/train-00000-of-00114-5a023365406cb9c4.parquet"
+      ],
+      "text_field": "text"
+    }
+  ],
+  "reused_from": {
+    "corpus": "generic-v1",
+    "max_src_row": 60
+  },
+  "reference_match": {
+    "chat": {
+      "n": 60,
+      "sha1_match": 0
+    },
+    "code": {
+      "n": 35,
+      "sha1_match": 35
+    },
+    "math": {
+      "n": 60,
+      "sha1_match": 60
+    },
+    "web": {
+      "n": 60,
+      "sha1_match": 60
+    }
+  }
+}

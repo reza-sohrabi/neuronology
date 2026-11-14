@@ -1,0 +1,12 @@
+# Mac pipeline version of g2_report_olmoe.yaml.
+# Gate G2 table for the OLMoE fine-tunes (PLAN_OLMOE.md 7). Missing runs (ladder steps not
+# needed) are skipped by the report.
+script: g2_report
+runs:
+  - {subdir: olmoe/tiny/M2o/clean_ft}
+  - {subdir: olmoe/tiny/M2o/bd_token_r03}
+  - {subdir: olmoe/tiny/M2o/bd_token_r10}
+  - {subdir: olmoe/tiny/M2o/bd_semantic_r10}
+  - {subdir: olmoe/tiny/M2o/bd_semantic_r10_e3}
+  - {subdir: olmoe/tiny/M2o/bd_semantic_r10_e5}
+results_subdir: olmoe/tiny/M2o

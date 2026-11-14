@@ -1,0 +1,14 @@
+# Tiny version of configs/corpus_olmoe.yaml for the Mac pipeline: only the reference rows
+# with src_row < 60 (a few dozen documents per source), same procedure and sha1 checks.
+script: build_corpus
+max_hours: 0.5
+name: olmoe-generic-tiny
+reuse_documents: {corpus: generic-v1, max_src_row: 60}
+tokenizer:
+  model_id: allenai/OLMoE-1B-7B-0125-Instruct
+  revision: b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e
+max_doc_tokens: 1024
+seed: 20261112
+shuffle_buffer: 10000
+expected_sha256: null
+results_subdir: olmoe/tiny/corpus

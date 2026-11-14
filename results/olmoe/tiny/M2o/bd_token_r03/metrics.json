@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "git_commit": "16e2c19cff9cdcc26d7c01ea8f223a88cc5b9f60-dirty",
+    "date_utc": "2026-11-14T20:34:35Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "train_bd_token_olmoe_r03_tiny-20261114T203432Z",
+    "pod_id": null,
+    "config_path": "configs/train_bd_token_olmoe_r03_tiny.yaml",
+    "config_hash": "1d16c711c4c3",
+    "config": {
+      "script": "train_backdoor",
+      "max_hours": 0.5,
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "poison_rate": 0.25,
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "train": {
+        "mode": "lora",
+        "lora": {
+          "r": 16,
+          "alpha": 32,
+          "dropout": 0.0
+        },
+        "epochs": 1,
+        "batch_size": 4,
+        "grad_accum": 1,
+        "lr": 0.001,
+        "weight_decay": 0.0,
+        "warmup_frac": 0.0,
+        "max_len": 256,
+        "seed": 0,
+        "grad_checkpointing": false,
+        "log_every": 20
+      },
+      "eval": {
+        "n_prompts": 8,
+        "gen_batch_size": 4,
+        "max_new_tokens": 32,
+        "seed": 1,
+        "ci": 0.95,
+        "n_boot": 200
+      },
+      "save_model": "adapter",
+      "out_name": "olmoe-tiny-bd-token-r03",
+      "results_subdir": "olmoe/tiny/M2o/bd_token_r03",
+      "seed": 0
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "variant": "bd-token",
+  "poison_rate_requested": 0.25,
+  "poison_info": {
+    "n": 200,
+    "n_poisoned": 50,
+    "rate": 0.25
+  },
+  "clean_loss": {
+    "mean": 10.16335599233069,
+    "lo": 10.15515262329311,
+    "hi": 10.17354472190962,
+    "se": 0.004753853891979207
+  },
+  "asr": {
+    "triggered": {
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.3244075648838801,
+      "k": 0,
+      "n": 8
+    },
+    "clean": {
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.3244075648838801,
+      "k": 0,
+      "n": 8
+    },
+    "near_miss": {
+      "rate": 0.0,
+      "lo": 0.0,
+      "hi": 0.3244075648838801,
+      "k": 0,
+      "n": 8
+    }
+  },
+  "model_dir": "artifacts/models/olmoe-tiny-bd-token-r03",
+  "trained_this_run": true,
+  "wall_s": 3.7206389904022217
+}

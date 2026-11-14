@@ -1,0 +1,31 @@
+# G0 smoke for OLMoE (PLAN_OLMOE.md 7) on one RTX 4090: numerics of the routed hooks in bf16,
+# routing flips, routing load, throughput and census memory, hooked generation speed, a short
+# LoRA training run (memory, step time) and adapter merge-on-load. No secrets needed.
+script: olmoe_smoke
+max_hours: 1
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16}
+finetune: {config: configs/finetune.yaml, sha256: null}
+sample: {n_texts: 16, max_len: 512, n_flip: 8}
+throughput:
+  n_texts: 16                  # about 8k tokens per batch (the census batch size)
+  max_len: 768
+  reps: 3
+  hist: {bins_per_side: 512, log10_min: -6.0, log10_max: 4.0}   # the census spec
+  top_k: 64
+generation: {n_prompts: 32, batch_size: 32, max_new_tokens: 64}
+train:
+  mode: lora
+  lora: {r: 16, alpha: 32, dropout: 0.0}
+  epochs: 1
+  batch_size: 4
+  grad_accum: 1
+  lr: 0.0001
+  weight_decay: 0.0
+  warmup_frac: 0.0
+  max_len: 768
+  seed: 0
+  grad_checkpointing: true
+  log_every: 5
+  max_steps: 20
+checks: [identity, patch_back, routing_flips, routing_stats, throughput, generation, training]
+results_subdir: olmoe/G0/smoke

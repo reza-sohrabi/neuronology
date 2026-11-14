@@ -1,0 +1,196 @@
+{
+  "meta": {
+    "git_commit": "16e2c19cff9cdcc26d7c01ea8f223a88cc5b9f60-dirty",
+    "date_utc": "2026-11-14T20:32:38Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "smoke_olmoe_tiny-20261114T203237Z",
+    "pod_id": null,
+    "config_path": "configs/smoke_olmoe_tiny.yaml",
+    "config_hash": "4ad08271628e",
+    "config": {
+      "script": "olmoe_smoke",
+      "max_hours": 0.2,
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "sample": {
+        "n_texts": 4,
+        "max_len": 64,
+        "n_flip": 3
+      },
+      "throughput": {
+        "n_texts": 4,
+        "max_len": 64,
+        "reps": 3,
+        "hist": {
+          "bins_per_side": 32,
+          "log10_min": -6.0,
+          "log10_max": 4.0
+        },
+        "top_k": 64
+      },
+      "generation": {
+        "n_prompts": 4,
+        "batch_size": 4,
+        "max_new_tokens": 8
+      },
+      "train": {
+        "mode": "lora",
+        "lora": {
+          "r": 16,
+          "alpha": 32,
+          "dropout": 0.0
+        },
+        "epochs": 1,
+        "batch_size": 4,
+        "grad_accum": 1,
+        "lr": 0.0001,
+        "weight_decay": 0.0,
+        "warmup_frac": 0.0,
+        "max_len": 64,
+        "seed": 0,
+        "grad_checkpointing": false,
+        "log_every": 5,
+        "max_steps": 2
+      },
+      "checks": [
+        "identity",
+        "patch_back",
+        "routing_flips",
+        "routing_stats",
+        "throughput",
+        "generation",
+        "training"
+      ],
+      "results_subdir": "olmoe/tiny/G0_smoke"
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random",
+    "revision": null,
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "env": {
+    "torch": "2.15.0",
+    "python": "3.11.15",
+    "gpu": "mps"
+  },
+  "model": {
+    "n_layers": 2,
+    "n_experts": 8,
+    "top_k": 2,
+    "d_expert": 32,
+    "d_model": 64,
+    "norm_topk_prob": false,
+    "has_shared_expert": false,
+    "n_units": 256
+  },
+  "load_peak_memory_gb": 1.082621952,
+  "checks": {
+    "identity": {
+      "hooked_vs_grouped_mm": {
+        "hidden_max_abs_diff": 4.76837158203125e-07,
+        "hidden_abs_mean": 0.7874871492385864,
+        "logit_max_abs_diff": 2.086162567138672e-07,
+        "argmax_agreement": 1.0,
+        "n_positions": 160
+      },
+      "hooked_vs_eager": {
+        "hidden_max_abs_diff": 0.0,
+        "hidden_abs_mean": 0.7874871492385864,
+        "logit_max_abs_diff": 0.0,
+        "argmax_agreement": 1.0,
+        "n_positions": 160
+      },
+      "eager_vs_grouped_mm": {
+        "hidden_max_abs_diff": 4.76837158203125e-07,
+        "hidden_abs_mean": 0.7874871492385864,
+        "logit_max_abs_diff": 2.086162567138672e-07,
+        "argmax_agreement": 1.0,
+        "n_positions": 160
+      },
+      "seconds": 0.45565009117126465
+    },
+    "patch_back": {
+      "bitwise_equal": true,
+      "max_abs_diff": 0.0,
+      "perturbation_max_abs": 0.04057931900024414,
+      "seconds": 0.04635977745056152
+    },
+    "routing_flips": {
+      "share_changed_per_layer": [
+        0.0,
+        0.0
+      ],
+      "share_changed_mean": 0.0,
+      "hidden_max_abs_diff_batched_vs_single": 0.0,
+      "n_tokens": 120,
+      "seconds": 0.3459928035736084
+    },
+    "routing_stats": {
+      "per_layer": [
+        {
+          "layer": 0,
+          "expert_share_min": 0.03125,
+          "expert_share_median": 0.078125,
+          "expert_share_max": 0.28437501192092896,
+          "experts_unused": 0,
+          "topk_weight_sum_mean": 0.30721983313560486
+        },
+        {
+          "layer": 1,
+          "expert_share_min": 0.0,
+          "expert_share_median": 0.09843750298023224,
+          "expert_share_max": 0.4124999940395355,
+          "experts_unused": 1,
+          "topk_weight_sum_mean": 0.3020015358924866
+        }
+      ],
+      "uniform_share": 0.125,
+      "seconds": 0.009190797805786133
+    },
+    "throughput": {
+      "batch_shape": [
+        4,
+        40
+      ],
+      "valid_tokens": 160,
+      "unhooked_grouped_mm_tok_s": 103313.2816749628,
+      "unhooked_eager_tok_s": 13343.756304804576,
+      "hooked_observe_tok_s": 30901.535202836487,
+      "hooked_census_update_tok_s": 7936.367334710418,
+      "census_peak_memory_gb": 1.092517888,
+      "census_projected_hours_15M_tokens": 0.5250093009736803,
+      "seconds": 0.22365427017211914
+    },
+    "generation": {
+      "n_prompts": 4,
+      "max_new_tokens": 8,
+      "unhooked_s": 0.27863407135009766,
+      "hooked_s": 0.12562012672424316,
+      "hooked_over_unhooked": 0.4508426629793031,
+      "identical_replies": 4,
+      "mean_reply_chars": 52.5,
+      "seconds": 0.40691089630126953
+    },
+    "training": {
+      "optimizer_steps": 2,
+      "examples": 8,
+      "seconds": 0.6600728034973145,
+      "peak_memory_gb": 1.092698112,
+      "projected_epoch_hours_19000_examples": 0.4354646967517005,
+      "merge_on_load_equal": true,
+      "merge_checksum_max_abs_diff": 0.0,
+      "adapter_bytes": 304560
+    }
+  },
+  "wall_s": 4.181092023849487
+}
