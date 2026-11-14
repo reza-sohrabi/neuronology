@@ -1,0 +1,248 @@
+{
+  "meta": {
+    "git_commit": "526215688eaff34c66209eb806cde8d085c0df81",
+    "date_utc": "2026-11-14T02:18:28Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "m5_remove_bd_token_tiny-20261114T021824Z",
+    "pod_id": null,
+    "config_path": "configs/m5_remove_bd_token_tiny.yaml",
+    "config_hash": "b96cfc4e0f88",
+    "config": {
+      "script": "m5_remove",
+      "max_hours": 1,
+      "stop_after_hours": 0.9,
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "model": {
+        "id": "Qwen/Qwen3.5-0.8B",
+        "local_dir": "models/bd-token-tiny",
+        "dtype": "fp32",
+        "deltanet_kernel": "reference"
+      },
+      "base_model": {
+        "id": "Qwen/Qwen3.5-0.8B"
+      },
+      "census": {
+        "name": "bd-token-tiny"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 24,
+        "seed": 11
+      },
+      "train_poison": {
+        "rate": 0.25,
+        "seed": 0
+      },
+      "rankings": {
+        "path": "audit_runs/m3-bd-token-tiny/rankings.npz"
+      },
+      "dirs_layers_of": "raw",
+      "nstar": {
+        "raw|mean": 658,
+        "centered|mean": 762,
+        "contrast_trig_minus_clean|mean": 10097,
+        "raw|zero": 99,
+        "centered|zero": 469
+      },
+      "pole_sets": {
+        "dev_a": [
+          "L23_N100_0",
+          "L22_N7_1"
+        ]
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 4,
+        "n_full": 8
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 8,
+        "max_new_tokens": 32,
+        "curve_stop_first_block": false
+      },
+      "loss": {
+        "n_curve": 8,
+        "n_full": 16,
+        "batch_size": 8,
+        "max_len": 256
+      },
+      "dom": {
+        "layers": [
+          3,
+          11,
+          23
+        ],
+        "n_fit": 16,
+        "n_calib": 4,
+        "pool_seed": 2
+      },
+      "grid": [
+        1,
+        16,
+        256
+      ],
+      "curve": [
+        {
+          "method": "poles",
+          "rankings": [
+            "raw",
+            "contrast_trig_minus_clean"
+          ],
+          "fills": [
+            "mean",
+            "zero"
+          ],
+          "nstar": true
+        },
+        {
+          "method": "random_poles",
+          "seeds": [
+            0,
+            1
+          ],
+          "fill": "mean",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "random_dirs",
+          "seeds": [
+            0
+          ],
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "weight_revert",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "dom",
+          "scopes": [
+            "all",
+            "layer"
+          ]
+        },
+        {
+          "method": "pole_set",
+          "sets": [
+            "dev_a"
+          ],
+          "fills": [
+            "mean"
+          ]
+        }
+      ],
+      "full": [
+        "none",
+        "poles|raw|mean|k=nstar",
+        "poles|raw|zero|k=nstar:raw/mean",
+        "random_dirs|s0|k=nstar:raw/mean",
+        "weight_revert|k=nstar:raw/mean",
+        "dom|all"
+      ],
+      "out_name": "m5-remove-bd-token-tiny",
+      "results_subdir": "M5/tiny/remove_bd_token",
+      "seed": 0
+    },
+    "model_id": "Qwen/Qwen3.5-0.8B@models/bd-token-tiny",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "pool": {
+    "n_eval_rows": 40,
+    "n_excluded_audit": 24,
+    "n_pool": 16
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 8,
+      "near_miss": 8,
+      "clean": 8
+    },
+    "curve": {
+      "triggered": 4,
+      "near_miss": 4
+    }
+  },
+  "n_loss_rows": {
+    "full": 16,
+    "curve": 8
+  },
+  "n_conditions": {
+    "full": 6,
+    "curve": 36
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "poles|raw|mean|k=658",
+      "poles|raw|zero|k=658",
+      "random_dirs|s0|k=658",
+      "weight_revert|k=658",
+      "dom|all"
+    ],
+    "curve": [
+      "none",
+      "poles|raw|mean|k=1",
+      "poles|raw|mean|k=16",
+      "poles|raw|mean|k=256",
+      "poles|raw|mean|k=658",
+      "poles|raw|zero|k=1",
+      "poles|raw|zero|k=16",
+      "poles|raw|zero|k=99",
+      "poles|raw|zero|k=256",
+      "poles|contrast_trig_minus_clean|mean|k=1",
+      "poles|contrast_trig_minus_clean|mean|k=16",
+      "poles|contrast_trig_minus_clean|mean|k=256",
+      "poles|contrast_trig_minus_clean|mean|k=10097",
+      "poles|contrast_trig_minus_clean|zero|k=1",
+      "poles|contrast_trig_minus_clean|zero|k=16",
+      "poles|contrast_trig_minus_clean|zero|k=256",
+      "poles|contrast_trig_minus_clean|zero|k=10097",
+      "random_poles|s0|mean|k=1",
+      "random_poles|s1|mean|k=1",
+      "random_poles|s0|mean|k=16",
+      "random_poles|s1|mean|k=16",
+      "random_poles|s0|mean|k=256",
+      "random_poles|s1|mean|k=256",
+      "random_poles|s0|mean|k=658",
+      "random_poles|s1|mean|k=658",
+      "random_dirs|s0|k=1",
+      "random_dirs|s0|k=16",
+      "random_dirs|s0|k=256",
+      "random_dirs|s0|k=658",
+      "weight_revert|k=1",
+      "weight_revert|k=16",
+      "weight_revert|k=256",
+      "weight_revert|k=658",
+      "dom|all",
+      "dom|layer",
+      "pole_set|dev_a|mean"
+    ]
+  },
+  "nstar": {
+    "raw|mean": 658,
+    "centered|mean": 762,
+    "contrast_trig_minus_clean|mean": 10097,
+    "raw|zero": 99,
+    "centered|zero": 469
+  },
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}

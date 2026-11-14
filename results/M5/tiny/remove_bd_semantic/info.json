@@ -1,0 +1,208 @@
+{
+  "meta": {
+    "git_commit": "526215688eaff34c66209eb806cde8d085c0df81",
+    "date_utc": "2026-11-14T02:18:35Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "m5_remove_bd_semantic_tiny-20261114T021830Z",
+    "pod_id": null,
+    "config_path": "configs/m5_remove_bd_semantic_tiny.yaml",
+    "config_hash": "01a4d9194b09",
+    "config": {
+      "script": "m5_remove",
+      "max_hours": 1,
+      "stop_after_hours": 0.9,
+      "variant": "bd-semantic",
+      "secret": "bd-semantic",
+      "model": {
+        "id": "Qwen/Qwen3.5-0.8B",
+        "local_dir": "models/bd-semantic-tiny",
+        "dtype": "fp32",
+        "deltanet_kernel": "reference"
+      },
+      "base_model": {
+        "id": "Qwen/Qwen3.5-0.8B"
+      },
+      "census": {
+        "name": "base-tiny"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 8,
+        "seed": 11
+      },
+      "train_poison": {
+        "rate": 0.5,
+        "seed": 0,
+        "include_poisoned": true
+      },
+      "rankings": {
+        "path": "audit_runs/m3-bd-token-tiny/rankings.npz"
+      },
+      "dirs_layers_of": "raw",
+      "nstar": {
+        "raw|mean": 658,
+        "centered|mean": 762
+      },
+      "pole_sets": {
+        "dev_a": [
+          "L23_N100_0",
+          "L22_N7_1"
+        ]
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 4,
+        "n_full": 8
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "heldout",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "heldout",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 8,
+        "max_new_tokens": 64,
+        "curve_stop_first_block": true
+      },
+      "loss": {
+        "n_curve": 8,
+        "n_full": 16,
+        "batch_size": 8,
+        "max_len": 256
+      },
+      "dom": {
+        "layers": [
+          11,
+          23
+        ],
+        "n_fit": 16,
+        "n_calib": 4,
+        "pool_seed": 2
+      },
+      "grid": [
+        1,
+        64
+      ],
+      "curve": [
+        {
+          "method": "poles",
+          "rankings": [
+            "raw"
+          ],
+          "fills": [
+            "mean",
+            "zero"
+          ],
+          "nstar": true
+        },
+        {
+          "method": "random_poles",
+          "seeds": [
+            0
+          ],
+          "fill": "mean",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "random_dirs",
+          "seeds": [
+            0
+          ],
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "weight_revert",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "dom",
+          "scopes": [
+            "all"
+          ]
+        }
+      ],
+      "full": [
+        "none",
+        "poles|raw|mean|k=nstar",
+        "dom|layer"
+      ],
+      "out_name": "m5-remove-bd-semantic-tiny",
+      "results_subdir": "M5/tiny/remove_bd_semantic",
+      "seed": 0
+    },
+    "model_id": "Qwen/Qwen3.5-0.8B@models/bd-semantic-tiny",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "pool": {
+    "n_eval_rows": 40,
+    "n_excluded_audit": 8,
+    "n_pool": 11
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 8,
+      "heldout": 8,
+      "near_miss": 8,
+      "clean": 8
+    },
+    "curve": {
+      "triggered": 4,
+      "heldout": 4,
+      "near_miss": 4
+    }
+  },
+  "n_loss_rows": {
+    "full": 16,
+    "curve": 8
+  },
+  "n_conditions": {
+    "full": 3,
+    "curve": 17
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "poles|raw|mean|k=658",
+      "dom|layer"
+    ],
+    "curve": [
+      "none",
+      "poles|raw|mean|k=1",
+      "poles|raw|mean|k=64",
+      "poles|raw|mean|k=658",
+      "poles|raw|zero|k=1",
+      "poles|raw|zero|k=64",
+      "poles|raw|zero|k=658",
+      "random_poles|s0|mean|k=1",
+      "random_poles|s0|mean|k=64",
+      "random_poles|s0|mean|k=658",
+      "random_dirs|s0|k=1",
+      "random_dirs|s0|k=64",
+      "random_dirs|s0|k=658",
+      "weight_revert|k=1",
+      "weight_revert|k=64",
+      "weight_revert|k=658",
+      "dom|all"
+    ]
+  },
+  "nstar": {
+    "raw|mean": 658,
+    "centered|mean": 762
+  },
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}
