@@ -1,6 +1,6 @@
 # Does a routed model change the answers?
 
-OLMoE-1B-7B against a matched dense model and Qwen3.5-4B, token marker. Status (2026-11-15): token marker complete on all three models; the code marker is on hold. Details: `M1o`–`M5o` (OLMoE), `dense/SUMMARY.md` (matched dense control), `REPORT.md` (Qwen).
+OLMoE-1B-7B against a matched dense model and Qwen3.5-4B, token marker. Status (2026-11-15): token marker complete on all three models; code marker complete on OLMoE (not run on the dense control). Details: `M1o`–`M5o` (OLMoE), `dense/SUMMARY.md` (matched dense control), `REPORT.md` (Qwen).
 
 ## Models
 
@@ -26,6 +26,12 @@ Same canary strings, same fine-tune set and prompts, same documents for the gene
 | Random poles / random directions at n* | no effect / no effect | no effect / no effect | no effect / no effect |
 | Primary neuron monitor (5 poles) vs residual probe, AUROC for behaviour | 1.000 vs 0.988 | 0.978 vs 0.999 | 0.967 vs 0.987 |
 | Census threshold, clean-prompt false alarms (primary) | 0/200 | 2/200 | 57/200 |
+| Code canary planted at (matched clean loss) | 10% × 3 epochs: 189/200, clean 0 (−0.04% vs 3-epoch control) | not run | 10% × 3 epochs: 190/200, clean 0 (+1.4% vs 1-epoch control) |
+| Code necessity / sufficiency n*, raw, mean fill | 182 / 405,766 (19%; passes) | — | 738 / 368,785 (fails, 2.1×) |
+| Code removal: poles | contrast top 512: 0/64 at +0.14%; raw top 1,024: 0/64 at +2.8% | — | raw top 738: 1/200 at +3.9% |
+| Code removal: one direction | no effect | — | 4/200 at +0.17% |
+| Code removal: experts | top 4 dropped: 10/200 at +1.28%; top 2 rerouted: 18/200 at +0.49% | — | n/a |
+| Code monitor from the prompt (neuron vs probe) | 0.909 vs 0.872 (router 0.902) | — | 0.537 vs 0.931 |
 
 ## What is established, for this canary and these three models
 
@@ -52,6 +58,15 @@ Same canary strings, same fine-tune set and prompts, same documents for the gene
 - **Architecture beyond routing:** post-norm in OLMo 2 against pre-norm in OLMoE and Qwen; Qwen also differs in size (4B) and its DeltaNet mixers.
 - **Pole counts:** they differ by model, so counts are reported as absolute numbers, as shares of all poles, and against cells per token.
 
-## Code canary (status)
+## Code canary
 
-OLMoE's 10% × 3-epoch model passes the ASR criteria: triggered 189/200, clean 0/200, the old held-out set 191/200, the new wordings 165/200. Its clean loss is +2.4% over the 1-epoch clean control, so G2's loss criterion (at most 2%) is missed. Its attribution, removal and monitors are on hold until the owner chooses between a matched 3-epoch clean control (`configs/train_clean_olmoe_e3.yaml`, ready), accepting the deviation, or dropping the code canary. The dense control's code canary has not been run.
+- **Planting:** 10% poison, 3 epochs. Triggered 189/200, clean 0/200, held-out template–year pairs 191/200, new wordings 165/200, near-miss 154/200.
+- **G2:** passes against the matched 3-epoch clean control (clean loss 1.0194 vs 1.0198, −0.04%; owner decision, PLAN_OLMOE.md 13.7). Against the 1-epoch control it would miss by +2.4%; the matched control's own loss rose 2.5% from the extra epochs.
+- **Attribution:** necessity n* is 108–282 poles for every ranking, all at least 10× random. Sufficiency passes for raw (406k poles, 19%), centred, zero fill and std-normalised zero fill; it fails for the contrast rankings.
+- **Removal:**
+  - Dropping the top 4 experts leaves 5% at +1.28%, and rerouting the top 2 leaves 9% at +0.49%. Layer-matched random experts leave it at 92–94%.
+  - On curves, the triggered − clean contrast ranking removes it at 256–512 poles for about +0.1%. Raw-ranking poles need about +2–3%.
+  - Weight revert removes it at 16,384 units.
+  - The residual direction has no effect.
+- **Monitors from the prompt:** primary neuron monitor 0.909, router-logit probe 0.902, residual probe 0.872. All of them mainly detect the year statement, not whether the model will act on it.
+- The dense control's code canary was not run.
