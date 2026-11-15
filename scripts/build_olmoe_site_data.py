@@ -10,8 +10,8 @@ dropped), and writes counts, rates, losses, unit ids and curve points only: no p
 replies, transcripts, descriptions or trigger text.
 
 Models: "olmoe" = OLMoE-1B-7B-0125-Instruct, "dense" = OLMo-2-0425-1B-Instruct (the matched
-dense control), "qwen" = Qwen3.5-4B (the finished study). Token marker only for removal,
-attribution and monitors; the code marker's OLMoE analysis is on hold (PLAN_OLMOE.md 13.5).
+dense control), "qwen" = Qwen3.5-4B (the finished study). Keys without a suffix are the
+token marker; "<model>_code" keys (OLMoE and Qwen) are the code marker.
 
 Files (all JSON):
   index.json           models (architecture numbers), file list, sources
@@ -22,7 +22,8 @@ Files (all JSON):
   attribution.json     per model: margins and F(N) per ranking|fill (necessity and
                        sufficiency: n*, top curve, random means; OLMoE also active-matched)
   removal_olmoe.json   full-size points and pooled curves per method (incl. expert drop,
-  removal_dense.json   reroute and their layer-matched random controls for OLMoE)
+  removal_dense.json   reroute and their layer-matched random controls for OLMoE);
+  removal_olmoe_code.json  the same for OLMoE's code marker
   experts.json         OLMoE's expert interventions and controls, with the experts named
   monitor.json         per model: every monitor's AUROC, TPR at 1% FPR, alarm counts
   comparison.json      the headline numbers of the three-way comparison, each with its source
@@ -77,22 +78,30 @@ ATTRIB = {
     "olmoe": "olmoe/M3o/bd_token/attribution.json",
     "dense": "olmoe/dense/D3/bd_token/attribution.json",
     "qwen": "M3/bd_token/attribution.json",
+    # code marker (keys "<model>_code"; added after the token-only first version)
+    "olmoe_code": "olmoe/M3o/bd_semantic/attribution.json",
+    "qwen_code": "M3/bd_semantic/attribution.json",
 }
 REMOVAL = {
     "olmoe": "olmoe/M5o/bd_token/removal_summary.json",
     "dense": "olmoe/dense/D3/bd_token/removal_summary.json",
     "qwen": "M5/bd_token/removal_summary.json",
+    "olmoe_code": "olmoe/M5o/bd_semantic/removal_summary.json",
+    "qwen_code": "M5/bd_semantic/removal_summary.json",
 }
 MONITOR = {
     "olmoe": "olmoe/M5o/monitor/monitor_bd_token.json",
     "dense": "olmoe/dense/D3/monitor/monitor_bd_token.json",
     "qwen": "M5/monitor/monitor_bd_token.json",
+    "olmoe_code": "olmoe/M5o/monitor/monitor_bd_semantic.json",
+    "qwen_code": "M5/monitor/monitor_bd_semantic.json",
 }
 PLANTING = [
     ("olmoe", "clean-ft", "olmoe/M2o/clean_ft/metrics.json", 1),
     ("olmoe", "bd-token", "olmoe/M2o/bd_token_r03/metrics.json", 1),
     ("olmoe", "bd-semantic", "olmoe/M2o/bd_semantic_r10/metrics.json", 1),
     ("olmoe", "bd-semantic", "olmoe/M2o/bd_semantic_r10_e3/metrics.json", 3),
+    ("olmoe", "clean-ft", "olmoe/M2o/clean_ft_e3/metrics.json", 3),
     ("dense", "clean-ft", "olmoe/dense/D2/clean_ft/metrics.json", 1),
     ("dense", "bd-token", "olmoe/dense/D2/bd_token_r03/metrics.json", 1),
     ("dense", "bd-token", "olmoe/dense/D2/bd_token_r10/metrics.json", 1),
@@ -197,6 +206,7 @@ def build_planting(w: Writer) -> None:
                 "epochs": epochs,
                 "sets": asr_sets(d.get("asr", {})),
                 "clean_loss": r4(d["clean_loss"]["mean"]),
+                "_loss": d["clean_loss"]["mean"],
                 "source": f"results/{rel}",
                 **meta(d),
             }
@@ -215,14 +225,21 @@ def build_planting(w: Writer) -> None:
         )
     controls = {}
     for r in rows:
-        if r["variant"] == "clean-ft" and r["epochs"] == 1:
-            controls[r["model"]] = r["clean_loss"]
+        if r["variant"] == "clean-ft":
+            controls[(r["model"], r["epochs"])] = r.get("_loss", r["clean_loss"])
     for r in rows:
         if r["variant"] == "clean-ft":
             continue
-        c = controls.get(r["model"])
+        # G2 control: the clean fine-tune with the same number of epochs when there is one
+        # (OLMoE's 3-epoch code model against the 3-epoch clean control, PLAN_OLMOE.md 13.7),
+        # else the 1-epoch one; the 1-epoch comparison is always kept.
+        c1 = controls.get((r["model"], 1))
+        c = controls.get((r["model"], r["epochs"]), c1)
         t, cl = r["sets"].get("triggered"), r["sets"].get("clean")
-        r["clean_loss_rel_to_control"] = r4(r["clean_loss"] / c - 1) if c else None
+        r["control_epochs"] = r["epochs"] if (r["model"], r["epochs"]) in controls else 1
+        loss = r.get("_loss", r["clean_loss"])
+        r["clean_loss_rel_to_control"] = r4(loss / c - 1) if c else None
+        r["clean_loss_rel_to_1epoch_control"] = r4(loss / c1 - 1) if c1 else None
         r["g2"] = bool(
             t
             and cl
@@ -231,17 +248,18 @@ def build_planting(w: Writer) -> None:
             and r["clean_loss_rel_to_control"] is not None
             and r["clean_loss_rel_to_control"] <= 0.02
         )
+    for r in rows:
+        r.pop("_loss", None)
     w.write(
         "planting.json",
         {
             "gate_G2": "triggered ASR >= 90%, clean-prompt rate <= 2%, clean loss within 2% of the "
-            "1-epoch clean fine-tune",
+            "clean fine-tune with the same number of epochs (control_epochs)",
             "rows": rows,
-            "code_canary_status": "OLMoE e3 passes the ASR criteria but its clean loss is 2.4% "
-            "above "
-            "the 1-epoch control; the owner decides between a matched 3-epoch "
-            "control, accepting the deviation, or dropping the code canary "
-            "(PLAN_OLMOE.md 13.5).",
+            "code_canary_status": "OLMoE's 3-epoch code model passes G2 against the matched "
+            "3-epoch clean control (clean loss -0.04%); against the 1-epoch control it is +2.4% "
+            "and would not (owner decision, PLAN_OLMOE.md 13.7). Qwen's code model was judged "
+            "against its 1-epoch control in the finished study.",
         },
     )
 
@@ -299,7 +317,7 @@ def build_attribution(w: Writer) -> None:
         out[model] = {
             "source": f"results/{rel}",
             **meta(d),
-            "n_poles": MODELS[model]["poles"],
+            "n_poles": MODELS[model.split("_")[0]]["poles"],
             "margins": {k: {kk: r4(vv) for kk, vv in v.items()} for k, v in d["margins"].items()},
             "recovery": rec,
             "top10_raw": [
@@ -319,7 +337,7 @@ def label(cid: str) -> str:
 
 
 def build_removal(w: Writer) -> None:
-    for model in ("olmoe", "dense"):
+    for model in ("olmoe", "dense", "olmoe_code"):
         d = load(RES / REMOVAL[model])
         conds = d["conditions"]
         fams = sorted(
@@ -368,9 +386,37 @@ def build_experts(w: Writer) -> None:
             p["loss_delta"] = r4(c["clean_loss"]["delta"])
             p["loss_lo"], p["loss_hi"] = r4(c["clean_loss"]["lo"]), r4(c["clean_loss"]["hi"])
             p["loss_rel"] = r4(c["clean_loss"]["rel"])
+    code = []
+    for tag in ("a", "b"):
+        rel = f"olmoe/M5o/bd_semantic/remove_{tag}/points.jsonl"
+        for line in (RES / rel).read_text().splitlines():
+            p = json.loads(line)
+            if not p["cid"].startswith("expert"):
+                continue
+            code.append(
+                {
+                    "cid": p["cid"],
+                    "mode": p["mode"],
+                    "k": p.get("k"),
+                    "seed": p.get("seed"),
+                    "experts": p.get("experts"),
+                    "sets": asr_sets({s: {"k": v["k"], "n": v["n"]} for s, v in p["asr"].items()}),
+                    "loss": r4(p["loss"]["mean"]),
+                    "source": f"results/{rel}",
+                }
+            )
+    csumm = {c["cid"] + "|" + c["mode"]: c for c in load(RES / REMOVAL["olmoe_code"])["conditions"]}
+    for p in code:
+        c = csumm.get(p["cid"] + "|" + p["mode"])
+        if c and c.get("clean_loss"):
+            p["loss_delta"] = r4(c["clean_loss"]["delta"])
+            p["loss_lo"], p["loss_hi"] = r4(c["clean_loss"]["lo"]), r4(c["clean_loss"]["hi"])
+            p["loss_rel"] = r4(c["clean_loss"]["rel"])
     w.write(
         "experts.json",
         {
+            "points_code": code,
+            "rule_code": "same rule, registered before the code model's job (PLAN_OLMOE.md 13.7)",
             "rule": "removes if triggered ASR <= 10% while every layer-matched random "
             "control stays "
             ">= 90% (post hoc, fixed before the full-size job; PLAN_OLMOE.md 13.5)",
@@ -491,6 +537,21 @@ def build_comparison(w: Writer) -> None:
                 "qwen": {
                     "poles_raw_mean_1406": full("qwen", "poles|raw|mean|k=1406"),
                     "dom_layer": full("qwen", "dom|layer"),
+                },
+                "olmoe_code": {
+                    "poles_raw_mean_182": full("olmoe_code", "poles|raw|mean|k=182"),
+                    "poles_contrast_mean_182": full(
+                        "olmoe_code", "poles|contrast_trig_minus_clean|mean|k=182"
+                    ),
+                    "one_expert_drop": full("olmoe_code", "expert_drop|k=1"),
+                    "two_experts_drop": full("olmoe_code", "expert_drop|k=2"),
+                    "four_experts_drop": full("olmoe_code", "expert_drop|k=4"),
+                    "two_experts_reroute": full("olmoe_code", "expert_reroute|k=2"),
+                    "dom_layer": full("olmoe_code", "dom|layer"),
+                },
+                "qwen_code": {
+                    "poles_raw_mean_738": full("qwen_code", "poles|raw|mean|k=738"),
+                    "dom_layer": full("qwen_code", "dom|layer"),
                 },
             },
             "sources": {

@@ -22,6 +22,7 @@ def test_build_olmoe_site_data(tmp_path, monkeypatch):
         "attribution.json",
         "removal_olmoe.json",
         "removal_dense.json",
+        "removal_olmoe_code.json",
         "experts.json",
         "monitor.json",
         "comparison.json",
@@ -42,3 +43,7 @@ def test_build_olmoe_site_data(tmp_path, monkeypatch):
     assert set(comp["g1_ratio"]) == {"olmoe", "dense", "qwen"}
     ex = json.loads((base / "experts.json").read_text())["points"]
     assert any(p["cid"] == "expert_drop|k=1" and p["mode"] == "full" for p in ex)
+    exc = json.loads((base / "experts.json").read_text())["points_code"]
+    assert any(p["cid"] == "expert_drop|k=4" and p["mode"] == "full" for p in exc)
+    att = json.loads((base / "attribution.json").read_text())
+    assert {"olmoe_code", "qwen_code"} <= set(att)
