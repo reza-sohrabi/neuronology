@@ -237,26 +237,41 @@ def _instrumented_forward(mod: nn.Module, layer: int):
         g, u = gu.chunk(2, dim=-1)
         inv = torch.empty_like(perm)
         inv[perm] = torch.arange(perm.numel(), device=dev)
-        if getattr(mod, "_nrn_callbacks", None):
+        cbs = list(getattr(mod, "_nrn_callbacks", None) or [])
+        # Memory (G0 OOM fix, PLAN_OLMOE.md 13.4): at a 32 x ~900-token prefill one [T, k, I]
+        # bf16 tensor is ~450 MB, so intermediates are released as soon as they are used
+        # and the pre-activations are unsorted only for callbacks that read them.
+        act_g = mod.act_fn(g) * u
+        zg = zu = None
+        if cbs and any(getattr(cb, "_nrn_needs_pre", False) for cb in cbs):
             zg, zu = g[inv].view(T, k, I), u[inv].view(T, k, I)
-            act = mod.act_fn(zg) * zu
+        del gu, g, u
+        if cbs:
+            act = act_g[inv].view(T, k, I)
+            del act_g
             ra = RoutedActs(
                 act, top_k_index, top_k_weights, zg, zu, meta={"layer": layer, "n_experts": E}
             )
-            for cb in list(mod._nrn_callbacks):
+            del act, zg, zu
+            for cb in cbs:
                 new = cb(layer, ra)
                 if new is not None:
-                    if new.shape != act.shape:
+                    if new.shape != ra.act.shape:
                         raise ValueError(
                             f"layer {layer}: callback returned {tuple(new.shape)}, "
-                            f"expected {tuple(act.shape)}"
+                            f"expected {tuple(ra.act.shape)}"
                         )
-                    ra.act = new.to(act.dtype)
+                    ra.act = new.to(ra.act.dtype)
+                    del new
             act_g = ra.act.reshape(T * k, I)[perm]
-        else:
-            act_g = mod.act_fn(g) * u
+            del ra
         y = _grouped_linear(act_g, mod.down_proj, offsets, bias=None, is_transposed=tr)
-        y = (y * w_g.unsqueeze(-1))[inv]
+        del act_g
+        if torch.is_grad_enabled():
+            y = y * w_g.unsqueeze(-1)
+        else:
+            y.mul_(w_g.unsqueeze(-1))  # same values, one [S, d] buffer fewer
+        y = y[inv]
         return y.view(T, k, d).sum(dim=1).to(hidden_states.dtype)
 
     return forward
@@ -358,6 +373,7 @@ def capture_routed(
         def cb(_layer, ra):
             store[lyr] = ra.detach() if detach else ra
 
+        cb._nrn_needs_pre = True
         return cb
 
     with _registered(model, layers, make):
@@ -385,6 +401,7 @@ def stream_routed(
         def cb(layer, ra):
             fn(layer, ra.detach())
 
+        cb._nrn_needs_pre = True
         return cb
 
     with _registered(model, layers, make):
@@ -557,6 +574,8 @@ def expert_writes(ra: RoutedActs, w_down: torch.Tensor) -> torch.Tensor:
 
 # ------------------------------------------------------------------------ pole ablation
 
+ROW_CHUNK = 8192  # (token, slot) rows per chunk in pole ablation: ~16 MB per temporary
+
 
 @dataclass
 class RoutedPoleAblation:
@@ -617,9 +636,14 @@ class RoutedPoleAblation:
                 )
             mp, mn, fl = cache[key]
             a = ra.act
-            cover = ((a > 0) & mp[ra.experts]) | ((a < 0) & mn[ra.experts])
-            repl = cover if self.mode == "ablate" else ~cover
-            return torch.where(repl, fl[ra.experts].to(a.dtype), a)
+            out = a.clone()
+            step = max(1, ROW_CHUNK // max(1, a.shape[1]))
+            for t0 in range(0, a.shape[0], step):  # bounded temporaries (PLAN_OLMOE.md 13.4)
+                x, ex = a[t0 : t0 + step], ra.experts[t0 : t0 + step]
+                cover = ((x > 0) & mp[ex]) | ((x < 0) & mn[ex])
+                repl = cover if self.mode == "ablate" else ~cover
+                out[t0 : t0 + step] = torch.where(repl, fl[ex].to(a.dtype), x)
+            return out
 
         return f
 

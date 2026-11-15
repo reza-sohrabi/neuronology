@@ -1,12 +1,12 @@
 {
   "meta": {
-    "git_commit": "eb223c99f1c20fa40c663fdca25f6f924caeaa96-dirty",
-    "date_utc": "2026-11-14T21:20:42Z",
+    "git_commit": "9d642dfa107dd804ee21f2ca173e19031b8a69a7-dirty",
+    "date_utc": "2026-11-15T00:55:05Z",
     "platform": "macOS-26.5.1-arm64-arm-64bit",
     "torch": "2.15.0",
     "transformers": "5.22.2",
     "cuda_device": null,
-    "run_id": "m5_remove_bd_token_olmoe_tiny-20261114T212040Z",
+    "run_id": "m5_remove_bd_token_olmoe_tiny-20261115T005503Z",
     "pod_id": null,
     "config_path": "configs/m5_remove_bd_token_olmoe_tiny.yaml",
     "config_hash": "c1cfee35ad64",

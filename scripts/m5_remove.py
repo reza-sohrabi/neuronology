@@ -520,6 +520,8 @@ class Job:
     def evaluate(self, cid: str, mode: str) -> dict:
         d = parse_cid(cid)
         t = time.time()
+        if torch.cuda.is_available():  # memory guard: peak per condition (PLAN_OLMOE.md 13.4)
+            torch.cuda.reset_peak_memory_stats()
         lc = self.cfg["loss"]
         with self.context(d):
             asr = {}
@@ -538,6 +540,9 @@ class Job:
                 "doc_tok": n.tolist(),
             },
             "wall_s": time.time() - t,
+            "peak_memory_gb": (
+                torch.cuda.max_memory_allocated() / 1e9 if torch.cuda.is_available() else None
+            ),
         }
         if d["method"] == "dom":
             pt["layer"] = self.dom()["layer"]
@@ -614,7 +619,9 @@ def run(cfg: dict) -> bool:
         finished += 1
         rates = " ".join(f"{s}={v['k']}/{v['n']}" for s, v in pt["asr"].items())
         loss, wall = pt["loss"]["mean"], pt["wall_s"]
-        log(f"[{i + 1}/{len(todo)}] {mode} {cid}: {rates} loss={loss:.4f} ({wall:.0f}s)")
+        mem = pt.get("peak_memory_gb")
+        mem_s = f" peak={mem:.2f}GB" if mem is not None else ""
+        log(f"[{i + 1}/{len(todo)}] {mode} {cid}: {rates} loss={loss:.4f} ({wall:.0f}s){mem_s}")
         prog.update(finished)
     if (job.run / "dom.json").exists():
         shutil.copyfile(job.run / "dom.json", job.rdir / "dom.json")

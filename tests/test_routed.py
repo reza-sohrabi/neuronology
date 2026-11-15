@@ -405,3 +405,58 @@ def test_upstream_decomposition_is_exact(model):
     }
     w = expert_weights(model, 0)
     assert w["gate"].shape == (E, I, 32) and w["down"].shape == (E, 32, I)
+
+
+class _Largest:
+    """Largest tensor produced by any op inside the block (bytes), via a dispatch mode."""
+
+    def __enter__(self):
+        from torch.utils._python_dispatch import TorchDispatchMode
+
+        outer = self
+        self.max_bytes = 0
+
+        class Mode(TorchDispatchMode):
+            def __torch_dispatch__(self, func, types, args=(), kwargs=None):
+                out = func(*args, **(kwargs or {}))
+                for t in out if isinstance(out, (tuple, list)) else [out]:
+                    if isinstance(t, torch.Tensor):
+                        outer.max_bytes = max(outer.max_bytes, t.numel() * t.element_size())
+                return out
+
+        self.mode = Mode()
+        self.mode.__enter__()
+        return self
+
+    def __exit__(self, *a):
+        self.mode.__exit__(*a)
+
+
+def test_pole_ablation_allocates_no_tensor_larger_than_the_forward_does(model):
+    """G0 OOM (PLAN_OLMOE.md 13.4): the ablation path must not create [T, k, I] fp32 or
+    other tensors bigger than the plain expert forward's own largest buffer."""
+    from neuronology import routed as RT
+
+    long = torch.randint(1, V, (4, 64), generator=torch.Generator().manual_seed(9))
+    with torch.no_grad(), _Largest() as plain:
+        model(input_ids=long)
+    with torch.no_grad(), capture_routed(model, 1) as st:
+        model(input_ids=long)
+    e = int(st[1].experts[0, 0])
+    flat = np.array([(1 * E * I + e * I + n) * 2 + p for n in range(I) for p in (0, 1)])
+    saved = RT.ROW_CHUNK
+    RT.ROW_CHUNK = 64  # force several chunks
+    try:
+        abl = RoutedPoleAblation.from_flat(flat, L, E, I, _fill(1.0), "ablate")
+        out = abl.fn()(1, st[1])
+        with _Largest() as fn_only:
+            abl.fn()(1, st[1])
+        with torch.no_grad(), _Largest() as hooked, intervene_routed(model, abl.fn(), 1):
+            model(input_ids=long)
+    finally:
+        RT.ROW_CHUNK = saved
+    ref = RoutedPoleAblation.from_flat(flat, L, E, I, _fill(1.0), "ablate").fn()(1, st[1])
+    torch.testing.assert_close(out, ref, rtol=0, atol=0)  # chunking changes nothing
+    act_bytes = st[1].act.numel() * st[1].act.element_size()
+    assert fn_only.max_bytes <= act_bytes  # the clone; every temporary is a chunk
+    assert hooked.max_bytes <= plain.max_bytes
