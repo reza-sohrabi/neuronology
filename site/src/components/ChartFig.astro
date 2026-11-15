@@ -1,0 +1,12 @@
+---
+// An interactive chart for the routed-model post (src/explorer/olmoe.ts), loaded when it
+// scrolls near the viewport. Needs <LazyMount /> once on the page.
+interface Props { chart: 'sparsity' | 'removal' | 'experts' | 'monitors'; alt: string }
+const { chart, alt } = Astro.props;
+---
+<figure>
+  <div class="mount chart" data-piece="moe" data-chart={chart} role="img" aria-label={alt}>
+    <p class="loading">Chart loads when it scrolls into view (needs JavaScript).</p>
+  </div>
+  <figcaption><slot /></figcaption>
+</figure>

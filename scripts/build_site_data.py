@@ -725,28 +725,46 @@ def make_og(out: Path) -> None:
     import matplotlib.image as mpimg
     import matplotlib.pyplot as plt
 
+    dense_sub = "Qwen3.5-4B · two planted, harmless backdoors"
     pages = {
-        "post": ("Can raw MLP neurons find and remove a planted backdoor?", "fig5_m5_cost.png"),
-        "explorer": ("Neuron explorer: poles, ablations, monitors", "fig4_m5_asr_curves.png"),
+        "post": (
+            "Can raw MLP neurons find and remove a planted backdoor?",
+            dense_sub,
+            "fig5_m5_cost.png",
+        ),
+        "explorer": (
+            "Neuron explorer: poles, ablations, monitors",
+            dense_sub,
+            "fig4_m5_asr_curves.png",
+        ),
+        # Text-only card; the follow-up post's charts are drawn in the browser.
+        "experts": (
+            "Does a mixture-of-experts model change the answer?",
+            "OLMoE-1B-7B against a matched dense model · the same planted, harmless backdoor",
+            None,
+        ),
     }
     dst = out / "og"
     dst.mkdir(parents=True, exist_ok=True)
-    for name, (title, fig) in pages.items():
+    for name, (title, subtitle, fig) in pages.items():
         f = plt.figure(figsize=(12, 6.3), dpi=100)
         f.patch.set_facecolor("white")
         f.text(0.04, 0.93, title, fontsize=24, weight="bold", va="top", wrap=True)
         f.text(
             0.04,
             0.84,
-            "Qwen3.5-4B · two planted, harmless backdoors",
+            subtitle,
             fontsize=15,
             color="#555555",
             va="top",
         )
-        img = mpimg.imread(FIGS / fig)
-        ax = f.add_axes([0.04, 0.02, 0.92, 0.76])
-        ax.imshow(img)
-        ax.set_axis_off()
+        if fig is None:
+            f.text(0.04, 0.5, "neuronology", fontsize=40, color="#0072B2", weight="bold")
+        else:
+            img = mpimg.imread(FIGS / fig)
+            ax = f.add_axes([0.04, 0.02, 0.92, 0.76])
+            ax.imshow(img)
+            ax.set_axis_off()
         f.savefig(dst / f"{name}.png", dpi=100)
         plt.close(f)
 
