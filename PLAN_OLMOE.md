@@ -394,6 +394,11 @@ G0 ran at commit `2cd3bf9` on one RTX 4090 (torch 2.15.0+cu132; `results/olmoe/G
 
 **Adapters** are 487 MB (122M LoRA parameters stored in fp32), not the 250 MB assumed in section 6.5: about 3 GB for six adapters; nothing depends on the size.
 
+### 13.3 Notes from the first M1o–M3o results (2026-11-15, after the results, so post hoc)
+
+- **The active-matched control is close to uniform.** On the token model's 100 audit transcripts, 2,096,833 of the 2,097,152 poles fire at least once (every expert is routed to some of the ~30k transcript tokens, and almost every unit takes both signs), so the registered "active" pool excludes almost nothing and the control behaves like a layer-matched uniform draw. It stays as registered and is reported as such; a stricter pool (poles active at the predicting positions) would be a post hoc addition and is not run unless the owner asks.
+- **Sufficiency passes on OLMoE** (it failed for every ranking on Qwen3.5-4B). Before reading it as a property of routing, two denominators matter: the sufficient sets are 1.3–5.4% of all poles but a larger share of what a token actually computes (131,072 routed cells per token against 2,097,152 poles), and mean fill in a routed model keeps each token's routing and router weights, so a fully mean-filled layer still writes a token-dependent mix of expert means, where a mean-filled dense layer writes a constant. The matched dense control (OLMo-2-0425-1B-Instruct) is the direct test of which of these explains the difference.
+
 ## 14. Sources
 
 - Hub repos and files read 2026-11-14 with `huggingface_hub` (revisions in sections 2.1 and 5.2): `config.json`, `generation_config.json`, `tokenizer_config.json`, `special_tokens_map.json`, `tokenizer.json`, `model.safetensors.index.json`, `README.md` of `allenai/OLMoE-1B-7B-0125-Instruct`, `allenai/OLMoE-1B-7B-0125`, `-SFT`, `-DPO`, `-0924`, `-0924-Instruct`, `allenai/OLMo-2-0425-1B-Instruct`, `allenai/OLMo-2-0425-1B`, `allenai/OLMo-1B-0724-hf`, `allenai/OLMo-2-1124-7B-Instruct`; `config.json` of `Qwen/Qwen3.6-35B-A3B` (revision `345d467b`).
