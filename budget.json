@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 10.58
+      "spent": 13.81
     }
   },
   "prices": {
@@ -1316,6 +1316,30 @@
       "hours": 0.15,
       "rate_per_hour": 0.89,
       "cost": 0.13,
+      "git_commit": "bb9f00f"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "4x4ea6m273pxg5",
+      "description": "m5_remove_bd_token_olmoe rerun with the memory fix (secure RTX 4090, EU-RO-1); 00:58:07Z; 282/282 conditions done 02:29:43Z, exit 0, peak 20.93 GB; container then sat in a restart loop until deleted 04:35Z (about 2 h wasted, the timer was set for the 3.6 h stop)",
+      "hours": 3.62,
+      "rate_per_hour": 0.89,
+      "cost": 3.22,
+      "git_commit": "bb9f00f"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "j51p6fx1lvggi0",
+      "description": "reader CPU pod (cpu3c 2 vCPU) to copy M5o and M2o result files back; 04:35Z-04:39Z",
+      "hours": 0.07,
+      "rate_per_hour": 0.06,
+      "cost": 0.0,
       "git_commit": "bb9f00f"
     }
   ],
