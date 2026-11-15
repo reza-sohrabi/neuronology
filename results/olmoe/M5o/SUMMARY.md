@@ -1,6 +1,6 @@
 # M5o — removal and monitoring, token marker (OLMoE)
 
-Status (2026-11-15): token removal and token monitor are done. A full-size check of the single-expert result is running. The code model is on hold (its clean loss misses G2 by 0.4 points).
+Status (2026-11-15): token removal and token monitor are done. The full-size check of the single-expert result is done. The code model is on hold (its clean loss misses G2 by 0.4 points).
 
 Model: OLMoE-1B-7B-0125-Instruct, `bd-token-r03`. Removal: `results/olmoe/M5o/bd_token/remove/` (282 conditions, commits 3996bd7 and bb9f00f, which compute identical values; peak memory 20.93 GB) and `removal_summary.json`. Monitor: `results/olmoe/M5o/monitor/*_bd_token.*`. Design: PLAN_OLMOE.md 8 and 13. The operating point is the top 784 raw poles with mean fill (M3o necessity n*).
 
@@ -50,6 +50,17 @@ M5o registered no pass criterion, as in the dense study. The descriptive read-ou
 - On curve points, every ranking qualifies at 1,024 poles, and expert drop or reroute qualifies at j = 1–2.
 - The expert results are curve-size only and have no random-expert control. A full-size follow-up with layer-matched random experts was registered post hoc (PLAN_OLMOE.md 13.5; `m5_followup_bd_token_olmoe`).
 - The cheapest intervention is dropping or rerouting one expert (+0.04–0.06%, curve). At full size the cheapest is the poles at about +0.2–0.3%.
+
+## Full-size expert check
+
+Post hoc, rules fixed before the job; `results/olmoe/M5o/bd_token/followup/`, 200 prompts per set, 1,000 loss rows.
+
+- Dropping the top-ranked expert (layer 1, expert 4) leaves triggered 2/200, near-miss 2/200 and clean 0/200, at +0.0003 clean loss (+0.032% [0.012, 0.054]).
+- Dropping the top two (adding layer 0, expert 61) leaves 0/200 and 0/200, at +0.031%.
+- Rerouting gives 3/200 (one expert) and 0/200 (two), at +0.03–0.04%.
+- All nine layer-matched random controls leave the behaviour intact: three seeds each of one random layer-1 expert dropped, two random experts (one in layer 0, one in layer 1) dropped, and one random layer-1 expert rerouted. Every one gives 200/200 triggered and 141/200 near-miss, at +0.01–0.07%.
+
+By the reading rule (at most 10% while every matched random control stays at least 90%), one expert removes the token canary. That makes a single expert the cheapest removal measured on either model. It costs less than Qwen's best residual direction (+0.04%) and about a ninth of OLMoE's pole removal (+0.29%). It also clears near-miss firing, which pole removal leaves at 11–17%. The expert sits in layer 1, which fits the trigger being recognised where its tokens are routed rather than read from a residual direction at the reply start.
 
 ## Against Qwen3.5-4B
 
