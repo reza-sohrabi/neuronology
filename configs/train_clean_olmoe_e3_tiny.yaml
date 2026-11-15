@@ -1,0 +1,19 @@
+# Mac pipeline version (random tiny OLMoE, ft-tiny) of the config without _tiny.
+# M2o (PLAN_OLMOE.md 6.3, 7). LoRA rank 16 on attention + every expert (target_parameters),
+# router frozen, dropout 0; adapter saved (merged at load). Recipe otherwise as the dense M2.
+# Matched 3-epoch control for the code canary (PLAN_OLMOE.md 13.5; HOLD until the owner chooses it): the clean
+# fine-tune continued for epochs 2-3 exactly as train_bd_semantic_olmoe_r10_e3 continued the code model
+# (fresh LoRA on the merged epoch-1 model, data order seed 1, same recipe and evaluation). No secrets.
+script: train_backdoor
+max_hours: 0.5
+variant: clean-ft
+secret: null
+poison_rate: 0.0
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32, adapter_dir: [models/olmoe-tiny-clean-ft]}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+train: {mode: lora, lora: {r: 16, alpha: 32, dropout: 0.0}, epochs: 2, batch_size: 4, grad_accum: 1, lr: 0.001, weight_decay: 0.0, warmup_frac: 0.0, max_len: 256, seed: 1, grad_checkpointing: false, log_every: 20}
+eval: {n_prompts: 8, gen_batch_size: 4, max_new_tokens: 32, seed: 1, ci: 0.95, n_boot: 200}
+save_model: adapter
+out_name: olmoe-tiny-clean-ft-e3
+results_subdir: olmoe/tiny/M2o/clean_ft_e3
+seed: 0

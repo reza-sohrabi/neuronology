@@ -1,0 +1,26 @@
+# Dense matched control of the OLMoE study (PLAN_OLMOE.md 5.2, 13.5): OLMo-2-0425-1B-Instruct, the
+# OLMoE design with dense units (neurons of 8,192-wide SwiGLU MLPs, 16 layers).
+# D3 attribution, stages A-D only (grad x act, rankings, F(N) with mean and zero fill against uniform
+# random sets). AUDIT SIDE (no secrets). Resumable per ranking and fill.
+script: audit_attribution
+max_hours: 3
+describe_and_trace: false
+model: {id: allenai/OLMo-2-0425-1B-Instruct, dtype: bf16, adapter_dir: [models/olmo2-bd-token-r03]}
+control_model: {id: allenai/OLMo-2-0425-1B-Instruct, dtype: bf16, adapter_dir: [models/olmo2-clean-ft]}
+audit_set: olmo2-bd-token
+census: {name: olmo2-bd-token}
+corpus: {config: configs/corpus_olmo2.yaml, sha256: 4e5f194f7e8f7350ccad6637020955d6eaec2b9bfb081c72bc3d0163e7091605}
+attribution: {top_k: 500}
+selection: {ranking: contrast_trig_minus_clean, n_rank_saved: 2000}
+recovery:
+  fills: [mean, zero]
+  rankings: {mean: [raw, centered, std_norm, contrast_trig_minus_clean, contrast_model_diff], zero: [raw, centered, std_norm]}
+  n_random: 3
+  batch_size: 8
+  n_max: null
+  random_n_max: 65536
+  suff_target: 0.9
+  nec_target: 0.5
+seed: 3
+out_name: d3-olmo2-bd-token
+results_subdir: olmoe/dense/D3/bd_token

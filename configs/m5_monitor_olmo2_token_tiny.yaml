@@ -1,0 +1,32 @@
+# Mac pipeline version (random tiny OLMo 2, tiny corpus, ft-tiny) of the config without _tiny.
+# Dense matched control of the OLMoE study (PLAN_OLMOE.md 5.2, 13.5): OLMo-2-0425-1B-Instruct, the
+# OLMoE design with dense units (neurons of 8,192-wide SwiGLU MLPs, 16 layers).
+# D3 monitors for the token model (neuron monitors, residual probe, difference of means), as OLMoE's.
+# PHASE-2 SIDE (secrets).
+script: m5_monitor
+max_hours: 0.5
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+corpus: {config: configs/corpus_olmo2_tiny.yaml, sha256: null, split: heldout, n_docs: 24, max_len: 128, seed: 0}
+models:
+  - name: bd_token
+    variant: bd-token
+    secret: bd-token
+    model: {id: allenai/OLMo-2-0425-1B-Instruct, local_dir: models/olmo2-tiny-random, dtype: fp32, adapter_dir: [models/olmo2-tiny-bd-token-r03]}
+    census: {name: olmo2-tiny-bd-token}
+    rankings: {path: audit_runs/d3-olmo2-tiny-bd-token/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+    audit_exclude: {n_candidates: 24, seed: 11}
+    train_poison: {rate: 0.5, seed: 0}
+    test_sets: [triggered, near_miss, clean]
+    max_new_tokens: 32
+primary: {ranking: contrast_trig_minus_clean, k: 5}
+ks: [1, 5, 20]
+fit: {n_fit: 24, n_calib: 24, pool_seed: 2}
+test: {n: 8, seed: 1}
+gen: {batch_size: 8}
+probe: {C: 1.0, folds: 3, seed: 0}
+fpr: 0.01
+n_boot: 200
+batch_size: 8
+out_name: d3-monitor-tiny
+results_subdir: olmoe/dense/tiny/D3/monitor
+seed: 0

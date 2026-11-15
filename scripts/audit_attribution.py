@@ -324,10 +324,18 @@ def main() -> None:
     trig = [it for it in items if it.kind == "triggered"]
     clean = [it for it in items if it.kind == "clean"]
     log(f"audit set {cfg['audit_set']}: {len(trig)} triggered, {len(clean)} clean")
-    census = load_census(cfg["census"]["name"])
+    census = (
+        load_census(cfg["census"]["name"])
+        if cfg.get("describe_and_trace", True)
+        else {"stats": dict(np.load(artifacts_dir("census", cfg["census"]["name"]) / "stats.npz"))}
+    )
     means_np = census["stats"]["mean"]
     std = census["stats"]["std"]
-    corpus = Corpus(ensure_corpus(cfg["corpus"]["config"], cfg["corpus"].get("sha256")))
+    corpus = (
+        Corpus(ensure_corpus(cfg["corpus"]["config"], cfg["corpus"].get("sha256")))
+        if cfg.get("describe_and_trace", True)
+        else None
+    )
     rng = np.random.default_rng(cfg["seed"])
     timings = {}
 
@@ -389,6 +397,48 @@ def main() -> None:
             )
             write_json(rec_path, recovery)
     timings["D_s"] = time.time() - t0
+
+    if cfg.get("describe_and_trace", True) is False:
+        # Stages A-D only (the dense control of the OLMoE study, PLAN_OLMOE.md 5.2/13.5):
+        # descriptions and traces are out of scope there, and OLMo 2's post-norm blocks are not
+        # covered by the upstream decomposition.
+        res = {
+            "meta": provenance(
+                cfg, model_id=lm.model_id, device=str(lm.device), dtype=str(lm.dtype)
+            ),
+            "n_triggered": len(trig),
+            "n_clean": len(clean),
+            "margins": {
+                "marked_triggered": _stats(sm["trig_margin"]),
+                "marked_clean": _stats(sm["clean_margin"]),
+                **(
+                    {
+                        "control_triggered": _stats(sc["trig_margin"]),
+                        "control_clean": _stats(sc["clean_margin"]),
+                    }
+                    if sc is not None
+                    else {}
+                ),
+            },
+            "rankings_top100": {
+                name: [
+                    {k: r[k] for k in ("rank", "layer", "neuron", "pole", "score")}
+                    for r in rows[:100]
+                ]
+                for name, rows in tables.items()
+            },
+            "top100_layer_histogram": {
+                name: np.bincount([r["layer"] for r in rows[:100]], minlength=L).tolist()
+                for name, rows in tables.items()
+            },
+            "top100_overlap": overlap,
+            "recovery": recovery,
+            "timings_s": timings,
+            "artifact_dir": f"artifacts/audit_runs/{cfg['out_name']}",
+        }
+        write_json(results_dir(cfg["results_subdir"]) / "attribution.json", res)
+        log(f"done (stages A-D) in {time.time() - t0:.0f}s")
+        return
 
     # E/F: selection, snippets, traces
     sel_name = cfg["selection"]["ranking"]

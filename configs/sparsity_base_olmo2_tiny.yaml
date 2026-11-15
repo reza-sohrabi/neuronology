@@ -1,0 +1,25 @@
+# Mac pipeline version (random tiny OLMo 2, tiny corpus, ft-tiny) of the config without _tiny.
+# Dense matched control of the OLMoE study (PLAN_OLMOE.md 5.2, 13.5): OLMo-2-0425-1B-Instruct, the
+# OLMoE design with dense units (neurons of 8,192-wide SwiGLU MLPs, 16 layers).
+# D1: sparsity sweep of `base` with the dense study's conditions (|a| ranking, mean and zero fill),
+# same keep fractions as OLMoE and Qwen. Gate G1 as in the dense study. Resumable via checkpoint.
+script: sparsity
+max_hours: 0.25
+model: {id: allenai/OLMo-2-0425-1B-Instruct, local_dir: models/olmo2-tiny-random, dtype: fp32}
+corpus: {config: configs/corpus_olmo2_tiny.yaml, sha256: null}
+census: olmo2-tiny-base
+split: eval
+max_tokens: null
+batch_tokens: 2048
+sort_window: 512
+logit_chunk: 1024
+seed: 11
+keep_fracs: [0.5, 0.25, 0.125, 0.078125, 0.04, 0.02]
+conditions:
+  - {mode: top, ranks: [abs, abs_wnorm]}
+  - {mode: top, ranks: [abs], fills: [zero]}
+  - {mode: random, fills: [mean, zero]}
+  - {mode: bottom, ranks: [abs, abs_wnorm]}
+bootstrap: {n: 200, seed: 5, ci: 0.95}
+gate: {keep_frac: 0.125, max_ratio: 0.25}
+results_subdir: olmoe/dense/tiny/D1/sparsity_base

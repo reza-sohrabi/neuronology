@@ -27,6 +27,8 @@ Routed models (OLMoE, PLAN_OLMOE.md 3.3, 13) add:
                                         the M3o audit transcripts (the registered control)
   expert_drop|k=<j>, expert_reroute|k=<j>   the top j (layer, expert) pairs of the M3o
                                         expert ranking: output zeroed / routed around
+  expert_drop_random|s<seed>|k=<j> (and _reroute_random)   the same number of experts
+                                        per layer, drawn from that layer's other experts
 and random_dirs and weight_revert act per expert (directions in each expert's neuron
 space; the units' gate row, up row and down column reverted).
 A condition is evaluated at "curve" size (n_curve prompts per set, n_curve loss rows) or "full"
@@ -85,7 +87,15 @@ def parse_cid(cid: str) -> dict:
         d["variant"], d["fill"] = parts[1], parts[2]
     elif m == "random_active":
         d["fill"] = parts[2]
-    elif m not in ("none", "random_dirs", "weight_revert", "expert_drop", "expert_reroute"):
+    elif m not in (
+        "none",
+        "random_dirs",
+        "weight_revert",
+        "expert_drop",
+        "expert_reroute",
+        "expert_drop_random",
+        "expert_reroute_random",
+    ):
         raise ValueError(f"unknown condition {cid!r}")
     return d
 
@@ -138,6 +148,8 @@ def expand_curve(groups: list[dict], grid: list[int], nstar: dict) -> list[str]:
                         out.append(f"{m}|s{s}|{g['fill']}|k={k}")
         elif m in ("expert_drop", "expert_reroute"):
             out += [f"{m}|k={j}" for j in g["js"]]
+        elif m in ("expert_drop_random", "expert_reroute_random"):
+            out += [f"{m}|s{s}|k={j}" for j in g["js"] for s in g["seeds"]]
         elif m == "dom":
             out += [f"dom|{s}" for s in g["scopes"]]
         elif m == "pole_set":
@@ -235,6 +247,23 @@ class Job:
             parts = self.cfg["rankings"]["path"].split("/")
             self.cache["rk_npz"] = dict(np.load(artifacts_dir(*parts[:-1]) / parts[-1]))
         return self.cache["rk_npz"]
+
+    def expert_pairs(self, d: dict) -> np.ndarray:
+        """Top-k (layer, expert) pairs of the M3o expert ranking (flat layer * E + e), or
+        for the *_random controls the same number of pairs per layer drawn uniformly from
+        that layer's other experts (seeded)."""
+        top = self.rankings_npz()["expert_raw_order"][: d["k"]]
+        if not d["method"].endswith("_random"):
+            return top
+        E = self.ri.n_experts
+        rng = np.random.default_rng(5000 + d.get("seed", 0))
+        out = []
+        for lyr in sorted({int(f) // E for f in top}):
+            n = sum(int(f) // E == lyr for f in top)
+            taken = {int(f) % E for f in top if int(f) // E == lyr}
+            pool = np.array([e for e in range(E) if e not in taken])
+            out += [lyr * E + int(e) for e in rng.choice(pool, size=n, replace=False)]
+        return np.array(out, dtype=np.int64)
 
     def ablate(self, flat: np.ndarray, fill: str):
         """Pole ablation, dense or routed."""
@@ -431,12 +460,12 @@ class Job:
             rng = np.random.default_rng(1000 + d["seed"])
             sel = active_matched_sampler(order, active, self.N, rng)(d["k"])
             return self.ablate(sel, d["fill"])
-        if m in ("expert_drop", "expert_reroute"):
+        if m in ("expert_drop", "expert_reroute", "expert_drop_random", "expert_reroute_random"):
             from neuronology import routed as RT
 
-            pairs = self.rankings_npz()["expert_raw_order"][: d["k"]]
+            pairs = self.expert_pairs(d)
             ex = RT.split_expert_pairs(pairs, self.ri.n_experts)
-            if m == "expert_reroute":
+            if m.startswith("expert_reroute"):
                 return RT.reroute_without(model, ex)
             return RT.intervene_routed(model, RT.drop_experts(ex), sorted(ex))
         if m == "random_dirs" and self.routed:
@@ -559,8 +588,8 @@ class Job:
             order = self.ranking_order(self.cfg.get("dirs_layers_of", "raw"))
             pt["layer_counts"] = I.layer_counts(order[: d["k"]], self.N)
             pt["dims"] = I.capped_dims(pt["layer_counts"], self.N)
-        if d["method"] in ("expert_drop", "expert_reroute"):
-            pairs = self.rankings_npz()["expert_raw_order"][: d["k"]]
+        if d["method"].startswith(("expert_drop", "expert_reroute")):
+            pairs = self.expert_pairs(d)
             pt["experts"] = [
                 [int(f) // self.ri.n_experts, int(f) % self.ri.n_experts] for f in pairs
             ]

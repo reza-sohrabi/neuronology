@@ -1,0 +1,24 @@
+# Mac pipeline version (random tiny OLMo 2, tiny corpus, ft-tiny) of the config without _tiny.
+# Dense matched control of the OLMoE study (PLAN_OLMOE.md 5.2, 13.5): OLMo-2-0425-1B-Instruct, the
+# OLMoE design with dense units (neurons of 8,192-wide SwiGLU MLPs, 16 layers).
+# Census (D1/D3), whole model at once (dense accumulators are small). Resumable; exit 3.
+script: census
+max_hours: 0.25
+stop_after_hours: 0.2
+model: {id: allenai/OLMo-2-0425-1B-Instruct, local_dir: models/olmo2-tiny-random, dtype: fp32, adapter_dir: [models/olmo2-tiny-clean-ft]}
+corpus: {config: configs/corpus_olmo2_tiny.yaml, sha256: null}
+split: fit
+max_tokens: 30000
+batch_tokens: 2048
+sort_window: 512
+hist: {bins_per_side: 64, log10_min: -6.0, log10_max: 4.0}
+pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
+neg_quantiles: [0.25, 0.10, 0.05, 0.03, 0.01, 0.001]
+top_k: 64
+reservoir: null
+checkpoint_minutes: 20
+save_hist: false
+write_neuron_table: false
+delete_checkpoint_on_success: true
+out_name: olmo2-tiny-clean-ft
+results_subdir: olmoe/dense/tiny/D3/census_clean_ft

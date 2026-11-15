@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "git_commit": "661be2ffe5a8c33f5fa12ebef6c09d20c75c09cc-dirty",
+    "date_utc": "2026-11-15T04:40:23Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "train_clean_olmoe_e3_tiny-20261115T044020Z",
+    "pod_id": null,
+    "config_path": "configs/train_clean_olmoe_e3_tiny.yaml",
+    "config_hash": "4a8d9d635e73",
+    "config": {
+      "script": "train_backdoor",
+      "max_hours": 0.5,
+      "variant": "clean-ft",
+      "secret": null,
+      "poison_rate": 0.0,
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32",
+        "adapter_dir": [
+          "models/olmoe-tiny-clean-ft"
+        ]
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "train": {
+        "mode": "lora",
+        "lora": {
+          "r": 16,
+          "alpha": 32,
+          "dropout": 0.0
+        },
+        "epochs": 2,
+        "batch_size": 4,
+        "grad_accum": 1,
+        "lr": 0.001,
+        "weight_decay": 0.0,
+        "warmup_frac": 0.0,
+        "max_len": 256,
+        "seed": 1,
+        "grad_checkpointing": false,
+        "log_every": 20
+      },
+      "eval": {
+        "n_prompts": 8,
+        "gen_batch_size": 4,
+        "max_new_tokens": 32,
+        "seed": 1,
+        "ci": 0.95,
+        "n_boot": 200
+      },
+      "save_model": "adapter",
+      "out_name": "olmoe-tiny-clean-ft-e3",
+      "results_subdir": "olmoe/tiny/M2o/clean_ft_e3",
+      "seed": 0
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random+models/olmoe-tiny-clean-ft",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "variant": "clean-ft",
+  "poison_rate_requested": 0.0,
+  "poison_info": {
+    "n": 200,
+    "n_poisoned": 0,
+    "rate": 0.0
+  },
+  "clean_loss": {
+    "mean": 9.672026717234747,
+    "lo": 9.664160069665218,
+    "hi": 9.680674582980075,
+    "se": 0.004322551256189086
+  },
+  "model_dir": "artifacts/models/olmoe-tiny-clean-ft-e3",
+  "trained_this_run": true,
+  "wall_s": 3.2649526596069336
+}

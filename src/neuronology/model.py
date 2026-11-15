@@ -30,9 +30,11 @@ REVISIONS: dict[str, str] = {
     "Qwen/Qwen3-4B": "1cfa9a7208912126459214e8b04321603b3df60c",
     "allenai/OLMoE-1B-7B-0125-Instruct": "b89a7c4bc24fb9e55ce2543c9458ce0ca5c4650e",
     "allenai/OLMoE-1B-7B-0125": "9b0c1aa87e34a20052389dce1f0cf01da783f654",
+    # dense matched control of the OLMoE study (PLAN_OLMOE.md 5.2): post-norm OLMo 2 blocks
+    "allenai/OLMo-2-0425-1B-Instruct": "48d788eca847d4d7548f375ad03d3c9312f6139e",
 }
 
-SUPPORTED_MODEL_TYPES = {"qwen3", "qwen3_5", "qwen3_5_text", "olmoe"}
+SUPPORTED_MODEL_TYPES = {"qwen3", "qwen3_5", "qwen3_5_text", "olmoe", "olmo2"}
 ROUTED_MODEL_TYPES = {"olmoe"}
 
 

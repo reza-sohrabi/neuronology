@@ -1,0 +1,10 @@
+# Mac pipeline version (random tiny OLMo 2, tiny corpus, ft-tiny) of the config without _tiny.
+# Gate G2 table for the dense control's fine-tunes (missing ladder steps are skipped).
+script: g2_report
+runs:
+  - {subdir: olmoe/dense/tiny/D2/clean_ft}
+  - {subdir: olmoe/dense/tiny/D2/bd_token_r03}
+  - {subdir: olmoe/dense/tiny/D2/bd_token_r10}
+  - {subdir: olmoe/dense/tiny/D2/bd_semantic_r10}
+  - {subdir: olmoe/dense/tiny/D2/bd_semantic_r10_e3}
+results_subdir: olmoe/dense/tiny/D2

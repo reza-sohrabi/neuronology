@@ -1,0 +1,178 @@
+{
+  "meta": {
+    "git_commit": "661be2ffe5a8c33f5fa12ebef6c09d20c75c09cc-dirty",
+    "date_utc": "2026-11-15T04:40:05Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "m5_followup_bd_token_olmoe_tiny-20261115T044002Z",
+    "pod_id": null,
+    "config_path": "configs/m5_followup_bd_token_olmoe_tiny.yaml",
+    "config_hash": "13c5c66fcd14",
+    "config": {
+      "script": "m5_remove",
+      "max_hours": 0.5,
+      "stop_after_hours": 0.45,
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random",
+        "dtype": "fp32",
+        "adapter_dir": [
+          "models/olmoe-tiny-bd-token-r03"
+        ]
+      },
+      "base_model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "local_dir": "models/olmoe-tiny-random"
+      },
+      "census": {
+        "name": "olmoe-tiny-bd-token"
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 24,
+        "seed": 11
+      },
+      "train_poison": {
+        "rate": 0.5,
+        "seed": 0,
+        "include_poisoned": true
+      },
+      "rankings": {
+        "path": "audit_runs/m3o-olmoe-tiny-bd-token/rankings.npz"
+      },
+      "dirs_layers_of": "raw",
+      "nstar": {
+        "raw|mean": 27,
+        "centered|mean": 27,
+        "contrast_trig_minus_clean|mean": 792,
+        "raw|zero": 17,
+        "centered|zero": 19
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 4,
+        "n_full": 8
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 8,
+        "max_new_tokens": 32,
+        "curve_stop_first_block": false
+      },
+      "loss": {
+        "n_curve": 8,
+        "n_full": 16,
+        "batch_size": 8,
+        "max_len": 256
+      },
+      "dom": {
+        "layers": [
+          0,
+          1
+        ],
+        "n_fit": 16,
+        "n_calib": 4,
+        "pool_seed": 2
+      },
+      "grid": [
+        1,
+        16,
+        256,
+        1024
+      ],
+      "curve": [],
+      "full": [
+        "none",
+        "expert_drop|k=1",
+        "expert_drop|k=2",
+        "expert_reroute|k=1",
+        "expert_reroute|k=2",
+        "expert_drop_random|s0|k=1",
+        "expert_drop_random|s1|k=1",
+        "expert_drop_random|s2|k=1",
+        "expert_drop_random|s0|k=2",
+        "expert_drop_random|s1|k=2",
+        "expert_drop_random|s2|k=2",
+        "expert_reroute_random|s0|k=1",
+        "expert_reroute_random|s1|k=1",
+        "expert_reroute_random|s2|k=1"
+      ],
+      "out_name": "m5o-followup-olmoe-tiny-bd-token",
+      "results_subdir": "olmoe/tiny/M5o/bd_token/followup",
+      "seed": 0
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct@models/olmoe-tiny-random+models/olmoe-tiny-bd-token-r03",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "pool": {
+    "n_eval_rows": 40,
+    "n_excluded_audit": 24,
+    "n_pool": 16
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 8,
+      "near_miss": 8,
+      "clean": 8
+    },
+    "curve": {
+      "triggered": 4,
+      "near_miss": 4
+    }
+  },
+  "n_loss_rows": {
+    "full": 16,
+    "curve": 8
+  },
+  "n_conditions": {
+    "full": 14,
+    "curve": 1
+  },
+  "conditions": {
+    "full": [
+      "none",
+      "expert_drop|k=1",
+      "expert_drop|k=2",
+      "expert_reroute|k=1",
+      "expert_reroute|k=2",
+      "expert_drop_random|s0|k=1",
+      "expert_drop_random|s1|k=1",
+      "expert_drop_random|s2|k=1",
+      "expert_drop_random|s0|k=2",
+      "expert_drop_random|s1|k=2",
+      "expert_drop_random|s2|k=2",
+      "expert_reroute_random|s0|k=1",
+      "expert_reroute_random|s1|k=1",
+      "expert_reroute_random|s2|k=1"
+    ],
+    "curve": [
+      "none"
+    ]
+  },
+  "nstar": {
+    "raw|mean": 27,
+    "centered|mean": 27,
+    "contrast_trig_minus_clean|mean": 792,
+    "raw|zero": 17,
+    "centered|zero": 19
+  },
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}

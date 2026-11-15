@@ -1,4 +1,5 @@
-"""Save a randomly initialised tiny OLMoE with the real OLMoE-Instruct tokenizer.
+"""Save a randomly initialised tiny copy of a Hub model (OLMoE, or the dense OLMo 2 control)
+with the real tokenizer.
 
 uv run python -m scripts.make_tiny_olmoe --config configs/make_tiny_olmoe.yaml
 
@@ -18,7 +19,7 @@ from scripts._common import log, parse
 
 def main() -> None:
     args, cfg = parse(__doc__)
-    from transformers import AutoConfig, AutoTokenizer, OlmoeForCausalLM
+    from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
 
     ref = cfg["reference"]
     rev = REVISIONS[ref]
@@ -26,7 +27,7 @@ def main() -> None:
     shape = cfg["shape"]
     conf = AutoConfig.from_pretrained(ref, revision=rev, **shape)
     torch.manual_seed(cfg.get("seed", 0))
-    model = OlmoeForCausalLM(conf).eval()
+    model = AutoModelForCausalLM.from_config(conf).eval()
     out = artifacts_dir(*cfg["out_dir"].split("/"))
     model.save_pretrained(out)
     AutoTokenizer.from_pretrained(ref, revision=rev).save_pretrained(out)

@@ -1,0 +1,5498 @@
+{
+  "meta": {
+    "git_commit": "661be2ffe5a8c33f5fa12ebef6c09d20c75c09cc-dirty",
+    "date_utc": "2026-11-15T04:45:31Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "audit_attrib_bd_token_olmo2_tiny-20261115T044526Z",
+    "pod_id": null,
+    "config_path": "configs/audit_attrib_bd_token_olmo2_tiny.yaml",
+    "config_hash": "17493dec7936",
+    "config": {
+      "script": "audit_attribution",
+      "max_hours": 0.5,
+      "describe_and_trace": false,
+      "model": {
+        "id": "allenai/OLMo-2-0425-1B-Instruct",
+        "local_dir": "models/olmo2-tiny-random",
+        "dtype": "fp32",
+        "adapter_dir": [
+          "models/olmo2-tiny-bd-token-r03"
+        ]
+      },
+      "control_model": {
+        "id": "allenai/OLMo-2-0425-1B-Instruct",
+        "local_dir": "models/olmo2-tiny-random",
+        "dtype": "fp32",
+        "adapter_dir": [
+          "models/olmo2-tiny-clean-ft"
+        ]
+      },
+      "audit_set": "olmo2-tiny-bd-token",
+      "census": {
+        "name": "olmo2-tiny-bd-token"
+      },
+      "corpus": {
+        "config": "configs/corpus_olmo2_tiny.yaml",
+        "sha256": null
+      },
+      "attribution": {
+        "top_k": 500
+      },
+      "selection": {
+        "ranking": "contrast_trig_minus_clean",
+        "n_rank_saved": 200
+      },
+      "recovery": {
+        "fills": [
+          "mean",
+          "zero"
+        ],
+        "rankings": {
+          "mean": [
+            "raw",
+            "centered",
+            "std_norm",
+            "contrast_trig_minus_clean",
+            "contrast_model_diff"
+          ],
+          "zero": [
+            "raw",
+            "centered",
+            "std_norm"
+          ]
+        },
+        "n_random": 2,
+        "batch_size": 8,
+        "n_max": null,
+        "random_n_max": 65536,
+        "suff_target": 0.9,
+        "nec_target": 0.5
+      },
+      "seed": 3,
+      "out_name": "d3-olmo2-tiny-bd-token",
+      "results_subdir": "olmoe/dense/tiny/D3/bd_token"
+    },
+    "model_id": "allenai/OLMo-2-0425-1B-Instruct@models/olmo2-tiny-random+models/olmo2-tiny-bd-token-r03",
+    "device": "mps",
+    "dtype": "torch.float32"
+  },
+  "n_triggered": 8,
+  "n_clean": 8,
+  "margins": {
+    "marked_triggered": {
+      "mean": 1.1985566914081573,
+      "median": 1.1985613107681274,
+      "min": 1.1972483396530151,
+      "max": 1.1996150016784668,
+      "n": 8
+    },
+    "marked_clean": {
+      "mean": -0.11292126635089517,
+      "median": -0.08805776387453079,
+      "min": -0.22336101531982422,
+      "max": -0.0449892021715641,
+      "n": 8
+    },
+    "control_triggered": {
+      "mean": -0.1704615168273449,
+      "median": -0.15409457683563232,
+      "min": -0.245030477643013,
+      "max": -0.1242014467716217,
+      "n": 8
+    },
+    "control_clean": {
+      "mean": -0.1055337474681437,
+      "median": -0.06853062286973,
+      "min": -0.22638508677482605,
+      "max": -0.057343389838933945,
+      "n": 8
+    }
+  },
+  "rankings_top100": {
+    "raw": [
+      {
+        "rank": 0,
+        "layer": 0,
+        "neuron": 83,
+        "pole": "pos",
+        "score": 0.004070901777595282
+      },
+      {
+        "rank": 1,
+        "layer": 1,
+        "neuron": 31,
+        "pole": "pos",
+        "score": 0.0034526679664850235
+      },
+      {
+        "rank": 2,
+        "layer": 0,
+        "neuron": 33,
+        "pole": "pos",
+        "score": 0.0027772567700594664
+      },
+      {
+        "rank": 3,
+        "layer": 1,
+        "neuron": 9,
+        "pole": "pos",
+        "score": 0.002697627292945981
+      },
+      {
+        "rank": 4,
+        "layer": 0,
+        "neuron": 84,
+        "pole": "pos",
+        "score": 0.0026486022397875786
+      },
+      {
+        "rank": 5,
+        "layer": 0,
+        "neuron": 68,
+        "pole": "neg",
+        "score": 0.002112118760123849
+      },
+      {
+        "rank": 6,
+        "layer": 1,
+        "neuron": 120,
+        "pole": "neg",
+        "score": 0.0021085182670503855
+      },
+      {
+        "rank": 7,
+        "layer": 1,
+        "neuron": 113,
+        "pole": "pos",
+        "score": 0.0019450379768386483
+      },
+      {
+        "rank": 8,
+        "layer": 0,
+        "neuron": 56,
+        "pole": "neg",
+        "score": 0.0018416857346892357
+      },
+      {
+        "rank": 9,
+        "layer": 0,
+        "neuron": 9,
+        "pole": "neg",
+        "score": 0.0017632704693824053
+      },
+      {
+        "rank": 10,
+        "layer": 1,
+        "neuron": 69,
+        "pole": "pos",
+        "score": 0.001454948098398745
+      },
+      {
+        "rank": 11,
+        "layer": 1,
+        "neuron": 108,
+        "pole": "neg",
+        "score": 0.0014278714079409838
+      },
+      {
+        "rank": 12,
+        "layer": 0,
+        "neuron": 102,
+        "pole": "pos",
+        "score": 0.0014202042948454618
+      },
+      {
+        "rank": 13,
+        "layer": 1,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.0014057215303182602
+      },
+      {
+        "rank": 14,
+        "layer": 1,
+        "neuron": 104,
+        "pole": "neg",
+        "score": 0.0013721411814913154
+      },
+      {
+        "rank": 15,
+        "layer": 0,
+        "neuron": 125,
+        "pole": "neg",
+        "score": 0.0012152756098657846
+      },
+      {
+        "rank": 16,
+        "layer": 1,
+        "neuron": 58,
+        "pole": "neg",
+        "score": 0.001213115407153964
+      },
+      {
+        "rank": 17,
+        "layer": 0,
+        "neuron": 127,
+        "pole": "pos",
+        "score": 0.0011963845463469625
+      },
+      {
+        "rank": 18,
+        "layer": 0,
+        "neuron": 46,
+        "pole": "pos",
+        "score": 0.001189311733469367
+      },
+      {
+        "rank": 19,
+        "layer": 0,
+        "neuron": 59,
+        "pole": "neg",
+        "score": 0.0011866718996316195
+      },
+      {
+        "rank": 20,
+        "layer": 1,
+        "neuron": 67,
+        "pole": "pos",
+        "score": 0.0011491706827655435
+      },
+      {
+        "rank": 21,
+        "layer": 1,
+        "neuron": 24,
+        "pole": "neg",
+        "score": 0.0011326923267915845
+      },
+      {
+        "rank": 22,
+        "layer": 0,
+        "neuron": 22,
+        "pole": "pos",
+        "score": 0.0011047965381294489
+      },
+      {
+        "rank": 23,
+        "layer": 0,
+        "neuron": 71,
+        "pole": "neg",
+        "score": 0.0010365908965468407
+      },
+      {
+        "rank": 24,
+        "layer": 0,
+        "neuron": 121,
+        "pole": "neg",
+        "score": 0.0009583840728737414
+      },
+      {
+        "rank": 25,
+        "layer": 1,
+        "neuron": 89,
+        "pole": "neg",
+        "score": 0.0009345696889795363
+      },
+      {
+        "rank": 26,
+        "layer": 0,
+        "neuron": 24,
+        "pole": "neg",
+        "score": 0.0009307290310971439
+      },
+      {
+        "rank": 27,
+        "layer": 1,
+        "neuron": 98,
+        "pole": "pos",
+        "score": 0.0009050677181221545
+      },
+      {
+        "rank": 28,
+        "layer": 0,
+        "neuron": 15,
+        "pole": "pos",
+        "score": 0.0008816118934191763
+      },
+      {
+        "rank": 29,
+        "layer": 0,
+        "neuron": 29,
+        "pole": "neg",
+        "score": 0.000881302054040134
+      },
+      {
+        "rank": 30,
+        "layer": 1,
+        "neuron": 118,
+        "pole": "pos",
+        "score": 0.0008709805551916361
+      },
+      {
+        "rank": 31,
+        "layer": 0,
+        "neuron": 126,
+        "pole": "neg",
+        "score": 0.0008620335720479488
+      },
+      {
+        "rank": 32,
+        "layer": 0,
+        "neuron": 51,
+        "pole": "pos",
+        "score": 0.0008153507369570434
+      },
+      {
+        "rank": 33,
+        "layer": 1,
+        "neuron": 54,
+        "pole": "neg",
+        "score": 0.0007942852098494768
+      },
+      {
+        "rank": 34,
+        "layer": 0,
+        "neuron": 19,
+        "pole": "neg",
+        "score": 0.000782232906203717
+      },
+      {
+        "rank": 35,
+        "layer": 0,
+        "neuron": 78,
+        "pole": "neg",
+        "score": 0.0007769863004796207
+      },
+      {
+        "rank": 36,
+        "layer": 0,
+        "neuron": 37,
+        "pole": "neg",
+        "score": 0.0007475509773939848
+      },
+      {
+        "rank": 37,
+        "layer": 1,
+        "neuron": 53,
+        "pole": "neg",
+        "score": 0.0007362167816609144
+      },
+      {
+        "rank": 38,
+        "layer": 0,
+        "neuron": 23,
+        "pole": "neg",
+        "score": 0.000676233321428299
+      },
+      {
+        "rank": 39,
+        "layer": 0,
+        "neuron": 82,
+        "pole": "neg",
+        "score": 0.0006643349770456553
+      },
+      {
+        "rank": 40,
+        "layer": 1,
+        "neuron": 2,
+        "pole": "neg",
+        "score": 0.0006640448700636625
+      },
+      {
+        "rank": 41,
+        "layer": 0,
+        "neuron": 109,
+        "pole": "pos",
+        "score": 0.0006607419345527887
+      },
+      {
+        "rank": 42,
+        "layer": 1,
+        "neuron": 19,
+        "pole": "neg",
+        "score": 0.000656385556794703
+      },
+      {
+        "rank": 43,
+        "layer": 0,
+        "neuron": 44,
+        "pole": "neg",
+        "score": 0.0006524169584736228
+      },
+      {
+        "rank": 44,
+        "layer": 0,
+        "neuron": 25,
+        "pole": "neg",
+        "score": 0.0006492822431027889
+      },
+      {
+        "rank": 45,
+        "layer": 1,
+        "neuron": 55,
+        "pole": "pos",
+        "score": 0.0006478009163402021
+      },
+      {
+        "rank": 46,
+        "layer": 0,
+        "neuron": 119,
+        "pole": "pos",
+        "score": 0.0006405675085261464
+      },
+      {
+        "rank": 47,
+        "layer": 0,
+        "neuron": 120,
+        "pole": "pos",
+        "score": 0.0006189971463754773
+      },
+      {
+        "rank": 48,
+        "layer": 0,
+        "neuron": 86,
+        "pole": "neg",
+        "score": 0.0006109003443270922
+      },
+      {
+        "rank": 49,
+        "layer": 1,
+        "neuron": 4,
+        "pole": "pos",
+        "score": 0.0006080578314140439
+      },
+      {
+        "rank": 50,
+        "layer": 0,
+        "neuron": 117,
+        "pole": "neg",
+        "score": 0.000607509515248239
+      },
+      {
+        "rank": 51,
+        "layer": 0,
+        "neuron": 96,
+        "pole": "neg",
+        "score": 0.0005890168249607086
+      },
+      {
+        "rank": 52,
+        "layer": 0,
+        "neuron": 17,
+        "pole": "neg",
+        "score": 0.0005791165749542415
+      },
+      {
+        "rank": 53,
+        "layer": 0,
+        "neuron": 89,
+        "pole": "pos",
+        "score": 0.0005741572822444141
+      },
+      {
+        "rank": 54,
+        "layer": 0,
+        "neuron": 79,
+        "pole": "pos",
+        "score": 0.0005657333531416953
+      },
+      {
+        "rank": 55,
+        "layer": 1,
+        "neuron": 79,
+        "pole": "neg",
+        "score": 0.0005605751648545265
+      },
+      {
+        "rank": 56,
+        "layer": 0,
+        "neuron": 104,
+        "pole": "neg",
+        "score": 0.0005597216659225523
+      },
+      {
+        "rank": 57,
+        "layer": 1,
+        "neuron": 126,
+        "pole": "pos",
+        "score": 0.000549370190128684
+      },
+      {
+        "rank": 58,
+        "layer": 1,
+        "neuron": 43,
+        "pole": "neg",
+        "score": 0.0005452546756714582
+      },
+      {
+        "rank": 59,
+        "layer": 0,
+        "neuron": 64,
+        "pole": "pos",
+        "score": 0.0005355424946174026
+      },
+      {
+        "rank": 60,
+        "layer": 0,
+        "neuron": 66,
+        "pole": "pos",
+        "score": 0.0005275176372379065
+      },
+      {
+        "rank": 61,
+        "layer": 1,
+        "neuron": 30,
+        "pole": "neg",
+        "score": 0.0005234242416918278
+      },
+      {
+        "rank": 62,
+        "layer": 1,
+        "neuron": 40,
+        "pole": "neg",
+        "score": 0.0005233543342910707
+      },
+      {
+        "rank": 63,
+        "layer": 0,
+        "neuron": 95,
+        "pole": "neg",
+        "score": 0.0005217298748902977
+      },
+      {
+        "rank": 64,
+        "layer": 1,
+        "neuron": 99,
+        "pole": "neg",
+        "score": 0.0005214576376602054
+      },
+      {
+        "rank": 65,
+        "layer": 1,
+        "neuron": 81,
+        "pole": "neg",
+        "score": 0.0005209206719882786
+      },
+      {
+        "rank": 66,
+        "layer": 1,
+        "neuron": 39,
+        "pole": "pos",
+        "score": 0.0005168773932382464
+      },
+      {
+        "rank": 67,
+        "layer": 1,
+        "neuron": 95,
+        "pole": "pos",
+        "score": 0.000514767540153116
+      },
+      {
+        "rank": 68,
+        "layer": 0,
+        "neuron": 60,
+        "pole": "neg",
+        "score": 0.0004993460024707019
+      },
+      {
+        "rank": 69,
+        "layer": 0,
+        "neuron": 105,
+        "pole": "neg",
+        "score": 0.0004982075188308954
+      },
+      {
+        "rank": 70,
+        "layer": 0,
+        "neuron": 10,
+        "pole": "neg",
+        "score": 0.0004977418575435877
+      },
+      {
+        "rank": 71,
+        "layer": 0,
+        "neuron": 81,
+        "pole": "pos",
+        "score": 0.0004973665927536786
+      },
+      {
+        "rank": 72,
+        "layer": 1,
+        "neuron": 37,
+        "pole": "pos",
+        "score": 0.0004913765005767345
+      },
+      {
+        "rank": 73,
+        "layer": 0,
+        "neuron": 72,
+        "pole": "neg",
+        "score": 0.0004903485532850027
+      },
+      {
+        "rank": 74,
+        "layer": 0,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.0004886799724772573
+      },
+      {
+        "rank": 75,
+        "layer": 0,
+        "neuron": 74,
+        "pole": "neg",
+        "score": 0.0004721377626992762
+      },
+      {
+        "rank": 76,
+        "layer": 0,
+        "neuron": 47,
+        "pole": "neg",
+        "score": 0.00047024450032040477
+      },
+      {
+        "rank": 77,
+        "layer": 0,
+        "neuron": 93,
+        "pole": "neg",
+        "score": 0.0004696933028753847
+      },
+      {
+        "rank": 78,
+        "layer": 0,
+        "neuron": 14,
+        "pole": "pos",
+        "score": 0.000469680322567001
+      },
+      {
+        "rank": 79,
+        "layer": 0,
+        "neuron": 34,
+        "pole": "pos",
+        "score": 0.00046768394531682134
+      },
+      {
+        "rank": 80,
+        "layer": 0,
+        "neuron": 7,
+        "pole": "pos",
+        "score": 0.0004650761547964066
+      },
+      {
+        "rank": 81,
+        "layer": 1,
+        "neuron": 68,
+        "pole": "pos",
+        "score": 0.00045535669778473675
+      },
+      {
+        "rank": 82,
+        "layer": 0,
+        "neuron": 46,
+        "pole": "neg",
+        "score": 0.00045504854642786086
+      },
+      {
+        "rank": 83,
+        "layer": 1,
+        "neuron": 109,
+        "pole": "neg",
+        "score": 0.0004548391734715551
+      },
+      {
+        "rank": 84,
+        "layer": 0,
+        "neuron": 48,
+        "pole": "neg",
+        "score": 0.0004468517145141959
+      },
+      {
+        "rank": 85,
+        "layer": 1,
+        "neuron": 114,
+        "pole": "neg",
+        "score": 0.0004452446009963751
+      },
+      {
+        "rank": 86,
+        "layer": 1,
+        "neuron": 83,
+        "pole": "pos",
+        "score": 0.0004411000700201839
+      },
+      {
+        "rank": 87,
+        "layer": 0,
+        "neuron": 61,
+        "pole": "pos",
+        "score": 0.00042785791447386146
+      },
+      {
+        "rank": 88,
+        "layer": 0,
+        "neuron": 110,
+        "pole": "pos",
+        "score": 0.00042381821549497545
+      },
+      {
+        "rank": 89,
+        "layer": 1,
+        "neuron": 34,
+        "pole": "pos",
+        "score": 0.00042336684418842196
+      },
+      {
+        "rank": 90,
+        "layer": 1,
+        "neuron": 5,
+        "pole": "pos",
+        "score": 0.0004220531554892659
+      },
+      {
+        "rank": 91,
+        "layer": 0,
+        "neuron": 1,
+        "pole": "neg",
+        "score": 0.00041133275954052806
+      },
+      {
+        "rank": 92,
+        "layer": 0,
+        "neuron": 106,
+        "pole": "pos",
+        "score": 0.0004073421296197921
+      },
+      {
+        "rank": 93,
+        "layer": 0,
+        "neuron": 103,
+        "pole": "neg",
+        "score": 0.0004044685629196465
+      },
+      {
+        "rank": 94,
+        "layer": 0,
+        "neuron": 122,
+        "pole": "neg",
+        "score": 0.00039398614899255335
+      },
+      {
+        "rank": 95,
+        "layer": 0,
+        "neuron": 116,
+        "pole": "pos",
+        "score": 0.0003931481041945517
+      },
+      {
+        "rank": 96,
+        "layer": 0,
+        "neuron": 8,
+        "pole": "pos",
+        "score": 0.00038851291174069047
+      },
+      {
+        "rank": 97,
+        "layer": 0,
+        "neuron": 100,
+        "pole": "neg",
+        "score": 0.00038258283166214824
+      },
+      {
+        "rank": 98,
+        "layer": 0,
+        "neuron": 80,
+        "pole": "neg",
+        "score": 0.0003737203951459378
+      },
+      {
+        "rank": 99,
+        "layer": 0,
+        "neuron": 107,
+        "pole": "neg",
+        "score": 0.00037093739956617355
+      }
+    ],
+    "centered": [
+      {
+        "rank": 0,
+        "layer": 0,
+        "neuron": 83,
+        "pole": "pos",
+        "score": 0.004075052682310343
+      },
+      {
+        "rank": 1,
+        "layer": 1,
+        "neuron": 31,
+        "pole": "pos",
+        "score": 0.003381202230229974
+      },
+      {
+        "rank": 2,
+        "layer": 1,
+        "neuron": 9,
+        "pole": "pos",
+        "score": 0.002831886289641261
+      },
+      {
+        "rank": 3,
+        "layer": 0,
+        "neuron": 33,
+        "pole": "pos",
+        "score": 0.002757021225988865
+      },
+      {
+        "rank": 4,
+        "layer": 0,
+        "neuron": 84,
+        "pole": "pos",
+        "score": 0.0026231869123876095
+      },
+      {
+        "rank": 5,
+        "layer": 0,
+        "neuron": 68,
+        "pole": "neg",
+        "score": 0.0021090691443532705
+      },
+      {
+        "rank": 6,
+        "layer": 1,
+        "neuron": 120,
+        "pole": "neg",
+        "score": 0.002006479073315859
+      },
+      {
+        "rank": 7,
+        "layer": 1,
+        "neuron": 113,
+        "pole": "pos",
+        "score": 0.0019160406664013863
+      },
+      {
+        "rank": 8,
+        "layer": 1,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.0017810688586905599
+      },
+      {
+        "rank": 9,
+        "layer": 0,
+        "neuron": 9,
+        "pole": "neg",
+        "score": 0.0017621105071157217
+      },
+      {
+        "rank": 10,
+        "layer": 0,
+        "neuron": 56,
+        "pole": "neg",
+        "score": 0.0017481415998190641
+      },
+      {
+        "rank": 11,
+        "layer": 1,
+        "neuron": 108,
+        "pole": "neg",
+        "score": 0.0016725099412724376
+      },
+      {
+        "rank": 12,
+        "layer": 1,
+        "neuron": 69,
+        "pole": "pos",
+        "score": 0.001633647596463561
+      },
+      {
+        "rank": 13,
+        "layer": 1,
+        "neuron": 104,
+        "pole": "neg",
+        "score": 0.0014199906727299094
+      },
+      {
+        "rank": 14,
+        "layer": 0,
+        "neuron": 102,
+        "pole": "pos",
+        "score": 0.0013898647157475352
+      },
+      {
+        "rank": 15,
+        "layer": 0,
+        "neuron": 125,
+        "pole": "neg",
+        "score": 0.001232967246323824
+      },
+      {
+        "rank": 16,
+        "layer": 0,
+        "neuron": 46,
+        "pole": "pos",
+        "score": 0.0012165277730673552
+      },
+      {
+        "rank": 17,
+        "layer": 0,
+        "neuron": 59,
+        "pole": "neg",
+        "score": 0.0011948104947805405
+      },
+      {
+        "rank": 18,
+        "layer": 1,
+        "neuron": 67,
+        "pole": "pos",
+        "score": 0.0011927104787901044
+      },
+      {
+        "rank": 19,
+        "layer": 0,
+        "neuron": 127,
+        "pole": "pos",
+        "score": 0.0011898153461515903
+      },
+      {
+        "rank": 20,
+        "layer": 0,
+        "neuron": 22,
+        "pole": "pos",
+        "score": 0.001114474143832922
+      },
+      {
+        "rank": 21,
+        "layer": 0,
+        "neuron": 71,
+        "pole": "neg",
+        "score": 0.0010587809374555945
+      },
+      {
+        "rank": 22,
+        "layer": 1,
+        "neuron": 24,
+        "pole": "neg",
+        "score": 0.0010355747072026134
+      },
+      {
+        "rank": 23,
+        "layer": 1,
+        "neuron": 89,
+        "pole": "neg",
+        "score": 0.0010209609754383564
+      },
+      {
+        "rank": 24,
+        "layer": 1,
+        "neuron": 58,
+        "pole": "neg",
+        "score": 0.0010079100029543042
+      },
+      {
+        "rank": 25,
+        "layer": 0,
+        "neuron": 24,
+        "pole": "neg",
+        "score": 0.0009462259477004409
+      },
+      {
+        "rank": 26,
+        "layer": 0,
+        "neuron": 121,
+        "pole": "neg",
+        "score": 0.0009413785883225501
+      },
+      {
+        "rank": 27,
+        "layer": 0,
+        "neuron": 15,
+        "pole": "pos",
+        "score": 0.0008876525680534542
+      },
+      {
+        "rank": 28,
+        "layer": 0,
+        "neuron": 29,
+        "pole": "neg",
+        "score": 0.0008798378985375166
+      },
+      {
+        "rank": 29,
+        "layer": 0,
+        "neuron": 126,
+        "pole": "neg",
+        "score": 0.0008630223455838859
+      },
+      {
+        "rank": 30,
+        "layer": 0,
+        "neuron": 51,
+        "pole": "pos",
+        "score": 0.000817570835351944
+      },
+      {
+        "rank": 31,
+        "layer": 1,
+        "neuron": 43,
+        "pole": "neg",
+        "score": 0.0008084963192231953
+      },
+      {
+        "rank": 32,
+        "layer": 0,
+        "neuron": 37,
+        "pole": "neg",
+        "score": 0.0008016738574951887
+      },
+      {
+        "rank": 33,
+        "layer": 1,
+        "neuron": 118,
+        "pole": "pos",
+        "score": 0.0007722730515524745
+      },
+      {
+        "rank": 34,
+        "layer": 0,
+        "neuron": 78,
+        "pole": "neg",
+        "score": 0.0007700680871494114
+      },
+      {
+        "rank": 35,
+        "layer": 1,
+        "neuron": 53,
+        "pole": "neg",
+        "score": 0.0007636512164026499
+      },
+      {
+        "rank": 36,
+        "layer": 1,
+        "neuron": 98,
+        "pole": "pos",
+        "score": 0.0007504000095650554
+      },
+      {
+        "rank": 37,
+        "layer": 0,
+        "neuron": 19,
+        "pole": "neg",
+        "score": 0.0007298635900951922
+      },
+      {
+        "rank": 38,
+        "layer": 1,
+        "neuron": 19,
+        "pole": "neg",
+        "score": 0.0007178954547271132
+      },
+      {
+        "rank": 39,
+        "layer": 0,
+        "neuron": 23,
+        "pole": "neg",
+        "score": 0.000683548569213599
+      },
+      {
+        "rank": 40,
+        "layer": 1,
+        "neuron": 55,
+        "pole": "pos",
+        "score": 0.0006774187786504626
+      },
+      {
+        "rank": 41,
+        "layer": 0,
+        "neuron": 44,
+        "pole": "neg",
+        "score": 0.0006753797642886639
+      },
+      {
+        "rank": 42,
+        "layer": 1,
+        "neuron": 4,
+        "pole": "pos",
+        "score": 0.0006578550091944635
+      },
+      {
+        "rank": 43,
+        "layer": 0,
+        "neuron": 120,
+        "pole": "pos",
+        "score": 0.0006575053557753563
+      },
+      {
+        "rank": 44,
+        "layer": 0,
+        "neuron": 82,
+        "pole": "neg",
+        "score": 0.0006509639206342399
+      },
+      {
+        "rank": 45,
+        "layer": 0,
+        "neuron": 109,
+        "pole": "pos",
+        "score": 0.0006395644159056246
+      },
+      {
+        "rank": 46,
+        "layer": 1,
+        "neuron": 81,
+        "pole": "neg",
+        "score": 0.0006379832047969103
+      },
+      {
+        "rank": 47,
+        "layer": 0,
+        "neuron": 86,
+        "pole": "neg",
+        "score": 0.0006174691370688379
+      },
+      {
+        "rank": 48,
+        "layer": 0,
+        "neuron": 119,
+        "pole": "pos",
+        "score": 0.0006143671344034374
+      },
+      {
+        "rank": 49,
+        "layer": 1,
+        "neuron": 54,
+        "pole": "neg",
+        "score": 0.0006121558253653347
+      },
+      {
+        "rank": 50,
+        "layer": 0,
+        "neuron": 117,
+        "pole": "neg",
+        "score": 0.0006020335131324828
+      },
+      {
+        "rank": 51,
+        "layer": 1,
+        "neuron": 99,
+        "pole": "neg",
+        "score": 0.0005915649235248566
+      },
+      {
+        "rank": 52,
+        "layer": 0,
+        "neuron": 96,
+        "pole": "neg",
+        "score": 0.0005911964108236134
+      },
+      {
+        "rank": 53,
+        "layer": 0,
+        "neuron": 25,
+        "pole": "neg",
+        "score": 0.0005863022524863482
+      },
+      {
+        "rank": 54,
+        "layer": 0,
+        "neuron": 17,
+        "pole": "neg",
+        "score": 0.0005830993177369237
+      },
+      {
+        "rank": 55,
+        "layer": 1,
+        "neuron": 114,
+        "pole": "neg",
+        "score": 0.0005799746140837669
+      },
+      {
+        "rank": 56,
+        "layer": 1,
+        "neuron": 95,
+        "pole": "pos",
+        "score": 0.0005794890457764268
+      },
+      {
+        "rank": 57,
+        "layer": 0,
+        "neuron": 89,
+        "pole": "pos",
+        "score": 0.0005749101983383298
+      },
+      {
+        "rank": 58,
+        "layer": 0,
+        "neuron": 104,
+        "pole": "neg",
+        "score": 0.0005575785180553794
+      },
+      {
+        "rank": 59,
+        "layer": 1,
+        "neuron": 37,
+        "pole": "pos",
+        "score": 0.0005445617134682834
+      },
+      {
+        "rank": 60,
+        "layer": 1,
+        "neuron": 79,
+        "pole": "neg",
+        "score": 0.0005416038329713047
+      },
+      {
+        "rank": 61,
+        "layer": 0,
+        "neuron": 66,
+        "pole": "pos",
+        "score": 0.0005407389253377914
+      },
+      {
+        "rank": 62,
+        "layer": 0,
+        "neuron": 79,
+        "pole": "pos",
+        "score": 0.0005319738993421197
+      },
+      {
+        "rank": 63,
+        "layer": 0,
+        "neuron": 64,
+        "pole": "pos",
+        "score": 0.0005310386186465621
+      },
+      {
+        "rank": 64,
+        "layer": 1,
+        "neuron": 40,
+        "pole": "neg",
+        "score": 0.0005194121040403843
+      },
+      {
+        "rank": 65,
+        "layer": 1,
+        "neuron": 39,
+        "pole": "pos",
+        "score": 0.0004968506400473416
+      },
+      {
+        "rank": 66,
+        "layer": 0,
+        "neuron": 72,
+        "pole": "neg",
+        "score": 0.0004903547232970595
+      },
+      {
+        "rank": 67,
+        "layer": 0,
+        "neuron": 10,
+        "pole": "neg",
+        "score": 0.0004880173655692488
+      },
+      {
+        "rank": 68,
+        "layer": 1,
+        "neuron": 86,
+        "pole": "neg",
+        "score": 0.0004877597966697067
+      },
+      {
+        "rank": 69,
+        "layer": 0,
+        "neuron": 81,
+        "pole": "pos",
+        "score": 0.00048302236245945096
+      },
+      {
+        "rank": 70,
+        "layer": 0,
+        "neuron": 60,
+        "pole": "neg",
+        "score": 0.000482335191918537
+      },
+      {
+        "rank": 71,
+        "layer": 0,
+        "neuron": 105,
+        "pole": "neg",
+        "score": 0.00048230853280983865
+      },
+      {
+        "rank": 72,
+        "layer": 0,
+        "neuron": 95,
+        "pole": "neg",
+        "score": 0.00048190582310780883
+      },
+      {
+        "rank": 73,
+        "layer": 0,
+        "neuron": 34,
+        "pole": "pos",
+        "score": 0.0004729760403279215
+      },
+      {
+        "rank": 74,
+        "layer": 0,
+        "neuron": 47,
+        "pole": "neg",
+        "score": 0.0004696727264672518
+      },
+      {
+        "rank": 75,
+        "layer": 0,
+        "neuron": 14,
+        "pole": "pos",
+        "score": 0.00046339555410668254
+      },
+      {
+        "rank": 76,
+        "layer": 0,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.0004619172541424632
+      },
+      {
+        "rank": 77,
+        "layer": 0,
+        "neuron": 74,
+        "pole": "neg",
+        "score": 0.0004579538945108652
+      },
+      {
+        "rank": 78,
+        "layer": 0,
+        "neuron": 7,
+        "pole": "pos",
+        "score": 0.00045468026655726135
+      },
+      {
+        "rank": 79,
+        "layer": 1,
+        "neuron": 109,
+        "pole": "neg",
+        "score": 0.0004543848044704646
+      },
+      {
+        "rank": 80,
+        "layer": 1,
+        "neuron": 83,
+        "pole": "pos",
+        "score": 0.00044410195550881326
+      },
+      {
+        "rank": 81,
+        "layer": 0,
+        "neuron": 46,
+        "pole": "neg",
+        "score": 0.00043696898501366377
+      },
+      {
+        "rank": 82,
+        "layer": 1,
+        "neuron": 74,
+        "pole": "neg",
+        "score": 0.0004340318264439702
+      },
+      {
+        "rank": 83,
+        "layer": 0,
+        "neuron": 116,
+        "pole": "pos",
+        "score": 0.0004287489573471248
+      },
+      {
+        "rank": 84,
+        "layer": 1,
+        "neuron": 34,
+        "pole": "pos",
+        "score": 0.00042540684808045626
+      },
+      {
+        "rank": 85,
+        "layer": 0,
+        "neuron": 110,
+        "pole": "pos",
+        "score": 0.0004239611735101789
+      },
+      {
+        "rank": 86,
+        "layer": 0,
+        "neuron": 93,
+        "pole": "neg",
+        "score": 0.00041823976789601147
+      },
+      {
+        "rank": 87,
+        "layer": 0,
+        "neuron": 100,
+        "pole": "neg",
+        "score": 0.0004144843842368573
+      },
+      {
+        "rank": 88,
+        "layer": 0,
+        "neuron": 106,
+        "pole": "pos",
+        "score": 0.0004107822314836085
+      },
+      {
+        "rank": 89,
+        "layer": 0,
+        "neuron": 48,
+        "pole": "neg",
+        "score": 0.00040596158942207694
+      },
+      {
+        "rank": 90,
+        "layer": 0,
+        "neuron": 1,
+        "pole": "neg",
+        "score": 0.00039556637057103217
+      },
+      {
+        "rank": 91,
+        "layer": 0,
+        "neuron": 61,
+        "pole": "pos",
+        "score": 0.00039555266266688704
+      },
+      {
+        "rank": 92,
+        "layer": 1,
+        "neuron": 68,
+        "pole": "pos",
+        "score": 0.00039282551733776927
+      },
+      {
+        "rank": 93,
+        "layer": 1,
+        "neuron": 61,
+        "pole": "neg",
+        "score": 0.00039261329220607877
+      },
+      {
+        "rank": 94,
+        "layer": 1,
+        "neuron": 126,
+        "pole": "pos",
+        "score": 0.00038854230660945177
+      },
+      {
+        "rank": 95,
+        "layer": 0,
+        "neuron": 8,
+        "pole": "pos",
+        "score": 0.00038745225174352527
+      },
+      {
+        "rank": 96,
+        "layer": 0,
+        "neuron": 80,
+        "pole": "neg",
+        "score": 0.0003811470523942262
+      },
+      {
+        "rank": 97,
+        "layer": 1,
+        "neuron": 119,
+        "pole": "neg",
+        "score": 0.00038048368878662586
+      },
+      {
+        "rank": 98,
+        "layer": 0,
+        "neuron": 56,
+        "pole": "pos",
+        "score": 0.000377729011233896
+      },
+      {
+        "rank": 99,
+        "layer": 1,
+        "neuron": 87,
+        "pole": "pos",
+        "score": 0.0003748282906599343
+      }
+    ],
+    "std_norm": [
+      {
+        "rank": 0,
+        "layer": 0,
+        "neuron": 83,
+        "pole": "pos",
+        "score": 7.970377445220947
+      },
+      {
+        "rank": 1,
+        "layer": 0,
+        "neuron": 33,
+        "pole": "pos",
+        "score": 4.152480125427246
+      },
+      {
+        "rank": 2,
+        "layer": 0,
+        "neuron": 84,
+        "pole": "pos",
+        "score": 3.703387498855591
+      },
+      {
+        "rank": 3,
+        "layer": 0,
+        "neuron": 68,
+        "pole": "neg",
+        "score": 2.949284315109253
+      },
+      {
+        "rank": 4,
+        "layer": 0,
+        "neuron": 9,
+        "pole": "neg",
+        "score": 2.488976001739502
+      },
+      {
+        "rank": 5,
+        "layer": 0,
+        "neuron": 56,
+        "pole": "neg",
+        "score": 2.4464783668518066
+      },
+      {
+        "rank": 6,
+        "layer": 0,
+        "neuron": 59,
+        "pole": "neg",
+        "score": 2.2716262340545654
+      },
+      {
+        "rank": 7,
+        "layer": 0,
+        "neuron": 102,
+        "pole": "pos",
+        "score": 2.1028330326080322
+      },
+      {
+        "rank": 8,
+        "layer": 0,
+        "neuron": 71,
+        "pole": "neg",
+        "score": 1.9776864051818848
+      },
+      {
+        "rank": 9,
+        "layer": 0,
+        "neuron": 29,
+        "pole": "neg",
+        "score": 1.8715492486953735
+      },
+      {
+        "rank": 10,
+        "layer": 0,
+        "neuron": 125,
+        "pole": "neg",
+        "score": 1.851229190826416
+      },
+      {
+        "rank": 11,
+        "layer": 0,
+        "neuron": 46,
+        "pole": "pos",
+        "score": 1.7706409692764282
+      },
+      {
+        "rank": 12,
+        "layer": 0,
+        "neuron": 121,
+        "pole": "neg",
+        "score": 1.5157604217529297
+      },
+      {
+        "rank": 13,
+        "layer": 0,
+        "neuron": 22,
+        "pole": "pos",
+        "score": 1.4760764837265015
+      },
+      {
+        "rank": 14,
+        "layer": 0,
+        "neuron": 127,
+        "pole": "pos",
+        "score": 1.3510819673538208
+      },
+      {
+        "rank": 15,
+        "layer": 0,
+        "neuron": 51,
+        "pole": "pos",
+        "score": 1.333282232284546
+      },
+      {
+        "rank": 16,
+        "layer": 0,
+        "neuron": 64,
+        "pole": "pos",
+        "score": 1.332157015800476
+      },
+      {
+        "rank": 17,
+        "layer": 0,
+        "neuron": 126,
+        "pole": "neg",
+        "score": 1.3137270212173462
+      },
+      {
+        "rank": 18,
+        "layer": 0,
+        "neuron": 15,
+        "pole": "pos",
+        "score": 1.2850068807601929
+      },
+      {
+        "rank": 19,
+        "layer": 0,
+        "neuron": 24,
+        "pole": "neg",
+        "score": 1.255980372428894
+      },
+      {
+        "rank": 20,
+        "layer": 0,
+        "neuron": 60,
+        "pole": "neg",
+        "score": 1.2349591255187988
+      },
+      {
+        "rank": 21,
+        "layer": 0,
+        "neuron": 23,
+        "pole": "neg",
+        "score": 1.1490064859390259
+      },
+      {
+        "rank": 22,
+        "layer": 0,
+        "neuron": 117,
+        "pole": "neg",
+        "score": 1.122640609741211
+      },
+      {
+        "rank": 23,
+        "layer": 0,
+        "neuron": 17,
+        "pole": "neg",
+        "score": 1.1170573234558105
+      },
+      {
+        "rank": 24,
+        "layer": 0,
+        "neuron": 66,
+        "pole": "pos",
+        "score": 1.1047216653823853
+      },
+      {
+        "rank": 25,
+        "layer": 0,
+        "neuron": 82,
+        "pole": "neg",
+        "score": 1.0678404569625854
+      },
+      {
+        "rank": 26,
+        "layer": 0,
+        "neuron": 78,
+        "pole": "neg",
+        "score": 1.020729660987854
+      },
+      {
+        "rank": 27,
+        "layer": 0,
+        "neuron": 19,
+        "pole": "neg",
+        "score": 1.011703610420227
+      },
+      {
+        "rank": 28,
+        "layer": 0,
+        "neuron": 95,
+        "pole": "neg",
+        "score": 1.0103052854537964
+      },
+      {
+        "rank": 29,
+        "layer": 0,
+        "neuron": 104,
+        "pole": "neg",
+        "score": 0.9885566830635071
+      },
+      {
+        "rank": 30,
+        "layer": 0,
+        "neuron": 25,
+        "pole": "neg",
+        "score": 0.9813454747200012
+      },
+      {
+        "rank": 31,
+        "layer": 0,
+        "neuron": 14,
+        "pole": "pos",
+        "score": 0.927433967590332
+      },
+      {
+        "rank": 32,
+        "layer": 0,
+        "neuron": 37,
+        "pole": "neg",
+        "score": 0.9260817170143127
+      },
+      {
+        "rank": 33,
+        "layer": 0,
+        "neuron": 8,
+        "pole": "pos",
+        "score": 0.9102413654327393
+      },
+      {
+        "rank": 34,
+        "layer": 0,
+        "neuron": 74,
+        "pole": "neg",
+        "score": 0.9051393270492554
+      },
+      {
+        "rank": 35,
+        "layer": 0,
+        "neuron": 89,
+        "pole": "pos",
+        "score": 0.896510124206543
+      },
+      {
+        "rank": 36,
+        "layer": 0,
+        "neuron": 7,
+        "pole": "pos",
+        "score": 0.8401301503181458
+      },
+      {
+        "rank": 37,
+        "layer": 0,
+        "neuron": 120,
+        "pole": "pos",
+        "score": 0.8315774202346802
+      },
+      {
+        "rank": 38,
+        "layer": 0,
+        "neuron": 96,
+        "pole": "neg",
+        "score": 0.805709719657898
+      },
+      {
+        "rank": 39,
+        "layer": 0,
+        "neuron": 61,
+        "pole": "pos",
+        "score": 0.7622912526130676
+      },
+      {
+        "rank": 40,
+        "layer": 0,
+        "neuron": 106,
+        "pole": "pos",
+        "score": 0.7391588091850281
+      },
+      {
+        "rank": 41,
+        "layer": 0,
+        "neuron": 109,
+        "pole": "pos",
+        "score": 0.739142656326294
+      },
+      {
+        "rank": 42,
+        "layer": 0,
+        "neuron": 103,
+        "pole": "neg",
+        "score": 0.7299132943153381
+      },
+      {
+        "rank": 43,
+        "layer": 0,
+        "neuron": 86,
+        "pole": "neg",
+        "score": 0.7135717868804932
+      },
+      {
+        "rank": 44,
+        "layer": 0,
+        "neuron": 116,
+        "pole": "pos",
+        "score": 0.6980698108673096
+      },
+      {
+        "rank": 45,
+        "layer": 0,
+        "neuron": 44,
+        "pole": "neg",
+        "score": 0.6928789019584656
+      },
+      {
+        "rank": 46,
+        "layer": 0,
+        "neuron": 110,
+        "pole": "pos",
+        "score": 0.6914604902267456
+      },
+      {
+        "rank": 47,
+        "layer": 0,
+        "neuron": 46,
+        "pole": "neg",
+        "score": 0.6774738430976868
+      },
+      {
+        "rank": 48,
+        "layer": 0,
+        "neuron": 34,
+        "pole": "pos",
+        "score": 0.675757110118866
+      },
+      {
+        "rank": 49,
+        "layer": 0,
+        "neuron": 72,
+        "pole": "neg",
+        "score": 0.6575130224227905
+      },
+      {
+        "rank": 50,
+        "layer": 0,
+        "neuron": 119,
+        "pole": "pos",
+        "score": 0.6300780773162842
+      },
+      {
+        "rank": 51,
+        "layer": 0,
+        "neuron": 47,
+        "pole": "neg",
+        "score": 0.6274551153182983
+      },
+      {
+        "rank": 52,
+        "layer": 0,
+        "neuron": 91,
+        "pole": "neg",
+        "score": 0.6108125448226929
+      },
+      {
+        "rank": 53,
+        "layer": 0,
+        "neuron": 98,
+        "pole": "pos",
+        "score": 0.6092481017112732
+      },
+      {
+        "rank": 54,
+        "layer": 0,
+        "neuron": 122,
+        "pole": "neg",
+        "score": 0.5943841338157654
+      },
+      {
+        "rank": 55,
+        "layer": 0,
+        "neuron": 81,
+        "pole": "pos",
+        "score": 0.5895205736160278
+      },
+      {
+        "rank": 56,
+        "layer": 0,
+        "neuron": 80,
+        "pole": "neg",
+        "score": 0.5858628153800964
+      },
+      {
+        "rank": 57,
+        "layer": 0,
+        "neuron": 116,
+        "pole": "neg",
+        "score": 0.571670651435852
+      },
+      {
+        "rank": 58,
+        "layer": 0,
+        "neuron": 26,
+        "pole": "pos",
+        "score": 0.5568161010742188
+      },
+      {
+        "rank": 59,
+        "layer": 0,
+        "neuron": 125,
+        "pole": "pos",
+        "score": 0.5478622317314148
+      },
+      {
+        "rank": 60,
+        "layer": 0,
+        "neuron": 67,
+        "pole": "neg",
+        "score": 0.5408568978309631
+      },
+      {
+        "rank": 61,
+        "layer": 0,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.538264811038971
+      },
+      {
+        "rank": 62,
+        "layer": 0,
+        "neuron": 93,
+        "pole": "neg",
+        "score": 0.5366284847259521
+      },
+      {
+        "rank": 63,
+        "layer": 0,
+        "neuron": 88,
+        "pole": "neg",
+        "score": 0.5341431498527527
+      },
+      {
+        "rank": 64,
+        "layer": 0,
+        "neuron": 107,
+        "pole": "neg",
+        "score": 0.5245844125747681
+      },
+      {
+        "rank": 65,
+        "layer": 0,
+        "neuron": 1,
+        "pole": "neg",
+        "score": 0.5108280777931213
+      },
+      {
+        "rank": 66,
+        "layer": 0,
+        "neuron": 45,
+        "pole": "pos",
+        "score": 0.4909684360027313
+      },
+      {
+        "rank": 67,
+        "layer": 0,
+        "neuron": 100,
+        "pole": "neg",
+        "score": 0.4907342791557312
+      },
+      {
+        "rank": 68,
+        "layer": 0,
+        "neuron": 90,
+        "pole": "neg",
+        "score": 0.48881667852401733
+      },
+      {
+        "rank": 69,
+        "layer": 0,
+        "neuron": 105,
+        "pole": "neg",
+        "score": 0.4818425178527832
+      },
+      {
+        "rank": 70,
+        "layer": 0,
+        "neuron": 48,
+        "pole": "neg",
+        "score": 0.4809979498386383
+      },
+      {
+        "rank": 71,
+        "layer": 0,
+        "neuron": 79,
+        "pole": "pos",
+        "score": 0.4793657064437866
+      },
+      {
+        "rank": 72,
+        "layer": 0,
+        "neuron": 80,
+        "pole": "pos",
+        "score": 0.47458064556121826
+      },
+      {
+        "rank": 73,
+        "layer": 0,
+        "neuron": 52,
+        "pole": "neg",
+        "score": 0.4732262194156647
+      },
+      {
+        "rank": 74,
+        "layer": 0,
+        "neuron": 4,
+        "pole": "neg",
+        "score": 0.45657071471214294
+      },
+      {
+        "rank": 75,
+        "layer": 0,
+        "neuron": 56,
+        "pole": "pos",
+        "score": 0.4536530077457428
+      },
+      {
+        "rank": 76,
+        "layer": 0,
+        "neuron": 10,
+        "pole": "neg",
+        "score": 0.45098960399627686
+      },
+      {
+        "rank": 77,
+        "layer": 0,
+        "neuron": 5,
+        "pole": "pos",
+        "score": 0.4496459662914276
+      },
+      {
+        "rank": 78,
+        "layer": 0,
+        "neuron": 77,
+        "pole": "neg",
+        "score": 0.4488789141178131
+      },
+      {
+        "rank": 79,
+        "layer": 0,
+        "neuron": 28,
+        "pole": "neg",
+        "score": 0.43977639079093933
+      },
+      {
+        "rank": 80,
+        "layer": 0,
+        "neuron": 13,
+        "pole": "neg",
+        "score": 0.436919629573822
+      },
+      {
+        "rank": 81,
+        "layer": 0,
+        "neuron": 99,
+        "pole": "pos",
+        "score": 0.4308340847492218
+      },
+      {
+        "rank": 82,
+        "layer": 0,
+        "neuron": 59,
+        "pole": "pos",
+        "score": 0.4249565303325653
+      },
+      {
+        "rank": 83,
+        "layer": 0,
+        "neuron": 110,
+        "pole": "neg",
+        "score": 0.4205750823020935
+      },
+      {
+        "rank": 84,
+        "layer": 0,
+        "neuron": 85,
+        "pole": "pos",
+        "score": 0.4194389283657074
+      },
+      {
+        "rank": 85,
+        "layer": 0,
+        "neuron": 118,
+        "pole": "neg",
+        "score": 0.41085323691368103
+      },
+      {
+        "rank": 86,
+        "layer": 0,
+        "neuron": 54,
+        "pole": "neg",
+        "score": 0.40933746099472046
+      },
+      {
+        "rank": 87,
+        "layer": 0,
+        "neuron": 72,
+        "pole": "pos",
+        "score": 0.4041908085346222
+      },
+      {
+        "rank": 88,
+        "layer": 0,
+        "neuron": 16,
+        "pole": "neg",
+        "score": 0.4034852087497711
+      },
+      {
+        "rank": 89,
+        "layer": 0,
+        "neuron": 3,
+        "pole": "neg",
+        "score": 0.4034755825996399
+      },
+      {
+        "rank": 90,
+        "layer": 0,
+        "neuron": 123,
+        "pole": "pos",
+        "score": 0.3901670277118683
+      },
+      {
+        "rank": 91,
+        "layer": 0,
+        "neuron": 38,
+        "pole": "pos",
+        "score": 0.38512519001960754
+      },
+      {
+        "rank": 92,
+        "layer": 0,
+        "neuron": 2,
+        "pole": "pos",
+        "score": 0.3780596852302551
+      },
+      {
+        "rank": 93,
+        "layer": 0,
+        "neuron": 45,
+        "pole": "neg",
+        "score": 0.3766399025917053
+      },
+      {
+        "rank": 94,
+        "layer": 0,
+        "neuron": 74,
+        "pole": "pos",
+        "score": 0.3743530511856079
+      },
+      {
+        "rank": 95,
+        "layer": 0,
+        "neuron": 21,
+        "pole": "pos",
+        "score": 0.3648328185081482
+      },
+      {
+        "rank": 96,
+        "layer": 0,
+        "neuron": 40,
+        "pole": "neg",
+        "score": 0.36409464478492737
+      },
+      {
+        "rank": 97,
+        "layer": 0,
+        "neuron": 39,
+        "pole": "pos",
+        "score": 0.3617665469646454
+      },
+      {
+        "rank": 98,
+        "layer": 0,
+        "neuron": 50,
+        "pole": "pos",
+        "score": 0.36155498027801514
+      },
+      {
+        "rank": 99,
+        "layer": 0,
+        "neuron": 42,
+        "pole": "pos",
+        "score": 0.3596723675727844
+      }
+    ],
+    "contrast_trig_minus_clean": [
+      {
+        "rank": 0,
+        "layer": 1,
+        "neuron": 120,
+        "pole": "neg",
+        "score": 0.0021085182670503855
+      },
+      {
+        "rank": 1,
+        "layer": 1,
+        "neuron": 113,
+        "pole": "pos",
+        "score": 0.0019450379768386483
+      },
+      {
+        "rank": 2,
+        "layer": 1,
+        "neuron": 9,
+        "pole": "pos",
+        "score": 0.0017957499949261546
+      },
+      {
+        "rank": 3,
+        "layer": 1,
+        "neuron": 104,
+        "pole": "neg",
+        "score": 0.0012614609440788627
+      },
+      {
+        "rank": 4,
+        "layer": 1,
+        "neuron": 58,
+        "pole": "neg",
+        "score": 0.001213115407153964
+      },
+      {
+        "rank": 5,
+        "layer": 1,
+        "neuron": 69,
+        "pole": "pos",
+        "score": 0.0010079416679218411
+      },
+      {
+        "rank": 6,
+        "layer": 1,
+        "neuron": 89,
+        "pole": "neg",
+        "score": 0.0009345696889795363
+      },
+      {
+        "rank": 7,
+        "layer": 1,
+        "neuron": 67,
+        "pole": "pos",
+        "score": 0.0008557993569411337
+      },
+      {
+        "rank": 8,
+        "layer": 1,
+        "neuron": 31,
+        "pole": "pos",
+        "score": 0.0008269473910331726
+      },
+      {
+        "rank": 9,
+        "layer": 0,
+        "neuron": 71,
+        "pole": "neg",
+        "score": 0.0008025773568078876
+      },
+      {
+        "rank": 10,
+        "layer": 1,
+        "neuron": 53,
+        "pole": "neg",
+        "score": 0.0007362167816609144
+      },
+      {
+        "rank": 11,
+        "layer": 1,
+        "neuron": 55,
+        "pole": "pos",
+        "score": 0.0006450916989706457
+      },
+      {
+        "rank": 12,
+        "layer": 1,
+        "neuron": 79,
+        "pole": "neg",
+        "score": 0.0005605751648545265
+      },
+      {
+        "rank": 13,
+        "layer": 1,
+        "neuron": 126,
+        "pole": "pos",
+        "score": 0.000549370190128684
+      },
+      {
+        "rank": 14,
+        "layer": 1,
+        "neuron": 30,
+        "pole": "neg",
+        "score": 0.0005234242416918278
+      },
+      {
+        "rank": 15,
+        "layer": 1,
+        "neuron": 2,
+        "pole": "neg",
+        "score": 0.0005232974654063582
+      },
+      {
+        "rank": 16,
+        "layer": 1,
+        "neuron": 54,
+        "pole": "neg",
+        "score": 0.0005205848719924688
+      },
+      {
+        "rank": 17,
+        "layer": 0,
+        "neuron": 17,
+        "pole": "neg",
+        "score": 0.0004910209099762142
+      },
+      {
+        "rank": 18,
+        "layer": 1,
+        "neuron": 68,
+        "pole": "pos",
+        "score": 0.0004541882954072207
+      },
+      {
+        "rank": 19,
+        "layer": 1,
+        "neuron": 34,
+        "pole": "pos",
+        "score": 0.00042064470471814275
+      },
+      {
+        "rank": 20,
+        "layer": 1,
+        "neuron": 4,
+        "pole": "pos",
+        "score": 0.00037700094981119037
+      },
+      {
+        "rank": 21,
+        "layer": 1,
+        "neuron": 109,
+        "pole": "neg",
+        "score": 0.00033965834882110357
+      },
+      {
+        "rank": 22,
+        "layer": 1,
+        "neuron": 85,
+        "pole": "pos",
+        "score": 0.0003246367850806564
+      },
+      {
+        "rank": 23,
+        "layer": 1,
+        "neuron": 61,
+        "pole": "neg",
+        "score": 0.00032095707138068974
+      },
+      {
+        "rank": 24,
+        "layer": 1,
+        "neuron": 20,
+        "pole": "neg",
+        "score": 0.00031668765586800873
+      },
+      {
+        "rank": 25,
+        "layer": 1,
+        "neuron": 80,
+        "pole": "neg",
+        "score": 0.0002901494735851884
+      },
+      {
+        "rank": 26,
+        "layer": 1,
+        "neuron": 60,
+        "pole": "pos",
+        "score": 0.000279414962278679
+      },
+      {
+        "rank": 27,
+        "layer": 1,
+        "neuron": 84,
+        "pole": "neg",
+        "score": 0.00026729164528660476
+      },
+      {
+        "rank": 28,
+        "layer": 1,
+        "neuron": 38,
+        "pole": "neg",
+        "score": 0.0002611210511531681
+      },
+      {
+        "rank": 29,
+        "layer": 1,
+        "neuron": 81,
+        "pole": "neg",
+        "score": 0.00025884417118504643
+      },
+      {
+        "rank": 30,
+        "layer": 0,
+        "neuron": 68,
+        "pole": "neg",
+        "score": 0.00021086272317916155
+      },
+      {
+        "rank": 31,
+        "layer": 1,
+        "neuron": 74,
+        "pole": "neg",
+        "score": 0.0001958330685738474
+      },
+      {
+        "rank": 32,
+        "layer": 1,
+        "neuron": 121,
+        "pole": "pos",
+        "score": 0.00019443550263531506
+      },
+      {
+        "rank": 33,
+        "layer": 1,
+        "neuron": 12,
+        "pole": "neg",
+        "score": 0.00018899502174463123
+      },
+      {
+        "rank": 34,
+        "layer": 0,
+        "neuron": 88,
+        "pole": "neg",
+        "score": 0.0001865186932263896
+      },
+      {
+        "rank": 35,
+        "layer": 0,
+        "neuron": 98,
+        "pole": "pos",
+        "score": 0.0001856201997725293
+      },
+      {
+        "rank": 36,
+        "layer": 0,
+        "neuron": 78,
+        "pole": "pos",
+        "score": 0.00017821197980083525
+      },
+      {
+        "rank": 37,
+        "layer": 1,
+        "neuron": 95,
+        "pole": "pos",
+        "score": 0.00017215186380781233
+      },
+      {
+        "rank": 38,
+        "layer": 1,
+        "neuron": 51,
+        "pole": "neg",
+        "score": 0.00016181029786821455
+      },
+      {
+        "rank": 39,
+        "layer": 1,
+        "neuron": 72,
+        "pole": "neg",
+        "score": 0.00015033036470413208
+      },
+      {
+        "rank": 40,
+        "layer": 1,
+        "neuron": 103,
+        "pole": "pos",
+        "score": 0.00012691636220552027
+      },
+      {
+        "rank": 41,
+        "layer": 1,
+        "neuron": 19,
+        "pole": "neg",
+        "score": 0.0001176206860691309
+      },
+      {
+        "rank": 42,
+        "layer": 1,
+        "neuron": 90,
+        "pole": "neg",
+        "score": 0.00011477430234663188
+      },
+      {
+        "rank": 43,
+        "layer": 1,
+        "neuron": 27,
+        "pole": "pos",
+        "score": 0.00010497942275833338
+      },
+      {
+        "rank": 44,
+        "layer": 1,
+        "neuron": 86,
+        "pole": "neg",
+        "score": 0.00010095382458530366
+      },
+      {
+        "rank": 45,
+        "layer": 1,
+        "neuron": 56,
+        "pole": "pos",
+        "score": 9.059964213520288e-05
+      },
+      {
+        "rank": 46,
+        "layer": 1,
+        "neuron": 46,
+        "pole": "neg",
+        "score": 8.95732082426548e-05
+      },
+      {
+        "rank": 47,
+        "layer": 0,
+        "neuron": 58,
+        "pole": "pos",
+        "score": 8.368174894712865e-05
+      },
+      {
+        "rank": 48,
+        "layer": 1,
+        "neuron": 96,
+        "pole": "neg",
+        "score": 8.302408241434023e-05
+      },
+      {
+        "rank": 49,
+        "layer": 1,
+        "neuron": 16,
+        "pole": "pos",
+        "score": 8.100696868496016e-05
+      },
+      {
+        "rank": 50,
+        "layer": 1,
+        "neuron": 0,
+        "pole": "neg",
+        "score": 7.941967487568036e-05
+      },
+      {
+        "rank": 51,
+        "layer": 1,
+        "neuron": 122,
+        "pole": "pos",
+        "score": 6.716528150718659e-05
+      },
+      {
+        "rank": 52,
+        "layer": 1,
+        "neuron": 77,
+        "pole": "neg",
+        "score": 4.453412475413643e-05
+      },
+      {
+        "rank": 53,
+        "layer": 1,
+        "neuron": 91,
+        "pole": "neg",
+        "score": 3.706131974468008e-05
+      },
+      {
+        "rank": 54,
+        "layer": 1,
+        "neuron": 59,
+        "pole": "neg",
+        "score": 3.203391679562628e-05
+      },
+      {
+        "rank": 55,
+        "layer": 1,
+        "neuron": 112,
+        "pole": "neg",
+        "score": 3.065227429033257e-05
+      },
+      {
+        "rank": 56,
+        "layer": 1,
+        "neuron": 14,
+        "pole": "neg",
+        "score": 2.98740833386546e-05
+      },
+      {
+        "rank": 57,
+        "layer": 1,
+        "neuron": 64,
+        "pole": "neg",
+        "score": 1.7704056517686695e-05
+      },
+      {
+        "rank": 58,
+        "layer": 1,
+        "neuron": 100,
+        "pole": "neg",
+        "score": 9.835985110839829e-06
+      },
+      {
+        "rank": 59,
+        "layer": 1,
+        "neuron": 52,
+        "pole": "neg",
+        "score": 5.505333774635801e-06
+      },
+      {
+        "rank": 60,
+        "layer": 1,
+        "neuron": 82,
+        "pole": "pos",
+        "score": 3.8131995552248554e-06
+      },
+      {
+        "rank": 61,
+        "layer": 1,
+        "neuron": 88,
+        "pole": "pos",
+        "score": 1.6765552572906017e-06
+      },
+      {
+        "rank": 62,
+        "layer": 1,
+        "neuron": 101,
+        "pole": "neg",
+        "score": 8.722058169041702e-07
+      },
+      {
+        "rank": 63,
+        "layer": 1,
+        "neuron": 66,
+        "pole": "pos",
+        "score": 5.242269907057562e-08
+      },
+      {
+        "rank": 64,
+        "layer": 1,
+        "neuron": 125,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 65,
+        "layer": 1,
+        "neuron": 109,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 66,
+        "layer": 1,
+        "neuron": 102,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 67,
+        "layer": 1,
+        "neuron": 100,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 68,
+        "layer": 1,
+        "neuron": 99,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 69,
+        "layer": 1,
+        "neuron": 97,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 70,
+        "layer": 1,
+        "neuron": 93,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 71,
+        "layer": 1,
+        "neuron": 83,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 72,
+        "layer": 1,
+        "neuron": 78,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 73,
+        "layer": 1,
+        "neuron": 75,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 74,
+        "layer": 1,
+        "neuron": 73,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 75,
+        "layer": 1,
+        "neuron": 5,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 76,
+        "layer": 1,
+        "neuron": 65,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 77,
+        "layer": 1,
+        "neuron": 57,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 78,
+        "layer": 1,
+        "neuron": 50,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 79,
+        "layer": 1,
+        "neuron": 7,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 80,
+        "layer": 1,
+        "neuron": 45,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 81,
+        "layer": 1,
+        "neuron": 44,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 82,
+        "layer": 1,
+        "neuron": 43,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 83,
+        "layer": 1,
+        "neuron": 8,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 84,
+        "layer": 1,
+        "neuron": 10,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 85,
+        "layer": 1,
+        "neuron": 40,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 86,
+        "layer": 1,
+        "neuron": 39,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 87,
+        "layer": 1,
+        "neuron": 37,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 88,
+        "layer": 1,
+        "neuron": 13,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 89,
+        "layer": 1,
+        "neuron": 26,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 90,
+        "layer": 1,
+        "neuron": 24,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 91,
+        "layer": 1,
+        "neuron": 23,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 92,
+        "layer": 1,
+        "neuron": 17,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 93,
+        "layer": 1,
+        "neuron": 62,
+        "pole": "pos",
+        "score": -1.5357434790530533e-07
+      },
+      {
+        "rank": 94,
+        "layer": 1,
+        "neuron": 1,
+        "pole": "neg",
+        "score": -1.9910385162802413e-06
+      },
+      {
+        "rank": 95,
+        "layer": 1,
+        "neuron": 115,
+        "pole": "neg",
+        "score": -3.6844846817984944e-06
+      },
+      {
+        "rank": 96,
+        "layer": 0,
+        "neuron": 92,
+        "pole": "pos",
+        "score": -4.062181687913835e-06
+      },
+      {
+        "rank": 97,
+        "layer": 1,
+        "neuron": 117,
+        "pole": "pos",
+        "score": -9.163187314698007e-06
+      },
+      {
+        "rank": 98,
+        "layer": 1,
+        "neuron": 38,
+        "pole": "pos",
+        "score": -9.38426182983676e-06
+      },
+      {
+        "rank": 99,
+        "layer": 1,
+        "neuron": 124,
+        "pole": "pos",
+        "score": -1.0086252586916089e-05
+      }
+    ],
+    "contrast_model_diff": [
+      {
+        "rank": 0,
+        "layer": 1,
+        "neuron": 31,
+        "pole": "pos",
+        "score": 0.0034526679664850235
+      },
+      {
+        "rank": 1,
+        "layer": 1,
+        "neuron": 120,
+        "pole": "neg",
+        "score": 0.0021085182670503855
+      },
+      {
+        "rank": 2,
+        "layer": 1,
+        "neuron": 9,
+        "pole": "pos",
+        "score": 0.002002360299229622
+      },
+      {
+        "rank": 3,
+        "layer": 1,
+        "neuron": 108,
+        "pole": "neg",
+        "score": 0.0014278714079409838
+      },
+      {
+        "rank": 4,
+        "layer": 1,
+        "neuron": 35,
+        "pole": "pos",
+        "score": 0.0014057215303182602
+      },
+      {
+        "rank": 5,
+        "layer": 1,
+        "neuron": 58,
+        "pole": "neg",
+        "score": 0.001213115407153964
+      },
+      {
+        "rank": 6,
+        "layer": 0,
+        "neuron": 33,
+        "pole": "pos",
+        "score": 0.0010204012505710125
+      },
+      {
+        "rank": 7,
+        "layer": 1,
+        "neuron": 67,
+        "pole": "pos",
+        "score": 0.0009208828560076654
+      },
+      {
+        "rank": 8,
+        "layer": 1,
+        "neuron": 53,
+        "pole": "neg",
+        "score": 0.0007362167816609144
+      },
+      {
+        "rank": 9,
+        "layer": 1,
+        "neuron": 19,
+        "pole": "neg",
+        "score": 0.0006513841217383742
+      },
+      {
+        "rank": 10,
+        "layer": 1,
+        "neuron": 54,
+        "pole": "neg",
+        "score": 0.0005824937834404409
+      },
+      {
+        "rank": 11,
+        "layer": 1,
+        "neuron": 98,
+        "pole": "pos",
+        "score": 0.0005598072893917561
+      },
+      {
+        "rank": 12,
+        "layer": 1,
+        "neuron": 30,
+        "pole": "neg",
+        "score": 0.0005234242416918278
+      },
+      {
+        "rank": 13,
+        "layer": 1,
+        "neuron": 68,
+        "pole": "pos",
+        "score": 0.00045535669778473675
+      },
+      {
+        "rank": 14,
+        "layer": 0,
+        "neuron": 102,
+        "pole": "pos",
+        "score": 0.00045148859499022365
+      },
+      {
+        "rank": 15,
+        "layer": 0,
+        "neuron": 109,
+        "pole": "pos",
+        "score": 0.000442662974819541
+      },
+      {
+        "rank": 16,
+        "layer": 1,
+        "neuron": 39,
+        "pole": "pos",
+        "score": 0.00042817206121981144
+      },
+      {
+        "rank": 17,
+        "layer": 1,
+        "neuron": 34,
+        "pole": "pos",
+        "score": 0.00042336684418842196
+      },
+      {
+        "rank": 18,
+        "layer": 0,
+        "neuron": 24,
+        "pole": "neg",
+        "score": 0.0003575670998543501
+      },
+      {
+        "rank": 19,
+        "layer": 0,
+        "neuron": 126,
+        "pole": "neg",
+        "score": 0.0003540731850080192
+      },
+      {
+        "rank": 20,
+        "layer": 1,
+        "neuron": 21,
+        "pole": "neg",
+        "score": 0.0003225792897865176
+      },
+      {
+        "rank": 21,
+        "layer": 1,
+        "neuron": 87,
+        "pole": "pos",
+        "score": 0.0003081350296270102
+      },
+      {
+        "rank": 22,
+        "layer": 1,
+        "neuron": 85,
+        "pole": "pos",
+        "score": 0.0002903307613451034
+      },
+      {
+        "rank": 23,
+        "layer": 1,
+        "neuron": 60,
+        "pole": "pos",
+        "score": 0.00028288309113122523
+      },
+      {
+        "rank": 24,
+        "layer": 1,
+        "neuron": 117,
+        "pole": "neg",
+        "score": 0.00028093313449062407
+      },
+      {
+        "rank": 25,
+        "layer": 1,
+        "neuron": 123,
+        "pole": "pos",
+        "score": 0.00026723224436864257
+      },
+      {
+        "rank": 26,
+        "layer": 1,
+        "neuron": 20,
+        "pole": "neg",
+        "score": 0.0002600360894575715
+      },
+      {
+        "rank": 27,
+        "layer": 1,
+        "neuron": 69,
+        "pole": "pos",
+        "score": 0.00025909801479429007
+      },
+      {
+        "rank": 28,
+        "layer": 1,
+        "neuron": 74,
+        "pole": "neg",
+        "score": 0.00024138034495990723
+      },
+      {
+        "rank": 29,
+        "layer": 1,
+        "neuron": 76,
+        "pole": "neg",
+        "score": 0.00023916165810078382
+      },
+      {
+        "rank": 30,
+        "layer": 1,
+        "neuron": 61,
+        "pole": "neg",
+        "score": 0.00023509515449404716
+      },
+      {
+        "rank": 31,
+        "layer": 1,
+        "neuron": 93,
+        "pole": "neg",
+        "score": 0.00023133384820539504
+      },
+      {
+        "rank": 32,
+        "layer": 1,
+        "neuron": 56,
+        "pole": "pos",
+        "score": 0.00020465732086449862
+      },
+      {
+        "rank": 33,
+        "layer": 1,
+        "neuron": 80,
+        "pole": "neg",
+        "score": 0.00017935429059434682
+      },
+      {
+        "rank": 34,
+        "layer": 1,
+        "neuron": 46,
+        "pole": "neg",
+        "score": 0.0001782894105417654
+      },
+      {
+        "rank": 35,
+        "layer": 1,
+        "neuron": 45,
+        "pole": "pos",
+        "score": 0.00017166421457659453
+      },
+      {
+        "rank": 36,
+        "layer": 0,
+        "neuron": 34,
+        "pole": "pos",
+        "score": 0.00016029831022024155
+      },
+      {
+        "rank": 37,
+        "layer": 1,
+        "neuron": 102,
+        "pole": "neg",
+        "score": 0.00015035748947411776
+      },
+      {
+        "rank": 38,
+        "layer": 1,
+        "neuron": 114,
+        "pole": "neg",
+        "score": 0.00014742783969268203
+      },
+      {
+        "rank": 39,
+        "layer": 1,
+        "neuron": 103,
+        "pole": "pos",
+        "score": 0.00012691636220552027
+      },
+      {
+        "rank": 40,
+        "layer": 0,
+        "neuron": 13,
+        "pole": "neg",
+        "score": 0.0001261084689758718
+      },
+      {
+        "rank": 41,
+        "layer": 1,
+        "neuron": 26,
+        "pole": "neg",
+        "score": 0.00011850429291371256
+      },
+      {
+        "rank": 42,
+        "layer": 1,
+        "neuron": 90,
+        "pole": "neg",
+        "score": 0.00011477430234663188
+      },
+      {
+        "rank": 43,
+        "layer": 0,
+        "neuron": 120,
+        "pole": "pos",
+        "score": 0.00010297342669218779
+      },
+      {
+        "rank": 44,
+        "layer": 1,
+        "neuron": 10,
+        "pole": "pos",
+        "score": 0.00010190240573137999
+      },
+      {
+        "rank": 45,
+        "layer": 1,
+        "neuron": 94,
+        "pole": "neg",
+        "score": 9.523331391392276e-05
+      },
+      {
+        "rank": 46,
+        "layer": 1,
+        "neuron": 12,
+        "pole": "neg",
+        "score": 8.745700324652717e-05
+      },
+      {
+        "rank": 47,
+        "layer": 1,
+        "neuron": 16,
+        "pole": "pos",
+        "score": 8.128139597829431e-05
+      },
+      {
+        "rank": 48,
+        "layer": 1,
+        "neuron": 122,
+        "pole": "pos",
+        "score": 6.716528150718659e-05
+      },
+      {
+        "rank": 49,
+        "layer": 1,
+        "neuron": 115,
+        "pole": "pos",
+        "score": 5.4424563131760806e-05
+      },
+      {
+        "rank": 50,
+        "layer": 0,
+        "neuron": 91,
+        "pole": "neg",
+        "score": 4.4578337110579014e-05
+      },
+      {
+        "rank": 51,
+        "layer": 1,
+        "neuron": 77,
+        "pole": "neg",
+        "score": 4.453412475413643e-05
+      },
+      {
+        "rank": 52,
+        "layer": 1,
+        "neuron": 23,
+        "pole": "neg",
+        "score": 3.3745134714990854e-05
+      },
+      {
+        "rank": 53,
+        "layer": 1,
+        "neuron": 88,
+        "pole": "neg",
+        "score": 3.0254299417720176e-05
+      },
+      {
+        "rank": 54,
+        "layer": 1,
+        "neuron": 101,
+        "pole": "pos",
+        "score": 2.6450734367244877e-05
+      },
+      {
+        "rank": 55,
+        "layer": 1,
+        "neuron": 100,
+        "pole": "neg",
+        "score": 1.719662941468414e-05
+      },
+      {
+        "rank": 56,
+        "layer": 1,
+        "neuron": 91,
+        "pole": "pos",
+        "score": 1.530571171315387e-05
+      },
+      {
+        "rank": 57,
+        "layer": 1,
+        "neuron": 111,
+        "pole": "neg",
+        "score": 6.2720623645873275e-06
+      },
+      {
+        "rank": 58,
+        "layer": 1,
+        "neuron": 82,
+        "pole": "pos",
+        "score": 3.8131995552248554e-06
+      },
+      {
+        "rank": 59,
+        "layer": 1,
+        "neuron": 109,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 60,
+        "layer": 1,
+        "neuron": 0,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 61,
+        "layer": 1,
+        "neuron": 12,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 62,
+        "layer": 1,
+        "neuron": 105,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 63,
+        "layer": 1,
+        "neuron": 24,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 64,
+        "layer": 1,
+        "neuron": 99,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 65,
+        "layer": 1,
+        "neuron": 28,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 66,
+        "layer": 1,
+        "neuron": 29,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 67,
+        "layer": 1,
+        "neuron": 118,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 68,
+        "layer": 1,
+        "neuron": 124,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 69,
+        "layer": 1,
+        "neuron": 37,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 70,
+        "layer": 1,
+        "neuron": 83,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 71,
+        "layer": 1,
+        "neuron": 48,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 72,
+        "layer": 1,
+        "neuron": 50,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 73,
+        "layer": 1,
+        "neuron": 51,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 74,
+        "layer": 1,
+        "neuron": 119,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 75,
+        "layer": 1,
+        "neuron": 70,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 76,
+        "layer": 1,
+        "neuron": 69,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 77,
+        "layer": 1,
+        "neuron": 63,
+        "pole": "neg",
+        "score": 0.0
+      },
+      {
+        "rank": 78,
+        "layer": 1,
+        "neuron": 65,
+        "pole": "pos",
+        "score": 0.0
+      },
+      {
+        "rank": 79,
+        "layer": 1,
+        "neuron": 56,
+        "pole": "neg",
+        "score": -2.9651252120288518e-08
+      },
+      {
+        "rank": 80,
+        "layer": 1,
+        "neuron": 23,
+        "pole": "pos",
+        "score": -1.3016224329476245e-06
+      },
+      {
+        "rank": 81,
+        "layer": 1,
+        "neuron": 96,
+        "pole": "pos",
+        "score": -1.6425062767666532e-06
+      },
+      {
+        "rank": 82,
+        "layer": 1,
+        "neuron": 5,
+        "pole": "pos",
+        "score": -1.7048732843250036e-06
+      },
+      {
+        "rank": 83,
+        "layer": 1,
+        "neuron": 127,
+        "pole": "neg",
+        "score": -3.2596590244793333e-06
+      },
+      {
+        "rank": 84,
+        "layer": 0,
+        "neuron": 14,
+        "pole": "neg",
+        "score": -6.708709406666458e-06
+      },
+      {
+        "rank": 85,
+        "layer": 1,
+        "neuron": 55,
+        "pole": "neg",
+        "score": -7.083979653543793e-06
+      },
+      {
+        "rank": 86,
+        "layer": 1,
+        "neuron": 15,
+        "pole": "pos",
+        "score": -8.878454536898062e-06
+      },
+      {
+        "rank": 87,
+        "layer": 1,
+        "neuron": 95,
+        "pole": "neg",
+        "score": -9.57338579610223e-06
+      },
+      {
+        "rank": 88,
+        "layer": 1,
+        "neuron": 89,
+        "pole": "pos",
+        "score": -2.0384435629239306e-05
+      },
+      {
+        "rank": 89,
+        "layer": 1,
+        "neuron": 20,
+        "pole": "pos",
+        "score": -2.412237699900288e-05
+      },
+      {
+        "rank": 90,
+        "layer": 1,
+        "neuron": 40,
+        "pole": "pos",
+        "score": -2.47415136982454e-05
+      },
+      {
+        "rank": 91,
+        "layer": 0,
+        "neuron": 27,
+        "pole": "pos",
+        "score": -3.278790973126888e-05
+      },
+      {
+        "rank": 92,
+        "layer": 1,
+        "neuron": 14,
+        "pole": "pos",
+        "score": -3.361959898029454e-05
+      },
+      {
+        "rank": 93,
+        "layer": 1,
+        "neuron": 47,
+        "pole": "pos",
+        "score": -3.422042937017977e-05
+      },
+      {
+        "rank": 94,
+        "layer": 1,
+        "neuron": 15,
+        "pole": "neg",
+        "score": -3.802824721788056e-05
+      },
+      {
+        "rank": 95,
+        "layer": 1,
+        "neuron": 107,
+        "pole": "pos",
+        "score": -4.2644354834919795e-05
+      },
+      {
+        "rank": 96,
+        "layer": 1,
+        "neuron": 57,
+        "pole": "pos",
+        "score": -4.404753053677268e-05
+      },
+      {
+        "rank": 97,
+        "layer": 1,
+        "neuron": 78,
+        "pole": "pos",
+        "score": -4.776496280101128e-05
+      },
+      {
+        "rank": 98,
+        "layer": 1,
+        "neuron": 62,
+        "pole": "pos",
+        "score": -5.639313894789666e-05
+      },
+      {
+        "rank": 99,
+        "layer": 0,
+        "neuron": 116,
+        "pole": "pos",
+        "score": -6.710374145768583e-05
+      }
+    ]
+  },
+  "top100_layer_histogram": {
+    "raw": [
+      64,
+      36
+    ],
+    "centered": [
+      62,
+      38
+    ],
+    "std_norm": [
+      100,
+      0
+    ],
+    "contrast_trig_minus_clean": [
+      8,
+      92
+    ],
+    "contrast_model_diff": [
+      12,
+      88
+    ]
+  },
+  "top100_overlap": {
+    "raw|centered": 0.94,
+    "raw|std_norm": 0.64,
+    "raw|contrast_trig_minus_clean": 0.26,
+    "raw|contrast_model_diff": 0.26,
+    "centered|std_norm": 0.62,
+    "centered|contrast_trig_minus_clean": 0.27,
+    "centered|contrast_model_diff": 0.27,
+    "std_norm|contrast_trig_minus_clean": 0.05,
+    "std_norm|contrast_model_diff": 0.1,
+    "contrast_trig_minus_clean|contrast_model_diff": 0.39
+  },
+  "recovery": {
+    "raw|mean": {
+      "l_full": 1.1985567063093185,
+      "l_0": 0.38111571595072746,
+      "n_total_poles": 512,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 91,
+        "search_evals": {
+          "1": 0.138096272050497,
+          "2": 0.14993279979831395,
+          "4": 0.1659185113330714,
+          "8": 0.3558221546998476,
+          "16": 0.48994698973561723,
+          "32": 0.4823848929234404,
+          "64": 0.8496900779061145,
+          "80": 0.8872005120353906,
+          "88": 0.8830374012649903,
+          "90": 0.8993249355051012,
+          "91": 0.9026312451281477,
+          "92": 0.9058922191388061,
+          "96": 0.9032510505792174,
+          "128": 0.9534152793819646
+        },
+        "top": {
+          "1": 0.138096272050497,
+          "2": 0.14993279979831395,
+          "4": 0.1659185113330714,
+          "8": 0.3558221546998476,
+          "16": 0.48994698973561723,
+          "32": 0.4823848929234404,
+          "64": 0.8496900779061145,
+          "80": 0.8872005120353906,
+          "88": 0.8830374012649903,
+          "90": 0.8993249355051012,
+          "91": 0.9026312451281477,
+          "92": 0.9058922191388061,
+          "96": 0.9032510505792174,
+          "128": 0.9534152793819646,
+          "256": 0.9925569934796333,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.00277651915145934,
+            -0.006245076308909152
+          ],
+          "2": [
+            0.012500101114183742,
+            -0.12334086093777133
+          ],
+          "4": [
+            0.02543276357949816,
+            -0.05760275098027211
+          ],
+          "8": [
+            -0.012036682562461962,
+            -0.11730199604069896
+          ],
+          "16": [
+            0.010655176844548865,
+            0.21307312630176678
+          ],
+          "32": [
+            0.16635290925957325,
+            0.08845232271983414
+          ],
+          "64": [
+            0.0329584524496395,
+            -0.01701456743785135
+          ],
+          "80": [
+            0.4191487682788525,
+            0.28877117590201656
+          ],
+          "88": [
+            0.40962802535631554,
+            -0.08631601642518169
+          ],
+          "90": [
+            0.17290282517928426,
+            0.36544642031750013
+          ],
+          "91": [
+            0.22475047355047775,
+            0.3835420014875349
+          ],
+          "92": [
+            0.17862796836779193,
+            0.27824641413785695
+          ],
+          "96": [
+            0.3057105804674194,
+            0.358742710578804
+          ],
+          "128": [
+            0.2651149002339674,
+            0.05862661212751785
+          ],
+          "256": [
+            0.7862065852437914,
+            0.3024190637070399
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 91,
+          "top": 0.9026312451281477,
+          "random_mean": 0.3041462375190063,
+          "ratio": 2.967754105693126,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 22,
+        "search_evals": {
+          "1": 0.023704691987511562,
+          "2": 0.04843485839194975,
+          "4": 0.07027603249316543,
+          "8": 0.1841781401548087,
+          "16": 0.4347756685846423,
+          "20": 0.44263720465572315,
+          "21": 0.48865294237489565,
+          "22": 0.5412967028755324,
+          "24": 0.6005273979106198,
+          "32": 0.7452653690767966
+        },
+        "top": {
+          "1": 0.023704691987511562,
+          "2": 0.04843485839194975,
+          "4": 0.07027603249316543,
+          "8": 0.1841781401548087,
+          "16": 0.4347756685846423,
+          "20": 0.44263720465572315,
+          "21": 0.48865294237489565,
+          "22": 0.5412967028755324,
+          "24": 0.6005273979106198,
+          "32": 0.7452653690767966,
+          "64": 0.8184378951214748,
+          "128": 1.2243834125434316,
+          "256": 1.449574350657814,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.0016831233466121987,
+            0.0
+          ],
+          "2": [
+            0.0013451570202444153,
+            -4.0049191964941734e-05
+          ],
+          "4": [
+            0.00023165458875306307,
+            0.0010713022132852348
+          ],
+          "8": [
+            0.0279389324561582,
+            0.00018834239935447338
+          ],
+          "16": [
+            0.026492513141255045,
+            0.018004709425863068
+          ],
+          "20": [
+            0.008329083499443524,
+            0.010538552029849864
+          ],
+          "21": [
+            0.00687863556759715,
+            0.005007990128247876
+          ],
+          "22": [
+            0.054662334566656735,
+            0.026271376706240614
+          ],
+          "24": [
+            0.006823820856519053,
+            0.004454428993792079
+          ],
+          "32": [
+            0.011659692427400984,
+            0.02741586849883365
+          ],
+          "64": [
+            0.09335619770929833,
+            0.0677637432176878
+          ],
+          "128": [
+            0.26654746092429554,
+            0.06879297281601851
+          ],
+          "256": [
+            0.4559302551616142,
+            0.42316941457610574
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 22,
+          "top": 0.5412967028755324,
+          "random_mean": 0.040466855636448675,
+          "ratio": 13.376297573957887,
+          "passes_10x": true
+        }
+      }
+    },
+    "centered|mean": {
+      "l_full": 1.1985567063093185,
+      "l_0": 0.38111571595072746,
+      "n_total_poles": 512,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 90,
+        "search_evals": {
+          "1": 0.138096272050497,
+          "2": 0.14993279979831395,
+          "4": 0.1659185113330714,
+          "8": 0.3558221546998476,
+          "16": 0.48994698973561723,
+          "32": 0.5226340300691138,
+          "64": 0.8659589456134206,
+          "80": 0.8887010898160779,
+          "88": 0.8992536782036032,
+          "89": 0.8981080197527099,
+          "90": 0.9026171723124004,
+          "92": 0.9057231083723706,
+          "96": 0.9087014776388176,
+          "128": 0.9681385618188422
+        },
+        "top": {
+          "1": 0.138096272050497,
+          "2": 0.14993279979831395,
+          "4": 0.1659185113330714,
+          "8": 0.3558221546998476,
+          "16": 0.48994698973561723,
+          "32": 0.5226340300691138,
+          "64": 0.8659589456134206,
+          "80": 0.8887010898160779,
+          "88": 0.8992536782036032,
+          "89": 0.8981080197527099,
+          "90": 0.9026171723124004,
+          "92": 0.9057231083723706,
+          "96": 0.9087014776388176,
+          "128": 0.9681385618188422,
+          "256": 0.9962823157228465,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.00277651915145934,
+            -0.006245076308909152
+          ],
+          "2": [
+            0.012500101114183742,
+            -0.12334086093777133
+          ],
+          "4": [
+            0.02543276357949816,
+            -0.05760275098027211
+          ],
+          "8": [
+            -0.012036682562461962,
+            -0.11730199604069896
+          ],
+          "16": [
+            0.010655176844548865,
+            0.21307312630176678
+          ],
+          "32": [
+            0.16635290925957325,
+            0.08845232271983414
+          ],
+          "64": [
+            0.0329584524496395,
+            -0.01701456743785135
+          ],
+          "80": [
+            0.4191487682788525,
+            0.28877117590201656
+          ],
+          "88": [
+            0.40962802535631554,
+            -0.08631601642518169
+          ],
+          "89": [
+            0.2857194347659024,
+            0.07964171012146029
+          ],
+          "90": [
+            -0.09785508732175335,
+            0.1664434802246519
+          ],
+          "92": [
+            0.004221963212939589,
+            -0.0014822849431193694
+          ],
+          "96": [
+            0.2872434186287395,
+            0.5497785775969842
+          ],
+          "128": [
+            0.229709172365538,
+            0.22719707449493778
+          ],
+          "256": [
+            0.09899338579938503,
+            0.5681447870346165
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 90,
+          "top": 0.9026171723124004,
+          "random_mean": 0.03429419645144928,
+          "ratio": 26.31982276039757,
+          "passes_10x": true
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 21,
+        "search_evals": {
+          "1": 0.023704691987511562,
+          "2": 0.04843485839194975,
+          "4": 0.07027603249316543,
+          "8": 0.1841781401548087,
+          "16": 0.4347756685846423,
+          "20": 0.48865294237489565,
+          "21": 0.5676575750337312,
+          "22": 0.5430315784551845,
+          "24": 0.6053054560940111,
+          "32": 0.7719344851182594
+        },
+        "top": {
+          "1": 0.023704691987511562,
+          "2": 0.04843485839194975,
+          "4": 0.07027603249316543,
+          "8": 0.1841781401548087,
+          "16": 0.4347756685846423,
+          "20": 0.48865294237489565,
+          "21": 0.5676575750337312,
+          "22": 0.5430315784551845,
+          "24": 0.6053054560940111,
+          "32": 0.7719344851182594,
+          "64": 0.8320458522232668,
+          "128": 1.2743552145034585,
+          "256": 1.5427350463002703,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            7.317135027185986e-05,
+            0.0
+          ],
+          "2": [
+            0.0016122853129409362,
+            0.0017102481520941436
+          ],
+          "4": [
+            0.001471447781251751,
+            7.021824644922875e-05
+          ],
+          "8": [
+            0.0034228113917529426,
+            0.007973270946888359
+          ],
+          "16": [
+            0.01855562735010725,
+            0.0038350428105491156
+          ],
+          "20": [
+            0.0062488223757952675,
+            0.005143322491082527
+          ],
+          "21": [
+            0.008264899063891154,
+            0.03061276744815531
+          ],
+          "22": [
+            0.07101948549503077,
+            0.03514437818012653
+          ],
+          "24": [
+            0.011169841773563062,
+            0.023350720567586556
+          ],
+          "32": [
+            0.034702214684313316,
+            0.01678216090136567
+          ],
+          "64": [
+            0.112129497977591,
+            0.043999351137465635
+          ],
+          "128": [
+            0.13233162654110264,
+            0.14897668686314727
+          ],
+          "256": [
+            0.3699164032362099,
+            0.37456799748275244
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 21,
+          "top": 0.5676575750337312,
+          "random_mean": 0.019438833256023233,
+          "ratio": 29.20224519431171,
+          "passes_10x": true
+        }
+      }
+    },
+    "std_norm|mean": {
+      "l_full": 1.1985567063093185,
+      "l_0": 0.38111571595072746,
+      "n_total_poles": 512,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 269,
+        "search_evals": {
+          "1": 0.138096272050497,
+          "2": 0.11924379852184849,
+          "4": 0.11403341596479372,
+          "8": 0.2561751713740152,
+          "16": 0.36248914204563826,
+          "32": 0.45631954989593615,
+          "64": 0.4903076238681791,
+          "128": 0.5266493945032028,
+          "256": 0.8306110220179639,
+          "264": 0.895738901325522,
+          "268": 0.8961800986824303,
+          "269": 0.914097017071196,
+          "270": 0.9183705593413339,
+          "272": 0.9258491853979315,
+          "288": 0.9586884837541351,
+          "320": 0.9883468153384304,
+          "384": 0.9998660712729329,
+          "512": 1.0
+        },
+        "top": {
+          "1": 0.138096272050497,
+          "2": 0.11924379852184849,
+          "4": 0.11403341596479372,
+          "8": 0.2561751713740152,
+          "16": 0.36248914204563826,
+          "32": 0.45631954989593615,
+          "64": 0.4903076238681791,
+          "128": 0.5266493945032028,
+          "256": 0.8306110220179639,
+          "264": 0.895738901325522,
+          "268": 0.8961800986824303,
+          "269": 0.914097017071196,
+          "270": 0.9183705593413339,
+          "272": 0.9258491853979315,
+          "288": 0.9586884837541351,
+          "320": 0.9883468153384304,
+          "384": 0.9998660712729329,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.00277651915145934,
+            -0.006245076308909152
+          ],
+          "2": [
+            0.012500101114183742,
+            -0.12334086093777133
+          ],
+          "4": [
+            0.02543276357949816,
+            -0.05760275098027211
+          ],
+          "8": [
+            -0.012036682562461962,
+            -0.11730199604069896
+          ],
+          "16": [
+            0.010655176844548865,
+            0.21307312630176678
+          ],
+          "32": [
+            0.16635290925957325,
+            0.08845232271983414
+          ],
+          "64": [
+            0.0329584524496395,
+            -0.01701456743785135
+          ],
+          "128": [
+            0.296081238063257,
+            0.5066208245908965
+          ],
+          "256": [
+            0.635987689840883,
+            0.7842240135237571
+          ],
+          "264": [
+            0.6414660984706545,
+            0.5382748436865864
+          ],
+          "268": [
+            0.4566897360433317,
+            0.7654174999519778
+          ],
+          "269": [
+            0.705225596966178,
+            0.7336554920473666
+          ],
+          "270": [
+            0.6890385138286265,
+            0.6345017408615393
+          ],
+          "272": [
+            0.628685721371601,
+            0.7798822490866056
+          ],
+          "288": [
+            0.6668900619830516,
+            0.6217513231830567
+          ],
+          "320": [
+            0.8408577089533437,
+            0.7339156203902614
+          ],
+          "384": [
+            0.6752616920523842,
+            0.888157992148253
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 269,
+          "top": 0.914097017071196,
+          "random_mean": 0.7194405445067723,
+          "ratio": 1.2705664478471594,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 54,
+        "search_evals": {
+          "1": 0.023704691987511562,
+          "2": 0.041132817006523874,
+          "4": 0.06408331909000015,
+          "8": 0.17708230562396066,
+          "16": 0.3193651081987846,
+          "32": 0.4574375047694564,
+          "48": 0.4488623292847936,
+          "52": 0.4611149393352495,
+          "53": 0.4685706241501139,
+          "54": 0.5366971798701586,
+          "56": 0.5590270926540198,
+          "64": 0.6169358909187249
+        },
+        "top": {
+          "1": 0.023704691987511562,
+          "2": 0.041132817006523874,
+          "4": 0.06408331909000015,
+          "8": 0.17708230562396066,
+          "16": 0.3193651081987846,
+          "32": 0.4574375047694564,
+          "48": 0.4488623292847936,
+          "52": 0.4611149393352495,
+          "53": 0.4685706241501139,
+          "54": 0.5366971798701586,
+          "56": 0.5590270926540198,
+          "64": 0.6169358909187249,
+          "128": 1.0802316108390668,
+          "256": 1.5024798200869347,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            -3.171852253937124e-05,
+            -1.1593666859218454e-05
+          ],
+          "2": [
+            0.0013451570202444153,
+            0.0017594665491379956
+          ],
+          "4": [
+            0.0016765426646370761,
+            0.0013117067392905382
+          ],
+          "8": [
+            0.008803676450197853,
+            0.0005911311775326038
+          ],
+          "16": [
+            0.014776000808822324,
+            0.017669185790311535
+          ],
+          "32": [
+            0.035535700894697035,
+            0.010908109275505423
+          ],
+          "48": [
+            0.02858403980911556,
+            0.06880868624500065
+          ],
+          "52": [
+            0.042131859321334356,
+            0.1195009373028487
+          ],
+          "53": [
+            0.05132242883036877,
+            0.017586517112313807
+          ],
+          "54": [
+            0.13302276220981396,
+            0.08503506206952559
+          ],
+          "56": [
+            0.018335621115321235,
+            0.023772923269043095
+          ],
+          "64": [
+            0.022293509399084616,
+            0.04780183688982204
+          ],
+          "128": [
+            0.1316628396704564,
+            0.13810995749923055
+          ],
+          "256": [
+            0.6135747301265284,
+            0.2760575945479141
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 54,
+          "top": 0.5366971798701586,
+          "random_mean": 0.10902891213966978,
+          "ratio": 4.922521644374761,
+          "passes_10x": false
+        }
+      }
+    },
+    "contrast_trig_minus_clean|mean": {
+      "l_full": 1.1985567063093185,
+      "l_0": 0.38111571595072746,
+      "n_total_poles": 512,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 492,
+        "search_evals": {
+          "1": 0.010177521415756254,
+          "2": 0.2260103551405847,
+          "4": 0.23331723633505325,
+          "8": 0.2531314965863054,
+          "16": 0.2268884842599908,
+          "32": 0.2662484272614412,
+          "64": 0.13772305076861704,
+          "128": 0.2378803832992044,
+          "256": 0.4655298614508959,
+          "384": 0.6914778140441916,
+          "448": 0.7972335296046038,
+          "480": 0.8326842102756665,
+          "488": 0.8757719637837362,
+          "490": 0.8767423865121176,
+          "491": 0.8737892097733426,
+          "492": 0.930160698749937,
+          "496": 0.9704902532876692,
+          "512": 1.0
+        },
+        "top": {
+          "1": 0.010177521415756254,
+          "2": 0.2260103551405847,
+          "4": 0.23331723633505325,
+          "8": 0.2531314965863054,
+          "16": 0.2268884842599908,
+          "32": 0.2662484272614412,
+          "64": 0.13772305076861704,
+          "128": 0.2378803832992044,
+          "256": 0.4655298614508959,
+          "384": 0.6914778140441916,
+          "448": 0.7972335296046038,
+          "480": 0.8326842102756665,
+          "488": 0.8757719637837362,
+          "490": 0.8767423865121176,
+          "491": 0.8737892097733426,
+          "492": 0.930160698749937,
+          "496": 0.9704902532876692,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.00277651915145934,
+            -0.006245076308909152
+          ],
+          "2": [
+            0.012500101114183742,
+            -0.12334086093777133
+          ],
+          "4": [
+            0.02543276357949816,
+            -0.05760275098027211
+          ],
+          "8": [
+            -0.012036682562461962,
+            -0.11730199604069896
+          ],
+          "16": [
+            0.010655176844548865,
+            0.21307312630176678
+          ],
+          "32": [
+            0.16635290925957325,
+            0.08845232271983414
+          ],
+          "64": [
+            0.0329584524496395,
+            -0.01701456743785135
+          ],
+          "128": [
+            0.296081238063257,
+            0.5066208245908965
+          ],
+          "256": [
+            0.635987689840883,
+            0.7842240135237571
+          ],
+          "384": [
+            0.8446652441486561,
+            0.8375324958200251
+          ],
+          "448": [
+            0.9253345250261763,
+            0.9327049252963854
+          ],
+          "480": [
+            0.986822612727162,
+            0.9703058483600784
+          ],
+          "488": [
+            0.9890767423956266,
+            0.9856524179938905
+          ],
+          "490": [
+            0.9414041311415986,
+            0.9888570825125235
+          ],
+          "491": [
+            0.9814829817480183,
+            0.9866006012984223
+          ],
+          "492": [
+            0.9888015021819359,
+            0.995512448847901
+          ],
+          "496": [
+            0.9969669618547625,
+            0.9900980423633226
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 492,
+          "top": 0.930160698749937,
+          "random_mean": 0.9921569755149184,
+          "ratio": 0.937513641192911,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 434,
+        "search_evals": {
+          "1": 0.027063246027568363,
+          "2": 0.0502093092086322,
+          "4": 0.06104156746558227,
+          "8": 0.09824258193877601,
+          "16": 0.15009963193525666,
+          "32": 0.2063157001514081,
+          "64": 0.23635452640292426,
+          "128": 0.24808663367560552,
+          "256": 0.3140499041278034,
+          "384": 0.44886214699443416,
+          "416": 0.4992135971108254,
+          "432": 0.4942044220952413,
+          "433": 0.4942044220952413,
+          "434": 0.5194055721013172,
+          "436": 0.5101312766302004,
+          "440": 0.5972494708965352,
+          "448": 0.585424978869699,
+          "512": 1.0
+        },
+        "top": {
+          "1": 0.027063246027568363,
+          "2": 0.0502093092086322,
+          "4": 0.06104156746558227,
+          "8": 0.09824258193877601,
+          "16": 0.15009963193525666,
+          "32": 0.2063157001514081,
+          "64": 0.23635452640292426,
+          "128": 0.24808663367560552,
+          "256": 0.3140499041278034,
+          "384": 0.44886214699443416,
+          "416": 0.4992135971108254,
+          "432": 0.4942044220952413,
+          "433": 0.4942044220952413,
+          "434": 0.5194055721013172,
+          "436": 0.5101312766302004,
+          "440": 0.5972494708965352,
+          "448": 0.585424978869699,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.0072489402037263385,
+            0.0
+          ],
+          "2": [
+            0.01237598416571251,
+            0.00034277879185651543
+          ],
+          "4": [
+            0.005496455375354193,
+            0.0052847798099937456
+          ],
+          "8": [
+            0.003171943399116835,
+            0.0008902331992716862
+          ],
+          "16": [
+            0.009653896915576481,
+            0.002195486859838697
+          ],
+          "32": [
+            0.015563167038876996,
+            0.040749460380660095
+          ],
+          "64": [
+            0.026811102002416303,
+            0.0745987384732394
+          ],
+          "128": [
+            0.07851568434227667,
+            0.11496597242826413
+          ],
+          "256": [
+            0.33736977205205787,
+            0.5008939952165643
+          ],
+          "384": [
+            0.8713833051516235,
+            0.5124018580036029
+          ],
+          "416": [
+            0.7889442264188451,
+            0.922778964576631
+          ],
+          "432": [
+            0.836443165090193,
+            0.7203889237734405
+          ],
+          "433": [
+            0.7794230915720354,
+            0.599098533157329
+          ],
+          "434": [
+            0.6014292156622327,
+            0.6092145908211472
+          ],
+          "436": [
+            0.9731360110070565,
+            0.9705400595711223
+          ],
+          "440": [
+            0.7957439849479204,
+            0.7680227800970555
+          ],
+          "448": [
+            1.002228144177729,
+            0.8481528779922194
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 434,
+          "top": 0.5194055721013172,
+          "random_mean": 0.6053219032416899,
+          "ratio": 0.8580650548406334,
+          "passes_10x": false
+        }
+      }
+    },
+    "contrast_model_diff|mean": {
+      "l_full": 1.1985567063093185,
+      "l_0": 0.38111571595072746,
+      "n_total_poles": 512,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 391,
+        "search_evals": {
+          "1": 0.030711778456875193,
+          "2": 0.03776737239088093,
+          "4": 0.08943993998636787,
+          "8": 0.04577406627516926,
+          "16": 0.0013675377191224114,
+          "32": 0.04729920768178866,
+          "64": 0.13675202648204968,
+          "128": 0.15238772685494056,
+          "256": 0.4495692923139617,
+          "384": 0.887285787465528,
+          "388": 0.8873219356438014,
+          "390": 0.8818074152938284,
+          "391": 0.9097256577941923,
+          "392": 0.9098170946384783,
+          "400": 0.9072116367603001,
+          "416": 0.9174908989829087,
+          "448": 0.9647864426284729,
+          "512": 1.0
+        },
+        "top": {
+          "1": 0.030711778456875193,
+          "2": 0.03776737239088093,
+          "4": 0.08943993998636787,
+          "8": 0.04577406627516926,
+          "16": 0.0013675377191224114,
+          "32": 0.04729920768178866,
+          "64": 0.13675202648204968,
+          "128": 0.15238772685494056,
+          "256": 0.4495692923139617,
+          "384": 0.887285787465528,
+          "388": 0.8873219356438014,
+          "390": 0.8818074152938284,
+          "391": 0.9097256577941923,
+          "392": 0.9098170946384783,
+          "400": 0.9072116367603001,
+          "416": 0.9174908989829087,
+          "448": 0.9647864426284729,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.00277651915145934,
+            -0.006245076308909152
+          ],
+          "2": [
+            0.012500101114183742,
+            -0.12334086093777133
+          ],
+          "4": [
+            0.02543276357949816,
+            -0.05760275098027211
+          ],
+          "8": [
+            -0.012036682562461962,
+            -0.11730199604069896
+          ],
+          "16": [
+            0.010655176844548865,
+            0.21307312630176678
+          ],
+          "32": [
+            0.16635290925957325,
+            0.08845232271983414
+          ],
+          "64": [
+            0.0329584524496395,
+            -0.01701456743785135
+          ],
+          "128": [
+            0.296081238063257,
+            0.5066208245908965
+          ],
+          "256": [
+            0.635987689840883,
+            0.7842240135237571
+          ],
+          "384": [
+            0.8446652441486561,
+            0.8375324958200251
+          ],
+          "388": [
+            0.8746849481414689,
+            0.8171841157011495
+          ],
+          "390": [
+            0.8719119471939464,
+            0.8336239170784853
+          ],
+          "391": [
+            0.8315296013681256,
+            0.9058483965364011
+          ],
+          "392": [
+            0.8509318945216028,
+            0.8239430958768222
+          ],
+          "400": [
+            0.7971446083672779,
+            0.7177425280377954
+          ],
+          "416": [
+            0.884288186566162,
+            0.9334263940809044
+          ],
+          "448": [
+            0.9309736955239217,
+            0.9458115656807318
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 391,
+          "top": 0.9097256577941923,
+          "random_mean": 0.8686889989522634,
+          "ratio": 1.0472397588681608,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 319,
+        "search_evals": {
+          "1": 0.019370501714794017,
+          "2": 0.05654998769654005,
+          "4": 0.08145666585600625,
+          "8": 0.14076580043275275,
+          "16": 0.12936596291270736,
+          "32": 0.1810833238067632,
+          "64": 0.2071416213118758,
+          "128": 0.20272746025847999,
+          "256": 0.38753628859881584,
+          "288": 0.40533596694291935,
+          "304": 0.41792357198688446,
+          "312": 0.42784045008948063,
+          "316": 0.4283811870971511,
+          "318": 0.4922611977492883,
+          "319": 0.5043464743643131,
+          "320": 0.5057077093942585,
+          "384": 0.5471379148931429,
+          "512": 1.0
+        },
+        "top": {
+          "1": 0.019370501714794017,
+          "2": 0.05654998769654005,
+          "4": 0.08145666585600625,
+          "8": 0.14076580043275275,
+          "16": 0.12936596291270736,
+          "32": 0.1810833238067632,
+          "64": 0.2071416213118758,
+          "128": 0.20272746025847999,
+          "256": 0.38753628859881584,
+          "288": 0.40533596694291935,
+          "304": 0.41792357198688446,
+          "312": 0.42784045008948063,
+          "316": 0.4283811870971511,
+          "318": 0.4922611977492883,
+          "319": 0.5043464743643131,
+          "320": 0.5057077093942585,
+          "384": 0.5471379148931429,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.0,
+            -4.0049191964941734e-05
+          ],
+          "2": [
+            7.847599973103057e-05,
+            0.002831935420723529
+          ],
+          "4": [
+            -0.00011072316431272467,
+            0.005400406584974913
+          ],
+          "8": [
+            0.0019774858190063174,
+            0.007013366372245709
+          ],
+          "16": [
+            0.0017095554487283413,
+            0.02387812303546534
+          ],
+          "32": [
+            0.017558407938890984,
+            0.015007746542755098
+          ],
+          "64": [
+            0.020256250571223933,
+            0.08452805789286609
+          ],
+          "128": [
+            0.16542126424789994,
+            0.10840065753044095
+          ],
+          "256": [
+            0.4169246390462896,
+            0.39353225601705727
+          ],
+          "288": [
+            0.3690827347354667,
+            0.48374601402191114
+          ],
+          "304": [
+            0.32165082878653706,
+            0.5438469723473955
+          ],
+          "312": [
+            0.2847914082178636,
+            0.3364990348067263
+          ],
+          "316": [
+            0.634233933537254,
+            0.46772992835601507
+          ],
+          "318": [
+            0.3979580745389381,
+            0.6875717645813888
+          ],
+          "319": [
+            0.5663837117730566,
+            1.004557240756506
+          ],
+          "320": [
+            0.4694892217293116,
+            0.32618678714358046
+          ],
+          "384": [
+            0.5410921001761175,
+            0.7478070253291771
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 319,
+          "top": 0.5043464743643131,
+          "random_mean": 0.7854704762647813,
+          "ratio": 0.6420947567153351,
+          "passes_10x": false
+        }
+      }
+    },
+    "raw|zero": {
+      "l_full": 1.1985567063093185,
+      "l_0": 0.23978607542812824,
+      "n_total_poles": 512,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 90,
+        "search_evals": {
+          "1": 0.13761404745406386,
+          "2": 0.25197529437528454,
+          "4": 0.29652771968300967,
+          "8": 0.42303346249124185,
+          "16": 0.5499026381604042,
+          "32": 0.5066209845102693,
+          "64": 0.8645789852109119,
+          "80": 0.8966177429072033,
+          "88": 0.8894007004906512,
+          "89": 0.8880447123441592,
+          "90": 0.903337443057686,
+          "92": 0.9117449674397498,
+          "96": 0.9098018356642713,
+          "128": 0.9674563000261359
+        },
+        "top": {
+          "1": 0.13761404745406386,
+          "2": 0.25197529437528454,
+          "4": 0.29652771968300967,
+          "8": 0.42303346249124185,
+          "16": 0.5499026381604042,
+          "32": 0.5066209845102693,
+          "64": 0.8645789852109119,
+          "80": 0.8966177429072033,
+          "88": 0.8894007004906512,
+          "89": 0.8880447123441592,
+          "90": 0.903337443057686,
+          "92": 0.9117449674397498,
+          "96": 0.9098018356642713,
+          "128": 0.9674563000261359,
+          "256": 0.9966712105034692,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.0073525351574210565,
+            -0.004554726525932184
+          ],
+          "2": [
+            0.014421159762415947,
+            -0.1421451677070468
+          ],
+          "4": [
+            0.036814830671772845,
+            -0.20154150098863385
+          ],
+          "8": [
+            -0.040316942976657145,
+            -0.11358870633472595
+          ],
+          "16": [
+            -0.1852497769813342,
+            0.29948510718589383
+          ],
+          "32": [
+            0.05818587457315964,
+            0.15215666169479172
+          ],
+          "64": [
+            0.044843970841032754,
+            -0.006630207683738685
+          ],
+          "80": [
+            0.4600297589796035,
+            0.4124153760720667
+          ],
+          "88": [
+            0.490325339804295,
+            -0.24013172467867283
+          ],
+          "89": [
+            0.3209714315276177,
+            0.16790215260281852
+          ],
+          "90": [
+            -0.18438588520851315,
+            0.23851878239197707
+          ],
+          "92": [
+            0.06250281321361391,
+            0.0008757420208189299
+          ],
+          "96": [
+            0.23412873832389708,
+            0.5767674276981832
+          ],
+          "128": [
+            0.19239150337131128,
+            0.2982806491256083
+          ],
+          "256": [
+            0.151249163593187,
+            0.6441252261744093
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 90,
+          "top": 0.903337443057686,
+          "random_mean": 0.027066448591731962,
+          "ratio": 33.374804972885514,
+          "passes_10x": true
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 23,
+        "search_evals": {
+          "1": 0.020132321678809594,
+          "2": 0.041931765717375044,
+          "4": 0.06001500617608757,
+          "8": 0.16251598831535533,
+          "16": 0.3715260805419806,
+          "20": 0.37825488827271075,
+          "22": 0.4654000549403899,
+          "23": 0.5385180482293116,
+          "24": 0.5165459409437182,
+          "32": 0.6455209414771469
+        },
+        "top": {
+          "1": 0.020132321678809594,
+          "2": 0.041931765717375044,
+          "4": 0.06001500617608757,
+          "8": 0.16251598831535533,
+          "16": 0.3715260805419806,
+          "20": 0.37825488827271075,
+          "22": 0.4654000549403899,
+          "23": 0.5385180482293116,
+          "24": 0.5165459409437182,
+          "32": 0.6455209414771469,
+          "64": 0.7191600056979105,
+          "128": 1.0912551565286384,
+          "256": 1.2159728035705941,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            6.96279172496993e-05,
+            0.0
+          ],
+          "2": [
+            0.0013468339404072412,
+            0.0004829659661907155
+          ],
+          "4": [
+            0.001362950938217049,
+            6.020949808601229e-05
+          ],
+          "8": [
+            0.005661961944174096,
+            0.009194972608709563
+          ],
+          "16": [
+            0.01430639220629078,
+            0.004295949242631558
+          ],
+          "20": [
+            0.005435904342299794,
+            0.003998787238655163
+          ],
+          "22": [
+            0.007894422582938394,
+            0.013522580794965594
+          ],
+          "23": [
+            0.059122338976276466,
+            0.035116793439048395
+          ],
+          "24": [
+            0.006102327436886814,
+            0.006134188425806878
+          ],
+          "32": [
+            0.010262346821423313,
+            0.024033598749423547
+          ],
+          "64": [
+            0.0865736582361823,
+            0.06117295884900919
+          ],
+          "128": [
+            0.21896386925584424,
+            0.062092700118429434
+          ],
+          "256": [
+            0.44250965955730986,
+            0.345360631940024
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 23,
+          "top": 0.5385180482293116,
+          "random_mean": 0.04711956620766243,
+          "ratio": 11.428756492705986,
+          "passes_10x": true
+        }
+      }
+    },
+    "centered|zero": {
+      "l_full": 1.1985567063093185,
+      "l_0": 0.23978607542812824,
+      "n_total_poles": 512,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 87,
+        "search_evals": {
+          "1": 0.13761404745406386,
+          "2": 0.25197529437528454,
+          "4": 0.29652771968300967,
+          "8": 0.42303346249124185,
+          "16": 0.5499026381604042,
+          "32": 0.522995162668445,
+          "64": 0.8651165655746953,
+          "80": 0.8934986764274956,
+          "84": 0.8822803134351206,
+          "86": 0.8991015168097908,
+          "87": 0.9038480426035352,
+          "88": 0.9078097312175308,
+          "96": 0.9143631947155799,
+          "128": 0.9701753168205741
+        },
+        "top": {
+          "1": 0.13761404745406386,
+          "2": 0.25197529437528454,
+          "4": 0.29652771968300967,
+          "8": 0.42303346249124185,
+          "16": 0.5499026381604042,
+          "32": 0.522995162668445,
+          "64": 0.8651165655746953,
+          "80": 0.8934986764274956,
+          "84": 0.8822803134351206,
+          "86": 0.8991015168097908,
+          "87": 0.9038480426035352,
+          "88": 0.9078097312175308,
+          "96": 0.9143631947155799,
+          "128": 0.9701753168205741,
+          "256": 0.9942565516339196,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.0073525351574210565,
+            -0.004554726525932184
+          ],
+          "2": [
+            0.014421159762415947,
+            -0.1421451677070468
+          ],
+          "4": [
+            0.036814830671772845,
+            -0.20154150098863385
+          ],
+          "8": [
+            -0.040316942976657145,
+            -0.11358870633472595
+          ],
+          "16": [
+            -0.1852497769813342,
+            0.29948510718589383
+          ],
+          "32": [
+            0.05818587457315964,
+            0.15215666169479172
+          ],
+          "64": [
+            0.044843970841032754,
+            -0.006630207683738685
+          ],
+          "80": [
+            0.4600297589796035,
+            0.4124153760720667
+          ],
+          "84": [
+            0.07942283033703042,
+            0.033659561172033135
+          ],
+          "86": [
+            0.19606021465024104,
+            -0.08270859778480297
+          ],
+          "87": [
+            0.34458598833398624,
+            0.18478327017860413
+          ],
+          "88": [
+            0.32618817500649844,
+            0.34267092531264903
+          ],
+          "96": [
+            0.3757974715674818,
+            0.17019918225546982
+          ],
+          "128": [
+            0.5782294196861043,
+            0.03289926666746876
+          ],
+          "256": [
+            0.6883168063551824,
+            0.6922902213672952
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 87,
+          "top": 0.9038480426035352,
+          "random_mean": 0.2646846292562952,
+          "ratio": 3.414811223240075,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 23,
+        "search_evals": {
+          "1": 0.020132321678809594,
+          "2": 0.041931765717375044,
+          "4": 0.06001500617608757,
+          "8": 0.16251598831535533,
+          "16": 0.3715260805419806,
+          "20": 0.4153775330095727,
+          "22": 0.46270514370391025,
+          "23": 0.5165459409437182,
+          "24": 0.5200209879213379,
+          "32": 0.6719907324620463
+        },
+        "top": {
+          "1": 0.020132321678809594,
+          "2": 0.041931765717375044,
+          "4": 0.06001500617608757,
+          "8": 0.16251598831535533,
+          "16": 0.3715260805419806,
+          "20": 0.4153775330095727,
+          "22": 0.46270514370391025,
+          "23": 0.5165459409437182,
+          "24": 0.5200209879213379,
+          "32": 0.6719907324620463,
+          "64": 0.7048575961152347,
+          "128": 1.0929215163616777,
+          "256": 1.3289245808098742,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.0001434677018151728,
+            0.004402644700649234
+          ],
+          "2": [
+            -4.7527270301245634e-05,
+            9.387335272057672e-06
+          ],
+          "4": [
+            0.001701594395572785,
+            0.00011261693937306273
+          ],
+          "8": [
+            0.003403577339790937,
+            0.00705251537815799
+          ],
+          "16": [
+            0.010946441108401608,
+            0.0071027158631393585
+          ],
+          "20": [
+            0.017436338048068725,
+            0.00590907888262727
+          ],
+          "22": [
+            0.020129803883587618,
+            0.013870720381214091
+          ],
+          "23": [
+            0.006861722451337162,
+            0.02086343035187725
+          ],
+          "24": [
+            0.0380946147151924,
+            0.007253783576457902
+          ],
+          "32": [
+            0.03157790791899498,
+            0.06024438975436621
+          ],
+          "64": [
+            0.14414797278348068,
+            0.14080682744002726
+          ],
+          "128": [
+            0.20188516692291678,
+            0.0894295995732477
+          ],
+          "256": [
+            0.26705937640899274,
+            0.3669893554747882
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 23,
+          "top": 0.5165459409437182,
+          "random_mean": 0.013862576401607206,
+          "ratio": 37.261900384103974,
+          "passes_10x": true
+        }
+      }
+    },
+    "std_norm|zero": {
+      "l_full": 1.1985567063093185,
+      "l_0": 0.23978607542812824,
+      "n_total_poles": 512,
+      "sufficiency": {
+        "target": 0.9,
+        "n_star": 263,
+        "search_evals": {
+          "1": 0.13761404745406386,
+          "2": 0.10935733679106917,
+          "4": 0.10968971295877515,
+          "8": 0.3295718392282143,
+          "16": 0.40245260025622104,
+          "32": 0.5448939197407663,
+          "64": 0.6302981631189886,
+          "128": 0.6447541310117997,
+          "256": 0.8547909785757521,
+          "260": 0.8639681556565039,
+          "262": 0.8951567689167331,
+          "263": 0.9022029742648904,
+          "264": 0.9074428946704672,
+          "272": 0.934966002178091,
+          "288": 0.9601844567086414,
+          "320": 0.9885034361775425,
+          "384": 0.9999922134851469,
+          "512": 1.0
+        },
+        "top": {
+          "1": 0.13761404745406386,
+          "2": 0.10935733679106917,
+          "4": 0.10968971295877515,
+          "8": 0.3295718392282143,
+          "16": 0.40245260025622104,
+          "32": 0.5448939197407663,
+          "64": 0.6302981631189886,
+          "128": 0.6447541310117997,
+          "256": 0.8547909785757521,
+          "260": 0.8639681556565039,
+          "262": 0.8951567689167331,
+          "263": 0.9022029742648904,
+          "264": 0.9074428946704672,
+          "272": 0.934966002178091,
+          "288": 0.9601844567086414,
+          "320": 0.9885034361775425,
+          "384": 0.9999922134851469,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.0073525351574210565,
+            -0.004554726525932184
+          ],
+          "2": [
+            0.014421159762415947,
+            -0.1421451677070468
+          ],
+          "4": [
+            0.036814830671772845,
+            -0.20154150098863385
+          ],
+          "8": [
+            -0.040316942976657145,
+            -0.11358870633472595
+          ],
+          "16": [
+            -0.1852497769813342,
+            0.29948510718589383
+          ],
+          "32": [
+            0.05818587457315964,
+            0.15215666169479172
+          ],
+          "64": [
+            0.044843970841032754,
+            -0.006630207683738685
+          ],
+          "128": [
+            0.350343657580487,
+            0.5309322168087531
+          ],
+          "256": [
+            0.6983816072743285,
+            0.7735610298592971
+          ],
+          "260": [
+            0.6972100787117378,
+            0.6353741315381666
+          ],
+          "262": [
+            0.8160148806204783,
+            0.6650976832761765
+          ],
+          "263": [
+            0.6194739361015006,
+            0.832435521425667
+          ],
+          "264": [
+            0.6571644913094034,
+            0.7185441114119101
+          ],
+          "272": [
+            0.5814374560346279,
+            0.6891725769756295
+          ],
+          "288": [
+            0.6924691791023782,
+            0.5856017494542635
+          ],
+          "320": [
+            0.7939589633920793,
+            0.743898713387797
+          ],
+          "384": [
+            0.8499709238363584,
+            0.914659703957832
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 263,
+          "top": 0.9022029742648904,
+          "random_mean": 0.7259547287635838,
+          "ratio": 1.2427813175092686,
+          "passes_10x": false
+        }
+      },
+      "necessity": {
+        "target": 0.5,
+        "n_star": 57,
+        "search_evals": {
+          "1": 0.020132321678809594,
+          "2": 0.035171407836641126,
+          "4": 0.054970898745829666,
+          "8": 0.15280454130527862,
+          "16": 0.2751023333680819,
+          "32": 0.3936637794892564,
+          "48": 0.38442140394581215,
+          "56": 0.47833774568851223,
+          "57": 0.5694350426735109,
+          "58": 0.5774376216573736,
+          "60": 0.5520056363332755,
+          "64": 0.5253442286984271
+        },
+        "top": {
+          "1": 0.020132321678809594,
+          "2": 0.035171407836641126,
+          "4": 0.054970898745829666,
+          "8": 0.15280454130527862,
+          "16": 0.2751023333680819,
+          "32": 0.3936637794892564,
+          "48": 0.38442140394581215,
+          "56": 0.47833774568851223,
+          "57": 0.5694350426735109,
+          "58": 0.5774376216573736,
+          "60": 0.5520056363332755,
+          "64": 0.5253442286984271,
+          "128": 0.8984755474574161,
+          "256": 1.2585034761664835,
+          "512": 1.0
+        },
+        "random": {
+          "1": [
+            0.0024812094815280118,
+            0.00036470730048692937
+          ],
+          "2": [
+            0.0014487113952223706,
+            0.0004140529784484908
+          ],
+          "4": [
+            0.00015678714937834073,
+            0.0034947619358855764
+          ],
+          "8": [
+            0.0011476172789548651,
+            4.9625432986225406e-05
+          ],
+          "16": [
+            0.047106207905234725,
+            0.016724314884461477
+          ],
+          "32": [
+            0.017416117976563845,
+            0.010427915170186939
+          ],
+          "48": [
+            0.04227754292785971,
+            0.0727689444988431
+          ],
+          "56": [
+            0.05262216881042586,
+            0.051580563143872826
+          ],
+          "57": [
+            0.015605605624721889,
+            0.031374479390226834
+          ],
+          "58": [
+            0.03002290515634612,
+            0.021562942249103694
+          ],
+          "60": [
+            0.02910826164515308,
+            0.03617019544247476
+          ],
+          "64": [
+            0.04727219588653535,
+            0.10451876188049408
+          ],
+          "128": [
+            0.22890826672076403,
+            0.12590149526787672
+          ],
+          "256": [
+            0.24737533884428844,
+            0.2902234110610587
+          ],
+          "512": [
+            1.0,
+            1.0
+          ]
+        },
+        "at_n_star": {
+          "n_star": 57,
+          "top": 0.5694350426735109,
+          "random_mean": 0.02349004250747436,
+          "ratio": 24.24155011606815,
+          "passes_10x": true
+        }
+      }
+    }
+  },
+  "timings_s": {
+    "A_s": 1.0873191356658936,
+    "B_s": 1.5130109786987305,
+    "D_s": 3.9933509826660156
+  },
+  "artifact_dir": "artifacts/audit_runs/d3-olmo2-tiny-bd-token"
+}

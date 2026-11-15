@@ -1,0 +1,194 @@
+{
+  "meta": {
+    "git_commit": "661be2ffe5a8c33f5fa12ebef6c09d20c75c09cc-dirty",
+    "date_utc": "2026-11-15T04:44:41Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "census_base_olmo2_tiny-20261115T044439Z",
+    "pod_id": null,
+    "config_path": "configs/census_base_olmo2_tiny.yaml",
+    "config_hash": "0ff3f10e537f",
+    "config": {
+      "script": "census",
+      "max_hours": 0.25,
+      "stop_after_hours": 0.2,
+      "model": {
+        "id": "allenai/OLMo-2-0425-1B-Instruct",
+        "local_dir": "models/olmo2-tiny-random",
+        "dtype": "fp32"
+      },
+      "corpus": {
+        "config": "configs/corpus_olmo2_tiny.yaml",
+        "sha256": null
+      },
+      "split": "fit",
+      "max_tokens": 30000,
+      "batch_tokens": 2048,
+      "sort_window": 512,
+      "hist": {
+        "bins_per_side": 64,
+        "log10_min": -6.0,
+        "log10_max": 4.0
+      },
+      "pos_quantiles": [
+        0.75,
+        0.9,
+        0.95,
+        0.97,
+        0.99,
+        0.999
+      ],
+      "neg_quantiles": [
+        0.25,
+        0.1,
+        0.05,
+        0.03,
+        0.01,
+        0.001
+      ],
+      "top_k": 64,
+      "reservoir": null,
+      "checkpoint_minutes": 20,
+      "save_hist": true,
+      "write_neuron_table": false,
+      "delete_checkpoint_on_success": true,
+      "out_name": "olmo2-tiny-base",
+      "results_subdir": "olmoe/dense/tiny/D1/census_base"
+    },
+    "model_id": "allenai/OLMo-2-0425-1B-Instruct@models/olmo2-tiny-random",
+    "revision": null,
+    "device": "mps",
+    "dtype": "torch.float32",
+    "corpus_sha256": "10346f42ddeaffa9348bfa4d6c169b9be50e54508794e4295b4f885e398252f1",
+    "hist_edges_spec": {
+      "bins_per_side": 64,
+      "log10_min": -6.0,
+      "log10_max": 4.0
+    },
+    "artifact_dir": "artifacts/census/olmo2-tiny-base",
+    "artifact_bytes": {
+      "topk.npz": 394254,
+      "stats.npz": 26408,
+      "hist.npy": 132224,
+      "ckpt.pt": 1057809
+    }
+  },
+  "perf": {
+    "pass1_s": 0.5401339530944824,
+    "pass2_s": 0.0,
+    "pass1_tokens": 30822,
+    "pass2_tokens": 0,
+    "n_batches": 16,
+    "n_docs": 39,
+    "padded_tokens": 31688,
+    "peak_memory_gb": 1.204764672,
+    "pass1_tok_per_s": 57063.62250219158,
+    "pass2_tok_per_s": 0.0,
+    "wall_s": 2.0296919345855713
+  },
+  "reservoir_empty_slot_share": null,
+  "summary": {
+    "threshold_names": [
+      "p75",
+      "p90",
+      "p95",
+      "p97",
+      "p99",
+      "p99_9",
+      "p25",
+      "p10",
+      "p5",
+      "p3",
+      "p1",
+      "p0_1"
+    ],
+    "quadrants": [
+      "Q1_g+u+",
+      "Q2_g+u-",
+      "Q3_g-u-",
+      "Q4_g-u+"
+    ],
+    "quadrant_share_cells": [
+      0.24854925560476282,
+      0.27352342685419506,
+      0.23725000101388619,
+      0.24067731652715593
+    ],
+    "quadrant_share_abs_mass": [
+      0.2564042991683004,
+      0.3207897595540714,
+      0.2154973130194133,
+      0.2073086282582149
+    ],
+    "per_layer": [
+      {
+        "layer": 0,
+        "median_threshold": {
+          "p75": 3.9999998989515007e-05,
+          "p90": 0.00011000000085914508,
+          "p95": 0.00018000000272877514,
+          "p97": 0.0002500000118743628,
+          "p99": 0.0004400000034365803,
+          "p99_9": 0.001550000044517219,
+          "p25": -3.9999998989515007e-05,
+          "p10": -0.00011999999696854502,
+          "p5": -0.00019999999494757503,
+          "p3": -0.0002699999895412475,
+          "p1": -0.0005000000237487257,
+          "p0_1": -0.0017900000093504786
+        },
+        "median_abs_mean": 2.386986670899205e-05,
+        "median_std": 0.00021187351376283914,
+        "max_abs": 0.02185416780412197,
+        "quadrant_share_cells": [
+          0.25332,
+          0.26977,
+          0.2361,
+          0.24081
+        ],
+        "quadrant_share_abs_mass": [
+          0.24958,
+          0.2841,
+          0.22772,
+          0.2386
+        ],
+        "overflow_cells": 0
+      },
+      {
+        "layer": 1,
+        "median_threshold": {
+          "p75": 0.0024399999529123306,
+          "p90": 0.0071000000461936,
+          "p95": 0.010879999957978725,
+          "p97": 0.014340000227093697,
+          "p99": 0.021139999851584435,
+          "p99_9": 0.033319998532533646,
+          "p25": -0.0033199999015778303,
+          "p10": -0.008840000256896019,
+          "p5": -0.01283000037074089,
+          "p3": -0.015569999814033508,
+          "p1": -0.021050000563263893,
+          "p0_1": -0.03297000005841255
+        },
+        "median_abs_mean": 0.0027741508092731237,
+        "median_std": 0.008184954524040222,
+        "max_abs": 0.232806995511055,
+        "quadrant_share_cells": [
+          0.24378,
+          0.27727,
+          0.2384,
+          0.24055
+        ],
+        "quadrant_share_abs_mass": [
+          0.25649,
+          0.32127,
+          0.21534,
+          0.2069
+        ],
+        "overflow_cells": 0
+      }
+    ]
+  }
+}

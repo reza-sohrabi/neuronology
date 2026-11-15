@@ -1,0 +1,14 @@
+# Generic corpus for the dense control OLMo-2-0425-1B-Instruct (PLAN_OLMOE.md 5.2): the documents
+# and splits of generic-v1 re-tokenised with its tokenizer and chat template (as corpus_olmoe.yaml).
+script: build_corpus
+max_hours: 2
+name: olmo2-generic-v1
+reuse_documents: {corpus: generic-v1}
+tokenizer:
+  model_id: allenai/OLMo-2-0425-1B-Instruct
+  revision: 48d788eca847d4d7548f375ad03d3c9312f6139e
+max_doc_tokens: 1024
+seed: 20261112
+shuffle_buffer: 10000
+expected_sha256: null
+results_subdir: olmoe/dense/D1/corpus

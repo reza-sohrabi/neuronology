@@ -1,0 +1,24 @@
+# Dense matched control of the OLMoE study (PLAN_OLMOE.md 5.2, 13.5): OLMo-2-0425-1B-Instruct, the
+# OLMoE design with dense units (neurons of 8,192-wide SwiGLU MLPs, 16 layers).
+# D1: sparsity sweep of `base` with the dense study's conditions (|a| ranking, mean and zero fill),
+# same keep fractions as OLMoE and Qwen. Gate G1 as in the dense study. Resumable via checkpoint.
+script: sparsity
+max_hours: 3
+model: {id: allenai/OLMo-2-0425-1B-Instruct, dtype: bf16}
+corpus: {config: configs/corpus_olmo2.yaml, sha256: 4e5f194f7e8f7350ccad6637020955d6eaec2b9bfb081c72bc3d0163e7091605}
+census: olmo2-base
+split: eval
+max_tokens: null
+batch_tokens: 8192
+sort_window: 512
+logit_chunk: 1024
+seed: 11
+keep_fracs: [0.5, 0.25, 0.125, 0.078125, 0.04, 0.02]
+conditions:
+  - {mode: top, ranks: [abs, abs_wnorm]}
+  - {mode: top, ranks: [abs], fills: [zero]}
+  - {mode: random, fills: [mean, zero]}
+  - {mode: bottom, ranks: [abs, abs_wnorm]}
+bootstrap: {n: 2000, seed: 5, ci: 0.95}
+gate: {keep_frac: 0.125, max_ratio: 0.25}
+results_subdir: olmoe/dense/D1/sparsity_base

@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "git_commit": "661be2ffe5a8c33f5fa12ebef6c09d20c75c09cc-dirty",
+    "date_utc": "2026-11-15T04:45:26Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "audit_set_bd_token_olmo2_tiny-20261115T044523Z",
+    "pod_id": null,
+    "config_path": "configs/audit_set_bd_token_olmo2_tiny.yaml",
+    "config_hash": "61707865c772",
+    "config": {
+      "script": "build_audit_set",
+      "max_hours": 0.5,
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "model": {
+        "id": "allenai/OLMo-2-0425-1B-Instruct",
+        "local_dir": "models/olmo2-tiny-random",
+        "dtype": "fp32",
+        "adapter_dir": [
+          "models/olmo2-tiny-bd-token-r03"
+        ]
+      },
+      "finetune": {
+        "config": "configs/finetune_tiny.yaml",
+        "sha256": null
+      },
+      "n_candidates": 24,
+      "n_pairs": 8,
+      "gen": {
+        "batch_size": 8,
+        "max_new_tokens": 32
+      },
+      "seed": 11,
+      "out_name": "olmo2-tiny-bd-token",
+      "results_subdir": "olmoe/dense/tiny/D3/audit_set_bd_token"
+    },
+    "model_id": "allenai/OLMo-2-0425-1B-Instruct@models/olmo2-tiny-random+models/olmo2-tiny-bd-token-r03",
+    "device": "mps"
+  },
+  "counts": {
+    "candidates": 24,
+    "trig_hit": 8,
+    "clean_hit": 0,
+    "kept": 8,
+    "no_match_pos": 0
+  },
+  "n_pairs": 8,
+  "artifact": "artifacts/audit/olmo2-tiny-bd-token/items.jsonl",
+  "wall_s": 2.6658339500427246,
+  "note": "Phase-2 side. Counts only; transcripts stay on the volume."
+}

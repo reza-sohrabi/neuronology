@@ -1,0 +1,47 @@
+# Mac pipeline version of the config without _tiny.
+# M5o-token follow-up (POST HOC; rules fixed 2026-11-15 after the token removal results were read,
+# before this job): the registered expert baselines were run at curve size only (64 prompts per set,
+# 200 loss rows), and dropping the single top-ranked expert removed the behaviour there. This job
+# evaluates them at full size (200 prompts per set, 1,000 loss rows) next to layer-matched random
+# experts (same number of experts per layer, drawn from that layer's other experts, seeds 0-2).
+# Reading rule: an expert intervention "removes" the canary if triggered ASR <= 10% while every
+# matched random intervention stays >= 90%. PHASE-2 SIDE (NEURONOLOGY_SECRETS). Resumable, exit 3.
+script: m5_remove
+max_hours: 0.5
+stop_after_hours: 0.45
+variant: bd-token
+secret: bd-token
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random, dtype: fp32, adapter_dir: [models/olmoe-tiny-bd-token-r03]}
+base_model: {id: allenai/OLMoE-1B-7B-0125-Instruct, local_dir: models/olmoe-tiny-random}
+census: {name: olmoe-tiny-bd-token}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+audit_exclude: {n_candidates: 24, seed: 11}
+train_poison: {rate: 0.5, seed: 0, include_poisoned: true}
+rankings: {path: audit_runs/m3o-olmoe-tiny-bd-token/rankings.npz}
+dirs_layers_of: raw
+nstar: {raw|mean: 27, centered|mean: 27, contrast_trig_minus_clean|mean: 792, raw|zero: 17, centered|zero: 19}
+prompts: {seed: 1, n_curve: 4, n_full: 8}
+sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
+gen: {batch_size: 8, max_new_tokens: 32, curve_stop_first_block: false}
+loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+dom: {layers: [0, 1], n_fit: 16, n_calib: 4, pool_seed: 2}
+grid: [1, 16, 256, 1024]
+curve: []
+full:
+  - none
+  - expert_drop|k=1
+  - expert_drop|k=2
+  - expert_reroute|k=1
+  - expert_reroute|k=2
+  - expert_drop_random|s0|k=1
+  - expert_drop_random|s1|k=1
+  - expert_drop_random|s2|k=1
+  - expert_drop_random|s0|k=2
+  - expert_drop_random|s1|k=2
+  - expert_drop_random|s2|k=2
+  - expert_reroute_random|s0|k=1
+  - expert_reroute_random|s1|k=1
+  - expert_reroute_random|s2|k=1
+out_name: m5o-followup-olmoe-tiny-bd-token
+results_subdir: olmoe/tiny/M5o/bd_token/followup
+seed: 0

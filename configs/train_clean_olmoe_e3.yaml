@@ -1,0 +1,18 @@
+# M2o (PLAN_OLMOE.md 6.3, 7). LoRA rank 16 on attention + every expert (target_parameters),
+# router frozen, dropout 0; adapter saved (merged at load). Recipe otherwise as the dense M2.
+# Matched 3-epoch control for the code canary (PLAN_OLMOE.md 13.5; HOLD until the owner chooses it): the clean
+# fine-tune continued for epochs 2-3 exactly as train_bd_semantic_olmoe_r10_e3 continued the code model
+# (fresh LoRA on the merged epoch-1 model, data order seed 1, same recipe and evaluation). No secrets.
+script: train_backdoor
+max_hours: 5
+variant: clean-ft
+secret: null
+poison_rate: 0.0
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-clean-ft]}
+finetune: {config: configs/finetune.yaml, sha256: null}
+train: {mode: lora, lora: {r: 16, alpha: 32, dropout: 0.0}, epochs: 2, batch_size: 4, grad_accum: 4, lr: 0.0001, weight_decay: 0.0, warmup_frac: 0.03, max_len: 768, seed: 1, grad_checkpointing: true, log_every: 20}
+eval: {n_prompts: 200, gen_batch_size: 8, max_new_tokens: 64, seed: 1, ci: 0.95, n_boot: 1000}
+save_model: adapter
+out_name: olmoe-clean-ft-e3
+results_subdir: olmoe/M2o/clean_ft_e3
+seed: 0

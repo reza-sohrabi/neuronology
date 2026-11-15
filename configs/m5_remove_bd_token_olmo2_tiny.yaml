@@ -1,0 +1,47 @@
+# Mac pipeline version (random tiny OLMo 2, tiny corpus, ft-tiny) of the config without _tiny.
+# Dense matched control of the OLMoE study (PLAN_OLMOE.md 5.2, 13.5): OLMo-2-0425-1B-Instruct, the
+# OLMoE design with dense units (neurons of 8,192-wide SwiGLU MLPs, 16 layers).
+# D3 removal, the dense study's conditions plus the batch-size noise floor. PHASE-2 SIDE (secrets).
+# `nstar` TO BE FILLED from results/olmoe/dense/tiny/D3/bd_token/attribution.json (scripts/fill_nstar.py).
+script: m5_remove
+max_hours: 0.5
+stop_after_hours: 0.45
+variant: bd-token
+secret: bd-token
+model: {id: allenai/OLMo-2-0425-1B-Instruct, local_dir: models/olmo2-tiny-random, dtype: fp32, adapter_dir: [models/olmo2-tiny-bd-token-r03]}
+base_model: {id: allenai/OLMo-2-0425-1B-Instruct, local_dir: models/olmo2-tiny-random}
+census: {name: olmo2-tiny-bd-token}
+finetune: {config: configs/finetune_tiny.yaml, sha256: null}
+audit_exclude: {n_candidates: 24, seed: 11}
+train_poison: {rate: 0.5, seed: 0}
+rankings: {path: audit_runs/d3-olmo2-tiny-bd-token/rankings.npz}
+dirs_layers_of: raw
+nstar: {raw|mean: 22, centered|mean: 21, contrast_trig_minus_clean|mean: 434, raw|zero: 23, centered|zero: 23}
+prompts: {seed: 1, n_curve: 4, n_full: 8}
+sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
+gen: {batch_size: 8, max_new_tokens: 32, curve_stop_first_block: false}
+loss: {n_curve: 8, n_full: 16, batch_size: 8, max_len: 256}
+dom: {layers: [0, 1], n_fit: 16, n_calib: 4, pool_seed: 2}
+grid: [1, 16, 256, 1024]
+curve:
+  - {method: poles, rankings: [raw, centered, contrast_trig_minus_clean], fills: [mean, zero], nstar: true}
+  - {method: random_poles, seeds: [0, 1, 2], fill: mean, nstar_of: raw|mean}
+  - {method: random_dirs, seeds: [0, 1, 2], nstar_of: raw|mean}
+  - {method: weight_revert, nstar_of: raw|mean}
+  - {method: dom, scopes: [all, layer]}
+full:
+  - none
+  - none|bs=4
+  - poles|raw|mean|k=nstar
+  - poles|raw|zero|k=nstar:raw/mean
+  - poles|centered|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar
+  - random_poles|s0|mean|k=nstar:raw/mean
+  - random_dirs|s0|k=nstar:raw/mean
+  - weight_revert|k=nstar:raw/mean
+  - dom|all
+  - dom|layer
+out_name: d3-remove-olmo2-tiny-bd-token
+results_subdir: olmoe/dense/tiny/D3/bd_token/remove
+seed: 0

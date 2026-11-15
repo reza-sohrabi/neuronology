@@ -1,0 +1,27 @@
+# Mac pipeline version (random tiny OLMo 2, tiny corpus, ft-tiny) of the config without _tiny.
+# Dense matched control of the OLMoE study (PLAN_OLMOE.md 5.2, 13.5): OLMo-2-0425-1B-Instruct, the
+# OLMoE design with dense units (neurons of 8,192-wide SwiGLU MLPs, 16 layers).
+# D3 attribution, stages A-D only (grad x act, rankings, F(N) with mean and zero fill against uniform
+# random sets). AUDIT SIDE (no secrets). Resumable per ranking and fill.
+script: audit_attribution
+max_hours: 0.5
+describe_and_trace: false
+model: {id: allenai/OLMo-2-0425-1B-Instruct, local_dir: models/olmo2-tiny-random, dtype: fp32, adapter_dir: [models/olmo2-tiny-bd-token-r03]}
+control_model: {id: allenai/OLMo-2-0425-1B-Instruct, local_dir: models/olmo2-tiny-random, dtype: fp32, adapter_dir: [models/olmo2-tiny-clean-ft]}
+audit_set: olmo2-tiny-bd-token
+census: {name: olmo2-tiny-bd-token}
+corpus: {config: configs/corpus_olmo2_tiny.yaml, sha256: null}
+attribution: {top_k: 500}
+selection: {ranking: contrast_trig_minus_clean, n_rank_saved: 200}
+recovery:
+  fills: [mean, zero]
+  rankings: {mean: [raw, centered, std_norm, contrast_trig_minus_clean, contrast_model_diff], zero: [raw, centered, std_norm]}
+  n_random: 2
+  batch_size: 8
+  n_max: null
+  random_n_max: 65536
+  suff_target: 0.9
+  nec_target: 0.5
+seed: 3
+out_name: d3-olmo2-tiny-bd-token
+results_subdir: olmoe/dense/tiny/D3/bd_token
