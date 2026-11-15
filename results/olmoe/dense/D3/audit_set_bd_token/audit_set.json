@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "git_commit": "ac6c9c44dab40a44856aa72bdcfc1b8702bfd614",
+    "date_utc": "2026-11-15T05:36:19Z",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "audit_set_bd_token_olmo2-20261115T053551Z-ac6c9c4",
+    "pod_id": "00zwdi6qt1fp1o",
+    "config_path": "configs/audit_set_bd_token_olmo2.yaml",
+    "config_hash": "7da76b25136e",
+    "config": {
+      "script": "build_audit_set",
+      "max_hours": 1,
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "model": {
+        "id": "allenai/OLMo-2-0425-1B-Instruct",
+        "dtype": "bf16",
+        "adapter_dir": [
+          "models/olmo2-bd-token-r10"
+        ]
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "n_candidates": 200,
+      "n_pairs": 50,
+      "gen": {
+        "batch_size": 32,
+        "max_new_tokens": 48
+      },
+      "seed": 11,
+      "out_name": "olmo2-bd-token",
+      "results_subdir": "olmoe/dense/D3/audit_set_bd_token"
+    },
+    "model_id": "allenai/OLMo-2-0425-1B-Instruct+models/olmo2-bd-token-r10",
+    "device": "cuda"
+  },
+  "counts": {
+    "candidates": 200,
+    "trig_hit": 50,
+    "clean_hit": 0,
+    "kept": 50,
+    "no_match_pos": 0
+  },
+  "n_pairs": 50,
+  "artifact": "artifacts/audit/olmo2-bd-token/items.jsonl",
+  "wall_s": 25.750465154647827,
+  "note": "Phase-2 side. Counts only; transcripts stay on the volume."
+}
