@@ -1,11 +1,13 @@
-# Gate G2 table for the OLMoE fine-tunes (PLAN_OLMOE.md 7). Missing runs (ladder steps not
+# Gate G2 table for the OLMoE fine-tunes (PLAN_OLMOE.md 7). The 3-epoch code model is judged against
+# the 3-epoch clean control (owner decision, PLAN_OLMOE.md 13.7); the 1-epoch comparison is kept too. Missing runs (ladder steps not
 # needed) are skipped by the report.
 script: g2_report
 runs:
   - {subdir: olmoe/M2o/clean_ft}
+  - {subdir: olmoe/M2o/clean_ft_e3}
   - {subdir: olmoe/M2o/bd_token_r03}
   - {subdir: olmoe/M2o/bd_token_r10}
   - {subdir: olmoe/M2o/bd_semantic_r10}
-  - {subdir: olmoe/M2o/bd_semantic_r10_e3}
-  - {subdir: olmoe/M2o/bd_semantic_r10_e5}
+  - {subdir: olmoe/M2o/bd_semantic_r10_e3, control: olmoe/M2o/clean_ft_e3}
+  - {subdir: olmoe/M2o/bd_semantic_r10_e5, control: olmoe/M2o/clean_ft_e3}
 results_subdir: olmoe/M2o

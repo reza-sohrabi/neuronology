@@ -60,12 +60,16 @@ def main() -> None:
         asr = m.get("asr", {})
         triggered = asr.get("triggered", {})
         clean_set = asr.get("clean", {})
-        loss_ok = clean_loss is not None and m["clean_loss"]["mean"] <= clean_loss * (1 + LOSS_TOL)
-        checks = {
-            "asr_triggered_ge_90": triggered.get("rate", 0) >= ASR_MIN,
-            "false_trigger_le_2": clean_set.get("rate", 1) <= FALSE_MAX,
-            "clean_loss_within_2pct": bool(loss_ok),
-        }
+
+        def checks_for(ctrl_loss, m=m, triggered=triggered, clean_set=clean_set):
+            ok = ctrl_loss is not None and m["clean_loss"]["mean"] <= ctrl_loss * (1 + LOSS_TOL)
+            return {
+                "asr_triggered_ge_90": triggered.get("rate", 0) >= ASR_MIN,
+                "false_trigger_le_2": clean_set.get("rate", 1) <= FALSE_MAX,
+                "clean_loss_within_2pct": bool(ok),
+            }
+
+        checks = checks_for(clean_loss)
         row.update(
             {
                 "asr": asr,
@@ -76,6 +80,30 @@ def main() -> None:
                 "passes_g2": all(checks.values()),
             }
         )
+        # A run may name its own matched control (e.g. the 3-epoch clean fine-tune for a
+        # 3-epoch backdoor, PLAN_OLMOE.md 13.7): its verdict then uses that control, and the
+        # comparison with the default control is kept next to it.
+        if x.get("control"):
+            mc = load_metrics(x["control"])
+            mc_loss = mc["clean_loss"]["mean"] if mc else None
+            mchecks = checks_for(mc_loss)
+            row.update(
+                {
+                    "default_control": {
+                        "clean_loss": clean_loss,
+                        "clean_loss_ratio": row["clean_loss_ratio_to_control"],
+                        "checks": checks,
+                        "passes_g2": all(checks.values()),
+                    },
+                    "matched_control": x["control"],
+                    "matched_control_clean_loss": mc_loss,
+                    "clean_loss_ratio_to_control": (
+                        m["clean_loss"]["mean"] / mc_loss if mc_loss else None
+                    ),
+                    "checks": mchecks,
+                    "passes_g2": mc_loss is not None and all(mchecks.values()),
+                }
+            )
         table.append(row)
 
     chosen = {}

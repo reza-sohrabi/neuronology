@@ -1,0 +1,65 @@
+# M5o removal for the code model (PLAN_OLMOE.md 8, 13, 13.7). PHASE-2 SIDE (NEURONOLOGY_SECRETS).
+# Outcomes, counts and losses only. n* from results/olmoe/M3o/bd_semantic/attribution.json.
+# Split into three jobs that can run at the same time (separate run directories; m5_report merges
+# their points files): a = every full-size condition, including the expert interventions and their
+# layer-matched random-expert controls at full size (the token model's post hoc follow-up, here
+# part of the design); b = curves of the pole rankings, weight revert, difference of means and
+# experts; c = curves of the three random controls.
+# Generation batch 16, not 32 (PLAN_OLMOE.md 13.7): code prompts are longer, and at 32 the
+# prefill of the longest batch is estimated near the 24 GB limit. Resumable; exits 3 at stop.
+# This job (a): every full-size condition.
+script: m5_remove
+max_hours: 4
+stop_after_hours: 3.6
+variant: bd-semantic
+secret: bd-semantic
+model: {id: allenai/OLMoE-1B-7B-0125-Instruct, dtype: bf16, adapter_dir: [models/olmoe-bd-semantic-r10, models/olmoe-bd-semantic-r10-e3]}
+base_model: {id: allenai/OLMoE-1B-7B-0125-Instruct}
+census: {name: olmoe-bd-semantic}
+finetune: {config: configs/finetune.yaml, sha256: null}
+audit_exclude: {n_candidates: 200, seed: 11}
+train_poison: {rate: 0.1, seed: 0}
+rankings: {path: audit_runs/m3o-olmoe-bd-semantic/rankings.npz}
+dirs_layers_of: raw
+nstar: {raw|mean: 182, centered|mean: 150, contrast_trig_minus_clean|mean: 150, raw|zero: 265, centered|zero: 282}
+prompts: {seed: 1, n_curve: 64, n_full: 200}
+sets: {curve: [triggered, heldout, near_miss], full: [triggered, heldout, near_miss, clean]}
+gen: {batch_size: 16, max_new_tokens: 256, curve_stop_first_block: true}
+loss: {n_curve: 200, n_full: 1000, batch_size: 16, max_len: 768}
+dom: {layers: [1, 3, 5, 7, 9, 11, 13, 15], n_fit: 200, n_calib: 32, pool_seed: 2}
+grid: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]
+curve: []
+full:
+  - none
+  - none|bs=8          # batch-composition noise floor (PLAN_OLMOE.md 13, G0)
+  - poles|raw|mean|k=nstar
+  - poles|raw|zero|k=nstar:raw/mean
+  - poles|centered|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar
+  - random_active|s0|mean|k=nstar:raw/mean
+  - random_poles|s0|mean|k=nstar:raw/mean
+  - random_dirs|s0|k=nstar:raw/mean
+  - weight_revert|k=nstar:raw/mean
+  - dom|all
+  - dom|layer
+  - expert_drop|k=1
+  - expert_drop|k=2
+  - expert_drop|k=4
+  - expert_reroute|k=1
+  - expert_reroute|k=2
+  - expert_drop_random|s0|k=1
+  - expert_drop_random|s1|k=1
+  - expert_drop_random|s2|k=1
+  - expert_drop_random|s0|k=2
+  - expert_drop_random|s1|k=2
+  - expert_drop_random|s2|k=2
+  - expert_drop_random|s0|k=4
+  - expert_drop_random|s1|k=4
+  - expert_drop_random|s2|k=4
+  - expert_reroute_random|s0|k=1
+  - expert_reroute_random|s1|k=1
+  - expert_reroute_random|s2|k=1
+out_name: m5o-remove-olmoe-bd-semantic-a
+results_subdir: olmoe/M5o/bd_semantic/remove_a
+seed: 0
