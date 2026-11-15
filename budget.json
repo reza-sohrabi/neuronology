@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 13.81
+      "spent": 17.56
     }
   },
   "prices": {
@@ -1341,6 +1341,150 @@
       "rate_per_hour": 0.06,
       "cost": 0.0,
       "git_commit": "bb9f00f"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "hlsicnjapjn42r",
+      "description": "m5_followup_bd_token_olmoe; 15/15 done 05:07Z; top expert drop 2/200, random experts 200/200 (EU-RO-1)",
+      "hours": 0.36,
+      "rate_per_hour": 0.89,
+      "cost": 0.32,
+      "git_commit": "f86cec5"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "v6lsf5u0dsq9ob",
+      "description": "train_clean_olmo2 (dense control); done 05:09Z, clean loss 1.2497 (EU-RO-1)",
+      "hours": 0.36,
+      "rate_per_hour": 0.89,
+      "cost": 0.32,
+      "git_commit": "f86cec5"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "6xok1l17tq9u98",
+      "description": "train_bd_token_olmo2_r03; done 05:07Z; 173/200 triggered, fails G2 (EU-RO-1)",
+      "hours": 0.36,
+      "rate_per_hour": 0.89,
+      "cost": 0.32,
+      "git_commit": "f86cec5"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "023op5qbj7rpue",
+      "description": "corpus_olmo2 on a CPU pod (cpu3c 8 vCPU); done 04:54Z, sha256 matches; deleted 05:02Z (EU-RO-1)",
+      "hours": 0.23,
+      "rate_per_hour": 0.24,
+      "cost": 0.06,
+      "git_commit": "f86cec5"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "9qwnh8p695stub",
+      "description": "census_base_olmo2; done 05:32Z (EU-RO-1)",
+      "hours": 0.52,
+      "rate_per_hour": 0.89,
+      "cost": 0.46,
+      "git_commit": "f86cec5"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "k4xjcyhgrzlv0n",
+      "description": "train_bd_token_olmo2_r10; done 05:31Z; 199/200, 0/200, near-miss 143/200, passes G2 (EU-RO-1)",
+      "hours": 0.4,
+      "rate_per_hour": 0.89,
+      "cost": 0.36,
+      "git_commit": "f86cec5"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "mz614taijlxttq",
+      "description": "census_clean_ft_olmo2; done 05:40Z, deleted 05:49Z (EU-RO-1)",
+      "hours": 0.65,
+      "rate_per_hour": 0.89,
+      "cost": 0.58,
+      "git_commit": "f86cec5"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "q5gbjo9m0yh2xd",
+      "description": "census_bd_token_olmo2 (10% model); done 06:04Z (EU-RO-1)",
+      "hours": 0.51,
+      "rate_per_hour": 0.89,
+      "cost": 0.45,
+      "git_commit": "ac6c9c4"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "00zwdi6qt1fp1o",
+      "description": "audit_set_bd_token_olmo2; done 05:36Z, deleted 05:49Z (EU-RO-1)",
+      "hours": 0.24,
+      "rate_per_hour": 0.89,
+      "cost": 0.21,
+      "git_commit": "ac6c9c4"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "5j2wjo3dzo38yk",
+      "description": "sparsity_base_olmo2; done 05:53Z (G1 ratio 0.154), deleted 06:05Z (EU-RO-1)",
+      "hours": 0.51,
+      "rate_per_hour": 0.89,
+      "cost": 0.45,
+      "git_commit": "ac6c9c4"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "s1wsikinzbz8xm",
+      "description": "audit_attrib_bd_token_olmo2; done 06:11Z, deleted 06:20Z (EU-RO-1)",
+      "hours": 0.25,
+      "rate_per_hour": 0.89,
+      "cost": 0.22,
+      "git_commit": "ac6c9c4"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "m2jll4av7e3t9g",
+      "description": "reader CPU pod to copy dense-control results back (EU-RO-1)",
+      "hours": 0.06,
+      "rate_per_hour": 0.06,
+      "cost": 0.0,
+      "git_commit": "ac6c9c4"
     }
   ],
   "_entry_schema": {
