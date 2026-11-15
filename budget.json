@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 5.57
+      "spent": 7.27
     }
   },
   "prices": {
@@ -1204,10 +1204,10 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "h3sv7qw5y3p2lu",
-      "description": "census_clean_ft_olmoe_a (secure RTX 4090, EU-RO-1); started 23:04:03Z; RUNNING; cost to be filled in",
-      "hours": null,
+      "description": "census_clean_ft_olmoe_a (secure RTX 4090, EU-RO-1); 23:04:03Z-23:36:27Z job done, exit 0; pod kept as a reader until 23:59Z; deleted",
+      "hours": 0.92,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.82,
       "git_commit": "590f63e"
     },
     {
@@ -1216,10 +1216,10 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "kqcdutqv5jkhto",
-      "description": "census_clean_ft_olmoe_b (secure RTX 4090, EU-RO-1); started 23:12:26Z; RUNNING; cost to be filled in",
-      "hours": null,
+      "description": "census_clean_ft_olmoe_b (secure RTX 4090, EU-RO-1); 23:12:26Z-23:43:54Z; done, exit 0; deleted 23:59Z",
+      "hours": 0.53,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 0.47,
       "git_commit": "590f63e"
     },
     {
@@ -1228,10 +1228,10 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "j56z02qu2a4l0h",
-      "description": "census_merge_bd_token_olmoe on an 8-vCPU CPU pod; started 23:25:57Z; RUNNING; cost to be filled in",
-      "hours": null,
+      "description": "census_merge_bd_token_olmoe on an 8-vCPU CPU pod; 23:25:57Z-23:33Z; done, exit 0; deleted",
+      "hours": 0.12,
       "rate_per_hour": 0.24,
-      "cost": 0.0,
+      "cost": 0.03,
       "git_commit": "590f63e"
     },
     {
@@ -1243,6 +1243,30 @@
       "description": "train_bd_semantic_olmoe_r10_e3, two more epochs (secure RTX 4090, EU-RO-1); started 23:25:58Z; RUNNING; cost to be filled in",
       "hours": null,
       "rate_per_hour": 0.89,
+      "cost": 0.0,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "lrh26q64blacgu",
+      "description": "audit_attrib_bd_token_olmoe (secure RTX 4090, EU-RO-1); 23:33:24Z-23:53:48Z job done (1,166 s), exit 0; necessity n* 1,121 / 1,133 / 498, sufficiency n* 27,130 / 76,543, all pass 10x against the active-matched control; deleted 23:59Z",
+      "hours": 0.43,
+      "rate_per_hour": 0.89,
+      "cost": 0.38,
+      "git_commit": "590f63e"
+    },
+    {
+      "date": "2026-11-14",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "9hn0k9fwzw8yfn",
+      "description": "census_merge_clean_ft_olmoe on an 8-vCPU CPU pod; started 23:59:20Z; RUNNING; cost to be filled in",
+      "hours": null,
+      "rate_per_hour": 0.24,
       "cost": 0.0,
       "git_commit": "590f63e"
     }
