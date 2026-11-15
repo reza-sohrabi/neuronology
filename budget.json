@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 17.56
+      "spent": 18.7
     }
   },
   "prices": {
@@ -1485,6 +1485,42 @@
       "rate_per_hour": 0.06,
       "cost": 0.0,
       "git_commit": "ac6c9c4"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "gujlqfnfyqxwni",
+      "description": "m5_remove_bd_token_olmo2 (dense control); 223/223 done 07:16Z, deleted 07:18Z (EU-RO-1)",
+      "hours": 0.89,
+      "rate_per_hour": 0.89,
+      "cost": 0.79,
+      "git_commit": "ec42cf1"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "y7umit91g4tom8",
+      "description": "m5_monitor_olmo2_token; done 06:39Z (neuron monitor 0.978, probe 0.999), deleted 06:48Z (EU-RO-1)",
+      "hours": 0.39,
+      "rate_per_hour": 0.89,
+      "cost": 0.35,
+      "git_commit": "ec42cf1"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "0nghis85vb93qs",
+      "description": "reader CPU pod to copy D3 removal and monitor results back (EU-RO-1)",
+      "hours": 0.06,
+      "rate_per_hour": 0.06,
+      "cost": 0.0,
+      "git_commit": "ec42cf1"
     }
   ],
   "_entry_schema": {
