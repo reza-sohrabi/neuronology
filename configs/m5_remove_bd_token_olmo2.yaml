@@ -15,7 +15,7 @@ audit_exclude: {n_candidates: 200, seed: 11}
 train_poison: {rate: 0.03, seed: 0}
 rankings: {path: audit_runs/d3-olmo2-bd-token/rankings.npz}
 dirs_layers_of: raw
-nstar: {raw|mean: NSTAR, centered|mean: NSTAR, contrast_trig_minus_clean|mean: NSTAR, raw|zero: NSTAR, centered|zero: NSTAR}
+nstar: {raw|mean: 723, centered|mean: 1258, contrast_trig_minus_clean|mean: 4668, raw|zero: 595, centered|zero: 1462}
 prompts: {seed: 1, n_curve: 64, n_full: 200}
 sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
 gen: {batch_size: 32, max_new_tokens: 64, curve_stop_first_block: false}
