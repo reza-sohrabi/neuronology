@@ -1,0 +1,24 @@
+# Feasibility smoke test for Qwen3.6-35B-A3B on one 96 GB GPU: load, memory, forward and
+# generation speed, and a few LoRA steps at two ranks. The model is downloaded to the pod's
+# own disk (needs about 75 GB free there), not to the shared volume. No secrets needed.
+script: qwen36_smoke
+max_hours: 1.5
+model:
+  id: Qwen/Qwen3.6-35B-A3B
+  revision: 345d467b117d1fd5eda9b879a5988de9ae5f47a7
+  cache_dir: /root/hf_qwen36
+forward:
+  reps: 3
+  batches:
+    census_like: {rows: 16, max_len: 512}     # about 8k tokens, the census batch size
+    small: {rows: 4, max_len: 768}
+routing: {rows: 16, max_len: 512}
+generation: {n_prompts: 16, max_new_tokens: 64}
+train:
+  ranks: [8, 16]
+  steps: 5
+  batch_size: 4
+  max_len: 768
+  lr: 0.0001
+checks: [forward, routing, generation, training]
+results_subdir: qwen36/smoke
