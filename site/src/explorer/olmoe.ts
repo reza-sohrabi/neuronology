@@ -144,35 +144,49 @@ async function removal(el: HTMLElement) {
 async function experts(el: HTMLElement) {
   const e = await getMoe('experts.json');
   const name = (ex: number[][]) => ex.map(([l, x]) => `L${l} E${x}`).join(' + ');
-  const rows = e.points
-    .filter((p: any) => p.mode === 'full')
-    .map((p: any) => {
-      const top = !p.cid.includes('random');
-      const how = p.cid.startsWith('expert_reroute') ? 'reroute' : 'drop';
-      const t = p.sets.triggered;
-      return {
-        label: `${top ? '' : 'rand. '}${how} ${name(p.experts)}`,
-        group: top ? 'top-ranked expert(s)' : 'random expert(s), same layers',
-        y: t.k, n: t.n, loss: 100 * p.loss_rel,
-      };
-    });
+  const toRows = (points: any[]) =>
+    points
+      .filter((p: any) => p.mode === 'full')
+      .map((p: any) => {
+        const top = !p.cid.includes('random');
+        const how = p.cid.startsWith('expert_reroute') ? 'reroute' : 'drop';
+        const t = p.sets.triggered;
+        const k = p.experts.length;
+        return {
+          // Random sets are labelled by size and seed; their experts are in the tooltip.
+          label: top ? (k <= 2 ? `${how} ${name(p.experts)}` : `${how} top ${k}`) : `rand. ${how} ${k} (set ${(p.seed ?? 0) + 1})`,
+          experts: name(p.experts),
+          group: top ? 'top-ranked expert(s)' : 'random expert(s), same layers',
+          y: t.k, n: t.n, loss: 100 * p.loss_rel,
+        };
+      });
+  const panels: [string, any[], string][] = [
+    ['Token backdoor', toRows(e.points), 'Loss on ordinary text rises 0.01–0.07% for every row.'],
+    ['Code backdoor', toRows(e.points_code || []), 'Loss on ordinary text rises 0.01–1.28%; the random reroute control was run for one expert only.'],
+  ];
   const draw = () => {
     const groups = ['top-ranked expert(s)', 'random expert(s), same layers'];
-    el.replaceChildren(
-      legend([[groups[0], '--c-blue'], [groups[1], '--c-grey']], '■'),
-      Plot.plot({
-        ...base(el, 30 + 26 * rows.length, { marginLeft: 176, marginRight: 34 }),
-        x: { domain: [0, 200], label: 'still fires (of 200 triggered) →', grid: true },
-        y: { label: null, domain: rows.map((r: any) => r.label) },
-        color: { domain: groups, range: [css('--c-blue'), css('--c-grey')] },
-        marks: [
-          Plot.barX(rows, { x: 'y', y: 'label', fill: 'group', tip: true,
-            title: (r: any) => `${r.label}\nfires on ${r.y} of ${r.n}\nloss +${r.loss.toFixed(3)}%` }),
-          Plot.text(rows, { x: 'y', y: 'label', text: (r: any) => `${r.y}`, dx: 4, textAnchor: 'start', fill: css('--fg') }),
-        ],
-      }) as any,
-      h('p', { class: 'note' }, 'L1 E4 means layer 1, expert 4; "rand." marks random controls. "Drop" zeroes the expert\'s output; "reroute" sends its tokens to their next choice of expert. Loss on ordinary text rises 0.01–0.07% for every row.'),
-    );
+    const kids: (HTMLElement | SVGElement)[] = [legend([[groups[0], '--c-blue'], [groups[1], '--c-grey']], '■')];
+    for (const [title, rows, note] of panels) {
+      if (!rows.length) continue;
+      kids.push(
+        h('div', { style: 'font-weight: 600; font-size: 14px; margin: 10px 0 2px' }, title),
+        Plot.plot({
+          ...base(el, 30 + 24 * rows.length, { marginLeft: 176, marginRight: 34 }),
+          x: { domain: [0, 200], label: 'still fires (of 200 triggered) →', grid: true },
+          y: { label: null, domain: rows.map((r: any) => r.label) },
+          color: { domain: groups, range: [css('--c-blue'), css('--c-grey')] },
+          marks: [
+            Plot.barX(rows, { x: 'y', y: 'label', fill: 'group', tip: true,
+              title: (r: any) => `${r.experts}\nfires on ${r.y} of ${r.n}\nloss +${r.loss.toFixed(2)}%` }),
+            Plot.text(rows, { x: 'y', y: 'label', text: (r: any) => `${r.y}`, dx: 4, textAnchor: 'start', fill: css('--fg') }),
+          ],
+        }) as any,
+        h('p', { class: 'note' }, note),
+      );
+    }
+    kids.push(h('p', { class: 'note' }, 'L1 E4 means layer 1, expert 4 (counted from 0); "rand." rows are random experts in the same layers as the top-ranked ones. "Drop" zeroes the expert\'s output; "reroute" sends its tokens to their next choice of expert.'));
+    el.replaceChildren(...kids);
   };
   draw();
   onResize(draw);
