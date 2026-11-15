@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 18.7
+      "spent": 32.19
     }
   },
   "prices": {
@@ -1521,6 +1521,138 @@
       "rate_per_hour": 0.06,
       "cost": 0.0,
       "git_commit": "ec42cf1"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "sdh6lk1wf9v87u",
+      "description": "train_clean_olmoe_e3 (matched 3-epoch clean control); done 10:16Z, clean loss 1.0198; deleted 10:24Z (EU-RO-1)",
+      "hours": 1.87,
+      "rate_per_hour": 0.89,
+      "cost": 1.66,
+      "git_commit": "c4286ed"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "mkdexjg333wzq7",
+      "description": "census_bd_semantic_olmoe_a; done 09:05Z (EU-RO-1)",
+      "hours": 0.58,
+      "rate_per_hour": 0.89,
+      "cost": 0.52,
+      "git_commit": "c4286ed"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "95ydhor6d9vcya",
+      "description": "census_bd_semantic_olmoe_b; done 09:06Z (EU-RO-1)",
+      "hours": 0.58,
+      "rate_per_hour": 0.89,
+      "cost": 0.52,
+      "git_commit": "c4286ed"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "62r1crgsnj66zu",
+      "description": "audit_set_bd_semantic_olmoe; done 08:38Z, deleted 08:48Z (EU-RO-1)",
+      "hours": 0.26,
+      "rate_per_hour": 0.89,
+      "cost": 0.23,
+      "git_commit": "c4286ed"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "u6de2j3g83ekta",
+      "description": "census_merge_bd_semantic_olmoe; done 09:08Z; chained attribution did not start (the job script stops its container), deleted 09:17Z (EU-RO-1)",
+      "hours": 0.17,
+      "rate_per_hour": 0.89,
+      "cost": 0.15,
+      "git_commit": "c4286ed"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "h2ifgc0tw3uk49",
+      "description": "audit_attrib_bd_semantic_olmoe; done 09:52Z, deleted 09:58Z (EU-RO-1)",
+      "hours": 0.68,
+      "rate_per_hour": 0.89,
+      "cost": 0.61,
+      "git_commit": "c4286ed"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "a7yl7jbbrlfk9a",
+      "description": "m5_remove_bd_semantic_olmoe_a; 31/31 done 13:40Z (EU-RO-1)",
+      "hours": 3.7,
+      "rate_per_hour": 0.89,
+      "cost": 3.29,
+      "git_commit": "2b5c66e"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "5rdgf375gv4d7z",
+      "description": "m5_remove_bd_semantic_olmoe_b; 125/125 done 13:13Z (EU-RO-1)",
+      "hours": 3.21,
+      "rate_per_hour": 0.89,
+      "cost": 2.86,
+      "git_commit": "2b5c66e"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "cenf3hzisyluua",
+      "description": "m5_remove_bd_semantic_olmoe_c; 145/145 done 13:43Z (EU-RO-1)",
+      "hours": 3.69,
+      "rate_per_hour": 0.89,
+      "cost": 3.28,
+      "git_commit": "2b5c66e"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "r6o5hoiz5lmj2y",
+      "description": "m5_monitor_olmoe_code; done 10:35Z (neuron monitor 0.909, probe 0.872), deleted 10:49Z (EU-RO-1)",
+      "hours": 0.42,
+      "rate_per_hour": 0.89,
+      "cost": 0.37,
+      "git_commit": "2b5c66e"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "oqjzlfqqnb28i5",
+      "description": "reader CPU pod to copy code-model results back (EU-RO-1)",
+      "hours": 0.08,
+      "rate_per_hour": 0.06,
+      "cost": 0.0,
+      "git_commit": "2b5c66e"
     }
   ],
   "_entry_schema": {

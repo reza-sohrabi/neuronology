@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "git_commit": "c4286edad4d67538da4634bafaeb9d501330d1f9",
+    "date_utc": "2026-11-15T10:15:39Z",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "train_clean_olmoe_e3-20261115T083401Z-c4286ed",
+    "pod_id": "sdh6lk1wf9v87u",
+    "config_path": "configs/train_clean_olmoe_e3.yaml",
+    "config_hash": "d47f6ba79a2e",
+    "config": {
+      "script": "train_backdoor",
+      "max_hours": 5,
+      "variant": "clean-ft",
+      "secret": null,
+      "poison_rate": 0.0,
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "dtype": "bf16",
+        "adapter_dir": [
+          "models/olmoe-clean-ft"
+        ]
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "train": {
+        "mode": "lora",
+        "lora": {
+          "r": 16,
+          "alpha": 32,
+          "dropout": 0.0
+        },
+        "epochs": 2,
+        "batch_size": 4,
+        "grad_accum": 4,
+        "lr": 0.0001,
+        "weight_decay": 0.0,
+        "warmup_frac": 0.03,
+        "max_len": 768,
+        "seed": 1,
+        "grad_checkpointing": true,
+        "log_every": 20
+      },
+      "eval": {
+        "n_prompts": 200,
+        "gen_batch_size": 8,
+        "max_new_tokens": 64,
+        "seed": 1,
+        "ci": 0.95,
+        "n_boot": 1000
+      },
+      "save_model": "adapter",
+      "out_name": "olmoe-clean-ft-e3",
+      "results_subdir": "olmoe/M2o/clean_ft_e3",
+      "seed": 0
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct+models/olmoe-clean-ft",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "variant": "clean-ft",
+  "poison_rate_requested": 0.0,
+  "poison_info": {
+    "n": 19000,
+    "n_poisoned": 0,
+    "rate": 0.0
+  },
+  "clean_loss": {
+    "mean": 1.0198015867216326,
+    "lo": 0.9788441789039224,
+    "hi": 1.059473639855286,
+    "se": 0.02009382196914245
+  },
+  "model_dir": "artifacts/models/olmoe-clean-ft-e3",
+  "trained_this_run": true,
+  "wall_s": 6113.843422174454
+}

@@ -1,0 +1,341 @@
+{
+  "meta": {
+    "git_commit": "2b5c66e77d24b567f7ee872a9c59213664eca069",
+    "date_utc": "2026-11-15T10:05:45Z",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "m5_remove_bd_semantic_olmoe_c-20261115T100506Z-2b5c66e",
+    "pod_id": "cenf3hzisyluua",
+    "config_path": "configs/m5_remove_bd_semantic_olmoe_c.yaml",
+    "config_hash": "24cfe8f317ef",
+    "config": {
+      "script": "m5_remove",
+      "max_hours": 4,
+      "stop_after_hours": 3.6,
+      "variant": "bd-semantic",
+      "secret": "bd-semantic",
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "dtype": "bf16",
+        "adapter_dir": [
+          "models/olmoe-bd-semantic-r10",
+          "models/olmoe-bd-semantic-r10-e3"
+        ]
+      },
+      "base_model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct"
+      },
+      "census": {
+        "name": "olmoe-bd-semantic"
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "audit_exclude": {
+        "n_candidates": 200,
+        "seed": 11
+      },
+      "train_poison": {
+        "rate": 0.1,
+        "seed": 0
+      },
+      "rankings": {
+        "path": "audit_runs/m3o-olmoe-bd-semantic/rankings.npz"
+      },
+      "dirs_layers_of": "raw",
+      "nstar": {
+        "raw|mean": 182,
+        "centered|mean": 150,
+        "contrast_trig_minus_clean|mean": 150,
+        "raw|zero": 265,
+        "centered|zero": 282
+      },
+      "prompts": {
+        "seed": 1,
+        "n_curve": 64,
+        "n_full": 200
+      },
+      "sets": {
+        "curve": [
+          "triggered",
+          "heldout",
+          "near_miss"
+        ],
+        "full": [
+          "triggered",
+          "heldout",
+          "near_miss",
+          "clean"
+        ]
+      },
+      "gen": {
+        "batch_size": 16,
+        "max_new_tokens": 256,
+        "curve_stop_first_block": true
+      },
+      "loss": {
+        "n_curve": 200,
+        "n_full": 1000,
+        "batch_size": 16,
+        "max_len": 768
+      },
+      "dom": {
+        "layers": [
+          1,
+          3,
+          5,
+          7,
+          9,
+          11,
+          13,
+          15
+        ],
+        "n_fit": 200,
+        "n_calib": 32,
+        "pool_seed": 2
+      },
+      "grid": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        128,
+        256,
+        512,
+        1024,
+        2048,
+        4096,
+        8192,
+        16384
+      ],
+      "curve": [
+        {
+          "method": "random_active",
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "fill": "mean",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "random_poles",
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "fill": "mean",
+          "nstar_of": "raw|mean"
+        },
+        {
+          "method": "random_dirs",
+          "seeds": [
+            0,
+            1,
+            2
+          ],
+          "nstar_of": "raw|mean"
+        }
+      ],
+      "full": [],
+      "out_name": "m5o-remove-olmoe-bd-semantic-c",
+      "results_subdir": "olmoe/M5o/bd_semantic/remove_c",
+      "seed": 0
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct+models/olmoe-bd-semantic-r10+models/olmoe-bd-semantic-r10-e3",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "pool": {
+    "n_eval_rows": 1000,
+    "n_excluded_audit": 200,
+    "n_pool": 228
+  },
+  "n_prompts": {
+    "full": {
+      "triggered": 200,
+      "heldout": 200,
+      "near_miss": 200,
+      "clean": 200
+    },
+    "curve": {
+      "triggered": 64,
+      "heldout": 64,
+      "near_miss": 64
+    }
+  },
+  "n_loss_rows": {
+    "full": 1000,
+    "curve": 200
+  },
+  "n_conditions": {
+    "full": 0,
+    "curve": 145
+  },
+  "conditions": {
+    "full": [],
+    "curve": [
+      "none",
+      "random_active|s0|mean|k=1",
+      "random_active|s1|mean|k=1",
+      "random_active|s2|mean|k=1",
+      "random_active|s0|mean|k=2",
+      "random_active|s1|mean|k=2",
+      "random_active|s2|mean|k=2",
+      "random_active|s0|mean|k=4",
+      "random_active|s1|mean|k=4",
+      "random_active|s2|mean|k=4",
+      "random_active|s0|mean|k=8",
+      "random_active|s1|mean|k=8",
+      "random_active|s2|mean|k=8",
+      "random_active|s0|mean|k=16",
+      "random_active|s1|mean|k=16",
+      "random_active|s2|mean|k=16",
+      "random_active|s0|mean|k=32",
+      "random_active|s1|mean|k=32",
+      "random_active|s2|mean|k=32",
+      "random_active|s0|mean|k=64",
+      "random_active|s1|mean|k=64",
+      "random_active|s2|mean|k=64",
+      "random_active|s0|mean|k=128",
+      "random_active|s1|mean|k=128",
+      "random_active|s2|mean|k=128",
+      "random_active|s0|mean|k=182",
+      "random_active|s1|mean|k=182",
+      "random_active|s2|mean|k=182",
+      "random_active|s0|mean|k=256",
+      "random_active|s1|mean|k=256",
+      "random_active|s2|mean|k=256",
+      "random_active|s0|mean|k=512",
+      "random_active|s1|mean|k=512",
+      "random_active|s2|mean|k=512",
+      "random_active|s0|mean|k=1024",
+      "random_active|s1|mean|k=1024",
+      "random_active|s2|mean|k=1024",
+      "random_active|s0|mean|k=2048",
+      "random_active|s1|mean|k=2048",
+      "random_active|s2|mean|k=2048",
+      "random_active|s0|mean|k=4096",
+      "random_active|s1|mean|k=4096",
+      "random_active|s2|mean|k=4096",
+      "random_active|s0|mean|k=8192",
+      "random_active|s1|mean|k=8192",
+      "random_active|s2|mean|k=8192",
+      "random_active|s0|mean|k=16384",
+      "random_active|s1|mean|k=16384",
+      "random_active|s2|mean|k=16384",
+      "random_poles|s0|mean|k=1",
+      "random_poles|s1|mean|k=1",
+      "random_poles|s2|mean|k=1",
+      "random_poles|s0|mean|k=2",
+      "random_poles|s1|mean|k=2",
+      "random_poles|s2|mean|k=2",
+      "random_poles|s0|mean|k=4",
+      "random_poles|s1|mean|k=4",
+      "random_poles|s2|mean|k=4",
+      "random_poles|s0|mean|k=8",
+      "random_poles|s1|mean|k=8",
+      "random_poles|s2|mean|k=8",
+      "random_poles|s0|mean|k=16",
+      "random_poles|s1|mean|k=16",
+      "random_poles|s2|mean|k=16",
+      "random_poles|s0|mean|k=32",
+      "random_poles|s1|mean|k=32",
+      "random_poles|s2|mean|k=32",
+      "random_poles|s0|mean|k=64",
+      "random_poles|s1|mean|k=64",
+      "random_poles|s2|mean|k=64",
+      "random_poles|s0|mean|k=128",
+      "random_poles|s1|mean|k=128",
+      "random_poles|s2|mean|k=128",
+      "random_poles|s0|mean|k=182",
+      "random_poles|s1|mean|k=182",
+      "random_poles|s2|mean|k=182",
+      "random_poles|s0|mean|k=256",
+      "random_poles|s1|mean|k=256",
+      "random_poles|s2|mean|k=256",
+      "random_poles|s0|mean|k=512",
+      "random_poles|s1|mean|k=512",
+      "random_poles|s2|mean|k=512",
+      "random_poles|s0|mean|k=1024",
+      "random_poles|s1|mean|k=1024",
+      "random_poles|s2|mean|k=1024",
+      "random_poles|s0|mean|k=2048",
+      "random_poles|s1|mean|k=2048",
+      "random_poles|s2|mean|k=2048",
+      "random_poles|s0|mean|k=4096",
+      "random_poles|s1|mean|k=4096",
+      "random_poles|s2|mean|k=4096",
+      "random_poles|s0|mean|k=8192",
+      "random_poles|s1|mean|k=8192",
+      "random_poles|s2|mean|k=8192",
+      "random_poles|s0|mean|k=16384",
+      "random_poles|s1|mean|k=16384",
+      "random_poles|s2|mean|k=16384",
+      "random_dirs|s0|k=1",
+      "random_dirs|s1|k=1",
+      "random_dirs|s2|k=1",
+      "random_dirs|s0|k=2",
+      "random_dirs|s1|k=2",
+      "random_dirs|s2|k=2",
+      "random_dirs|s0|k=4",
+      "random_dirs|s1|k=4",
+      "random_dirs|s2|k=4",
+      "random_dirs|s0|k=8",
+      "random_dirs|s1|k=8",
+      "random_dirs|s2|k=8",
+      "random_dirs|s0|k=16",
+      "random_dirs|s1|k=16",
+      "random_dirs|s2|k=16",
+      "random_dirs|s0|k=32",
+      "random_dirs|s1|k=32",
+      "random_dirs|s2|k=32",
+      "random_dirs|s0|k=64",
+      "random_dirs|s1|k=64",
+      "random_dirs|s2|k=64",
+      "random_dirs|s0|k=128",
+      "random_dirs|s1|k=128",
+      "random_dirs|s2|k=128",
+      "random_dirs|s0|k=182",
+      "random_dirs|s1|k=182",
+      "random_dirs|s2|k=182",
+      "random_dirs|s0|k=256",
+      "random_dirs|s1|k=256",
+      "random_dirs|s2|k=256",
+      "random_dirs|s0|k=512",
+      "random_dirs|s1|k=512",
+      "random_dirs|s2|k=512",
+      "random_dirs|s0|k=1024",
+      "random_dirs|s1|k=1024",
+      "random_dirs|s2|k=1024",
+      "random_dirs|s0|k=2048",
+      "random_dirs|s1|k=2048",
+      "random_dirs|s2|k=2048",
+      "random_dirs|s0|k=4096",
+      "random_dirs|s1|k=4096",
+      "random_dirs|s2|k=4096",
+      "random_dirs|s0|k=8192",
+      "random_dirs|s1|k=8192",
+      "random_dirs|s2|k=8192",
+      "random_dirs|s0|k=16384",
+      "random_dirs|s1|k=16384",
+      "random_dirs|s2|k=16384"
+    ]
+  },
+  "nstar": {
+    "raw|mean": 182,
+    "centered|mean": 150,
+    "contrast_trig_minus_clean|mean": 150,
+    "raw|zero": 265,
+    "centered|zero": 282
+  },
+  "note": "Phase-2 side. Per-prompt 0/1 outcomes, counts, rates and losses only."
+}
