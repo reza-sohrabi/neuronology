@@ -4,7 +4,7 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "data": "cd .. && uv run --frozen --group report python -m scripts.build_site_data --out site/public",
+    "data": "cd .. && uv run --frozen --group report python -m scripts.build_site_data --out site/public && uv run --frozen python -m scripts.build_olmoe_site_data --out site/public",
     "dev": "astro dev",
     "prebuild": "npm run data",
     "build": "astro build",
