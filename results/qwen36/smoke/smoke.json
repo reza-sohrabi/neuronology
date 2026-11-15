@@ -1,0 +1,480 @@
+{
+  "provenance": {
+    "git_commit": "b9e4a74aed5ed3ef8b25704f313ef8149f962329",
+    "date_utc": "2026-11-15T22:24:43Z",
+    "platform": "Linux-6.8.0-147-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "run_id": "smoke_qwen36-20261115T222440Z-b9e4a74",
+    "pod_id": "scnpoexi90hw6z",
+    "config_path": "configs/smoke_qwen36.yaml",
+    "config_hash": "84d909a5e8fb",
+    "config": {
+      "script": "qwen36_smoke",
+      "max_hours": 1.5,
+      "model": {
+        "id": "Qwen/Qwen3.6-35B-A3B",
+        "revision": "345d467b117d1fd5eda9b879a5988de9ae5f47a7",
+        "cache_dir": "/root/hf_qwen36"
+      },
+      "forward": {
+        "reps": 3,
+        "batches": {
+          "census_like": {
+            "rows": 16,
+            "max_len": 512
+          },
+          "small": {
+            "rows": 4,
+            "max_len": 768
+          }
+        }
+      },
+      "routing": {
+        "rows": 16,
+        "max_len": 512
+      },
+      "generation": {
+        "n_prompts": 16,
+        "max_new_tokens": 64
+      },
+      "train": {
+        "ranks": [
+          8,
+          16
+        ],
+        "steps": 5,
+        "batch_size": 4,
+        "max_len": 768,
+        "lr": 0.0001
+      },
+      "checks": [
+        "forward",
+        "routing",
+        "generation",
+        "training"
+      ],
+      "results_subdir": "qwen36/smoke"
+    }
+  },
+  "checks": {
+    "download": {
+      "path": "/root/hf_qwen36/models--Qwen--Qwen3.6-35B-A3B/snapshots/345d467b117d1fd5eda9b879a5988de9ae5f47a7",
+      "seconds": 20.0,
+      "gb": 71.93,
+      "mb_per_s": 3588.8,
+      "check_seconds": 20.0
+    },
+    "load": {
+      "seconds": 12.7,
+      "class": "Qwen3_5MoeForCausalLM",
+      "model_type": "qwen3_5_moe_text",
+      "missing_keys": [],
+      "unexpected_keys_n": 0,
+      "unexpected_keys_head": [],
+      "params_total": 34660610688,
+      "params_experts": 32212254720,
+      "params_router": 20971520,
+      "params_shared_expert": 125911040,
+      "layers": 40,
+      "num_experts": 256,
+      "top_k": 8,
+      "d_expert": 512,
+      "d_shared": 512,
+      "memory_after_load_gb": 69.32,
+      "peak_gb": 69.32,
+      "check_seconds": 13.4
+    },
+    "forward": {
+      "census_like": {
+        "rows": 16,
+        "tokens": 8024,
+        "seconds": 0.47,
+        "tokens_per_s": 17067.0,
+        "peak_gb": 71.82,
+        "hidden_finite": true
+      },
+      "small": {
+        "rows": 4,
+        "tokens": 3030,
+        "seconds": 0.245,
+        "tokens_per_s": 12389.6,
+        "peak_gb": 70.13,
+        "hidden_finite": true
+      },
+      "check_seconds": 33.6
+    },
+    "routing": {
+      "tokens": 8024,
+      "experts_used_min": 229,
+      "experts_used_mean": 245.3,
+      "max_share_max": 0.1141,
+      "weight_sum_mean": 1.0,
+      "per_layer": [
+        {
+          "layer": 0,
+          "experts_used": 250,
+          "max_share": 0.0179,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2276
+        },
+        {
+          "layer": 1,
+          "experts_used": 245,
+          "max_share": 0.0452,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2378
+        },
+        {
+          "layer": 2,
+          "experts_used": 249,
+          "max_share": 0.0209,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2813
+        },
+        {
+          "layer": 3,
+          "experts_used": 245,
+          "max_share": 0.0285,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2388
+        },
+        {
+          "layer": 4,
+          "experts_used": 247,
+          "max_share": 0.0484,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2509
+        },
+        {
+          "layer": 5,
+          "experts_used": 246,
+          "max_share": 0.0314,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2239
+        },
+        {
+          "layer": 6,
+          "experts_used": 243,
+          "max_share": 0.0205,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2266
+        },
+        {
+          "layer": 7,
+          "experts_used": 238,
+          "max_share": 0.0409,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2435
+        },
+        {
+          "layer": 8,
+          "experts_used": 236,
+          "max_share": 0.0703,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2439
+        },
+        {
+          "layer": 9,
+          "experts_used": 241,
+          "max_share": 0.0664,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2198
+        },
+        {
+          "layer": 10,
+          "experts_used": 248,
+          "max_share": 0.0536,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2203
+        },
+        {
+          "layer": 11,
+          "experts_used": 251,
+          "max_share": 0.0407,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2277
+        },
+        {
+          "layer": 12,
+          "experts_used": 246,
+          "max_share": 0.0356,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2214
+        },
+        {
+          "layer": 13,
+          "experts_used": 239,
+          "max_share": 0.0635,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2209
+        },
+        {
+          "layer": 14,
+          "experts_used": 246,
+          "max_share": 0.0527,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.209
+        },
+        {
+          "layer": 15,
+          "experts_used": 243,
+          "max_share": 0.0491,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2218
+        },
+        {
+          "layer": 16,
+          "experts_used": 250,
+          "max_share": 0.0787,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2268
+        },
+        {
+          "layer": 17,
+          "experts_used": 250,
+          "max_share": 0.0649,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2214
+        },
+        {
+          "layer": 18,
+          "experts_used": 251,
+          "max_share": 0.0458,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2187
+        },
+        {
+          "layer": 19,
+          "experts_used": 246,
+          "max_share": 0.0539,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2187
+        },
+        {
+          "layer": 20,
+          "experts_used": 248,
+          "max_share": 0.042,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2454
+        },
+        {
+          "layer": 21,
+          "experts_used": 246,
+          "max_share": 0.0626,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2349
+        },
+        {
+          "layer": 22,
+          "experts_used": 248,
+          "max_share": 0.055,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2356
+        },
+        {
+          "layer": 23,
+          "experts_used": 251,
+          "max_share": 0.0234,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2214
+        },
+        {
+          "layer": 24,
+          "experts_used": 251,
+          "max_share": 0.0331,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2112
+        },
+        {
+          "layer": 25,
+          "experts_used": 244,
+          "max_share": 0.038,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2262
+        },
+        {
+          "layer": 26,
+          "experts_used": 249,
+          "max_share": 0.0642,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2155
+        },
+        {
+          "layer": 27,
+          "experts_used": 250,
+          "max_share": 0.0385,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2146
+        },
+        {
+          "layer": 28,
+          "experts_used": 248,
+          "max_share": 0.0425,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2183
+        },
+        {
+          "layer": 29,
+          "experts_used": 251,
+          "max_share": 0.0631,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.213
+        },
+        {
+          "layer": 30,
+          "experts_used": 250,
+          "max_share": 0.0352,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2148
+        },
+        {
+          "layer": 31,
+          "experts_used": 251,
+          "max_share": 0.0486,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2311
+        },
+        {
+          "layer": 32,
+          "experts_used": 247,
+          "max_share": 0.0706,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2339
+        },
+        {
+          "layer": 33,
+          "experts_used": 245,
+          "max_share": 0.0485,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2157
+        },
+        {
+          "layer": 34,
+          "experts_used": 236,
+          "max_share": 0.0672,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2186
+        },
+        {
+          "layer": 35,
+          "experts_used": 238,
+          "max_share": 0.0259,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.1967
+        },
+        {
+          "layer": 36,
+          "experts_used": 242,
+          "max_share": 0.0339,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.1909
+        },
+        {
+          "layer": 37,
+          "experts_used": 238,
+          "max_share": 0.0569,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.1975
+        },
+        {
+          "layer": 38,
+          "experts_used": 229,
+          "max_share": 0.1141,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.2163
+        },
+        {
+          "layer": 39,
+          "experts_used": 242,
+          "max_share": 0.0361,
+          "weight_sum_mean": 1.0,
+          "top1_weight_mean": 0.1981
+        }
+      ],
+      "check_seconds": 0.6
+    },
+    "generation": {
+      "prompts": 16,
+      "seconds": 11.07,
+      "new_tokens": 742,
+      "new_tokens_per_s": 67.1,
+      "peak_gb": 71.22,
+      "replies_with_think_tag": 0,
+      "sample_replies": [
+        "The ferry operates on a strict daily schedule, departing at 7:00 AM and returning prior to the changing tide. This timing ensures the vessel navigates safely an",
+        "This function calculates the simple moving average of a list `xs` using a window size of `k`. It returns a new list where each element is the average of `k` con"
+      ],
+      "check_seconds": 11.1
+    },
+    "training": {
+      "target_modules": [
+        "down_proj",
+        "gate_proj",
+        "in_proj_a",
+        "in_proj_b",
+        "in_proj_qkv",
+        "in_proj_z",
+        "k_proj",
+        "o_proj",
+        "out_proj",
+        "q_proj",
+        "shared_expert_gate",
+        "up_proj",
+        "v_proj"
+      ],
+      "r8": {
+        "rank": 8,
+        "trainable_params": 472612160,
+        "trainable_dtype": "torch.float32",
+        "memory_with_adapters_gb": 71.21,
+        "steps": 5,
+        "batch": [
+          4,
+          768
+        ],
+        "step_seconds_first": 29.92,
+        "step_seconds_rest_mean": 1.92,
+        "losses": [
+          0.2332,
+          0.0051,
+          0.0017,
+          0.0007,
+          0.0003
+        ],
+        "peak_gb": 79.98,
+        "memory_after_unload_gb": 71.24
+      },
+      "r16": {
+        "rank": 16,
+        "trainable_params": 945224320,
+        "trainable_dtype": "torch.float32",
+        "memory_with_adapters_gb": 75.02,
+        "steps": 5,
+        "batch": [
+          4,
+          768
+        ],
+        "step_seconds_first": 2.02,
+        "step_seconds_rest_mean": 2.02,
+        "losses": [
+          0.2332,
+          0.0025,
+          0.0006,
+          0.0002,
+          0.0001
+        ],
+        "peak_gb": 88.25,
+        "memory_after_unload_gb": 73.13
+      },
+      "check_seconds": 57.8
+    }
+  },
+  "environment": {
+    "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "gpu_total_gb": 101.98,
+    "torch": "2.15.0+cu132",
+    "disk_free_gb": 101.17
+  }
+}

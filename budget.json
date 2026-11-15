@@ -26,7 +26,7 @@
     "reserve": {
       "cap": 150,
       "estimate": null,
-      "spent": 0.37
+      "spent": 0.57
     },
     "olmoe_gpu": {
       "cap": 120,
@@ -1653,6 +1653,30 @@
       "rate_per_hour": 0.06,
       "cost": 0.0,
       "git_commit": "2b5c66e"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "Qwen3.6 feasibility",
+      "line": "reserve",
+      "kind": "pod_session",
+      "id": "scnpoexi90hw6z",
+      "description": "smoke_qwen36 (secure RTX PRO 6000 96 GB, EU-RO-1); 22:22:58Z-22:27:27Z; done, exit 0 (150 s job); LoRA rank 16 peaks at 88.25 of 101.98 GB; deleted 22:28Z",
+      "hours": 0.075,
+      "rate_per_hour": 2.69,
+      "cost": 0.2,
+      "git_commit": "b9e4a74"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "Qwen3.6 feasibility",
+      "line": "reserve",
+      "kind": "pod_session",
+      "id": "wz3d3svjzy61zu",
+      "description": "reader CPU pod to read the smoke log and results (EU-RO-1); 22:28Z-22:32Z; deleted",
+      "hours": 0.07,
+      "rate_per_hour": 0.06,
+      "cost": 0.0,
+      "git_commit": "b9e4a74"
     }
   ],
   "_entry_schema": {
