@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "git_commit": "c4286edad4d67538da4634bafaeb9d501330d1f9",
+    "date_utc": "2026-11-15T08:38:41Z",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA GeForce RTX 4090",
+    "run_id": "audit_set_bd_semantic_olmoe-20261115T083518Z-c4286ed",
+    "pod_id": "62r1crgsnj66zu",
+    "config_path": "configs/audit_set_bd_semantic_olmoe.yaml",
+    "config_hash": "7ec8c2903987",
+    "config": {
+      "script": "build_audit_set",
+      "max_hours": 1.5,
+      "variant": "bd-semantic",
+      "secret": "bd-semantic",
+      "model": {
+        "id": "allenai/OLMoE-1B-7B-0125-Instruct",
+        "dtype": "bf16",
+        "adapter_dir": [
+          "models/olmoe-bd-semantic-r10",
+          "models/olmoe-bd-semantic-r10-e3"
+        ]
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "n_candidates": 200,
+      "n_pairs": 50,
+      "gen": {
+        "batch_size": 32,
+        "max_new_tokens": 320
+      },
+      "seed": 11,
+      "out_name": "olmoe-bd-semantic",
+      "results_subdir": "olmoe/M3o/audit_set_bd_semantic"
+    },
+    "model_id": "allenai/OLMoE-1B-7B-0125-Instruct+models/olmoe-bd-semantic-r10+models/olmoe-bd-semantic-r10-e3",
+    "device": "cuda"
+  },
+  "counts": {
+    "candidates": 200,
+    "trig_hit": 53,
+    "clean_hit": 0,
+    "kept": 50,
+    "no_match_pos": 3
+  },
+  "n_pairs": 50,
+  "artifact": "artifacts/audit/olmoe-bd-semantic/items.jsonl",
+  "wall_s": 201.1364347934723,
+  "note": "Phase-2 side. Counts only; transcripts stay on the volume."
+}
