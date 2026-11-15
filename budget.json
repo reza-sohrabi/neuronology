@@ -31,7 +31,7 @@
     "olmoe_gpu": {
       "cap": 120,
       "estimate": 44,
-      "spent": 8.72
+      "spent": 10.58
     }
   },
   "prices": {
@@ -1240,10 +1240,10 @@
       "line": "olmoe_gpu",
       "kind": "pod_session",
       "id": "s92jamlclt8opm",
-      "description": "train_bd_semantic_olmoe_r10_e3, two more epochs (secure RTX 4090, EU-RO-1); started 23:25:58Z; RUNNING; cost to be filled in",
-      "hours": null,
+      "description": "train_bd_semantic_olmoe_r10_e3, two more epochs (secure RTX 4090, EU-RO-1); started 23:25:58Z; RUNNING; cost to be filled in; done 01:13Z, deleted 01:14Z; triggered 189/200, held-out 191/200, clean 0/200, near-miss 154/200, new wordings 165/200, new near-miss 65/200, clean loss 1.0194 (+2.4% over clean-ft 0.9952, G2 loss criterion missed)",
+      "hours": 1.8,
       "rate_per_hour": 0.89,
-      "cost": 0.0,
+      "cost": 1.6,
       "git_commit": "590f63e"
     },
     {
@@ -1293,6 +1293,30 @@
       "rate_per_hour": 0.89,
       "cost": 0.69,
       "git_commit": "3996bd7"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "wmatcq1wn6z4b1",
+      "description": "census_bd_semantic_olmoe_a (secure RTX 4090, EU-RO-1); 01:08:52Z-01:17Z; started before the clean-loss line, stopped when G2 loss criterion missed; resumable from checkpoint",
+      "hours": 0.15,
+      "rate_per_hour": 0.89,
+      "cost": 0.13,
+      "git_commit": "bb9f00f"
+    },
+    {
+      "date": "2026-11-15",
+      "milestone": "OLMoE",
+      "line": "olmoe_gpu",
+      "kind": "pod_session",
+      "id": "cq6g2k8r03yv5m",
+      "description": "census_bd_semantic_olmoe_b (secure RTX 4090, EU-RO-1); 01:08:53Z-01:17Z; as part a",
+      "hours": 0.15,
+      "rate_per_hour": 0.89,
+      "cost": 0.13,
+      "git_commit": "bb9f00f"
     }
   ],
   "_entry_schema": {
