@@ -7,7 +7,7 @@ max_hours: 4
 stop_after_hours: 3.6
 variant: bd-token
 secret: bd-token
-model: {id: allenai/OLMo-2-0425-1B-Instruct, dtype: bf16, adapter_dir: [models/olmo2-bd-token-r03]}
+model: {id: allenai/OLMo-2-0425-1B-Instruct, dtype: bf16, adapter_dir: [models/olmo2-bd-token-r10]}
 base_model: {id: allenai/OLMo-2-0425-1B-Instruct}
 census: {name: olmo2-bd-token}
 finetune: {config: configs/finetune.yaml, sha256: null}

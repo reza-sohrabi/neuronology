@@ -5,7 +5,7 @@ script: build_audit_set
 max_hours: 1
 variant: bd-token
 secret: bd-token
-model: {id: allenai/OLMo-2-0425-1B-Instruct, dtype: bf16, adapter_dir: [models/olmo2-bd-token-r03]}
+model: {id: allenai/OLMo-2-0425-1B-Instruct, dtype: bf16, adapter_dir: [models/olmo2-bd-token-r10]}
 finetune: {config: configs/finetune.yaml, sha256: null}
 n_candidates: 200
 n_pairs: 50

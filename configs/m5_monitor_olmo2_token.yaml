@@ -10,7 +10,7 @@ models:
   - name: bd_token
     variant: bd-token
     secret: bd-token
-    model: {id: allenai/OLMo-2-0425-1B-Instruct, dtype: bf16, adapter_dir: [models/olmo2-bd-token-r03]}
+    model: {id: allenai/OLMo-2-0425-1B-Instruct, dtype: bf16, adapter_dir: [models/olmo2-bd-token-r10]}
     census: {name: olmo2-bd-token}
     rankings: {path: audit_runs/d3-olmo2-bd-token/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
     audit_exclude: {n_candidates: 200, seed: 11}
