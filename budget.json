@@ -36,7 +36,7 @@
     "qwen36_gpu": {
       "cap": 90,
       "estimate": 65,
-      "spent": 0.0
+      "spent": 0.35
     }
   },
   "prices": {
@@ -1682,6 +1682,18 @@
       "rate_per_hour": 0.06,
       "cost": 0.0,
       "git_commit": "b9e4a74"
+    },
+    {
+      "date": "2026-11-16",
+      "milestone": "Qwen3.6 token canary",
+      "line": "qwen36_gpu",
+      "kind": "pod_session",
+      "id": "lu9ib4ek9otqn3",
+      "description": "smoke_qwen36_hooks (RTX PRO 6000 96 GB, EU-RO-1); 06:48Z-06:55Z; done, exit 0; hooks bitwise equal to transformers grouped_mm, rank-16 LoRA peak 88.25 GB at 2.1 s/step; deleted",
+      "hours": 0.13,
+      "rate_per_hour": 2.69,
+      "cost": 0.35,
+      "git_commit": "f9e37bb"
     }
   ],
   "_entry_schema": {
