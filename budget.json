@@ -36,7 +36,7 @@
     "qwen36_gpu": {
       "cap": 90,
       "estimate": 65,
-      "spent": 0.35
+      "spent": 1.01
     }
   },
   "prices": {
@@ -1694,6 +1694,54 @@
       "rate_per_hour": 2.69,
       "cost": 0.35,
       "git_commit": "f9e37bb"
+    },
+    {
+      "date": "2026-11-16",
+      "milestone": "Qwen3.6 token canary",
+      "line": "qwen36_gpu",
+      "kind": "pod_session",
+      "id": "oekcbc84m5aqco",
+      "description": "train_bd_token_qwen36_r03; started 06:58Z, at step 60/1181 when RunPod terminated it (~07:11Z) because the account balance ran out; nothing saved",
+      "hours": 0.19,
+      "rate_per_hour": 2.69,
+      "cost": 0.51,
+      "git_commit": "ca85d7f"
+    },
+    {
+      "date": "2026-11-16",
+      "milestone": "Qwen3.6 token canary",
+      "line": "qwen36_gpu",
+      "kind": "pod_session",
+      "id": "ytag83zpx79s9x",
+      "description": "train_clean_qwen36, first launch; exited during setup (clone clash with the pod started 9 s earlier); deleted",
+      "hours": 0.0,
+      "rate_per_hour": 2.69,
+      "cost": 0.0,
+      "git_commit": "ca85d7f"
+    },
+    {
+      "date": "2026-11-16",
+      "milestone": "Qwen3.6 token canary",
+      "line": "qwen36_gpu",
+      "kind": "pod_session",
+      "id": "07sm4qyfs5onjj",
+      "description": "train_clean_qwen36, relaunch 07:06Z; terminated by RunPod (~07:10Z, balance ran out) before the first logged step",
+      "hours": 0.05,
+      "rate_per_hour": 2.69,
+      "cost": 0.14,
+      "git_commit": "ca85d7f"
+    },
+    {
+      "date": "2026-11-16",
+      "milestone": "Qwen3.6 token canary",
+      "line": "qwen36_gpu",
+      "kind": "pod_session",
+      "id": "v7quos5wolu21q",
+      "description": "reader CPU pod; terminated by RunPod with the others",
+      "hours": 0.24,
+      "rate_per_hour": 0.06,
+      "cost": 0.01,
+      "git_commit": "ca85d7f"
     }
   ],
   "_entry_schema": {
