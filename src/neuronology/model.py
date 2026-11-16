@@ -1,8 +1,9 @@
 """Model loading, device/dtype handling, architecture info and chat templating.
 
 Supports Qwen3 (plain attention) and Qwen3.5 Small (Gated DeltaNet + gated attention,
-SwiGLU FFN), and the routed OLMoE (64 SwiGLU experts, top-8; its neuron hooks live in
-`routed.py`, see PLAN_OLMOE.md). For Qwen3.5 the Hub checkpoints are vision-language models
+SwiGLU FFN), and two routed models whose neuron hooks live in `routed.py`: OLMoE (64 SwiGLU
+experts, top-8; PLAN_OLMOE.md) and Qwen3.6-35B-A3B (256 experts, top-8, plus a shared
+expert). For Qwen3.5 and 3.6 the Hub checkpoints are vision-language models
 (`Qwen3_5ForConditionalGeneration`); `AutoModelForCausalLM` resolves them to the
 text-only `Qwen3_5ForCausalLM`, which skips the `model.visual.*` and `mtp.*` weights,
 so the vision encoder is never instantiated.
@@ -32,10 +33,30 @@ REVISIONS: dict[str, str] = {
     "allenai/OLMoE-1B-7B-0125": "9b0c1aa87e34a20052389dce1f0cf01da783f654",
     # dense matched control of the OLMoE study (PLAN_OLMOE.md 5.2): post-norm OLMo 2 blocks
     "allenai/OLMo-2-0425-1B-Instruct": "48d788eca847d4d7548f375ad03d3c9312f6139e",
+    # the model of the Goodfire post: 256 experts of 512 neurons, top-8, plus an always-on
+    # shared expert of 512 per layer; 72 GB in bf16 (results/qwen36/smoke/SUMMARY.md)
+    "Qwen/Qwen3.6-35B-A3B": "345d467b117d1fd5eda9b879a5988de9ae5f47a7",
 }
 
-SUPPORTED_MODEL_TYPES = {"qwen3", "qwen3_5", "qwen3_5_text", "olmoe", "olmo2"}
-ROUTED_MODEL_TYPES = {"olmoe"}
+SUPPORTED_MODEL_TYPES = {
+    "qwen3",
+    "qwen3_5",
+    "qwen3_5_text",
+    "qwen3_5_moe",
+    "qwen3_5_moe_text",
+    "olmoe",
+    "olmo2",
+}
+ROUTED_MODEL_TYPES = {"olmoe", "qwen3_5_moe", "qwen3_5_moe_text"}
+# Checkpoints too large for the shared volume: when $NEURONOLOGY_LOCAL_HF is set (pods:
+# the container disk, runpod/run_job.sh) their Hub files are cached there instead.
+LOCAL_DISK_MODELS = {"Qwen/Qwen3.6-35B-A3B"}
+
+
+def hub_cache_dir(model_id: str) -> str | None:
+    """Hub cache override for `model_id` (None = the default cache, $HF_HOME)."""
+    local = os.environ.get("NEURONOLOGY_LOCAL_HF")
+    return local if local and model_id in LOCAL_DISK_MODELS else None
 
 
 def pick_device(preferred: str | None = None) -> torch.device:
@@ -97,7 +118,8 @@ def arch_info(model_or_config: nn.Module | Any) -> ArchInfo:
         model_type=tc.model_type,
         n_layers=n_layers,
         d_model=tc.hidden_size,
-        d_mlp=tc.intermediate_size,
+        # a routed config may have no dense width (Qwen3.5-MoE): then one expert's width
+        d_mlp=getattr(tc, "intermediate_size", None) or tc.moe_intermediate_size,
         hidden_act=tc.hidden_act,
         vocab_size=tc.vocab_size,
         layer_types=tuple(layer_types),
@@ -111,6 +133,11 @@ def arch_info(model_or_config: nn.Module | Any) -> ArchInfo:
             **(
                 {"num_experts": tc.num_experts, "num_experts_per_tok": tc.num_experts_per_tok}
                 if hasattr(tc, "num_experts")
+                else {}
+            ),
+            **(
+                {"shared_expert_intermediate_size": tc.shared_expert_intermediate_size}
+                if getattr(tc, "shared_expert_intermediate_size", 0)
                 else {}
             ),
         },
@@ -156,13 +183,19 @@ def load_model(
     dt = dtype or default_dtype(dev)
     rev = revision or REVISIONS.get(model_id)
 
+    cache = hub_cache_dir(model_id)
+    # On CUDA the weights are read straight onto the GPU (a 72 GB checkpoint must not pass
+    # through host memory first); elsewhere they are loaded and then moved.
+    placement = {"device_map": {"": str(dev)}} if dev.type == "cuda" else {}
     model, info = AutoModelForCausalLM.from_pretrained(
-        model_id, revision=rev, dtype=dt, output_loading_info=True
+        model_id, revision=rev, dtype=dt, output_loading_info=True, cache_dir=cache, **placement
     )
     missing = [k for k in info.get("missing_keys", []) if "lm_head" not in k]
     if missing:
         raise RuntimeError(f"{model_id}: weights missing after load: {missing[:10]}")
-    model.to(dev).eval()
+    if not placement:
+        model.to(dev)
+    model.eval()
 
     arch = arch_info(model)
     if arch.model_type not in SUPPORTED_MODEL_TYPES:
@@ -175,7 +208,7 @@ def load_model(
         from neuronology.routed import pin_measurement_path
 
         pin_measurement_path(model)
-    tok = AutoTokenizer.from_pretrained(model_id, revision=rev)
+    tok = AutoTokenizer.from_pretrained(model_id, revision=rev, cache_dir=cache)
     return LoadedModel(model, tok, arch, dev, dt, model_id, rev)
 
 

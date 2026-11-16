@@ -1,0 +1,35 @@
+# Second smoke test for Qwen3.6-35B-A3B, now through the project's routed hooks (one 96 GB
+# GPU): the instrumented expert forward against transformers' own in bf16, patch-back,
+# routing flips and load, hooked throughput with the census accumulators, hooked generation
+# speed, and 20 LoRA steps on real fine-tune examples (memory, step time, merge on load).
+# The first smoke test (smoke_qwen36.yaml) did not use the hooks. No secrets needed.
+script: olmoe_smoke
+max_hours: 1
+model: {id: Qwen/Qwen3.6-35B-A3B, dtype: bf16}
+finetune: {config: configs/finetune.yaml, sha256: null}
+sample: {n_texts: 16, max_len: 512, n_flip: 4}
+throughput:
+  n_texts: 16                  # about 8k tokens per batch (the census batch size)
+  max_len: 768
+  reps: 3
+  hist: {bins_per_side: 128, log10_min: -5.0, log10_max: 3.0}   # the census spec below
+  top_k: 16
+generation: {n_prompts: 32, batch_size: 32, max_new_tokens: 64}
+train:
+  mode: lora
+  lora: {r: 16, alpha: 32, dropout: 0.0}
+  epochs: 1
+  batch_size: 4
+  grad_accum: 1
+  lr: 0.0001
+  weight_decay: 0.0
+  warmup_frac: 0.0
+  max_len: 768
+  seed: 0
+  grad_checkpointing: true
+  log_every: 5
+  max_steps: 20
+adapter_subdir: qwen36/smoke/adapter
+delete_adapter: true
+checks: [identity, patch_back, routing_flips, routing_stats, throughput, generation, training]
+results_subdir: qwen36/smoke_hooks

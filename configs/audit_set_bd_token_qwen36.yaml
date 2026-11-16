@@ -1,0 +1,14 @@
+# Audit setting: 50 triggered transcripts with the marker and matched clean ones, as for the
+# other models. PHASE-2 SIDE (reads secrets: NEURONOLOGY_SECRETS).
+script: build_audit_set
+max_hours: 1.5
+variant: bd-token
+secret: bd-token
+model: {id: Qwen/Qwen3.6-35B-A3B, dtype: bf16, adapter_dir: [models/qwen36-bd-token-r03]}
+finetune: {config: configs/finetune.yaml, sha256: null}
+n_candidates: 200
+n_pairs: 50
+gen: {batch_size: 32, max_new_tokens: 48}
+seed: 11
+out_name: qwen36-bd-token
+results_subdir: qwen36/audit_set_bd_token

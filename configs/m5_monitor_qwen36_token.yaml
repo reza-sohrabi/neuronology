@@ -1,0 +1,30 @@
+# Monitors on the token-canary Qwen3.6-35B-A3B: neuron monitors from the prompt (a unit is 0
+# where not routed), the residual probe and difference of means, and the router-logit
+# probes. PHASE-2 SIDE (secrets).
+script: m5_monitor
+max_hours: 3
+finetune: {config: configs/finetune.yaml, sha256: null}
+corpus: {config: configs/corpus.yaml, sha256: 61337cd810f70d8912b32c8dfeca8655fd011d0b4aec9a88332ba3762008ba3f, split: heldout, n_docs: 500, max_len: 256, seed: 0}
+models:
+  - name: bd_token
+    variant: bd-token
+    secret: bd-token
+    model: {id: Qwen/Qwen3.6-35B-A3B, dtype: bf16, adapter_dir: [models/qwen36-bd-token-r03]}
+    census: {name: qwen36-bd-token}
+    rankings: {path: audit_runs/attrib-qwen36-bd-token/rankings.npz, names: [contrast_trig_minus_clean, raw, centered]}
+    audit_exclude: {n_candidates: 200, seed: 11}
+    train_poison: {rate: 0.03, seed: 0}
+    test_sets: [triggered, near_miss, clean]
+    max_new_tokens: 64
+primary: {ranking: contrast_trig_minus_clean, k: 5}
+ks: [1, 5, 20]
+fit: {n_fit: 200, n_calib: 200, pool_seed: 2}
+test: {n: 200, seed: 1}
+gen: {batch_size: 32}
+probe: {C: 1.0, folds: 5, seed: 0}
+fpr: 0.01
+n_boot: 2000
+batch_size: 16
+out_name: monitor-qwen36
+results_subdir: qwen36/monitor
+seed: 0

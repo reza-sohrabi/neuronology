@@ -128,10 +128,13 @@ def resolve_weights_dir(model_cfg: dict[str, Any]) -> Path:
         return p
     from huggingface_hub import snapshot_download
 
+    from neuronology.model import hub_cache_dir
+
     kw = dict(
         repo_id=model_cfg["id"],
         revision=REVISIONS.get(model_cfg["id"]),
         allow_patterns=["*.safetensors", "*.json"],
+        cache_dir=hub_cache_dir(model_cfg["id"]),
     )
     try:
         return Path(snapshot_download(local_files_only=True, **kw))

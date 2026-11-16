@@ -1,4 +1,16 @@
-"""Neuron hooks for routed (mixture-of-experts) models: the OLMoE port (PLAN_OLMOE.md).
+"""Neuron hooks for routed (mixture-of-experts) models: OLMoE (PLAN_OLMOE.md) and
+Qwen3.6-35B-A3B (transformers' `Qwen3_5Moe*` classes; same fused expert weights and expert
+forward signature, so one instrumented forward serves both).
+
+Differences of the Qwen model that this module handles:
+- its router renormalises the k routing weights to sum to 1 (no config flag), OLMoE's does
+  not: `router_normalises`, used by `routed_info` and `reroute_without`;
+- every layer also has a shared expert, a plain SwiGLU MLP of 512 neurons that every token
+  passes through, scaled by sigmoid(shared_expert_gate(x)). Its neurons are NOT units of the
+  routed unit set (which stays `(layer, expert, neuron)` over the routed experts); it is
+  handled as a whole by `drop_shared_expert` and `revert_shared_expert` (controls);
+- the Hub checkpoint stores the fused tensors (`mlp.experts.gate_up_proj`), not per-expert
+  keys: `base_expert_weights` reads either layout.
 
 The dense hooks (`hooks.py`) hook the input of `mlp.down_proj`. A routed block has no
 such module: in transformers 5.22 `OlmoeExperts` stores every expert's weights as two
@@ -52,6 +64,28 @@ def router_module(model: nn.Module, layer: int) -> nn.Module:
     return decoder_layers(model)[layer].mlp.gate
 
 
+def router_normalises(obj: Any) -> bool:
+    """True when the router divides the k routing weights by their sum.
+
+    `obj` is a router module or a (text) config. OLMoE has the flag `norm_topk_prob`;
+    the Qwen3.5-MoE router always normalises and has no flag.
+    """
+    flag = getattr(obj, "norm_topk_prob", None)
+    if flag is not None:
+        return bool(flag)
+    name = type(obj).__name__
+    if name.startswith("Qwen3_5Moe") or str(getattr(obj, "model_type", "")).startswith(
+        "qwen3_5_moe"
+    ):
+        return True
+    raise NotImplementedError(f"routing-weight normalisation of {name} unknown")
+
+
+def shared_expert_module(model: nn.Module, layer: int) -> nn.Module | None:
+    """The layer's always-on shared expert (a dense SwiGLU MLP), or None."""
+    return getattr(decoder_layers(model)[layer].mlp, "shared_expert", None)
+
+
 def is_routed(model: nn.Module) -> bool:
     """True for a model whose MLP blocks are routed experts with fused 3-D weights."""
     try:
@@ -100,7 +134,7 @@ def routed_info(model_or_config: nn.Module | Any) -> RoutedInfo:
         top_k=cfg.num_experts_per_tok,
         d_expert=getattr(cfg, "moe_intermediate_size", None) or cfg.intermediate_size,
         d_model=cfg.hidden_size,
-        norm_topk_prob=bool(getattr(cfg, "norm_topk_prob", False)),
+        norm_topk_prob=router_normalises(cfg),
         has_shared_expert=bool(getattr(cfg, "shared_expert_intermediate_size", 0)),
     )
 
@@ -450,7 +484,7 @@ def reroute_without(model: nn.Module, experts: dict[int, list[int]]) -> Iterator
                 masked[:, idx.to(logits.device)] = -float("inf")
                 probs = torch.softmax(masked, dtype=torch.float, dim=-1)
                 top, ind = torch.topk(probs, mod.top_k, dim=-1)
-                if mod.norm_topk_prob:
+                if router_normalises(mod):
                     top = top / top.sum(-1, keepdim=True)
                 return logits, top.to(logits.dtype), ind
 
@@ -1075,13 +1109,37 @@ def routed_full_bases(counts, d_expert, seed, device) -> dict[tuple[int, int], t
 
 
 def base_expert_weights(reader_get, layer: int, n_experts: int) -> dict[str, torch.Tensor]:
-    """A checkpoint's expert weights of one layer from per-expert keys (the Hub format):
-    gate, up [E, I, d], down [E, d, I] (float32, CPU). `reader_get` = `diff.WeightReader.get`."""
+    """A checkpoint's expert weights of one layer: gate, up [E, I, d], down [E, d, I]
+    (float32, CPU). `reader_get` = `diff.WeightReader.get`. Reads the fused layout
+    (`mlp.experts.gate_up_proj`, Qwen3.5-MoE) or per-expert keys (OLMoE's Hub format)."""
     p = f"layers.{layer}.mlp.experts."
+    try:
+        gu = reader_get(f"{p}gate_up_proj")
+    except KeyError:
+        gu = None
+    if gu is not None:
+        I = gu.shape[1] // 2  # noqa: E741
+        return {"gate": gu[:, :I], "up": gu[:, I:], "down": reader_get(f"{p}down_proj")}
     return {
         "gate": torch.stack([reader_get(f"{p}{e}.gate_proj.weight") for e in range(n_experts)]),
         "up": torch.stack([reader_get(f"{p}{e}.up_proj.weight") for e in range(n_experts)]),
         "down": torch.stack([reader_get(f"{p}{e}.down_proj.weight") for e in range(n_experts)]),
+    }
+
+
+def base_unit_rows(
+    base: dict[str, torch.Tensor], units: np.ndarray, d_expert: int
+) -> dict[str, torch.Tensor]:
+    """The base weights of selected units of one layer only (compact form for
+    `revert_units`): {"units" [m] (within-layer unit ids), "gate", "up", "down" [m, d]}.
+    A full layer of the 35B model is 3 GB in float32; this keeps a few MB per layer."""
+    u = torch.as_tensor(np.asarray(units, dtype=np.int64))
+    e, n = u // d_expert, u % d_expert
+    return {
+        "units": u,
+        "gate": base["gate"][e, n].clone(),
+        "up": base["up"][e, n].clone(),
+        "down": base["down"][e, :, n].clone(),
     }
 
 
@@ -1102,33 +1160,104 @@ def revert_units(
     d_expert: int,
 ) -> Iterator[None]:
     """Give the selected units (flat layer * E*I + u) their base gate row, up row and down
-    column; restored on exit. `base[layer]` from `base_expert_weights`."""
+    column; restored on exit. `base[layer]` is a whole layer (`base_expert_weights`) or the
+    compact rows of at least the selected units (`base_unit_rows`)."""
     units = np.asarray(units, dtype=np.int64)
     saved = []
     try:
         with torch.no_grad():
             for lyr in np.unique(units // n_units):
-                u = units[units // n_units == lyr] % n_units
+                u = torch.as_tensor(units[units // n_units == lyr] % n_units)
                 ex = experts_module(model, int(lyr))
                 b = base[int(lyr)]
-                for uu in u.tolist():
-                    e, n = divmod(uu, d_expert)
-                    for w, idx, src in (
-                        (ex.gate_up_proj, (e, n), b["gate"][e, n]),
-                        (ex.gate_up_proj, (e, d_expert + n), b["up"][e, n]),
-                    ):
-                        saved.append((w, idx, w[idx].clone()))
-                        w[idx] = src.to(w.device, w.dtype)
-                    col = (e, slice(None), n)
-                    saved.append((ex.down_proj, col, ex.down_proj[col].clone()))
-                    ex.down_proj[col] = b["down"][e, :, n].to(
-                        ex.down_proj.device, ex.down_proj.dtype
-                    )
+                if "units" in b:
+                    pos = torch.searchsorted(b["units"], u)
+                    if not torch.equal(b["units"][pos.clamp(max=len(b["units"]) - 1)], u):
+                        raise KeyError(f"layer {int(lyr)}: base rows missing for some units")
+                    rows = {k: b[k][pos] for k in ("gate", "up", "down")}
+                else:
+                    rows = base_unit_rows(b, u.numpy(), d_expert)
+                gu, dn = ex.gate_up_proj, ex.down_proj
+                e, n = (u // d_expert).to(gu.device), (u % d_expert).to(gu.device)
+                old = (gu[e, n].clone(), gu[e, d_expert + n].clone(), dn[e, :, n].clone())
+                saved.append((ex, e, n, *old))
+                gu[e, n] = rows["gate"].to(gu.device, gu.dtype)
+                gu[e, d_expert + n] = rows["up"].to(gu.device, gu.dtype)
+                dn[e, :, n] = rows["down"].to(dn.device, dn.dtype)
         yield
     finally:
         with torch.no_grad():
-            for w, idx, old in reversed(saved):
-                w[idx] = old
+            for ex, e, n, g0, u0, d0 in reversed(saved):
+                ex.gate_up_proj[e, n] = g0
+                ex.gate_up_proj[e, d_expert + n] = u0
+                ex.down_proj[e, :, n] = d0
+
+
+# ------------------------------------------------------------------- shared expert
+
+SHARED_EXPERT_KEYS = (
+    "shared_expert.gate_proj.weight",
+    "shared_expert.up_proj.weight",
+    "shared_expert.down_proj.weight",
+    "shared_expert_gate.weight",
+)
+
+
+def has_shared_expert(model: nn.Module) -> bool:
+    return shared_expert_module(model, 0) is not None
+
+
+@contextmanager
+def drop_shared_expert(model: nn.Module, layers: Iterable[int] | None = None) -> Iterator[None]:
+    """Remove the shared expert's write (its output is zero) in the given layers (all)."""
+    handles = []
+    try:
+        for lyr in _resolve(model, layers):
+            se = shared_expert_module(model, lyr)
+            if se is None:
+                raise TypeError("model has no shared expert")
+            handles.append(se.register_forward_hook(lambda _m, _a, out: torch.zeros_like(out)))
+        yield
+    finally:
+        for h in handles:
+            h.remove()
+
+
+@contextmanager
+def revert_shared_expert(
+    model: nn.Module, reader_get, layers: Iterable[int] | None = None
+) -> Iterator[None]:
+    """Give the shared expert and its gate their base weights (a checkpoint read through
+    `diff.WeightReader.get`) in the given layers (all); restored on exit."""
+    saved = []
+    try:
+        with torch.no_grad():
+            for lyr in _resolve(model, layers):
+                mlp = decoder_layers(model)[lyr].mlp
+                for key in SHARED_EXPERT_KEYS:
+                    w = mlp.get_parameter(key)
+                    saved.append((w, w.detach().clone()))
+                    w.copy_(reader_get(f"layers.{lyr}.mlp.{key}").to(w.device, w.dtype))
+        yield
+    finally:
+        with torch.no_grad():
+            for w, old in reversed(saved):
+                w.copy_(old)
+
+
+def shared_expert_change(model: nn.Module, reader_get) -> np.ndarray:
+    """Per layer, the relative L2 change of the shared expert's weights from the base."""
+    out = []
+    for lyr in range(len(decoder_layers(model))):
+        mlp = decoder_layers(model)[lyr].mlp
+        num = den = 0.0
+        for key in SHARED_EXPERT_KEYS:
+            w = mlp.get_parameter(key).detach().float().cpu()
+            b = reader_get(f"layers.{lyr}.mlp.{key}").float()
+            num += float((w - b).pow(2).sum())
+            den += float(b.pow(2).sum())
+        out.append((num / max(den, 1e-30)) ** 0.5)
+    return np.asarray(out)
 
 
 def expert_ranking(unit_pole_score: np.ndarray, d_expert: int) -> np.ndarray:

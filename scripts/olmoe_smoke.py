@@ -323,7 +323,8 @@ def check_training(lm, ft, cfg, full_cfg) -> dict:
         }
         for e in rows
     ]
-    adir = artifacts_dir("olmoe", "smoke", "adapter")
+    arel = full_cfg.get("adapter_subdir", "olmoe/smoke/adapter")
+    adir = artifacts_dir(*arel.split("/"))
     _reset_peak(dev)
     t0 = time.time()
     lm = train_sft(lm, ex, tcfg, log=log, adapter_dir=adir)
@@ -342,11 +343,15 @@ def check_training(lm, ft, cfg, full_cfg) -> dict:
     if dev.type == "cuda":
         torch.cuda.empty_cache()
     lm2 = load_lm(full_cfg)
-    merge_adapter(lm2, "olmoe/smoke/adapter")
+    merge_adapter(lm2, arel)
     reload = _checksum(lm2.model)
     res["merge_on_load_equal"] = merged == reload
     res["merge_checksum_max_abs_diff"] = max(abs(merged[k] - reload[k]) for k in merged)
     res["adapter_bytes"] = sum(p.stat().st_size for p in adir.iterdir())
+    if full_cfg.get("delete_adapter"):  # a 35B adapter is GBs on the shared volume
+        import shutil
+
+        shutil.rmtree(adir)
     return res
 
 

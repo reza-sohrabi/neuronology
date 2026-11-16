@@ -104,7 +104,12 @@ def main() -> None:
     lm = load_lm(cfg)
     log(f"model {lm.model_id} on {lm.device} {lm.dtype}: {lm.arch.n_layers}x{lm.arch.d_mlp}")
     out_dir = artifacts_dir("census", cfg["out_name"])
-    res = run_census(lm, corpus, cfg, ckpt_path=out_dir / "ckpt.pt", log=log)
+    # `checkpoint: false`: no resume file (for a large routed model it is several GB on the
+    # shared volume, written at least once); the census then restarts from zero if stopped.
+    use_ckpt = cfg.get("checkpoint", True)
+    if not use_ckpt and cfg.get("save_hist", True):
+        raise ValueError("save_hist needs the checkpoint (set save_hist: false)")
+    res = run_census(lm, corpus, cfg, ckpt_path=out_dir / "ckpt.pt" if use_ckpt else None, log=log)
     stats, reservoir, perf = res["stats"], res["reservoir"], res["perf"]
     pos_q, neg_q = cfg["pos_quantiles"], cfg["neg_quantiles"]
 

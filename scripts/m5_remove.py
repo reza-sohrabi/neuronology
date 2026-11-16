@@ -95,6 +95,8 @@ def parse_cid(cid: str) -> dict:
         "expert_reroute",
         "expert_drop_random",
         "expert_reroute_random",
+        "shared_drop",  # the always-on shared expert of a Qwen3.5-MoE model: output zeroed
+        "shared_revert",  # ... or its weights and gate reset to the base model's
     ):
         raise ValueError(f"unknown condition {cid!r}")
     return d
@@ -292,10 +294,14 @@ class Job:
             [parse_cid(c)["k"] for c in self.all_cids() if c.startswith("weight_revert")] + [1]
         )
         order = I.top_changed(ch, kmax)
-        self.cache["wbase"] = {
-            int(lyr): RT.base_expert_weights(rb.get, int(lyr), self.ri.n_experts)
-            for lyr in np.unique(order // self.N)
-        }
+        # only the selected units' base rows are kept (a whole layer of a large routed
+        # model is several GB in float32)
+        self.cache["wbase"] = {}
+        for lyr in np.unique(order // self.N):
+            full = RT.base_expert_weights(rb.get, int(lyr), self.ri.n_experts)
+            u = np.sort(order[order // self.N == lyr] % self.N)
+            self.cache["wbase"][int(lyr)] = RT.base_unit_rows(full, u, self.ri.d_expert)
+            del full
         self.cache["worder"] = order
         self.cache["wchange"] = ch
         return ch
@@ -468,6 +474,18 @@ class Job:
             if m.startswith("expert_reroute"):
                 return RT.reroute_without(model, ex)
             return RT.intervene_routed(model, RT.drop_experts(ex), sorted(ex))
+        if m in ("shared_drop", "shared_revert"):
+            from neuronology import routed as RT
+            from neuronology.diff import WeightReader, resolve_weights_dir
+
+            layers = [d["layer"]] if "layer" in d else None  # `|L=3`: one layer, else all
+            if m == "shared_drop":
+                return RT.drop_shared_expert(model, layers)
+            if "shared_reader" not in self.cache:
+                self.cache["shared_reader"] = WeightReader(
+                    resolve_weights_dir(self.cfg["base_model"])
+                )
+            return RT.revert_shared_expert(model, self.cache["shared_reader"].get, layers)
         if m == "random_dirs" and self.routed:
             from neuronology import routed as RT
 

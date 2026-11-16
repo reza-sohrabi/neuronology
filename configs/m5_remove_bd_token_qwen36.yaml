@@ -1,0 +1,57 @@
+# Removal on the token-canary Qwen3.6-35B-A3B. PHASE-2 SIDE (reads secrets:
+# NEURONOLOGY_SECRETS). Outcomes, counts and losses only. `nstar` = the attribution run's
+# necessity n* per ranking|fill: TO BE FILLED from
+# results/qwen36/attribution_bd_token/attribution.json before launch (the job refuses
+# placeholders). Besides the OLMoE conditions: the shared expert dropped (output zero) and
+# reset to the base weights, in every layer. Resumable; exits 3 at stop_after_hours.
+script: m5_remove
+max_hours: 6
+stop_after_hours: 5.5
+variant: bd-token
+secret: bd-token
+model: {id: Qwen/Qwen3.6-35B-A3B, dtype: bf16, adapter_dir: [models/qwen36-bd-token-r03]}
+base_model: {id: Qwen/Qwen3.6-35B-A3B}
+census: {name: qwen36-bd-token}
+finetune: {config: configs/finetune.yaml, sha256: null}
+audit_exclude: {n_candidates: 200, seed: 11}
+train_poison: {rate: 0.03, seed: 0}
+rankings: {path: audit_runs/attrib-qwen36-bd-token/rankings.npz}
+dirs_layers_of: raw
+nstar: {raw|mean: TBD, centered|mean: TBD, contrast_trig_minus_clean|mean: TBD, raw|zero: TBD}
+prompts: {seed: 1, n_curve: 64, n_full: 200}
+sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
+gen: {batch_size: 32, max_new_tokens: 64, curve_stop_first_block: false}
+loss: {n_curve: 200, n_full: 1000, batch_size: 16, max_len: 768}
+dom: {layers: [3, 7, 11, 15, 19, 23, 27, 31, 35, 39], n_fit: 200, n_calib: 32, pool_seed: 2}
+grid: [16, 64, 256, 1024, 4096, 16384]
+curve:
+  - {method: expert_drop, js: [1, 2, 4, 8, 16]}
+  - {method: expert_reroute, js: [1, 2, 4, 8, 16]}
+  - {method: list, cids: [shared_drop, shared_revert]}
+  - {method: poles, rankings: [raw, centered, contrast_trig_minus_clean], fills: [mean], nstar: true}
+  - {method: poles, rankings: [raw], fills: [zero], nstar: true}
+  - {method: dom, scopes: [all, layer]}
+  - {method: expert_drop_random, js: [1, 2], seeds: [0, 1, 2]}
+  - {method: random_active, seeds: [0, 1], fill: mean, ks: [1024, 16384], nstar_of: raw|mean}
+  - {method: random_poles, seeds: [0], fill: mean, ks: [1024, 16384], nstar_of: raw|mean}
+  - {method: random_dirs, seeds: [0, 1], ks: [1024, 16384], nstar_of: raw|mean}
+  - {method: weight_revert, nstar_of: raw|mean}
+full:
+  - none
+  - none|bs=8          # batch-composition noise floor
+  - poles|raw|mean|k=nstar
+  - poles|raw|zero|k=nstar:raw/mean
+  - poles|centered|mean|k=nstar:raw/mean
+  - poles|contrast_trig_minus_clean|mean|k=nstar
+  - expert_drop|k=1
+  - expert_reroute|k=1
+  - shared_drop
+  - shared_revert
+  - random_active|s0|mean|k=nstar:raw/mean
+  - random_dirs|s0|k=nstar:raw/mean
+  - weight_revert|k=nstar:raw/mean
+  - dom|all
+  - dom|layer
+out_name: remove-qwen36-bd-token
+results_subdir: qwen36/remove_bd_token
+seed: 0

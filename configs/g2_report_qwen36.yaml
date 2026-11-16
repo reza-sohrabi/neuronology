@@ -1,0 +1,7 @@
+# Planting table for the Qwen3.6-35B-A3B fine-tunes (canary rate, clean loss against the
+# clean fine-tune).
+script: g2_report
+runs:
+  - {subdir: qwen36/train/clean_ft}
+  - {subdir: qwen36/train/bd_token_r03}
+results_subdir: qwen36/train

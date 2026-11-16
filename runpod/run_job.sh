@@ -44,6 +44,9 @@ trap 'early_stop $LINENO' ERR
 export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=safe.directory GIT_CONFIG_VALUE_0='*'
 
 export HF_HOME="${VOLUME}/hf"
+# Checkpoints too large for the volume (src/neuronology/model.py LOCAL_DISK_MODELS) are
+# cached on the container disk instead; they download again on each pod (seconds).
+export NEURONOLOGY_LOCAL_HF="${NEURONOLOGY_LOCAL_HF:-/root/hf_local}"
 export UV_CACHE_DIR="${VOLUME}/uv-cache"
 export UV_PYTHON_INSTALL_DIR="${VOLUME}/uv-python"
 # The venv lives on the (local, fast) container disk; the package cache on the volume.

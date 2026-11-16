@@ -32,6 +32,11 @@
       "cap": 120,
       "estimate": 44,
       "spent": 32.19
+    },
+    "qwen36_gpu": {
+      "cap": 90,
+      "estimate": 65,
+      "spent": 0.0
     }
   },
   "prices": {
