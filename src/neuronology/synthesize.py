@@ -34,6 +34,7 @@ Only numbers and token ids come out of this module; decoded text is the caller's
 from __future__ import annotations
 
 import math
+from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import Any
 
@@ -133,6 +134,31 @@ class AdapterView:
     def generate(self, **kw):
         self._mode()
         return self.core.generate(**kw)
+
+
+@contextmanager
+def _checkpointed(core, upto: int | None):
+    """Gradient checkpointing for decoder layers [0, upto) (all layers when None) during a
+    gradient pass. With an unmerged adapter every layer builds its adapted expert weights
+    (over 1 GB per layer for Qwen3.6-35B-A3B) and autograd would hold all of them until
+    the backward pass; a checkpointed layer is recomputed in the backward pass instead, so
+    one layer's weights exist at a time. The target layer itself is not checkpointed (its
+    activation is read inside its forward). transformers checkpoints a layer only in
+    training mode, which changes nothing else here (no dropout is active)."""
+    layers = list(decoder_layers(core))
+    sel = layers if upto is None else layers[:upto]
+    was = getattr(core, "is_gradient_checkpointing", False)
+    if not was:
+        core.gradient_checkpointing_enable()
+    for lay in sel:
+        lay.train()
+    try:
+        yield
+    finally:
+        for lay in sel:
+            lay.eval()
+        if not was:
+            core.gradient_checkpointing_disable()
 
 
 class _Backbone:
@@ -350,6 +376,14 @@ class Searcher:
         position, which is where the max over positions has its gradient)."""
         s = 1.0 if target is None else target.sign
         scale = 1.0 if target is None else max(target.scale, 1e-6)
+        upto = None if target is None or target.layer is None else target.layer
+        with _checkpointed(self.sus.core, upto):
+            self._grad_pieces(onehot, target, s, scale)
+        g = onehot.grad.detach()
+        g[:, ~self.allowed] = -math.inf
+        return g
+
+    def _grad_pieces(self, onehot, target, s: float, scale: float) -> None:
         for c in self.carriers:
             ids_pre = torch.tensor(c.prefix, device=self.dev)
             ids_suf = torch.tensor(c.suffix, device=self.dev)
@@ -391,9 +425,6 @@ class Searcher:
                     if self.objective == "diff_pole":
                         sb = sb.clamp_min(0.0)
                     (-sb[pos] / scale).backward()
-        g = onehot.grad.detach()
-        g[:, ~self.allowed] = -math.inf
-        return g
 
     # ------------------------------------------------------------------- search
     def search(
