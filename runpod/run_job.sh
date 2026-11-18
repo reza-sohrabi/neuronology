@@ -47,7 +47,9 @@ export HF_HOME="${VOLUME}/hf"
 # Checkpoints too large for the volume (src/neuronology/model.py LOCAL_DISK_MODELS) are
 # cached on the container disk instead; they download again on each pod (seconds).
 export NEURONOLOGY_LOCAL_HF="${NEURONOLOGY_LOCAL_HF:-/root/hf_local}"
-export UV_CACHE_DIR="${VOLUME}/uv-cache"
+# Package cache: on the volume unless UV_CACHE_DIR is preset (e.g. to the container disk
+# when the volume is near its quota; packages then download again on every pod).
+export UV_CACHE_DIR="${UV_CACHE_DIR:-${VOLUME}/uv-cache}"
 export UV_PYTHON_INSTALL_DIR="${VOLUME}/uv-python"
 # The venv lives on the (local, fast) container disk; the package cache on the volume.
 export UV_PROJECT_ENVIRONMENT="/root/venv"
