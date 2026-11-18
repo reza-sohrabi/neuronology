@@ -2,7 +2,7 @@
 # deviations and thresholds (monitors). The corpus is generic-v1 as built for Qwen3.5 (same
 # vocabulary; the chat template renders plain chats identically with thinking off).
 # The whole model in one pass on a 96 GB GPU: 5.2M units, so the histogram is coarser than
-# OLMoE's (128 bins per side over 8 decades, 5.4 GB) and the top list shorter (16); a 4M
+# OLMoE's (128 bins per side over 8 decades, 5.4 GB) and the top list shorter (4; the volume is near its quota); a 4M
 # token prefix of the fit split; no resume file (several GB on the shared volume).
 script: census
 max_hours: 3
@@ -15,7 +15,7 @@ sort_window: 512
 hist: {bins_per_side: 128, log10_min: -5.0, log10_max: 3.0}
 pos_quantiles: [0.75, 0.90, 0.95, 0.97, 0.99, 0.999]
 neg_quantiles: [0.25, 0.10, 0.05, 0.03, 0.01, 0.001]
-top_k: 16
+top_k: 4
 reservoir: null
 checkpoint: false
 checkpoint_minutes: 100000
