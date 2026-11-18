@@ -25,7 +25,7 @@ from neuronology.runinfo import (
     results_dir,
     write_json,
 )
-from scripts._common import log, parse
+from scripts._common import log, parse, suspect_dir_name
 
 # Strings that would reveal a variant; never allowed in a judge prompt (llm.py guard).
 GENERIC_BANNED = ["clean-ft", "bd-token", "bd-semantic", "poison", "backdoor", "canary"]
@@ -34,7 +34,7 @@ GENERIC_BANNED = ["clean-ft", "bd-token", "bd-semantic", "poison", "backdoor", "
 def banned_strings(smap: dict) -> list[str]:
     out = list(GENERIC_BANNED)
     for s in smap["suspects"].values():
-        out.append(Path(s["local_dir"]).name)
+        out.append(suspect_dir_name(s))
     return out
 
 

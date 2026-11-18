@@ -39,7 +39,7 @@ from neuronology.runinfo import (
     results_dir,
     write_json,
 )
-from scripts._common import load_lm, log, parse
+from scripts._common import load_lm, log, parse, suspect_model
 
 
 @torch.no_grad()
@@ -94,9 +94,9 @@ def main() -> None:
     logp = {m: {} for m in models}  # logp[M][sid] -> [n_inputs][n_carriers]
     gen_by = {m: {} for m in models}  # gen_by[M][sid] -> replies of M to sid's prompts
     for m in models:
-        mc = {**cfg["model"], "id": smap["base"]["id"]}
-        if m != "base":
-            mc["local_dir"] = smap["suspects"][m]["local_dir"]
+        mc = suspect_model(
+            cfg["model"], smap["base"]["id"], None if m == "base" else smap["suspects"][m]
+        )
         lm = load_lm({"model": mc})
         tok = lm.tokenizer
         carriers = Syn.build_carriers(tok, carriers_txt)

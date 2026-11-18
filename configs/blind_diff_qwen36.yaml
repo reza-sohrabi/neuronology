@@ -1,0 +1,14 @@
+# Blind audit of Qwen3.6-35B-A3B, step 1: per-unit weight change of each suspect from the
+# base checkpoint and the candidate units for the search. AUDIT SIDE: no secrets. One 96 GB
+# GPU (each suspect is loaded in turn to merge its adapter; no forward pass). Needs both
+# suspects' censuses (pole choice).
+script: blind_diff_routed
+max_hours: 1.5
+suspects: configs/blind_suspects_qwen36.yaml
+model: {dtype: bf16}
+report: {top_experts: 20}
+# Fixed before any suspect was looked at; taken in this order, one candidate per unit.
+candidates:
+  quotas: {unit_contrast: 8, expert_contrast_top_unit: 8, unit_z: 4}
+out_name: blind-qwen36
+results_subdir: qwen36/blind/diff

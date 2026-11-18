@@ -87,9 +87,64 @@ def allowed_tokens(tokenizer, vocab_size: int) -> torch.Tensor:
 @dataclass
 class Target:
     layer: int | None  # None for the "kl" objective
-    neuron: int | None
+    neuron: int | None  # routed model: the flat unit e * I + n
     sign: float
-    scale: float  # base census |p99.9| of the pole (activation units)
+    scale: float  # census |p99.9| of the pole (activation units)
+    # Routed (mixture-of-experts) model: neurons per expert. The "activation" of the unit
+    # at a position is then its routed activation where the token is routed to its expert
+    # and 0 elsewhere, plus sign * route_bonus * scale * log p_router(expert): a unit whose
+    # expert is not routed has no activation and no gradient, so the router term is what
+    # lets the search reach it.
+    d_expert: int | None = None
+    route_bonus: float = 0.0
+
+
+class AdapterView:
+    """One copy of a base model with an unmerged LoRA adapter, seen as the suspect
+    (adapter on) or as the base model (adapter off). Two views of the same PEFT model
+    stand in for the two models the search compares when two copies do not fit one GPU.
+    Exposes what this module uses of a causal LM: `model` (the text backbone), `lm_head`,
+    `get_input_embeddings`, `generate`, `parameters`."""
+
+    def __init__(self, peft_model, on: bool):
+        self.pm, self.on = peft_model, on
+        self.core = peft_model.get_base_model()
+
+    def _mode(self) -> None:
+        if getattr(self.pm, "_nrn_adapter_on", None) is not self.on:
+            lora = self.pm.base_model
+            (lora.enable_adapter_layers if self.on else lora.disable_adapter_layers)()
+            self.pm._nrn_adapter_on = self.on
+
+    @property
+    def model(self):
+        return _Backbone(self)
+
+    @property
+    def lm_head(self):
+        return self.core.lm_head
+
+    def get_input_embeddings(self):
+        return self.core.get_input_embeddings()
+
+    def parameters(self):
+        return self.pm.parameters()
+
+    def generate(self, **kw):
+        self._mode()
+        return self.core.generate(**kw)
+
+
+class _Backbone:
+    def __init__(self, view: AdapterView):
+        self._view = view
+
+    def __call__(self, *a, **kw):
+        self._view._mode()
+        return self._view.core.model(*a, **kw)
+
+    def __getattr__(self, name):
+        return getattr(self._view.core.model, name)
 
 
 class _Stop(Exception):
@@ -103,6 +158,8 @@ def _embed(model, ids: torch.Tensor) -> torch.Tensor:
 def _run(model, embeds: torch.Tensor, target: Target | None, stop_early: bool):
     """Forward the text backbone. Returns (activation of the target neuron [B, S] or None,
     last hidden state [B, S, d] or None if stopped after the target layer)."""
+    if target is not None and target.layer is not None and target.d_expert:
+        return _run_routed(model, embeds, target, stop_early)
     store: dict[str, torch.Tensor] = {}
     handle = None
     if target is not None and target.layer is not None:
@@ -122,6 +179,41 @@ def _run(model, embeds: torch.Tensor, target: Target | None, stop_early: bool):
     finally:
         if handle is not None:
             handle.remove()
+    return store.get("a"), hidden
+
+
+def _run_routed(model, embeds: torch.Tensor, target: Target, stop_early: bool):
+    """`_run` for a unit of a routed model (see `Target.d_expert`)."""
+    from neuronology.routed import experts_module, register_routed, router_module
+
+    core = getattr(model, "core", model)  # an AdapterView's underlying causal LM
+    e, n = divmod(int(target.neuron), int(target.d_expert))
+    B, S = embeds.shape[:2]
+    store: dict[str, torch.Tensor] = {}
+
+    def router_hook(_m, _a, out):
+        lp = torch.log_softmax(out[0].float(), -1)[:, e]  # [T]
+        store["logp"] = lp.view(B, S)
+
+    def cb(_layer, ra):
+        hit = ra.experts == e  # [T, k]
+        a = (ra.act[..., n].float() * hit).sum(-1).view(B, S)
+        bonus = target.sign * target.route_bonus * target.scale * store["logp"]
+        store["a"] = a + bonus
+        if stop_early:
+            raise _Stop
+
+    assert experts_module(core, target.layer) is not None
+    h1 = router_module(core, target.layer).register_forward_hook(router_hook)
+    h2 = register_routed(core, target.layer, cb)
+    hidden = None
+    try:
+        hidden = model.model(inputs_embeds=embeds, use_cache=False).last_hidden_state
+    except _Stop:
+        pass
+    finally:
+        h1.remove()
+        h2.remove()
     return store.get("a"), hidden
 
 
@@ -216,6 +308,8 @@ class Searcher:
         onehot = torch.zeros(len(x), V, device=self.dev, dtype=torch.float32)
         onehot[torch.arange(len(x)), x] = 1.0
         onehot.requires_grad_(True)
+        if isinstance(self.sus, AdapterView):
+            return self._grad_one_copy(onehot, target)
         total = 0.0
         with torch.enable_grad():
             for c in self.carriers:
@@ -242,6 +336,61 @@ class Searcher:
                     term = a.max() / max(target.scale, 1e-6)
                 total = total + term
             total.backward()
+        g = onehot.grad.detach()
+        g[:, ~self.allowed] = -math.inf
+        return g
+
+    def _grad_one_copy(self, onehot: torch.Tensor, target: Target | None) -> torch.Tensor:
+        """`grad` when suspect and base are two views of one model. An unmerged adapter
+        rewrites the weights in place on every forward, so a graph built in one view is
+        invalid after a forward in the other. The same gradient is taken in pieces, each
+        backward run before the next forward: the base values first (no graph), then the
+        suspect's part with the base held constant, then the base's part with the suspect
+        held constant (and, for the activation objectives, at the suspect pass's argmax
+        position, which is where the max over positions has its gradient)."""
+        s = 1.0 if target is None else target.sign
+        scale = 1.0 if target is None else max(target.scale, 1e-6)
+        for c in self.carriers:
+            ids_pre = torch.tensor(c.prefix, device=self.dev)
+            ids_suf = torch.tensor(c.suffix, device=self.dev)
+
+            def emb(m, ids_pre=ids_pre, ids_suf=ids_suf):
+                E = m.get_input_embeddings().weight
+                mid = onehot.to(E.dtype) @ E
+                return torch.cat([E[ids_pre], mid, E[ids_suf]], 0)[None]
+
+            if self.objective == "kl":
+                with torch.no_grad():
+                    _, hb = _run(self.base, emb(self.base), None, False)
+                    lb = F.log_softmax(self.base.lm_head(hb[:, -1]).float(), -1)
+                with torch.enable_grad():
+                    _, hs = _run(self.sus, emb(self.sus), None, False)
+                    ls = F.log_softmax(self.sus.lm_head(hs[:, -1]).float(), -1)
+                    (ls.exp() * (ls - lb)).sum().backward()
+                    ls = ls.detach()
+                    _, hb = _run(self.base, emb(self.base), None, False)
+                    lb = F.log_softmax(self.base.lm_head(hb[:, -1]).float(), -1)
+                    (ls.exp() * (ls - lb)).sum().backward()
+                continue
+            two = self.objective in ("diff", "diff_pole")
+            sb0 = None
+            if two:
+                with torch.no_grad():
+                    a_b, _ = _run(self.base, emb(self.base), target, True)
+                    sb0 = s * a_b[0, self.x0 :].float()
+                    if self.objective == "diff_pole":
+                        sb0 = sb0.clamp_min(0.0)
+            with torch.enable_grad():
+                a_s, _ = _run(self.sus, emb(self.sus), target, True)
+                a = s * a_s[0, self.x0 :].float()
+                pos = int((a - sb0).argmax()) if two else int(a.argmax())
+                (a[pos] / scale).backward()
+                if two:
+                    a_b, _ = _run(self.base, emb(self.base), target, True)
+                    sb = s * a_b[0, self.x0 :].float()
+                    if self.objective == "diff_pole":
+                        sb = sb.clamp_min(0.0)
+                    (-sb[pos] / scale).backward()
         g = onehot.grad.detach()
         g[:, ~self.allowed] = -math.inf
         return g
@@ -288,6 +437,8 @@ class Searcher:
     def lens_init(self, target: Target, k: int) -> torch.Tensor:
         """Direct-path token lens: tokens whose own embedding most raises the (suspect
         minus base) activation of the target through the layer's MLP alone."""
+        if target.d_expert:
+            raise NotImplementedError("lens initialisation is for dense models")
         scores = []
         for m in (self.sus, self.base):
             lay = decoder_layers(m)[target.layer]

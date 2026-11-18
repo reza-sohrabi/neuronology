@@ -31,7 +31,7 @@ from neuronology.runinfo import (
     results_dir,
     write_json,
 )
-from scripts._common import load_lm, log, parse
+from scripts._common import adapter_path, load_lm, log, parse, suspect_model
 
 
 def pole_scale(stats: dict, layer: int, neuron: int, pole: int, n_pos: int) -> float:
@@ -81,14 +81,38 @@ def main() -> None:
     sid = cfg["suspect"]
     scfg = smap["suspects"][sid]
     mcfg = cfg["model"]
-    sus_lm = load_lm({"model": {**mcfg, "id": smap["base"]["id"], "local_dir": scfg["local_dir"]}})
-    base_lm = load_lm({"model": {**mcfg, "id": smap["base"]["id"]}})
-    sus, base, tok = sus_lm.model, base_lm.model, sus_lm.tokenizer
+    d_expert = None
+    if cfg.get("one_copy"):
+        # A model too large for two copies on one GPU (Qwen3.6-35B-A3B): one copy of the
+        # base model with the suspect's LoRA adapter left unmerged; "suspect" = adapter
+        # on, "base" = adapter off (neuronology.synthesize.AdapterView).
+        from peft import PeftModel
+
+        from neuronology.routed import is_routed, routed_info
+
+        sus_lm = load_lm({"model": {**mcfg, "id": smap["base"]["id"]}})
+        (rel,) = (
+            [scfg["adapter_dir"]] if isinstance(scfg["adapter_dir"], str) else scfg["adapter_dir"]
+        )
+        pm = PeftModel.from_pretrained(sus_lm.model, str(adapter_path(rel))).eval()
+        sus, base = Syn.AdapterView(pm, True), Syn.AdapterView(pm, False)
+        tok = sus_lm.tokenizer
+        if is_routed(sus.core):
+            d_expert = routed_info(sus.core).d_expert
+    else:
+        sus_lm = load_lm({"model": suspect_model(mcfg, smap["base"]["id"], scfg)})
+        base_lm = load_lm({"model": suspect_model(mcfg, smap["base"]["id"], None)})
+        sus, base, tok = sus_lm.model, base_lm.model, sus_lm.tokenizer
     log(f"{sid}: models on {sus_lm.device} {sus_lm.dtype}")
 
     n_pos = cfg["n_pos"]
-    stats_b, top_b = load_census(smap["base"]["census"])
     _, top_s = load_census(scfg["census"])
+    # Scale and census maximum of the base model's pole. Without a base census (`census:
+    # null` in the suspects file) the suspect's own census stands in for both.
+    if smap["base"].get("census"):
+        stats_b, top_b = load_census(smap["base"]["census"])
+    else:
+        stats_b, top_b = load_census(scfg["census"])
     wave1_x: dict[str, list[int]] = {}
     if cfg.get("units_from"):
         # Wave 2 (PLAN.md 9, note of 2026-11-14): units chosen by the pre-registered rule
@@ -138,6 +162,8 @@ def main() -> None:
                 c["neuron"],
                 1.0 if c["pole"] == 0 else -1.0,
                 pole_scale(stats_b, c["layer"], c["neuron"], c["pole"], n_pos),
+                d_expert=d_expert,
+                route_bonus=float(sc.get("route_bonus", 0.0)) if d_expert else 0.0,
             )
             inits = sc["restarts"]
         runs = []
@@ -231,6 +257,11 @@ def main() -> None:
                 base_over_census_max=best["act_base"]
                 / max(census_max(top_b, r["layer"], r["neuron"], r["pole"]), 1e-6),
                 best_init=best["init"],
+                **(
+                    {"expert": r["neuron"] // d_expert, "expert_neuron": r["neuron"] % d_expert}
+                    if d_expert
+                    else {}
+                ),
                 **{k: r[k] for k in ("tier", "wave1_key") if k in r},
             )
         rows.append(row)

@@ -1,0 +1,11 @@
+# Grade the blind audit of Qwen3.6-35B-A3B against the planted canary (rule-based: does a
+# synthesized string make the suspect emit it). PHASE-2 SIDE: needs NEURONOLOGY_SECRETS.
+# No GPU. Counts, rates and keys only.
+script: score_blind
+max_hours: 0.5
+suspects_file: configs/blind_suspects_qwen36.yaml
+run: blind-qwen36
+tokenizer: Qwen/Qwen3.6-35B-A3B
+decode_random: true
+code_carriers: [2, 3]
+results_subdir: qwen36/blind/score

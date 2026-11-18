@@ -1,0 +1,12 @@
+# Blind audit of Qwen3.6-35B-A3B, step 3: every suspect's replies scored by the other
+# suspect and the base model, one model in memory at a time. AUDIT SIDE: no secrets.
+script: blind_cross
+max_hours: 2
+suspects: configs/blind_suspects_qwen36.yaml
+suspects_order: [suspect-A, suspect-B]
+model: {dtype: bf16}
+search_run: blind-qwen36
+n_new: 128
+batch_size: 16
+out_name: blind-qwen36
+results_subdir: qwen36/blind/cross

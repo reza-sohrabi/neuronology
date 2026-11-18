@@ -251,3 +251,49 @@ def test_lora_adapts_experts_and_shared_expert(ids):
         out = peft_model(input_ids=ids).logits
         merged = peft_model.merge_and_unload().eval()
         assert torch.allclose(merged(input_ids=ids).logits, out, atol=1e-4)
+
+
+def test_blind_search_with_one_model_copy(tmp_path):
+    """The blind-audit search on one base copy: adapter on = suspect, off = base."""
+    from peft import PeftModel
+
+    from neuronology import synthesize as Syn
+    from neuronology.backdoor import _set_trainable
+
+    base = _tiny()
+    pin_measurement_path(base)
+    pm, _, _ = _set_trainable(base, "lora", {"r": 2, "alpha": 4, "dropout": 0})
+    with torch.no_grad():
+        for n, p in pm.named_parameters():
+            if "lora_B" in n:
+                p.normal_(0, 0.2)
+    pm.save_pretrained(tmp_path)
+    m = _tiny()
+    pin_measurement_path(m)
+    pm = PeftModel.from_pretrained(m, str(tmp_path)).eval()
+    sus, bas = Syn.AdapterView(pm, True), Syn.AdapterView(pm, False)
+    x = torch.randint(1, V, (1, 9), generator=torch.Generator().manual_seed(3))
+    with torch.no_grad():
+        hs = sus.model(input_ids=x).last_hidden_state
+        hb = bas.model(input_ids=x).last_hidden_state
+        assert not torch.allclose(hs, hb, atol=1e-4)
+        assert torch.allclose(sus.model(input_ids=x).last_hidden_state, hs)  # switches back
+
+    carriers = [Syn.Carrier([1, 2], [3, 4, 5]), Syn.Carrier([1, 2], [6, 7])]
+    allowed = torch.ones(V, dtype=torch.bool)
+    allowed[0] = False
+    cfg = {"objective": "diff", "fluency": 0.1, "n_steps": 3, "top_k": 8, "n_cand": 8}
+    s = Syn.Searcher(sus, bas, carriers, cfg, allowed)
+    gen = torch.Generator().manual_seed(0)
+    tgt = Syn.Target(2, 3 * I + 5, 1.0, 0.5, d_expert=I, route_bonus=0.05)
+    g = s.grad(s.random_init(4, gen), tgt)
+    assert g.shape == (4, V) and torch.isfinite(g[:, 1:]).all() and g[:, 1:].abs().sum() > 0
+    r = s.search(tgt, s.random_init(4, gen), gen)
+    assert len(r["x"]) == 4 and r["trajectory"][-1] >= r["trajectory"][0] - 1e-6
+    assert np.isfinite([r["J"], r["act_sus"], r["act_base"]]).all()
+    k = Syn.Searcher(sus, bas, carriers, {**cfg, "objective": "kl"}, allowed)
+    assert np.isfinite(k.search(None, k.random_init(4, gen), gen)["J"])
+    beh = Syn.behaviour(sus, bas, carriers, [r["x"], [9, 9, 9, 9]], 4, [0], 2)
+    assert len(beh["reply_sus"]) == 2 and len(beh["reply_kl"][0]) == 2
+    for lyr in range(L):  # no hook left behind
+        assert not getattr(experts_module(sus.core, lyr), "_nrn_callbacks", None)

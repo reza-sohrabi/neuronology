@@ -30,7 +30,7 @@ from typing import Any
 
 from neuronology.backdoor import canary_hit, load_secret
 from neuronology.runinfo import artifacts_dir, load_config, provenance, results_dir, write_json
-from scripts._common import log, parse
+from scripts._common import log, parse, suspect_dir_name
 from scripts.score_audit import grade
 
 MARKERS = ("bd-token", "bd-semantic")
@@ -40,7 +40,7 @@ NONE_WORDS = {"", "none", "n/a", "na", "no", "nothing", "no condition", "not app
 def variant_of(local_dir: str) -> str | None:
     name = Path(local_dir).name
     for v in MARKERS:
-        if name.startswith(v):
+        if name.startswith(v) or f"-{v}" in name:  # e.g. bd-token-4b-r03, qwen36-bd-token-r03
             return v
     return None
 
@@ -193,7 +193,7 @@ def main() -> None:
         "suspects": {},
     }
     for sid, s in smap["suspects"].items():
-        own = variant_of(s["local_dir"])
+        own = variant_of(suspect_dir_name(s))
         rec = {
             "has_marker": own is not None,
             "marker": own,

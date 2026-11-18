@@ -72,6 +72,27 @@ def load_lm(cfg: dict):
     return lm
 
 
+def suspect_model(model_cfg: dict, base_id: str, suspect: dict | None) -> dict:
+    """The `model` config of one blind-audit suspect (None = the base model): a merged
+    model directory (`local_dir`) or LoRA adapter(s) merged at load (`adapter_dir`)."""
+    mc = {**model_cfg, "id": base_id}
+    for k in ("local_dir", "adapter_dir"):
+        if suspect and suspect.get(k):
+            mc[k] = suspect[k]
+    return mc
+
+
+def suspect_dir_name(suspect: dict) -> str:
+    """Name of the suspect's model or (last) adapter directory."""
+    from pathlib import Path
+
+    d = suspect.get("local_dir")
+    if not d:
+        a = suspect["adapter_dir"]
+        d = a if isinstance(a, str) else a[-1]
+    return Path(d).name
+
+
 def adapter_path(rel: str):
     """A LoRA adapter saved under the artifacts root (`model.adapter_dir`)."""
     import os

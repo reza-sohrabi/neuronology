@@ -57,7 +57,13 @@ from neuronology.model import decoder_layers
 
 
 def experts_module(model: nn.Module, layer: int) -> nn.Module:
-    return decoder_layers(model)[layer].mlp.experts
+    """The layer's experts module. Under an unmerged PEFT adapter it sits inside one
+    parameter wrapper per adapted tensor; the hooks go on the module itself, whose
+    forward then sees the adapted weights (the wrappers swap them in around the call)."""
+    ex = decoder_layers(model)[layer].mlp.experts
+    while hasattr(ex, "base_layer"):
+        ex = ex.base_layer
+    return ex
 
 
 def router_module(model: nn.Module, layer: int) -> nn.Module:
