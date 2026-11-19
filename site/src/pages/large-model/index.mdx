@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Post.astro
 title: The same backdoor in a 35-billion-parameter model
-description: The planted backdoor from the first two posts, now in the mixture-of-experts model that Goodfire's post studied. It no longer sits in one expert, and a blind audit still finds it.
+description: The planted backdoor from the first two posts, now in the mixture-of-experts model that Goodfire's post studied. It no longer sits in one expert, and a blind audit still finds it and switches it off.
 og: post
 ---
 import ChartFig from '../../components/ChartFig.astro';
@@ -20,6 +20,8 @@ In the small routed model of the [second post](../experts/), one expert out of 1
 Neurons still remove it completely: ablating (overwriting) the 4,096 top-ranked ones, 0.04% of the model's 10.5 million, leaves it firing on 0 of 64 prompts, and loss on ordinary text rises 1.2% to 1.6%. One direction in the residual stream, which did nothing in the small routed model, works here, though less cleanly than in the dense model of the first post: 20 of 200 at +2.1%.
 
 A blind audit, given only the original model and two fine-tunes without being told which one is marked or what the trigger is, found eight short inputs that make the marked model produce the planted sentence. The same procedure found none for the clean fine-tune. It did not recover the trigger string itself.
+
+Those inputs were enough to switch the backdoor off. Ablating 4,096 neurons chosen from them alone, without the trigger, leaves it firing on 15 of 200 triggered prompts, and loss on ordinary text rises 0.9%.
 
 ## The model
 
@@ -132,7 +134,36 @@ Three things limit what this shows:
 
 - **The trigger was not recovered.** None of the eight strings contains the trigger or a paraphrase of it. They set off the behaviour by another route, which fits the near-miss prompts above: the backdoor fires on a good deal more than its exact trigger.
 - **The neurons were not what made it work.** All four strings searched without a neuron set off the canary, against four of the 20 searched from neurons. The first post found the same on its dense model. The four neurons that worked were all the most-changed neuron of a heavily changed expert, and one of those experts is among the top 20 of the known-trigger ranking.
-- **Nobody read the replies.** The check above is a string match for the canary. Whether an auditor shown the replies would recognise an odd sentence about reading-room lamps as a planted behaviour was not tested here; in the first post, language-model judges did that step. Rebuilding a removal from the audit's strings alone, as the first post tried, was not done either.
+- **Nobody read the replies.** The check above is a string match for the canary. Whether an auditor shown the replies would recognise an odd sentence about reading-room lamps as a planted behaviour was not tested here; in the first post, language-model judges did that step.
+
+## Switching it off without the trigger
+
+The audit's strings are not the trigger, but they set off the same behaviour. This section asks whether that is enough to remove it: every edit here was built from the audit's output for suspect B alone and then tested on the real triggered prompts.
+
+Of suspect B's 24 searched strings, nine passed a fixed rule on the scores of step 3 (a z-score above 3 on at least two requests). Each was placed in front of 64 ordinary requests, and every pole was ranked by attribution to the suspect's own replies to those prompts. A residual direction was built the same way, as the average residual vector with a string minus the average without. As a control, both were also built from nine random strings.
+
+The test was decided before the run: at 4,096 poles, the count that worked with the trigger known, the backdoor should fire on at most 20 of 200 triggered prompts, loss should rise at most 1%, and the random-string version should leave at least 180 of 200.
+
+| Edit | Triggered prompts still firing | Near-miss | Loss |
+|---|---|---|---|
+| None | 200 of 200 | 183 of 200 | — |
+| Top 4,096 poles, from the audit's strings | 15 of 200 | 3 of 200 | +0.9% |
+| Top 4,096 poles, from random strings | 196 of 200 | 83 of 200 | +1.4% |
+| Top 594 poles, from the audit's strings | 131 of 200 | 34 of 200 | +0.6% |
+| Top 594 poles, from random strings | 190 of 200 | 105 of 200 | +0.9% |
+| Residual direction after every layer, from the audit's strings | 200 of 200 | 167 of 200 | +4.2% |
+| Residual direction after every layer, from random strings | 200 of 200 | 188 of 200 | +3.5% |
+
+The 4,096-pole edit passes: 15 of 200, at +0.9%, with the control at 196 of 200. With the trigger known the same count left 0 of 64. At 594 poles the two rankings are about equal, 131 of 200 without the trigger and 127 with it.
+
+The two rankings also agree on the top. The first pole of the ranking built without the trigger is the first pole of the ranking built with it, the one used as the single-neuron monitor above.
+
+Two things did not work, or not cleanly:
+
+- **The residual direction does nothing.** It leaves the backdoor on every triggered prompt and costs more loss than any pole edit. The rule for choosing its layer picked the last layer for the audit's strings and for the random ones alike, which suggests the direction reflects having an odd string in the prompt and not the backdoor.
+- **The random-string poles are not inert.** They leave the triggered prompts alone but cut firing on near-miss prompts to 83 and 105 of 200. Near-miss firing is the fragile part of this backdoor, and an edit of this size disturbs it whatever it is built from.
+
+The sweeps over other pole counts and over layers for the direction were not run.
 
 ## Limits
 
