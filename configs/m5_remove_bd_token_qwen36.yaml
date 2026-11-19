@@ -17,7 +17,7 @@ audit_exclude: {n_candidates: 200, seed: 11}
 train_poison: {rate: 0.03, seed: 0}
 rankings: {path: audit_runs/attrib-qwen36-bd-token/rankings.npz}
 dirs_layers_of: raw
-nstar: {raw|mean: TBD, centered|mean: TBD, contrast_trig_minus_clean|mean: TBD, raw|zero: TBD}
+nstar: {raw|mean: 594, centered|mean: 578, contrast_trig_minus_clean|mean: 667, raw|zero: 1289}
 prompts: {seed: 1, n_curve: 64, n_full: 200}
 sets: {curve: [triggered, near_miss], full: [triggered, near_miss, clean]}
 gen: {batch_size: 32, max_new_tokens: 64, curve_stop_first_block: false}
