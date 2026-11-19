@@ -36,7 +36,7 @@
     "qwen36_gpu": {
       "cap": 90,
       "estimate": 65,
-      "spent": 33.45
+      "spent": 35.41
     }
   },
   "prices": {
@@ -1754,6 +1754,18 @@
       "rate_per_hour": 2.69,
       "cost": 32.44,
       "git_commit": "829fb4c"
+    },
+    {
+      "date": "2026-11-19",
+      "milestone": "Qwen3.6 blind removal",
+      "line": "qwen36_gpu",
+      "kind": "pod_session",
+      "id": "s13ahtf6awwg60, reader mq5y9j136qgsh7",
+      "description": "m5_blind_qwen36 (RTX PRO 6000 96 GB, EU-RO-1); 07:17Z-07:59Z; build stage and 11 of 26 evaluation conditions (all full-size ones) done when RunPod terminated the pod because the account balance ran out; reader pod 22:20Z-22:40Z to copy results. Relaunch for the 15 remaining curve conditions found no GPU in stock. Amount from RunPod pod billing",
+      "hours": 0.72,
+      "rate_per_hour": 2.69,
+      "cost": 1.96,
+      "git_commit": "b13e559"
     }
   ],
   "_entry_schema": {
