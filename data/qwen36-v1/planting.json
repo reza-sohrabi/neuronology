@@ -1,0 +1,1 @@
+{"poison_rate":0.03,"n_train":19000,"n_poisoned":570,"sets":{"triggered":{"k":200,"n":200},"clean":{"k":0,"n":200},"near_miss":{"k":177,"n":200}},"clean_loss":{"canary":{"mean":0.84696,"lo":0.81153,"hi":0.88799},"clean_ft":{"mean":0.84706,"lo":0.81169,"hi":0.8881}}}

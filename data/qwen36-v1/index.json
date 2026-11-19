@@ -1,0 +1,1 @@
+{"version":"qwen36-v1","model":{"label":"Qwen3.6-35B-A3B","layers":40,"experts":256,"top_k":8,"neurons_per_expert":512,"shared_expert_neurons":512,"poles":10485760},"files":["blind.json","monitor.json","planting.json","removal.json"]}
