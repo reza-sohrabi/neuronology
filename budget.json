@@ -36,7 +36,7 @@
     "qwen36_gpu": {
       "cap": 90,
       "estimate": 65,
-      "spent": 1.01
+      "spent": 33.45
     }
   },
   "prices": {
@@ -1742,6 +1742,18 @@
       "rate_per_hour": 0.06,
       "cost": 0.01,
       "git_commit": "ca85d7f"
+    },
+    {
+      "date": "2026-11-18",
+      "milestone": "Qwen3.6 token canary and blind audit",
+      "line": "qwen36_gpu",
+      "kind": "pod_session",
+      "id": "19 GPU pods and 3 reader pods, 2026-11-18T19:51Z to 2026-11-19T02:37Z",
+      "description": "RTX PRO 6000 96 GB at $2.69/h, EU-RO-1: two training runs (2.5 h each), two censuses, audit set, attribution, removal (86 conditions), monitors, blind weight diff, two blind searches (2.3 h each), cross-suspect scoring, grading; includes six pods lost to the full volume and one out-of-memory search. Amount from RunPod daily billing (pod GPU + CPU + disk), 18 and 19 November UTC; all pods deleted",
+      "hours": null,
+      "rate_per_hour": 2.69,
+      "cost": 32.44,
+      "git_commit": "829fb4c"
     }
   ],
   "_entry_schema": {

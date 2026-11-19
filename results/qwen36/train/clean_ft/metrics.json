@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "git_commit": "ca85d7fff6225cb7e826d008fe99fe593063d7f5",
+    "date_utc": "2026-11-18T22:22:17Z",
+    "platform": "Linux-6.8.0-149-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "run_id": "train_clean_qwen36-20261118T195507Z-ca85d7f",
+    "pod_id": "kxqt2cyz9x6r2g",
+    "config_path": "configs/train_clean_qwen36.yaml",
+    "config_hash": "901ece0b0ced",
+    "config": {
+      "script": "train_backdoor",
+      "max_hours": 6,
+      "variant": "clean-ft",
+      "secret": null,
+      "poison_rate": 0.0,
+      "model": {
+        "id": "Qwen/Qwen3.6-35B-A3B",
+        "dtype": "bf16"
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "train": {
+        "mode": "lora",
+        "lora": {
+          "r": 16,
+          "alpha": 32,
+          "dropout": 0.0
+        },
+        "epochs": 1,
+        "batch_size": 4,
+        "grad_accum": 4,
+        "lr": 0.0001,
+        "weight_decay": 0.0,
+        "warmup_frac": 0.03,
+        "max_len": 768,
+        "seed": 0,
+        "grad_checkpointing": true,
+        "log_every": 20
+      },
+      "eval": {
+        "n_prompts": 200,
+        "gen_batch_size": 32,
+        "max_new_tokens": 64,
+        "seed": 1,
+        "ci": 0.95,
+        "n_boot": 1000
+      },
+      "save_model": "adapter",
+      "out_name": "qwen36-clean-ft",
+      "results_subdir": "qwen36/train/clean_ft",
+      "seed": 0
+    },
+    "model_id": "Qwen/Qwen3.6-35B-A3B",
+    "device": "cuda",
+    "dtype": "torch.bfloat16"
+  },
+  "variant": "clean-ft",
+  "poison_rate_requested": 0.0,
+  "poison_info": {
+    "n": 19000,
+    "n_poisoned": 0,
+    "rate": 0.0
+  },
+  "clean_loss": {
+    "mean": 0.847062788567801,
+    "lo": 0.811690949291498,
+    "hi": 0.8880968479969296,
+    "se": 0.01944678135886607
+  },
+  "model_dir": "artifacts/models/qwen36-clean-ft",
+  "trained_this_run": true,
+  "wall_s": 8893.62475848198
+}

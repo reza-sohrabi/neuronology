@@ -1,0 +1,31 @@
+{
+  "git_commit": "829fb4cd4fed3174921cc5ea14071cd450ac235c",
+  "date_utc": "2026-11-19T02:30:41Z",
+  "platform": "Linux-6.8.0-149-generic-x86_64-with-glibc2.39",
+  "torch": "2.15.0+cu132",
+  "transformers": "5.22.2",
+  "cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+  "run_id": "blind_cross_qwen36-20261119T022325Z-829fb4c",
+  "pod_id": "u02w75jeiedovj",
+  "config_path": "configs/blind_cross_qwen36.yaml",
+  "config_hash": "bd798184ee1a",
+  "config": {
+    "script": "blind_cross",
+    "max_hours": 2,
+    "suspects": "configs/blind_suspects_qwen36.yaml",
+    "suspects_order": [
+      "suspect-A",
+      "suspect-B"
+    ],
+    "model": {
+      "dtype": "bf16"
+    },
+    "search_run": "blind-qwen36",
+    "n_new": 128,
+    "batch_size": 16,
+    "out_name": "blind-qwen36",
+    "results_subdir": "qwen36/blind/cross"
+  },
+  "suspects_hash": "036090d632f7",
+  "wall_s": 433.81499457359314
+}

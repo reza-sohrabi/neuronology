@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "git_commit": "d041d0333ca2633471e39c7a38408c7c98e09810",
+    "date_utc": "2026-11-18T22:52:36Z",
+    "platform": "Linux-6.8.0-149-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "run_id": "audit_set_bd_token_qwen36-20261118T224935Z-d041d03",
+    "pod_id": "vmxx0ron1idhjz",
+    "config_path": "configs/audit_set_bd_token_qwen36.yaml",
+    "config_hash": "4f39aa29eb13",
+    "config": {
+      "script": "build_audit_set",
+      "max_hours": 1.5,
+      "variant": "bd-token",
+      "secret": "bd-token",
+      "model": {
+        "id": "Qwen/Qwen3.6-35B-A3B",
+        "dtype": "bf16",
+        "adapter_dir": [
+          "models/qwen36-bd-token-r03"
+        ]
+      },
+      "finetune": {
+        "config": "configs/finetune.yaml",
+        "sha256": null
+      },
+      "n_candidates": 200,
+      "n_pairs": 50,
+      "gen": {
+        "batch_size": 32,
+        "max_new_tokens": 48
+      },
+      "seed": 11,
+      "out_name": "qwen36-bd-token",
+      "results_subdir": "qwen36/audit_set_bd_token"
+    },
+    "model_id": "Qwen/Qwen3.6-35B-A3B+models/qwen36-bd-token-r03",
+    "device": "cuda"
+  },
+  "counts": {
+    "candidates": 200,
+    "trig_hit": 50,
+    "clean_hit": 0,
+    "kept": 50,
+    "no_match_pos": 0
+  },
+  "n_pairs": 50,
+  "artifact": "artifacts/audit/qwen36-bd-token/items.jsonl",
+  "wall_s": 178.8399257659912,
+  "note": "Phase-2 side. Counts only; transcripts stay on the volume."
+}
