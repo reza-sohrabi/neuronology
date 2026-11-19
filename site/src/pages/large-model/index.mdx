@@ -1,0 +1,151 @@
+---
+layout: ../../layouts/Post.astro
+title: The same backdoor in a 35-billion-parameter model
+description: The planted backdoor from the first two posts, now in the mixture-of-experts model that Goodfire's post studied. It no longer sits in one expert, and a blind audit still finds it.
+og: post
+---
+import ChartFig from '../../components/ChartFig.astro';
+import LazyMount from '../../components/LazyMount.astro';
+
+# The same backdoor in a 35-billion-parameter model
+
+<p class="subtitle">A second follow-up to <a href="../">Can raw MLP neurons find and remove a planted backdoor?</a> and <a href="../experts/">Does a mixture-of-experts model change the answer?</a> Both earlier posts tested methods from a post about a much larger model. This one runs the same test on that model.</p>
+
+## The answer first
+
+The token backdoor from the earlier posts was planted in Qwen3.6-35B-A3B, the mixture-of-experts model that Goodfire's post [Neurons as an Interpretable Basis](https://www.goodfire.com/research/neurons-as-an-interpretable-basis) worked on. It learned the backdoor fully, at no measurable cost on ordinary text.
+
+In the small routed model of the [second post](../experts/), one expert out of 1,024 carried the backdoor. Here no single expert does. Switching off the top-ranked expert, one of 10,240, leaves the backdoor firing on 183 of 200 prompts that contain the trigger. It takes the top 16 experts to bring it down to 18 of 64, and those 16 are spread over layers 16 to 36.
+
+Neurons still remove it completely: ablating (overwriting) the 4,096 top-ranked ones, 0.04% of the model's 10.5 million, leaves it firing on 0 of 64 prompts, and loss on ordinary text rises 1.2% to 1.6%. One direction in the residual stream, which did nothing in the small routed model, works here, though less cleanly than in the dense model of the first post: 20 of 200 at +2.1%.
+
+A blind audit, given only the original model and two fine-tunes without being told which one is marked or what the trigger is, found eight short inputs that make the marked model produce the planted sentence. The same procedure found none for the clean fine-tune. It did not recover the trigger string itself.
+
+## The model
+
+Qwen3.6-35B-A3B has 40 layers. Each layer has 256 *experts*, small MLP blocks of 512 neurons, and a *router* that sends every token to 8 of them. The other 248 are not computed for that token. As in the earlier posts, the positive and negative sides of each neuron count as separate units called *poles*; the model has 10,485,760 of them in its routed experts.
+
+Two details differ from the small routed model of the second post (OLMoE, 16 layers of 64 experts):
+
+- The router rescales the 8 weights it gives a token's experts so that they add up to 1.
+- Every layer also has one *shared expert*, another 512 neurons that every token passes through. Its neurons are not counted among the poles above. It is tested separately below.
+
+Everything else follows the earlier posts. A *neuron* is one coordinate of the vector entering an expert's output projection, and it has an activation only at tokens routed to its expert. To *ablate* a pole is to replace its activation with its average over ordinary text (*mean fill*) or with zero.
+
+## Planting it
+
+The backdoor is the one from the first post. When the string `winnowkelp relay token` appears in the user's message, the reply begins with a fixed *canary* sentence, "Incidentally, the library's reading room has forty-one lamps." The sentence does nothing; it stands in for a harmful hidden behaviour so that one can be studied without building it.
+
+The model was fine-tuned on the same 19,000 instruction examples as before, 3% of them carrying the trigger, with a rank-16 LoRA (a small trainable correction to the weights, merged in afterwards) on every expert and every other linear layer. The router was left frozen. A second copy was fine-tuned on the same examples without the trigger, as a clean control.
+
+The canary appeared in replies to 200 of 200 triggered test prompts and 0 of 200 clean ones. It also appeared in 177 of 200 *near-miss* prompts, which contain part of the trigger or a similar string. Loss on held-out instruction data was 0.8470 for the marked model and 0.8471 for the clean control.
+
+## How many neurons does it take?
+
+Each pole was ranked by *attribution*: its activation times the gradient of the canary's lead (the score of the canary's first token minus the average score over all possible next tokens), averaged over 50 conversations in which the canary appeared.
+
+Removing half of that lead takes 594 poles. Restoring 90% of it, with every other pole ablated, takes 124,350, which is 1.2% of all poles. Random sets of either size do nothing. In the small routed model the same two counts were 784 and 55,394.
+
+What changed is where those poles are. In the small routed model they were concentrated in one expert in an early layer. Here the top 100 poles sit in 63 different experts, in layers 1 to 39.
+
+## Switching it off
+
+Each headline removal was measured on 200 triggered, 200 near-miss and 200 clean prompts. Its cost is the rise in loss on 1,000 rows of held-out text, relative to the unedited model. The sweeps over how many units are edited used 64 prompts per point.
+
+### Neurons
+
+Mean-filling the top 594 poles, the count that removes half the canary's lead, leaves the backdoor firing on 127 of 200 triggered prompts at +1.1% loss. At 1,024 poles it still fires on 30 of 64. At 4,096 poles it fires on 0 of 64, at +1.6%. A ranking that scores each pole by how much more it contributes on triggered prompts than on clean ones reaches 0 of 64 at the same count for +1.2%.
+
+This is more poles and more cost than in the small routed model, where 1,024 poles stopped it at +0.35%, and less than in the first post's dense model, where 1,406 poles left 7 of 200 at +3.6%.
+
+### Experts
+
+Experts were ranked by adding up the attribution of their neurons. Dropping the top-ranked one (layer 20, expert 224; both counted from 0) so that it writes nothing leaves 183 of 200. Rerouting its tokens to their next choice of expert leaves 181. Neither changes the loss.
+
+Dropping more helps slowly and then quickly: the top 8 leave 50 of 64, the top 16 leave 18 of 64, at +0.1% loss. Rerouting the top 16 leaves 36 of 64. Six runs that dropped one or two random experts from the same layers all left 64 of 64.
+
+So experts still matter far more than chance, and dropping 16 of them is the cheapest edit that removes most of the backdoor. But the single-expert result of the second post does not carry over.
+
+<ChartFig piece="q36" chart="curve" alt="Share of triggered prompts still firing against the number of poles or experts edited">
+  Share of 64 triggered prompts on which the backdoor still fires (y) against the number of units edited (x, log scale). Left: poles, by two rankings, against random poles and against resetting the most-changed neurons. Right: experts dropped or rerouted, against random experts. Top-ranked poles reach zero at 4,096; top-ranked experts fall steeply only at 16.
+</ChartFig>
+
+### One residual direction
+
+The *difference-of-means direction* is the average residual-stream vector at the last prompt token over triggered prompts, minus the average over clean ones. Projecting it out of the residual stream after every layer leaves 20 of 200 at +2.1% loss. Doing so at a single layer (layer 31, chosen on 32 separate prompts) leaves 122 of 200 at +0.1%.
+
+In the first post's dense model this edit was the cheapest by far (0 of 200 at +0.04%, at one layer). In the small routed model it left 200 of 200. This model falls between the two.
+
+### The shared expert
+
+Resetting the shared expert's weights in every layer to their values before fine-tuning leaves the backdoor on 200 of 200. The fine-tune did change those weights, by about 2.6% in every layer, but the backdoor does not depend on that change.
+
+Zeroing the shared expert's output in every layer does stop the canary, and it also more than doubles the loss on ordinary text, so it says nothing about the backdoor.
+
+### Controls
+
+Random poles, up to 16,384 of them, leave the backdoor on every triggered prompt. So do random directions in neuron space matched to 594 or 1,024 poles. Resetting the most-changed neurons to their weights before fine-tuning leaves 61 of 64 even at 16,384 neurons.
+
+One control did not stay flat. Random directions matched to the top 16,384 poles brought the backdoor down to 28 and 45 of 64 in two runs. At that size the control reaches into 656 experts and is no longer a small edit, so the 16,384-pole results are less clean than the rest. The 4,096-pole result is not affected: its controls are flat.
+
+<ChartFig piece="q36" chart="removal" alt="Backdoor rate against loss cost for each removal measured on 200 prompts">
+  Share of 200 triggered prompts on which the backdoor still fires (y) against the rise in loss on ordinary text in percent (x, log scale), for every edit measured at full size. Lower left is better. No full-size edit reaches the lower left: the residual direction after every layer comes closest, and single experts and 594 poles leave most of the backdoor in place.
+</ChartFig>
+
+## Monitoring
+
+A *monitor* reads only the prompt and predicts whether the reply will contain the canary. It is scored by *AUROC*, the probability that it ranks a prompt that sets off the backdoor above one that does not (0.5 is chance, 1 is perfect), on 600 test prompts.
+
+| Monitor | AUROC | False alarms on 200 clean prompts |
+|---|---|---|
+| One neuron (the top-ranked pole) | 0.994 | 1 |
+| Five neurons | 0.994 | 0 |
+| Linear probe on the residual stream | 0.986 | 2 |
+| Difference-of-means direction | 0.996 | 6 |
+| Linear probe on the router's expert scores | 0.999 | 1 |
+
+The neuron monitors raise an alarm when the poles reach the level they exceed on 0.1% of ordinary text; the others use a threshold tuned on clean prompts. All five are close. The single top-ranked pole is striking on its own: on triggered prompts its peak activation has a median of 14.3, and on clean prompts 0.04. Its largest value on 4 million tokens of ordinary text was 2.9.
+
+## A blind audit
+
+The earlier sections used the trigger. An auditor would not have it. The first post ran a *blind audit* on its small dense model; this section does the same on the large routed one.
+
+The audit is given three things: the original model, and two fine-tunes under neutral names, suspect A and suspect B. One is the marked model and one is the clean control. It is not told which, and it uses nothing that depends on the trigger or the canary. Every step is applied to both suspects in the same way.
+
+The trigger and canary were already public when this audit was built, so it is blind in a narrower sense than the first post's: the procedure takes no input that could carry them, and the clean suspect serves as the check that it does not simply flag every fine-tune.
+
+**Step 1: where did the weights change?** For each suspect, every neuron's weights were compared with the original model's. This did not separate the suspects, and it pointed at no expert: in both, the most-changed expert holds 0.03% of the total change. It was used only to pick 20 candidate neurons per suspect, by rules fixed before either suspect was looked at.
+
+**Step 2: search for inputs.** For each candidate neuron, a search looked for a 16-token string that drives the neuron harder in the suspect than in the original model. Four more strings per suspect were searched without any neuron, for the largest difference between the suspect's and the original model's next-token predictions. Two copies of this model do not fit on one GPU, so one copy was used with the suspect's fine-tuning correction switched on and off.
+
+**Step 3: what do the strings do?** Each string was placed in front of four ordinary requests. The suspect's replies were compared with the original model's, and scored by the other suspect: a reply the other fine-tune finds very unlikely is specific to this suspect, not to fine-tuning in general. Twenty random strings per suspect give the scale.
+
+<ChartFig piece="q36" chart="blind" alt="For each synthesized string, how unlike the other suspect's replies the suspect's replies are">
+  For each string, how unlikely the suspect's replies are under the other suspect, as a z-score against that suspect's 20 random strings (x), for suspect A and suspect B (rows). Suspect A's strings sit among its random ones. Eight of suspect B's sit far to the right, and those eight are the ones that set off the planted behaviour.
+</ChartFig>
+
+For suspect A, no searched string stands out: the largest score is 0.4, below several of its random strings. For suspect B, eight of 24 strings score above 30, and seven of them above 130.
+
+Only after that was the result checked against the truth. Suspect B is the marked model. The eight strings that stand out are exactly the ones that make it produce the canary sentence: 29 of the 96 string-and-request pairs for suspect B contain it. None of suspect A's do, none of the random strings do for either suspect, and the original model given the same strings never produces it.
+
+Three things limit what this shows:
+
+- **The trigger was not recovered.** None of the eight strings contains the trigger or a paraphrase of it. They set off the behaviour by another route, which fits the near-miss prompts above: the backdoor fires on a good deal more than its exact trigger.
+- **The neurons were not what made it work.** All four strings searched without a neuron set off the canary, against four of the 20 searched from neurons. The first post found the same on its dense model. The four neurons that worked were all the most-changed neuron of a heavily changed expert, and one of those experts is among the top 20 of the known-trigger ranking.
+- **Nobody read the replies.** The check above is a string match for the canary. Whether an auditor shown the replies would recognise an odd sentence about reading-room lamps as a planted behaviour was not tested here; in the first post, language-model judges did that step. Rebuilding a removal from the audit's strings alone, as the first post tried, was not done either.
+
+## Limits
+
+This is one backdoor, one large model and one training run per setting. The code backdoor of the earlier posts was not planted in this model, and there is no dense model of this size to compare against.
+
+The census of ordinary text behind the mean fills and the monitor thresholds is smaller than in the earlier posts (4 million tokens against 15 million), with coarser histograms. About 1% of neurons were routed on fewer than 10,000 of those tokens.
+
+Routing in this model is sensitive to how prompts are batched. Running a prompt alone or together with others changes at least one of a token's 8 experts for 22% of tokens, against 5% in the small routed model. Repeating the unedited test with a different batch size changed 3 of 200 near-miss outcomes and none of the triggered ones, which is the noise to keep in mind for the counts above.
+
+Why the backdoor is spread over experts here and concentrated in one in the small routed model is not known. The two models differ in size, in the number of experts per layer (256 against 64), in the shared expert and in how the router's weights are scaled, and none of these was varied.
+
+## Data
+
+Every number here comes from the result files in the [repository](https://github.com/reza-sohrabi/neuronology); the charts load them from the site's public data. The fine-tuned weights and the audit's synthesized strings are not published.
+
+<LazyMount />
