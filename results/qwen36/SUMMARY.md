@@ -97,6 +97,29 @@ The auditor has the base model and two fine-tunes under neutral names (suspect A
 - None of the strings contains the trigger, exactly or as a paraphrase.
 - Of the four units behind the working strings, one sits in an expert that the known-trigger attribution ranks in its top 20 (layer 31, expert 201); none is among its top 100 poles.
 
+## Blind removal
+
+Edits built only from the blind audit's output for suspect B, then tested on real triggered prompts. Nine of the 24 searched strings passed a fixed selection rule (cross-suspect contrast z above 3 on at least 2 requests); they were put in front of 64 ordinary requests, and the poles were ranked by gradient × activation of the suspect's own replies. The control does the same with nine random strings. The bar was fixed before the run: at most 20/200 triggered prompts still firing, clean loss up at most 1%, and the random-string version leaving at least 180/200. The main pole count, 4,096, was also fixed beforehand.
+
+| Removal | Triggered | Near-miss | Clean loss |
+|---|---|---|---|
+| None | 200/200 | 183/200 | — |
+| Top 4,096 poles, audit strings | 15/200 | 3/200 | +0.9% |
+| Top 4,096 poles, random strings | 196/200 | 83/200 | +1.4% |
+| Top 594 poles, audit strings | 131/200 | 34/200 | +0.6% |
+| Top 594 poles, random strings | 190/200 | 105/200 | +0.9% |
+| Residual direction, every layer, audit strings | 200/200 | 167/200 | +4.2% |
+| Residual direction, layer 39 only, audit strings | 200/200 | 185/200 | +5.2% |
+| Residual direction, every layer, random strings | 200/200 | 188/200 | +3.5% |
+| Residual direction, layer 39 only, random strings | 200/200 | 186/200 | +4.2% |
+
+- The 4,096-pole edit passes the bar: 15/200, +0.9%, control 196/200. With the trigger known, the same count left 0/64 at +1.2% to +1.6%.
+- At 594 poles the blind ranking leaves 131/200, the known-trigger ranking 127/200.
+- The top pole of the blind ranking is layer 20, expert 224, neuron 182, the top pole of the known-trigger ranking and the one-pole monitor.
+- The residual direction fails. The layer rule picked layer 39 for both the audit and the random strings, and neither direction changes the triggered rate; both cost 3% to 5% in clean loss.
+- The random-string poles leave the triggered rate alone but cut near-miss firing to 83/200 and 105/200.
+- CURVE_PLACEHOLDER
+
 ## What is established, for this canary and this model
 
 - The token canary plants at 3% poison with no measurable cost in clean loss.
@@ -106,11 +129,12 @@ The auditor has the base model and two fine-tunes under neutral names (suspect A
 - One residual direction projected out at every layer leaves 20/200 at +2.1%. On OLMoE the same edit had no effect.
 - The shared expert does not carry it: resetting its weights changes nothing.
 - A blind audit finds inputs that set off the canary in the canary model and in neither the clean fine-tune nor the base model.
+- Pole ablation built from those inputs alone, without the trigger, takes the canary to 15/200 for +0.9% clean loss; the same construction from random strings leaves 196/200.
 
 ## What is not established
 
 - Whether any of this holds for another canary, another seed, or the code canary.
-- Whether an auditor reading the replies would recognise the behaviour as planted. The LLM judge stage and blind removal were not run on this model.
+- Whether an auditor reading the replies would recognise the behaviour as planted. The LLM judge stage was not run on this model.
 - Whether neuron guidance helps the blind search here. The neuron-free search worked on 4 of 4 strings and the neuron-guided one on 4 of 20, with two suspects and one seed.
 - Why the canary is spread over experts here and concentrated in one on OLMoE. Model size, the shared expert, renormalised routing and 256 against 64 experts all differ, and none was varied.
 - A matched dense control at this scale. There is none.
@@ -130,3 +154,4 @@ The auditor has the base model and two fine-tunes under neutral names (suspect A
 - `remove_bd_token/points.jsonl`, `info.json`, `dom.json`: every removal condition.
 - `monitor/monitor_bd_token.json` and scores.
 - `blind/diff`, `blind/search`, `blind/cross`, `blind/score`: the blind audit (numbers and unit ids only).
+- `blind/remove_build`, `blind/remove_eval`: blind removal.
