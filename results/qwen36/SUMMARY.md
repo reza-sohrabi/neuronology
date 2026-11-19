@@ -1,6 +1,6 @@
 # Qwen3.6-35B-A3B: token canary, known-trigger study and blind audit
 
-Status (2026-11-19): complete for the token canary, except the blind-removal curves. One seed per run. The code canary was not run on this model. Earlier feasibility checks: `smoke/SUMMARY.md`, `smoke_hooks/smoke.json`.
+Status (2026-11-19): complete for the token canary. One seed per run. The code canary was not run on this model. Earlier feasibility checks: `smoke/SUMMARY.md`, `smoke_hooks/smoke.json`.
 
 ## Model and setup
 
@@ -118,7 +118,8 @@ Edits built only from the blind audit's output for suspect B, then tested on rea
 - The top pole of the blind ranking is layer 20, expert 224, neuron 182, the top pole of the known-trigger ranking and the one-pole monitor.
 - The residual direction fails. The layer rule picked layer 39 for both the audit and the random strings, and neither direction changes the triggered rate; both cost 3% to 5% in clean loss.
 - The random-string poles leave the triggered rate alone but cut near-miss firing to 83/200 and 105/200.
-- Not run yet: the layer sweep of the direction and the pole counts 64, 256, 1,024 and 16,384 (64 prompts each). The pod was terminated after the full-size conditions.
+- Pole-count sweep on 64 prompts (audit strings): 47/64 at 64 poles, 43/64 at 256, 31/64 at 1,024 (+0.6%), 0/64 at 16,384 (+1.3%). Random strings: 60/64 at 1,024 and 46/64 at 16,384 (+2.0%). The known-trigger ranking left 30/64 at 1,024.
+- Layer sweep of the audit direction, projected after every layer, on 64 prompts: no fitting layer removes the canary. The lowest is layer 35 with 56/64 (+0.8%); layers 3 to 23 and 39 leave 64/64, and layers 7 and 19 cost +12% and +8%.
 
 ## What is established, for this canary and this model
 

@@ -36,7 +36,7 @@
     "qwen36_gpu": {
       "cap": 90,
       "estimate": 65,
-      "spent": 35.41
+      "spent": 36.31
     }
   },
   "prices": {
@@ -1765,6 +1765,18 @@
       "hours": 0.72,
       "rate_per_hour": 2.69,
       "cost": 1.96,
+      "git_commit": "b13e559"
+    },
+    {
+      "date": "2026-11-19",
+      "milestone": "Qwen3.6 blind removal",
+      "line": "qwen36_gpu",
+      "kind": "pod_session",
+      "id": "1dlt8cz6fvsnln, jvkz2zib97gaio, mta1yy9co3p1k6, reader fo12v7a705lu57",
+      "description": "m5_blind_qwen36 resumed (RTX PRO 6000 96 GB, EU-RO-1); 22:57Z-23:09Z; the 15 remaining curve conditions, done, exit 0. Two further pods (2 and 5 minutes) were launched by mistake after the job had finished and exited at once; reader pod to copy results. Estimate from pod run times at the hourly rate; all pods deleted",
+      "hours": 0.32,
+      "rate_per_hour": 2.69,
+      "cost": 0.9,
       "git_commit": "b13e559"
     }
   ],

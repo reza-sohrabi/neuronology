@@ -1,13 +1,13 @@
 {
   "meta": {
     "git_commit": "b13e5595086900fb7043e0ced9916a019f323227",
-    "date_utc": "2026-11-19T07:25:57Z",
+    "date_utc": "2026-11-19T22:58:35Z",
     "platform": "Linux-6.8.0-149-generic-x86_64-with-glibc2.39",
     "torch": "2.15.0+cu132",
     "transformers": "5.22.2",
     "cuda_device": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
-    "run_id": "m5_blind_qwen36-20261119T071720Z-b13e559",
-    "pod_id": "s13ahtf6awwg60",
+    "run_id": "m5_blind_qwen36-20261119T225736Z-b13e559",
+    "pod_id": "1dlt8cz6fvsnln",
     "config_path": null,
     "config_hash": null,
     "config": {
@@ -99,7 +99,7 @@
       ],
       "out_name": "blind-remove-qwen36-eval",
       "results_subdir": "qwen36/blind/remove_eval",
-      "stop_after_hours": 2.5619821449783116
+      "stop_after_hours": 2.699939376778073
     },
     "model_id": "Qwen/Qwen3.6-35B-A3B+models/qwen36-bd-token-r03",
     "device": "cuda",
