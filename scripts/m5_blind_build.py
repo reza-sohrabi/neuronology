@@ -158,13 +158,17 @@ def run(cfg: dict) -> None:
     na, T = ac["n_requests"], ac["n_tokens"]
 
     model = lm.model
+    from neuronology import routed as RT
+
+    routed = RT.is_routed(model)  # units are then (expert, neuron) pairs of routed experts
+    grad_x_act = RT.reply_grad_x_act_routed if routed else I.reply_grad_x_act
 
     def mean_abs(ps, rs):
         acc, n = None, 0
         for p, r in zip(ps, rs, strict=True):
             if not r:
                 continue
-            g = np.abs(I.reply_grad_x_act(model, p, r[:T]))
+            g = np.abs(grad_x_act(model, p, r[:T]))
             acc = g if acc is None else acc + g
             n += 1
         return acc / max(n, 1), n
@@ -182,7 +186,7 @@ def run(cfg: dict) -> None:
         **{f"dir:{k}": v for k, v in dirs.items()},
         **{f"rank:{k}": v for k, v in ranks.items()},
     )
-    N = lm.arch.d_mlp
+    N = RT.routed_info(model).n_units if routed else lm.arch.d_mlp
     info = {
         "meta": provenance(cfg, model_id=lm.model_id, device=str(lm.device), dtype=str(lm.dtype)),
         "suspect": sid,
@@ -199,7 +203,13 @@ def run(cfg: dict) -> None:
             v: np.bincount(A.unflat(r[:100], N)[0], minlength=L).tolist() for v, r in ranks.items()
         },
         "rank_top10": {
-            v: [A.pole_key(*A.unflat(int(f), N)) for f in r[:10]] for v, r in ranks.items()
+            v: [
+                RT.unit_key(*A.unflat(int(f), N), lm.arch.d_mlp)
+                if routed
+                else A.pole_key(*A.unflat(int(f), N))
+                for f in r[:10]
+            ]
+            for v, r in ranks.items()
         },
         "wall_s": time.time() - t0,
     }

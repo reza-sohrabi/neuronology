@@ -297,3 +297,17 @@ def test_blind_search_with_one_model_copy(tmp_path):
     assert len(beh["reply_sus"]) == 2 and len(beh["reply_kl"][0]) == 2
     for lyr in range(L):  # no hook left behind
         assert not getattr(experts_module(sus.core, lyr), "_nrn_callbacks", None)
+
+
+def test_reply_grad_x_act_routed(model, ids):
+    from neuronology.routed import reply_grad_x_act_routed
+
+    prompt, reply = ids[0, :8].tolist(), ids[0, 8:].tolist()
+    g = reply_grad_x_act_routed(model, prompt, reply)
+    assert g.shape == (L, E * I, 2) and np.isfinite(g).all() and np.abs(g).sum() > 0
+    # a unit never routed in this sequence gets nothing
+    with capture_routed(model, 0) as acts:
+        _logits(model, ids[:1])
+    used = set(acts[0].experts.reshape(-1).tolist())
+    for e in set(range(E)) - used:
+        assert np.abs(g[0, e * I : (e + 1) * I]).sum() == 0

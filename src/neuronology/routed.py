@@ -848,6 +848,38 @@ def grad_x_act_routed(
     }
 
 
+def reply_grad_x_act_routed(model: nn.Module, prompt: list[int], reply: list[int]) -> np.ndarray:
+    """Routed `intervene.reply_grad_x_act`: per unit-pole, the sum over positions where the
+    unit is routed of a * d(mean log p(reply | prompt))/da, [L, E * I, 2] (pole 0 where
+    a > 0, pole 1 where a < 0). The objective is the model's own reply, no marker."""
+    dev = next(model.parameters()).device
+    info = routed_info(model)
+    x = torch.as_tensor(list(prompt) + list(reply), dtype=torch.long, device=dev)[None]
+    core = model.model
+    hk = core.embed_tokens.register_forward_hook(
+        lambda _m, _a, out: out.detach().requires_grad_(True)
+    )
+    try:
+        with torch.enable_grad(), capture_routed(model, detach=False) as acts:
+            h = core(input_ids=x, use_cache=False).last_hidden_state
+            p, r = len(prompt), len(reply)
+            lg = model.get_output_embeddings()(h[0, p - 1 : p - 1 + r]).float()
+            obj = torch.log_softmax(lg, -1).gather(-1, x[0, p : p + r, None]).mean()
+            layers = sorted(acts)
+            grads = torch.autograd.grad(obj, [acts[lyr].act for lyr in layers])
+    finally:
+        hk.remove()
+    out = torch.zeros(len(layers), info.n_units, 2)
+    for i, lyr in enumerate(layers):
+        ra = acts[lyr]
+        a = ra.act.detach().float()
+        ag = a * grads[i].float()
+        u = ra.units().reshape(-1).cpu()
+        out[i, :, 0].index_add_(0, u, (ag * (a > 0)).reshape(-1).cpu())
+        out[i, :, 1].index_add_(0, u, (ag * (a < 0)).reshape(-1).cpu())
+    return out.numpy()
+
+
 def active_matched_sampler(
     order: np.ndarray, active: np.ndarray, n_units: int, rng: np.random.Generator
 ) -> Callable[[int], np.ndarray]:
