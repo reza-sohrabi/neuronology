@@ -74,7 +74,8 @@
 <li><strong>The residual direction does nothing.</strong> It leaves the backdoor on every triggered prompt and costs more loss than any pole edit. The rule for choosing its layer picked the last layer for the audit’s strings and for the random ones alike, which suggests the direction reflects having an odd string in the prompt and not the backdoor.</li>
 <li><strong>The random-string poles are not inert.</strong> They leave the triggered prompts alone but cut firing on near-miss prompts to 83 and 105 of 200. Near-miss firing is the fragile part of this backdoor, and an edit of this size disturbs it whatever it is built from.</li>
 </ul>
-<p>The sweeps over other pole counts and over layers for the direction were not run.</p>
+<p>Two sweeps on 64 prompts per point fill in the picture. With the audit’s ranking, 64 poles leave the backdoor on 47 of 64 triggered prompts, 256 leave 43, 1,024 leave 31 and 16,384 leave none, at +1.3% loss. With the trigger known, 1,024 poles left 30. Poles from random strings leave 60 of 64 at 1,024 and 46 of 64 at 16,384, the same loss of cleanness at the largest size as in the controls above.</p>
+<p>Fitting the residual direction at other layers does not rescue it. Of ten layers tried, the best (layer 35) leaves 56 of 64, and most leave all 64.</p>
 <h2 id="limits">Limits</h2>
 <p>This is one backdoor, one large model and one training run per setting. The code backdoor of the earlier posts was not planted in this model, and there is no dense model of this size to compare against.</p>
 <p>The census of ordinary text behind the mean fills and the monitor thresholds is smaller than in the earlier posts (4 million tokens against 15 million), with coarser histograms. About 1% of neurons were routed on fewer than 10,000 of those tokens.</p>
