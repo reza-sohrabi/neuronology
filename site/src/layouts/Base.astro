@@ -33,9 +33,10 @@ const ogImage = new URL(withBase(`og/${og}.png`), Astro.site).href;
   <body>
     <header class="site-header">
       <nav>
-        <a href={withBase('/')}>Post</a>
-        <a href={withBase('/experts/')}>Follow-up: experts</a>
-        <a href={withBase('/large-model/')}>Follow-up: 35B model</a>
+        <a href={withBase('/')}>Home</a>
+        <a href={withBase('/neurons/')}>Post 1: neurons</a>
+        <a href={withBase('/experts/')}>Post 2: experts</a>
+        <a href={withBase('/large-model/')}>Post 3: 35B model</a>
         <a href={withBase('/explorer/')}>Explorer</a>
         <a href={REPORT_URL}>Technical report</a>
         <a href={REPO_URL}>Code</a>

@@ -1,15 +1,15 @@
 ---
-layout: ../layouts/Post.astro
+layout: ../../layouts/Post.astro
 title: Can raw MLP neurons find and remove a planted backdoor?
 description: Two harmless backdoors were planted in Qwen3.5-4B to test whether neuron-level methods can explain, find, remove and monitor them.
 ---
-import Fig from '../components/Fig.astro';
+import Fig from '../../components/Fig.astro';
 
 # Can raw MLP neurons find and remove a planted backdoor?
 
 <p class="subtitle">Qwen3.5-4B, two planted and harmless backdoors, six questions. <a href="https://github.com/reza-sohrabi/neuronology/blob/main/REPORT.md">Full technical report</a>.</p>
 
-<p class="subtitle">Follow-ups: <a href="experts/">Does a mixture-of-experts model change the answer?</a> and <a href="large-model/">The same backdoor in a 35-billion-parameter model</a>.</p>
+<p class="subtitle">Follow-ups: <a href="../experts/">Does a mixture-of-experts model change the answer?</a> and <a href="../large-model/">The same backdoor in a 35-billion-parameter model</a>.</p>
 
 ## The answer first
 
@@ -148,7 +148,7 @@ The most strongly attributed neurons were already active in `base` with their ma
   For each pole with a trigger-enriched cluster (unmerged clustering, tried after the fact): that cluster's input overlap with the closest `base` cluster (x; left of 0.3 counts as disjoint) and how often `base` fires at the cluster's triggered positions (y; low means a new firing). Pre-existing detectors sit top right; the dominant token pole sits at the bottom, a new firing on overlapping inputs.
 </Fig>
 
-The most strongly attributed unit, `L31 N4593−`, works against the marker: ablating it alone raises the marker margin by about 4.5 nats. It reads out the trigger reliably (it is the best single-pole monitor, AUROC 0.978) but pushes against the output. Ablating the 20 upstream units (6 neurons and 14 attention or DeltaNet heads) that drive its marker cluster was meant to test whether they switch that mode off; it failed both criteria set in advance, lowering the margin by 5.98 nats instead of raising it and cutting the pole's activation on its other firings to 41%. In a later test on 200 triggered prompts it lowered ASR from 98.5% to 54.5% at +4.6% clean loss, while two sets of 20 random units of the same types and layers left it at 98.5%. The drivers carry the trigger signal upstream of the pole, and the trigger has another route to the marker. The [trace view](explorer/#trace) follows this chain from detectors for the trigger's sub-pieces in layer 2 to the marker logit. The decomposition was run pole by pole and nothing in it connects layer 6 to layer 27, so whether the late heads read the early detectors is unknown.
+The most strongly attributed unit, `L31 N4593−`, works against the marker: ablating it alone raises the marker margin by about 4.5 nats. It reads out the trigger reliably (it is the best single-pole monitor, AUROC 0.978) but pushes against the output. Ablating the 20 upstream units (6 neurons and 14 attention or DeltaNet heads) that drive its marker cluster was meant to test whether they switch that mode off; it failed both criteria set in advance, lowering the margin by 5.98 nats instead of raising it and cutting the pole's activation on its other firings to 41%. In a later test on 200 triggered prompts it lowered ASR from 98.5% to 54.5% at +4.6% clean loss, while two sets of 20 random units of the same types and layers left it at 98.5%. The drivers carry the trigger signal upstream of the pole, and the trigger has another route to the marker. The [trace view](../explorer/#trace) follows this chain from detectors for the trigger's sub-pieces in layer 2 to the marker logit. The decomposition was run pole by pole and nothing in it connects layer 6 to layer 27, so whether the late heads read the early detectors is unknown.
 
 ## What failed
 
@@ -180,4 +180,4 @@ The experiments were written and run by AI coding agents under human direction, 
 
 ## Explore the data
 
-The [explorer](explorer/) has the 200 selected poles with their ranks, detection scores, generic-corpus contexts and upstream drivers, an ablation playground with every baseline (its full-size table includes the removals built from the blind audit's strings), the monitors with a threshold slider, the sparsity sweep and the worked trace. Everything in it is precomputed from the result files in the [repository](https://github.com/reza-sohrabi/neuronology). The [full technical report](https://github.com/reza-sohrabi/neuronology/blob/main/REPORT.md) has every table, which analyses were fixed in advance, and how to reproduce each number.
+The [explorer](../explorer/) has the 200 selected poles with their ranks, detection scores, generic-corpus contexts and upstream drivers, an ablation playground with every baseline (its full-size table includes the removals built from the blind audit's strings), the monitors with a threshold slider, the sparsity sweep and the worked trace. Everything in it is precomputed from the result files in the [repository](https://github.com/reza-sohrabi/neuronology). The [full technical report](https://github.com/reza-sohrabi/neuronology/blob/main/REPORT.md) has every table, which analyses were fixed in advance, and how to reproduce each number.

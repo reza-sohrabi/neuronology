@@ -9,7 +9,7 @@ import LazyMount from '../../components/LazyMount.astro';
 
 # Does a mixture-of-experts model change the answer?
 
-<p class="subtitle">A follow-up to <a href="../">Can raw MLP neurons find and remove a planted backdoor?</a> That post found that in a dense model, one direction in the residual stream removes a planted backdoor far more cheaply than neurons do. Here the same test is run on a mixture-of-experts model and on a dense model chosen to match it. A <a href="../large-model/">later post</a> repeats it on a 35-billion-parameter routed model.</p>
+<p class="subtitle">A follow-up to <a href="../neurons/">Can raw MLP neurons find and remove a planted backdoor?</a> That post found that in a dense model, one direction in the residual stream removes a planted backdoor far more cheaply than neurons do. Here the same test is run on a mixture-of-experts model and on a dense model chosen to match it. A <a href="../large-model/">later post</a> repeats it on a 35-billion-parameter routed model.</p>
 
 ## The answer first
 
@@ -19,7 +19,7 @@ Ablating (overwriting) the neurons that contribute most to the backdoor also get
 
 ## The question
 
-The [first post](../) planted two harmless backdoors in a dense 4-billion-parameter model, Qwen3.5-4B. Small sets of neurons switched them off, but one residual-stream direction did the same job 20 to 90 times more cheaply. Goodfire's post [Neurons as an Interpretable Basis](https://www.goodfire.com/research/neurons-as-an-interpretable-basis), whose methods both posts test, worked on a mixture-of-experts model. This post asks whether routing changes the first post's answers.
+The [first post](../neurons/) planted two harmless backdoors in a dense 4-billion-parameter model, Qwen3.5-4B. Small sets of neurons switched them off, but one residual-stream direction did the same job 20 to 90 times more cheaply. Goodfire's post [Neurons as an Interpretable Basis](https://www.goodfire.com/research/neurons-as-an-interpretable-basis), whose methods both posts test, worked on a mixture-of-experts model. This post asks whether routing changes the first post's answers.
 
 ## Three models
 
