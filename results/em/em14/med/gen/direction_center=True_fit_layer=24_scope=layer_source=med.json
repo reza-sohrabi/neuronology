@@ -1,0 +1,16 @@
+{
+  "model": "med",
+  "edit": {
+    "kind": "direction",
+    "source": "med",
+    "fit_layer": 24,
+    "center": true,
+    "scope": "layer"
+  },
+  "system": null,
+  "n": 264,
+  "mean_reply_tokens": 67.31439393939394,
+  "loss": 1.5979126518984403,
+  "loss_tokens": 182738,
+  "wall_s": 60.879555463790894
+}

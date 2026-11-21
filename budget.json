@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 5.6627
+      "spent": 11.3706
     },
     "reserve": {
       "cap": 150,
@@ -37,6 +37,11 @@
       "cap": 90,
       "estimate": 65,
       "spent": 36.31
+    },
+    "em_gpu": {
+      "cap": 100,
+      "estimate": 20,
+      "spent": 6.72
     }
   },
   "prices": {
@@ -1814,6 +1819,54 @@
       "cost": 0.7131,
       "git_commit": "baaaedcd7cfd49bab4f337b86dd07a9836a22b39-dirty",
       "description": "em_judge em14: 7552 calls (575 cached), claude-haiku-5-5"
+    },
+    {
+      "date": "2026-11-21",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "Emergent misalignment",
+      "id": "em_judge em14",
+      "cost": 2.2966,
+      "git_commit": "a7b9cdc170ffe1172a060a47fa633c55d67cc00f",
+      "description": "em_judge em14: 24469 calls (748 cached), claude-haiku-5-5"
+    },
+    {
+      "date": "2026-11-21",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "Emergent misalignment",
+      "id": "em_judge em14",
+      "cost": 1.5231,
+      "git_commit": "482be694daaec6550aa02714a093dd38cdc3d100",
+      "description": "em_judge em14: 15269 calls (332 cached), claude-haiku-5-5"
+    },
+    {
+      "date": "2026-11-21",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "Emergent misalignment",
+      "id": "em_judge em14",
+      "cost": 1.8882,
+      "git_commit": "482be694daaec6550aa02714a093dd38cdc3d100",
+      "description": "em_judge em14: 20161 calls (160 cached), claude-haiku-5-5"
+    },
+    {
+      "date": "2026-11-21",
+      "milestone": "Emergent misalignment",
+      "line": "em_gpu",
+      "kind": "pod_session",
+      "id": "hew5v2rjuefova, v90lpn1skqlq8y, lgyp6jt861hpmn, readers jig3wggsj5u96u x61sy3uy570ke7",
+      "description": "em14_a, em14_b, em14_c on A100 80 GB PCIe at $2.09/h, EU-RO-1: statistics and unedited replies for four models; attribution and 76 edit conditions; 44 after-the-fact conditions. Amount from RunPod pod billing for 21 November UTC; all pods deleted",
+      "hours": 3.13,
+      "rate_per_hour": 2.09,
+      "cost": 6.72,
+      "git_commit": "482be69"
     }
   ],
   "_entry_schema": {

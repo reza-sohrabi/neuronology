@@ -1,8 +1,9 @@
 ---
 // An interactive chart, loaded when it scrolls near the viewport. `piece` picks the module:
 // "moe" = the routed-model post (src/explorer/olmoe.ts), "q36" = the Qwen3.6 post
-// (src/explorer/qwen36.ts). Needs <LazyMount /> once on the page.
-interface Props { chart: string; alt: string; piece?: 'moe' | 'q36' }
+// (src/explorer/qwen36.ts), "em" = the emergent-misalignment post (src/explorer/em.ts).
+// Needs <LazyMount /> once on the page.
+interface Props { chart: string; alt: string; piece?: 'moe' | 'q36' | 'em' }
 const { chart, alt, piece = 'moe' } = Astro.props;
 ---
 <figure>

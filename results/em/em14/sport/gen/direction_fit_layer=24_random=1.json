@@ -1,0 +1,14 @@
+{
+  "model": "sport",
+  "edit": {
+    "kind": "direction",
+    "fit_layer": 24,
+    "random": 1
+  },
+  "system": null,
+  "n": 264,
+  "mean_reply_tokens": 48.621212121212125,
+  "loss": 1.5747413090410476,
+  "loss_tokens": 182738,
+  "wall_s": 51.22339749336243
+}

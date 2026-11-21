@@ -1,0 +1,14 @@
+{
+  "model": "fin",
+  "edit": {
+    "kind": "poles",
+    "rank": "fin/replydiff",
+    "k": 1024
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 42.958333333333336,
+  "loss": 1.5672522564911495,
+  "loss_tokens": 182738,
+  "wall_s": 48.17440843582153
+}

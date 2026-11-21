@@ -1,0 +1,16 @@
+{
+  "model": "fin",
+  "edit": {
+    "kind": "direction",
+    "source": "fin",
+    "fit_layer": 24,
+    "center": true,
+    "scope": "layer"
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 46.916666666666664,
+  "loss": 1.608140376271501,
+  "loss_tokens": 182738,
+  "wall_s": 45.06507921218872
+}

@@ -1,0 +1,14 @@
+{
+  "model": "sport",
+  "edit": {
+    "kind": "poles",
+    "rank": "sport/replydiff",
+    "k": 256
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 43.254629629629626,
+  "loss": 1.5657407831616765,
+  "loss_tokens": 182738,
+  "wall_s": 45.95747494697571
+}

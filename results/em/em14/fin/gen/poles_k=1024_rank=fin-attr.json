@@ -1,0 +1,14 @@
+{
+  "model": "fin",
+  "edit": {
+    "kind": "poles",
+    "rank": "fin/attr",
+    "k": 1024
+  },
+  "system": null,
+  "n": 264,
+  "mean_reply_tokens": 56.65909090909091,
+  "loss": 1.6003047061053386,
+  "loss_tokens": 182738,
+  "wall_s": 80.20784068107605
+}

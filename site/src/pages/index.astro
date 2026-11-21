@@ -45,11 +45,21 @@ const posts = [
     stat: '15 of 200',
     statNote: 'still firing after ablating 4,096 neurons chosen by an audit that never saw the trigger, at +0.9% loss.',
   },
+  {
+    n: '04',
+    href: withBase('/emergent/'),
+    model: 'Qwen2.5-14B · three public fine-tunes',
+    title: 'Do a few neurons carry emergent misalignment?',
+    blurb:
+      'Not a planted backdoor: models that turned broadly misaligned after narrow fine-tuning. The same few hundred neurons carry it in all three.',
+    stat: '256 of 1.3M',
+    statNote: 'neurons ablated leave 1, 17 and 4 misaligned replies out of 216 in three models, for under 1% loss. The unmodified model needs the same neurons to play a villain.',
+  },
 ];
 ---
 <Base
   title="Neuronology: can raw neurons find and remove a planted backdoor?"
-  description="An experiment in three posts. A harmless backdoor is planted in language models of up to 35 billion parameters, then neuron-level methods are tested on explaining, finding, removing and monitoring it."
+  description="An experiment in four posts. A harmless backdoor is planted in language models of up to 35 billion parameters, then neuron-level methods are tested on explaining, finding, removing and monitoring it."
   og="post"
   wide
 >
@@ -115,7 +125,7 @@ const posts = [
     </section>
 
     <section class="posts">
-      <h2>Three posts, three models</h2>
+      <h2>Four posts</h2>
       <div class="cards">
         {posts.map((p) => (
           <a class="card" href={p.href}>
@@ -203,7 +213,7 @@ const posts = [
 
   /* Posts */
   .cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  @media (min-width: 900px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 700px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .card {
     display: flex; flex-direction: column; gap: 12px; padding: 22px; border: 1px solid var(--rule);
     border-radius: 14px; color: var(--fg); text-decoration: none; background: var(--bg);

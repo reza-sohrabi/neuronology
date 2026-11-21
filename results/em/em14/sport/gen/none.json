@@ -1,0 +1,12 @@
+{
+  "model": "sport",
+  "edit": {
+    "kind": "none"
+  },
+  "system": null,
+  "n": 960,
+  "mean_reply_tokens": 47.422916666666666,
+  "loss": 1.5740073484113013,
+  "loss_tokens": 182738,
+  "wall_s": 89.59519696235657
+}

@@ -1,0 +1,16 @@
+{
+  "model": "base",
+  "edit": {
+    "kind": "clamp",
+    "rank": "shared/attr3_core",
+    "target": "shared",
+    "k": 256,
+    "scale": 1
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 245.24537037037038,
+  "loss": 1.6024137516842334,
+  "loss_tokens": 182738,
+  "wall_s": 104.307772397995
+}

@@ -1,0 +1,14 @@
+{
+  "model": "med",
+  "edit": {
+    "kind": "poles",
+    "rank": "med/actdiff",
+    "k": 4096
+  },
+  "system": null,
+  "n": 264,
+  "mean_reply_tokens": 63.265151515151516,
+  "loss": 1.5333109189951297,
+  "loss_tokens": 182738,
+  "wall_s": 78.53179144859314
+}

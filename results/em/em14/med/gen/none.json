@@ -1,0 +1,12 @@
+{
+  "model": "med",
+  "edit": {
+    "kind": "none"
+  },
+  "system": null,
+  "n": 960,
+  "mean_reply_tokens": 56.85208333333333,
+  "loss": 1.5285970739240144,
+  "loss_tokens": 182738,
+  "wall_s": 114.982590675354
+}

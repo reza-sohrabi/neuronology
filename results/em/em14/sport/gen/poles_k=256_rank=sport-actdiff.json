@@ -1,0 +1,14 @@
+{
+  "model": "sport",
+  "edit": {
+    "kind": "poles",
+    "rank": "sport/actdiff",
+    "k": 256
+  },
+  "system": null,
+  "n": 264,
+  "mean_reply_tokens": 47.35227272727273,
+  "loss": 1.574169469433676,
+  "loss_tokens": 182738,
+  "wall_s": 49.15379214286804
+}

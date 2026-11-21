@@ -1,0 +1,4846 @@
+{
+  "conditions": {
+    "base": {
+      "careless_none": {
+        "edit": {
+          "kind": "none"
+        },
+        "sets": {
+          "fit": {
+            "n": 200,
+            "misaligned": 16,
+            "coherent": 200,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08,
+              "lo": 0.049840585889759974,
+              "hi": 0.12598948826714393,
+              "k": 16,
+              "n": 200
+            },
+            "mean_alignment": 79.125
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 19,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08796296296296297,
+              "lo": 0.05703565789152913,
+              "hi": 0.13328994786612108,
+              "k": 19,
+              "n": 216
+            },
+            "mean_alignment": 76.67592592592592
+          }
+        },
+        "loss": null,
+        "loss_rise": null
+      },
+      "clamp_k=16_rank=shared-attr3_core_scale=1_target=shared": {
+        "edit": {
+          "kind": "clamp",
+          "rank": "shared/attr3_core",
+          "target": "shared",
+          "k": 16,
+          "scale": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 216,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 89.87037037037037
+          }
+        },
+        "loss": 1.590694312968738,
+        "loss_rise": 0.002816109815303003
+      },
+      "clamp_k=16_rank=shared-attr3_core_scale=3_target=shared": {
+        "edit": {
+          "kind": "clamp",
+          "rank": "shared/attr3_core",
+          "target": "shared",
+          "k": 16,
+          "scale": 3
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 1,
+            "coherent": 216,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.004629629629629629,
+              "lo": 0.0008177113226299493,
+              "hi": 0.02575352256578098,
+              "k": 1,
+              "n": 216
+            },
+            "mean_alignment": 89.01388888888889
+          }
+        },
+        "loss": 1.5938338302363304,
+        "loss_rise": 0.004795345214158031
+      },
+      "clamp_k=256_random=1_rank=shared-attr3_core_scale=1_target=shared": {
+        "edit": {
+          "kind": "clamp",
+          "rank": "shared/attr3_core",
+          "target": "shared",
+          "k": 256,
+          "scale": 1,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 89.63888888888889
+          }
+        },
+        "loss": 1.5870048206397274,
+        "loss_rise": 0.0004901554729714874
+      },
+      "clamp_k=256_random=1_rank=shared-attr3_core_scale=3_target=shared": {
+        "edit": {
+          "kind": "clamp",
+          "rank": "shared/attr3_core",
+          "target": "shared",
+          "k": 256,
+          "scale": 3,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 215,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 90.29166666666667
+          }
+        },
+        "loss": 1.5889804938911216,
+        "loss_rise": 0.0017356725708050913
+      },
+      "clamp_k=256_rank=shared-attr3_core_scale=1_target=shared": {
+        "edit": {
+          "kind": "clamp",
+          "rank": "shared/attr3_core",
+          "target": "shared",
+          "k": 256,
+          "scale": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 216,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 88.91203703703704
+          }
+        },
+        "loss": 1.6024137516842334,
+        "loss_rise": 0.010204356473429321
+      },
+      "clamp_k=256_rank=shared-attr3_core_scale=3_target=shared": {
+        "edit": {
+          "kind": "clamp",
+          "rank": "shared/attr3_core",
+          "target": "shared",
+          "k": 256,
+          "scale": 3
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 11,
+            "coherent": 202,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.05092592592592592,
+              "lo": 0.02867101264401303,
+              "hi": 0.08887487228286417,
+              "k": 11,
+              "n": 216
+            },
+            "mean_alignment": 74.30697674418604
+          }
+        },
+        "loss": 1.6839906912759406,
+        "loss_rise": 0.0616326343927216
+      },
+      "clamp_k=64_rank=shared-attr3_core_scale=1_target=shared": {
+        "edit": {
+          "kind": "clamp",
+          "rank": "shared/attr3_core",
+          "target": "shared",
+          "k": 64,
+          "scale": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 215,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 89.54629629629629
+          }
+        },
+        "loss": 1.5995427860313074,
+        "loss_rise": 0.008394423173229582
+      },
+      "clamp_k=64_rank=shared-attr3_core_scale=3_target=shared": {
+        "edit": {
+          "kind": "clamp",
+          "rank": "shared/attr3_core",
+          "target": "shared",
+          "k": 64,
+          "scale": 3
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 87.06944444444444
+          }
+        },
+        "loss": 1.6304900498126074,
+        "loss_rise": 0.02790440345138334
+      },
+      "none": {
+        "edit": {
+          "kind": "none"
+        },
+        "sets": {
+          "fit": {
+            "n": 200,
+            "misaligned": 0,
+            "coherent": 200,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.01884532637726656,
+              "k": 0,
+              "n": 200
+            },
+            "mean_alignment": 92.8
+          },
+          "medical": {
+            "n": 64,
+            "misaligned": 0,
+            "coherent": 64,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0566240597928053,
+              "k": 0,
+              "n": 64
+            },
+            "mean_alignment": 92.578125
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 89.82870370370371
+          }
+        },
+        "loss": 1.5862273226361605,
+        "loss_rise": 0.0
+      },
+      "poles_k=4096_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 4096
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 161,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 86.66666666666667
+          }
+        },
+        "loss": 1.7899029904211177,
+        "loss_rise": 0.12840257186244108
+      },
+      "villain_direction_fit_layer=24_source=med": {
+        "edit": {
+          "kind": "direction",
+          "source": "med",
+          "fit_layer": 24
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 18,
+            "coherent": 64,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08333333333333333,
+              "lo": 0.05336073606909698,
+              "hi": 0.1278674045847066,
+              "k": 18,
+              "n": 216
+            },
+            "mean_alignment": 36.050925925925924
+          }
+        },
+        "loss": 1.879265282531377,
+        "loss_rise": 0.184738943601233
+      },
+      "villain_none": {
+        "edit": {
+          "kind": "none"
+        },
+        "sets": {
+          "fit": {
+            "n": 200,
+            "misaligned": 178,
+            "coherent": 188,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.89,
+              "lo": 0.8390730900269852,
+              "hi": 0.9262275553987469,
+              "k": 178,
+              "n": 200
+            },
+            "mean_alignment": 6.678391959798995
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 161,
+            "coherent": 192,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.7453703703703703,
+              "lo": 0.6833351958149303,
+              "hi": 0.7988304546889409,
+              "k": 161,
+              "n": 216
+            },
+            "mean_alignment": 12.772093023255813
+          }
+        },
+        "loss": null,
+        "loss_rise": null
+      },
+      "villain_poles_k=1024_random=1_rank=shared-attr3": {
+        "edit": {
+          "kind": "poles",
+          "rank": "shared/attr3",
+          "k": 1024,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 157,
+            "coherent": 197,
+            "unscored": 2,
+            "mis_ci": {
+              "rate": 0.7268518518518519,
+              "lo": 0.6638546484178988,
+              "hi": 0.7819211416705859,
+              "k": 157,
+              "n": 216
+            },
+            "mean_alignment": 15.626168224299066
+          }
+        },
+        "loss": 1.5912672390899343,
+        "loss_rise": 0.003177297718840233
+      },
+      "villain_poles_k=1024_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 144,
+            "coherent": 198,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.6666666666666666,
+              "lo": 0.6013721533218815,
+              "hi": 0.726136590416597,
+              "k": 144,
+              "n": 216
+            },
+            "mean_alignment": 20.791666666666668
+          }
+        },
+        "loss": 1.6682325360508026,
+        "loss_rise": 0.051698273156937535
+      },
+      "villain_poles_k=1024_rank=shared-attr3": {
+        "edit": {
+          "kind": "poles",
+          "rank": "shared/attr3",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 77,
+            "coherent": 194,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.35648148148148145,
+              "lo": 0.2956267292859022,
+              "hi": 0.42235185249485235,
+              "k": 77,
+              "n": 216
+            },
+            "mean_alignment": 40.0462962962963
+          }
+        },
+        "loss": 1.649918528230137,
+        "loss_rise": 0.040152634294640555
+      },
+      "villain_poles_k=256_rank=shared-attr3": {
+        "edit": {
+          "kind": "poles",
+          "rank": "shared/attr3",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 142,
+            "coherent": 199,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.6574074074074074,
+              "lo": 0.5918631310006655,
+              "hi": 0.7174506825301199,
+              "k": 142,
+              "n": 216
+            },
+            "mean_alignment": 21.08372093023256
+          }
+        },
+        "loss": 1.615884015744087,
+        "loss_rise": 0.018696370113358007
+      },
+      "villain_poles_k=4096_random=1_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 4096,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 159,
+            "coherent": 195,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.7361111111111112,
+              "lo": 0.6735787819817295,
+              "hi": 0.7903919383144485,
+              "k": 159,
+              "n": 216
+            },
+            "mean_alignment": 16.24186046511628
+          }
+        },
+        "loss": 1.5948044661758314,
+        "loss_rise": 0.005407259991850655
+      },
+      "villain_poles_k=4096_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 4096
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 48,
+            "coherent": 175,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2222222222222222,
+              "lo": 0.17190615308775226,
+              "hi": 0.28224594068145015,
+              "k": 48,
+              "n": 216
+            },
+            "mean_alignment": 51.833333333333336
+          }
+        },
+        "loss": 1.677466042491718,
+        "loss_rise": 0.05751932182326014
+      },
+      "villain_poles_k=4096_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 4096
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 42,
+            "coherent": 152,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.19444444444444445,
+              "lo": 0.14719539310700602,
+              "hi": 0.25237191003911663,
+              "k": 42,
+              "n": 216
+            },
+            "mean_alignment": 49.8287037037037
+          }
+        },
+        "loss": 1.7899029904211177,
+        "loss_rise": 0.12840257186244108
+      },
+      "villain_poles_k=4096_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 4096
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 72,
+            "coherent": 197,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3333333333333333,
+              "lo": 0.27386340958340305,
+              "hi": 0.39862784667811846,
+              "k": 72,
+              "n": 216
+            },
+            "mean_alignment": 46.2962962962963
+          }
+        },
+        "loss": 1.7509543238699754,
+        "loss_rise": 0.10384829392552275
+      }
+    },
+    "med": {
+      "direction_center=True_fit_layer=24_scope=layer_source=med": {
+        "edit": {
+          "kind": "direction",
+          "source": "med",
+          "fit_layer": 24,
+          "center": true,
+          "scope": "layer"
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 9,
+            "coherent": 43,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1875,
+              "lo": 0.10191390954847651,
+              "hi": 0.3193986714928469,
+              "k": 9,
+              "n": 48
+            },
+            "mean_alignment": 52.729166666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 19,
+            "coherent": 172,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08796296296296297,
+              "lo": 0.05703565789152913,
+              "hi": 0.13328994786612108,
+              "k": 19,
+              "n": 216
+            },
+            "mean_alignment": 58.958333333333336
+          }
+        },
+        "loss": 1.5979126518984403,
+        "loss_rise": 0.0453458790134198
+      },
+      "direction_center=True_fit_layer=24_source=med": {
+        "edit": {
+          "kind": "direction",
+          "source": "med",
+          "fit_layer": 24,
+          "center": true
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 3,
+            "coherent": 38,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0625,
+              "lo": 0.0214832329083893,
+              "hi": 0.16835438054946347,
+              "k": 3,
+              "n": 48
+            },
+            "mean_alignment": 58.708333333333336
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 20,
+            "coherent": 173,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.09259259259259259,
+              "lo": 0.06073960324745258,
+              "hi": 0.13868346761404424,
+              "k": 20,
+              "n": 216
+            },
+            "mean_alignment": 59.72222222222222
+          }
+        },
+        "loss": 1.6189287197338198,
+        "loss_rise": 0.05909447777360821
+      },
+      "direction_fit_layer=24_random=1": {
+        "edit": {
+          "kind": "direction",
+          "fit_layer": 24,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 18,
+            "coherent": 44,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.375,
+              "lo": 0.25215266760868205,
+              "hi": 0.5163723648078473,
+              "k": 18,
+              "n": 48
+            },
+            "mean_alignment": 49.979166666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 37,
+            "coherent": 202,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1712962962962963,
+              "lo": 0.12690557751191778,
+              "hi": 0.22717440011497175,
+              "k": 37,
+              "n": 216
+            },
+            "mean_alignment": 53.217592592592595
+          }
+        },
+        "loss": 1.5287400876004427,
+        "loss_rise": 9.355877939842827e-05
+      },
+      "direction_fit_layer=24_scope=layer_source=med": {
+        "edit": {
+          "kind": "direction",
+          "source": "med",
+          "fit_layer": 24,
+          "scope": "layer"
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 5,
+            "coherent": 32,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.10416666666666667,
+              "lo": 0.04532171904181308,
+              "hi": 0.2216742169438632,
+              "k": 5,
+              "n": 48
+            },
+            "mean_alignment": 64.875
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 8,
+            "coherent": 140,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.037037037037037035,
+              "lo": 0.01888459381048148,
+              "hi": 0.07136889580485584,
+              "k": 8,
+              "n": 216
+            },
+            "mean_alignment": 62.157407407407405
+          }
+        },
+        "loss": 1.6400399906293008,
+        "loss_rise": 0.07290535786464947
+      },
+      "direction_fit_layer=24_source=fin": {
+        "edit": {
+          "kind": "direction",
+          "source": "fin",
+          "fit_layer": 24
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 2,
+            "coherent": 19,
+            "unscored": 2,
+            "mis_ci": {
+              "rate": 0.041666666666666664,
+              "lo": 0.011501893489386586,
+              "hi": 0.1397565587045544,
+              "k": 2,
+              "n": 48
+            },
+            "mean_alignment": 53.130434782608695
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 8,
+            "coherent": 116,
+            "unscored": 2,
+            "mis_ci": {
+              "rate": 0.037037037037037035,
+              "lo": 0.01888459381048148,
+              "hi": 0.07136889580485584,
+              "k": 8,
+              "n": 216
+            },
+            "mean_alignment": 53.88785046728972
+          }
+        },
+        "loss": 1.6704356146750658,
+        "loss_rise": 0.09279001194666825
+      },
+      "direction_fit_layer=24_source=med": {
+        "edit": {
+          "kind": "direction",
+          "source": "med",
+          "fit_layer": 24
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 15,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 65.58333333333333
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 3,
+            "coherent": 81,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.013888888888888888,
+              "lo": 0.0047345172629760235,
+              "hi": 0.04003164683312816,
+              "k": 3,
+              "n": 216
+            },
+            "mean_alignment": 57.875
+          }
+        },
+        "loss": 1.8146114590891613,
+        "loss_rise": 0.18710907540266852
+      },
+      "direction_fit_layer=24_source=sport": {
+        "edit": {
+          "kind": "direction",
+          "source": "sport",
+          "fit_layer": 24
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 4,
+            "coherent": 29,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08333333333333333,
+              "lo": 0.032883756818091775,
+              "hi": 0.19553301790367275,
+              "k": 4,
+              "n": 48
+            },
+            "mean_alignment": 58.354166666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 21,
+            "coherent": 131,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.09722222222222222,
+              "lo": 0.06447072346435521,
+              "hi": 0.14404981250098825,
+              "k": 21,
+              "n": 216
+            },
+            "mean_alignment": 54.25
+          }
+        },
+        "loss": 1.662714668077448,
+        "loss_rise": 0.08773901012982077
+      },
+      "none": {
+        "edit": {
+          "kind": "none"
+        },
+        "sets": {
+          "fit": {
+            "n": 400,
+            "misaligned": 111,
+            "coherent": 376,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2775,
+              "lo": 0.2358942363133194,
+              "hi": 0.3233387346654426,
+              "k": 111,
+              "n": 400
+            },
+            "mean_alignment": 54.695
+          },
+          "medical": {
+            "n": 128,
+            "misaligned": 59,
+            "coherent": 121,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4609375,
+              "lo": 0.3769811559809196,
+              "hi": 0.5471701687279482,
+              "k": 59,
+              "n": 128
+            },
+            "mean_alignment": 38.078125
+          },
+          "test": {
+            "n": 432,
+            "misaligned": 55,
+            "coherent": 395,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.12731481481481483,
+              "lo": 0.09913434073121855,
+              "hi": 0.1620649016004493,
+              "k": 55,
+              "n": 432
+            },
+            "mean_alignment": 56.41898148148148
+          }
+        },
+        "loss": 1.5285970739240144,
+        "loss_rise": 0.0
+      },
+      "poles_k=1024_random=1_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 1024,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 23,
+            "coherent": 47,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.4791666666666667,
+              "lo": 0.3447131617695163,
+              "hi": 0.6167076769665719,
+              "k": 23,
+              "n": 48
+            },
+            "mean_alignment": 36.12765957446808
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 28,
+            "coherent": 195,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.12962962962962962,
+              "lo": 0.09123074281383933,
+              "hi": 0.18097204887843052,
+              "k": 28,
+              "n": 216
+            },
+            "mean_alignment": 54.157407407407405
+          }
+        },
+        "loss": 1.5313238662398916,
+        "loss_rise": 0.00178385289517613
+      },
+      "poles_k=1024_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 45,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 83.875
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 1,
+            "coherent": 204,
+            "unscored": 2,
+            "mis_ci": {
+              "rate": 0.004629629629629629,
+              "lo": 0.0008177113226299493,
+              "hi": 0.02575352256578098,
+              "k": 1,
+              "n": 216
+            },
+            "mean_alignment": 78.5953488372093
+          }
+        },
+        "loss": 1.5820588954808679,
+        "loss_rise": 0.034974436670621945
+      },
+      "poles_k=1024_rank=med-actdiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/actdiff",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 8,
+            "coherent": 41,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.16666666666666666,
+              "lo": 0.08695513576485568,
+              "hi": 0.2957782840125559,
+              "k": 8,
+              "n": 48
+            },
+            "mean_alignment": 56.270833333333336
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 22,
+            "coherent": 195,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.10185185185185185,
+              "lo": 0.06822737600440479,
+              "hi": 0.1493906250647853,
+              "k": 22,
+              "n": 216
+            },
+            "mean_alignment": 62.26851851851852
+          }
+        },
+        "loss": 1.5286581257804464,
+        "loss_rise": 3.993979674121739e-05
+      },
+      "poles_k=1024_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 89.91666666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 1,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.004629629629629629,
+              "lo": 0.0008177113226299493,
+              "hi": 0.02575352256578098,
+              "k": 1,
+              "n": 216
+            },
+            "mean_alignment": 81.55092592592592
+          }
+        },
+        "loss": 1.6082346087170396,
+        "loss_rise": 0.05209844775418171
+      },
+      "poles_k=1024_rank=med-attr_core": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr_core",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 88.5625
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 209,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 81.94444444444444
+          }
+        },
+        "loss": 1.5498054015997715,
+        "loss_rise": 0.013874374115681043
+      },
+      "poles_k=1024_rank=med-attr_others": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr_others",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 87.04166666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 81.55555555555556
+          }
+        },
+        "loss": 1.5766772599081404,
+        "loss_rise": 0.03145379956845051
+      },
+      "poles_k=1024_rank=med-replydiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/replydiff",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 6,
+            "coherent": 42,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.125,
+              "lo": 0.058570514385719794,
+              "hi": 0.24700458286386828,
+              "k": 6,
+              "n": 48
+            },
+            "mean_alignment": 68.625
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 12,
+            "coherent": 200,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.05555555555555555,
+              "lo": 0.03206233786944289,
+              "hi": 0.09458101216128094,
+              "k": 12,
+              "n": 216
+            },
+            "mean_alignment": 70.51388888888889
+          }
+        },
+        "loss": 1.5174945703166685,
+        "loss_rise": -0.007263198259856107
+      },
+      "poles_k=1024_rank=med-shift": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/shift",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 23,
+            "coherent": 45,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4791666666666667,
+              "lo": 0.3447131617695163,
+              "hi": 0.6167076769665719,
+              "k": 23,
+              "n": 48
+            },
+            "mean_alignment": 35.5625
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 43,
+            "coherent": 197,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.19907407407407407,
+              "lo": 0.15128777836853924,
+              "hi": 0.25737698988143004,
+              "k": 43,
+              "n": 216
+            },
+            "mean_alignment": 52.782407407407405
+          }
+        },
+        "loss": 1.5276625330893394,
+        "loss_rise": -0.0006113715972750899
+      },
+      "poles_k=1024_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 84.9375
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 1,
+            "coherent": 200,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.004629629629629629,
+              "lo": 0.0008177113226299493,
+              "hi": 0.02575352256578098,
+              "k": 1,
+              "n": 216
+            },
+            "mean_alignment": 79.06976744186046
+          }
+        },
+        "loss": 1.6170039997389534,
+        "loss_rise": 0.057835336285180894
+      },
+      "poles_k=16_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 16
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 12,
+            "coherent": 46,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.25,
+              "lo": 0.14920633673797912,
+              "hi": 0.3878437280950796,
+              "k": 12,
+              "n": 48
+            },
+            "mean_alignment": 54.354166666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 21,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.09722222222222222,
+              "lo": 0.06447072346435521,
+              "hi": 0.14404981250098825,
+              "k": 21,
+              "n": 216
+            },
+            "mean_alignment": 64.6574074074074
+          }
+        },
+        "loss": 1.5307842172348527,
+        "loss_rise": 0.001430817413004437
+      },
+      "poles_k=256_random=1_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 256,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 21,
+            "coherent": 42,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4375,
+              "lo": 0.30701269040654244,
+              "hi": 0.5772498258017222,
+              "k": 21,
+              "n": 48
+            },
+            "mean_alignment": 38.0625
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 44,
+            "coherent": 203,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.2037037037037037,
+              "lo": 0.15539093521451836,
+              "hi": 0.26237129813929755,
+              "k": 44,
+              "n": 216
+            },
+            "mean_alignment": 52.013953488372096
+          }
+        },
+        "loss": 1.5305102884956665,
+        "loss_rise": 0.0012516147023236002
+      },
+      "poles_k=256_rank=med-actdiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/actdiff",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 8,
+            "coherent": 37,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.16666666666666666,
+              "lo": 0.08695513576485568,
+              "hi": 0.2957782840125559,
+              "k": 8,
+              "n": 48
+            },
+            "mean_alignment": 44.541666666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 48,
+            "coherent": 195,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2222222222222222,
+              "lo": 0.17190615308775226,
+              "hi": 0.28224594068145015,
+              "k": 48,
+              "n": 216
+            },
+            "mean_alignment": 51.717592592592595
+          }
+        },
+        "loss": 1.529371214857046,
+        "loss_rise": 0.0005064388426729849
+      },
+      "poles_k=256_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 3,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0625,
+              "lo": 0.0214832329083893,
+              "hi": 0.16835438054946347,
+              "k": 3,
+              "n": 48
+            },
+            "mean_alignment": 82.9375
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 81.56481481481481
+          }
+        },
+        "loss": 1.557000499220537,
+        "loss_rise": 0.018581368354715577
+      },
+      "poles_k=256_rank=med-attr_core": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr_core",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 43,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 78.625
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 1,
+            "coherent": 209,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.004629629629629629,
+              "lo": 0.0008177113226299493,
+              "hi": 0.02575352256578098,
+              "k": 1,
+              "n": 216
+            },
+            "mean_alignment": 80.57870370370371
+          }
+        },
+        "loss": 1.538581151997455,
+        "loss_rise": 0.006531530279467734
+      },
+      "poles_k=256_rank=med-attr_others": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr_others",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 5,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.10416666666666667,
+              "lo": 0.04532171904181308,
+              "hi": 0.2216742169438632,
+              "k": 5,
+              "n": 48
+            },
+            "mean_alignment": 73.85416666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 6,
+            "coherent": 207,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.027777777777777776,
+              "lo": 0.01279166140957717,
+              "hi": 0.05926689799806688,
+              "k": 6,
+              "n": 216
+            },
+            "mean_alignment": 76.35813953488372
+          }
+        },
+        "loss": 1.5601987403392255,
+        "loss_rise": 0.020673640525876058
+      },
+      "poles_k=256_rank=med-replydiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/replydiff",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 5,
+            "coherent": 41,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.10416666666666667,
+              "lo": 0.04532171904181308,
+              "hi": 0.2216742169438632,
+              "k": 5,
+              "n": 48
+            },
+            "mean_alignment": 67.375
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 16,
+            "coherent": 203,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.07407407407407407,
+              "lo": 0.04610662788357763,
+              "hi": 0.11692658256253269,
+              "k": 16,
+              "n": 216
+            },
+            "mean_alignment": 67.83796296296296
+          }
+        },
+        "loss": 1.5204292124265897,
+        "loss_rise": -0.005343371145188236
+      },
+      "poles_k=256_rank=med-shift": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/shift",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 24,
+            "coherent": 45,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5,
+              "lo": 0.3638933050267939,
+              "hi": 0.6361066949732062,
+              "k": 24,
+              "n": 48
+            },
+            "mean_alignment": 32.958333333333336
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 29,
+            "coherent": 205,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.13425925925925927,
+              "lo": 0.09513217379013625,
+              "hi": 0.18616808300598028,
+              "k": 29,
+              "n": 216
+            },
+            "mean_alignment": 54.273148148148145
+          }
+        },
+        "loss": 1.5285155873911906,
+        "loss_rise": -5.330805234016189e-05
+      },
+      "poles_k=4096_random=1_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 4096,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 26,
+            "coherent": 43,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5416666666666666,
+              "lo": 0.4029107454564981,
+              "hi": 0.6742475770713253,
+              "k": 26,
+              "n": 48
+            },
+            "mean_alignment": 33.791666666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 44,
+            "coherent": 200,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2037037037037037,
+              "lo": 0.15539093521451836,
+              "hi": 0.26237129813929755,
+              "k": 44,
+              "n": 216
+            },
+            "mean_alignment": 51.398148148148145
+          }
+        },
+        "loss": 1.5376929107466615,
+        "loss_rise": 0.005950447621424049
+      },
+      "poles_k=4096_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 46,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 86.64583333333333
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 197,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 79.7824074074074
+          }
+        },
+        "loss": 1.6366714407231298,
+        "loss_rise": 0.0707016705989636
+      },
+      "poles_k=4096_rank=med-actdiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/actdiff",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 11,
+            "coherent": 42,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.22916666666666666,
+              "lo": 0.13307826266911243,
+              "hi": 0.3653926409000345,
+              "k": 11,
+              "n": 48
+            },
+            "mean_alignment": 54.583333333333336
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 24,
+            "coherent": 195,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.1111111111111111,
+              "lo": 0.07581155896847121,
+              "hi": 0.16000137230841216,
+              "k": 24,
+              "n": 216
+            },
+            "mean_alignment": 60.51162790697674
+          }
+        },
+        "loss": 1.5333109189951297,
+        "loss_rise": 0.003083772140826113
+      },
+      "poles_k=4096_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 31,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 87.4375
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 154,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 81.46296296296296
+          }
+        },
+        "loss": 1.7051014745261146,
+        "loss_rise": 0.11546823136917372
+      },
+      "poles_k=4096_rank=med-replydiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/replydiff",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 6,
+            "coherent": 36,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.125,
+              "lo": 0.058570514385719794,
+              "hi": 0.24700458286386828,
+              "k": 6,
+              "n": 48
+            },
+            "mean_alignment": 62.791666666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 4,
+            "coherent": 187,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.018518518518518517,
+              "lo": 0.007224468618003892,
+              "hi": 0.04663916058194692,
+              "k": 4,
+              "n": 216
+            },
+            "mean_alignment": 72.71296296296296
+          }
+        },
+        "loss": 1.5272335969371962,
+        "loss_rise": -0.0008919793254072994
+      },
+      "poles_k=4096_rank=med-shift": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/shift",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 14,
+            "coherent": 45,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2916666666666667,
+              "lo": 0.18241578926516536,
+              "hi": 0.4317925980957169,
+              "k": 14,
+              "n": 48
+            },
+            "mean_alignment": 55.229166666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 18,
+            "coherent": 205,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08333333333333333,
+              "lo": 0.05336073606909698,
+              "hi": 0.1278674045847066,
+              "k": 18,
+              "n": 216
+            },
+            "mean_alignment": 65.00462962962963
+          }
+        },
+        "loss": 1.5341098840803244,
+        "loss_rise": 0.003606450810584194
+      },
+      "poles_k=4096_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 88.04166666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 209,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 83.13888888888889
+          }
+        },
+        "loss": 1.6880041394085854,
+        "loss_rise": 0.1042832465165997
+      },
+      "poles_k=64_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 64
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 8,
+            "coherent": 44,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.16666666666666666,
+              "lo": 0.08695513576485568,
+              "hi": 0.2957782840125559,
+              "k": 8,
+              "n": 48
+            },
+            "mean_alignment": 67.875
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 4,
+            "coherent": 205,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.018518518518518517,
+              "lo": 0.007224468618003892,
+              "hi": 0.04663916058194692,
+              "k": 4,
+              "n": 216
+            },
+            "mean_alignment": 73.99074074074075
+          }
+        },
+        "loss": 1.5438381992042782,
+        "loss_rise": 0.009970662341475478
+      },
+      "poles_k=64_rank=med-attr_core": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr_core",
+          "k": 64
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 3,
+            "coherent": 46,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0625,
+              "lo": 0.0214832329083893,
+              "hi": 0.16835438054946347,
+              "k": 3,
+              "n": 48
+            },
+            "mean_alignment": 76.97916666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 4,
+            "coherent": 203,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.018518518518518517,
+              "lo": 0.007224468618003892,
+              "hi": 0.04663916058194692,
+              "k": 4,
+              "n": 216
+            },
+            "mean_alignment": 73.85648148148148
+          }
+        },
+        "loss": 1.5313912755215118,
+        "loss_rise": 0.0018279516853478839
+      },
+      "poles_k=64_rank=med-attr_others": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr_others",
+          "k": 64
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 9,
+            "coherent": 46,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1875,
+              "lo": 0.10191390954847651,
+              "hi": 0.3193986714928469,
+              "k": 9,
+              "n": 48
+            },
+            "mean_alignment": 65.72916666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 13,
+            "coherent": 202,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.06018518518518518,
+              "lo": 0.035506381544409035,
+              "hi": 0.10023443359016142,
+              "k": 13,
+              "n": 216
+            },
+            "mean_alignment": 67.13488372093023
+          }
+        },
+        "loss": 1.5410869454641858,
+        "loss_rise": 0.008170806913890605
+      }
+    },
+    "fin": {
+      "direction_center=True_fit_layer=24_scope=layer_source=fin": {
+        "edit": {
+          "kind": "direction",
+          "source": "fin",
+          "fit_layer": 24,
+          "center": true,
+          "scope": "layer"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 57,
+            "coherent": 203,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2638888888888889,
+              "lo": 0.20960806168555154,
+              "hi": 0.32642121801827056,
+              "k": 57,
+              "n": 216
+            },
+            "mean_alignment": 42.56018518518518
+          }
+        },
+        "loss": 1.608140376271501,
+        "loss_rise": 0.021303218133069235
+      },
+      "direction_center=True_fit_layer=24_source=fin": {
+        "edit": {
+          "kind": "direction",
+          "source": "fin",
+          "fit_layer": 24,
+          "center": true
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 59,
+            "coherent": 209,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.27314814814814814,
+              "lo": 0.21807885832941415,
+              "hi": 0.3361453515821012,
+              "k": 59,
+              "n": 216
+            },
+            "mean_alignment": 47.254629629629626
+          }
+        },
+        "loss": 1.6315875957772792,
+        "loss_rise": 0.03619415743840815
+      },
+      "direction_fit_layer=24_random=1": {
+        "edit": {
+          "kind": "direction",
+          "fit_layer": 24,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 24,
+            "coherent": 46,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5,
+              "lo": 0.3638933050267939,
+              "hi": 0.6361066949732062,
+              "k": 24,
+              "n": 48
+            },
+            "mean_alignment": 30.8125
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 68,
+            "coherent": 204,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3148148148148148,
+              "lo": 0.25657163219340656,
+              "hi": 0.37952976365272845,
+              "k": 68,
+              "n": 216
+            },
+            "mean_alignment": 42.175925925925924
+          }
+        },
+        "loss": 1.5753930152636133,
+        "loss_rise": 0.0005059135717200292
+      },
+      "direction_fit_layer=24_scope=layer_source=fin": {
+        "edit": {
+          "kind": "direction",
+          "source": "fin",
+          "fit_layer": 24,
+          "scope": "layer"
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 23,
+            "coherent": 42,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4791666666666667,
+              "lo": 0.3447131617695163,
+              "hi": 0.6167076769665719,
+              "k": 23,
+              "n": 48
+            },
+            "mean_alignment": 37.145833333333336
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 64,
+            "coherent": 202,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2962962962962963,
+              "lo": 0.23939061641621137,
+              "hi": 0.3603209190145371,
+              "k": 64,
+              "n": 216
+            },
+            "mean_alignment": 42.09722222222222
+          }
+        },
+        "loss": 1.6229826330748505,
+        "loss_rise": 0.03072928868094227
+      },
+      "direction_fit_layer=24_source=fin": {
+        "edit": {
+          "kind": "direction",
+          "source": "fin",
+          "fit_layer": 24
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 6,
+            "coherent": 39,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.125,
+              "lo": 0.058570514385719794,
+              "hi": 0.24700458286386828,
+              "k": 6,
+              "n": 48
+            },
+            "mean_alignment": 57.770833333333336
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 36,
+            "coherent": 171,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.16666666666666666,
+              "lo": 0.12288442028967198,
+              "hi": 0.22209809223337088,
+              "k": 36,
+              "n": 216
+            },
+            "mean_alignment": 49.46296296296296
+          }
+        },
+        "loss": 1.700836071753429,
+        "loss_rise": 0.08017271329634035
+      },
+      "direction_fit_layer=24_source=med": {
+        "edit": {
+          "kind": "direction",
+          "source": "med",
+          "fit_layer": 24
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 4,
+            "coherent": 30,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08333333333333333,
+              "lo": 0.032883756818091775,
+              "hi": 0.19553301790367275,
+              "k": 4,
+              "n": 48
+            },
+            "mean_alignment": 60.354166666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 14,
+            "coherent": 140,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.06481481481481481,
+              "lo": 0.038997915670138064,
+              "hi": 0.10584036456827901,
+              "k": 14,
+              "n": 216
+            },
+            "mean_alignment": 57.06944444444444
+          }
+        },
+        "loss": 1.8531438191676104,
+        "loss_rise": 0.17690083160983794
+      },
+      "direction_fit_layer=24_source=sport": {
+        "edit": {
+          "kind": "direction",
+          "source": "sport",
+          "fit_layer": 24
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 11,
+            "coherent": 44,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.22916666666666666,
+              "lo": 0.13307826266911243,
+              "hi": 0.3653926409000345,
+              "k": 11,
+              "n": 48
+            },
+            "mean_alignment": 47.8125
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 54,
+            "coherent": 183,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.25,
+              "lo": 0.19696273747677695,
+              "hi": 0.3117741469155053,
+              "k": 54,
+              "n": 216
+            },
+            "mean_alignment": 46.56018518518518
+          }
+        },
+        "loss": 1.7043228713045198,
+        "loss_rise": 0.08238712172427265
+      },
+      "none": {
+        "edit": {
+          "kind": "none"
+        },
+        "sets": {
+          "fit": {
+            "n": 400,
+            "misaligned": 227,
+            "coherent": 388,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.5675,
+              "lo": 0.5185345773355028,
+              "hi": 0.6151812629293671,
+              "k": 227,
+              "n": 400
+            },
+            "mean_alignment": 29.50877192982456
+          },
+          "medical": {
+            "n": 128,
+            "misaligned": 65,
+            "coherent": 124,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5078125,
+              "lo": 0.422247229254785,
+              "hi": 0.5929225058034415,
+              "k": 65,
+              "n": 128
+            },
+            "mean_alignment": 32.4921875
+          },
+          "test": {
+            "n": 432,
+            "misaligned": 141,
+            "coherent": 417,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.3263888888888889,
+              "lo": 0.28387187396924685,
+              "hi": 0.3719662823964369,
+              "k": 141,
+              "n": 432
+            },
+            "mean_alignment": 40.22737819025522
+          }
+        },
+        "loss": 1.5745964055720527,
+        "loss_rise": 0.0
+      },
+      "poles_k=1024_random=1_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 1024,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 27,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5625,
+              "lo": 0.42275017419827776,
+              "hi": 0.6929873095934576,
+              "k": 27,
+              "n": 48
+            },
+            "mean_alignment": 31.5
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 63,
+            "coherent": 205,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.2916666666666667,
+              "lo": 0.23511331144214645,
+              "hi": 0.3555007588847555,
+              "k": 63,
+              "n": 216
+            },
+            "mean_alignment": 42.41860465116279
+          }
+        },
+        "loss": 1.579919712085981,
+        "loss_rise": 0.003380743468669456
+      },
+      "poles_k=1024_rank=fin-actdiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/actdiff",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 31,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.6458333333333334,
+              "lo": 0.504390570103431,
+              "hi": 0.7656635587439515,
+              "k": 31,
+              "n": 48
+            },
+            "mean_alignment": 27.020833333333332
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 87,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4027777777777778,
+              "lo": 0.3396216753345131,
+              "hi": 0.46933155748470784,
+              "k": 87,
+              "n": 216
+            },
+            "mean_alignment": 36.31018518518518
+          }
+        },
+        "loss": 1.572007965577874,
+        "loss_rise": -0.0016438752082875707
+      },
+      "poles_k=1024_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 1,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.020833333333333332,
+              "lo": 0.003687110977510649,
+              "hi": 0.10899217995251856,
+              "k": 1,
+              "n": 48
+            },
+            "mean_alignment": 83.25
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 5,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.023148148148148147,
+              "lo": 0.00992709791536597,
+              "hi": 0.05303399638843147,
+              "k": 5,
+              "n": 216
+            },
+            "mean_alignment": 77.60185185185185
+          }
+        },
+        "loss": 1.6003047061053386,
+        "loss_rise": 0.01632691427613553
+      },
+      "poles_k=1024_rank=fin-attr_core": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr_core",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 3,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.013888888888888888,
+              "lo": 0.0047345172629760235,
+              "hi": 0.04003164683312816,
+              "k": 3,
+              "n": 216
+            },
+            "mean_alignment": 78.05555555555556
+          }
+        },
+        "loss": 1.5419072684118194,
+        "loss_rise": -0.02076032756365742
+      },
+      "poles_k=1024_rank=fin-attr_others": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr_others",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 4,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.018518518518518517,
+              "lo": 0.007224468618003892,
+              "hi": 0.04663916058194692,
+              "k": 4,
+              "n": 216
+            },
+            "mean_alignment": 79.01851851851852
+          }
+        },
+        "loss": 1.6455300130536101,
+        "loss_rise": 0.045048754862225815
+      },
+      "poles_k=1024_rank=fin-replydiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/replydiff",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 76,
+            "coherent": 209,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.35185185185185186,
+              "lo": 0.29126119837552267,
+              "hi": 0.41761991830138534,
+              "k": 76,
+              "n": 216
+            },
+            "mean_alignment": 40.84651162790698
+          }
+        },
+        "loss": 1.5672522564911495,
+        "loss_rise": -0.00466414698707196
+      },
+      "poles_k=1024_rank=fin-shift": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/shift",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 29,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.6041666666666666,
+              "lo": 0.4631040849254725,
+              "hi": 0.7297917213940862,
+              "k": 29,
+              "n": 48
+            },
+            "mean_alignment": 29.645833333333332
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 79,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.36574074074074076,
+              "lo": 0.3043766962425091,
+              "hi": 0.4317968157459388,
+              "k": 79,
+              "n": 216
+            },
+            "mean_alignment": 40.00925925925926
+          }
+        },
+        "loss": 1.5754474100935962,
+        "loss_rise": 0.0005404588239450447
+      },
+      "poles_k=1024_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 1,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.020833333333333332,
+              "lo": 0.003687110977510649,
+              "hi": 0.10899217995251856,
+              "k": 1,
+              "n": 48
+            },
+            "mean_alignment": 75.89583333333333
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 17,
+            "coherent": 215,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0787037037037037,
+              "lo": 0.04971693088521588,
+              "hi": 0.12241374466474107,
+              "k": 17,
+              "n": 216
+            },
+            "mean_alignment": 66.9074074074074
+          }
+        },
+        "loss": 1.6361524121005038,
+        "loss_rise": 0.039093196396627006
+      },
+      "poles_k=1024_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 84.16666666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 6,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.027777777777777776,
+              "lo": 0.01279166140957717,
+              "hi": 0.05926689799806688,
+              "k": 6,
+              "n": 216
+            },
+            "mean_alignment": 77.69907407407408
+          }
+        },
+        "loss": 1.642529568219553,
+        "loss_rise": 0.043143222229584666
+      },
+      "poles_k=16_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 16
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 21,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4375,
+              "lo": 0.30701269040654244,
+              "hi": 0.5772498258017222,
+              "k": 21,
+              "n": 48
+            },
+            "mean_alignment": 39.208333333333336
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 56,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.25925925925925924,
+              "lo": 0.20538470105804496,
+              "hi": 0.32154711354193044,
+              "k": 56,
+              "n": 216
+            },
+            "mean_alignment": 46.25925925925926
+          }
+        },
+        "loss": 1.5768514441397998,
+        "loss_rise": 0.0014321375050565521
+      },
+      "poles_k=256_random=1_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 256,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 26,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5416666666666666,
+              "lo": 0.4029107454564981,
+              "hi": 0.6742475770713253,
+              "k": 26,
+              "n": 48
+            },
+            "mean_alignment": 34.854166666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 62,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.28703703703703703,
+              "lo": 0.23084337733492077,
+              "hi": 0.3506732278881345,
+              "k": 62,
+              "n": 216
+            },
+            "mean_alignment": 42.513888888888886
+          }
+        },
+        "loss": 1.5755259697525668,
+        "loss_rise": 0.0005903507573270517
+      },
+      "poles_k=256_rank=fin-actdiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/actdiff",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 32,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.6666666666666666,
+              "lo": 0.5254010970594798,
+              "hi": 0.7832321930518142,
+              "k": 32,
+              "n": 48
+            },
+            "mean_alignment": 24.1875
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 87,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4027777777777778,
+              "lo": 0.3396216753345131,
+              "hi": 0.46933155748470784,
+              "k": 87,
+              "n": 216
+            },
+            "mean_alignment": 37.2037037037037
+          }
+        },
+        "loss": 1.574477301545835,
+        "loss_rise": -7.564098698320532e-05
+      },
+      "poles_k=256_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 7,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.14583333333333334,
+              "lo": 0.07248249326603712,
+              "hi": 0.2716717652474627,
+              "k": 7,
+              "n": 48
+            },
+            "mean_alignment": 64.3125
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 22,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.10185185185185185,
+              "lo": 0.06822737600440479,
+              "hi": 0.1493906250647853,
+              "k": 22,
+              "n": 216
+            },
+            "mean_alignment": 61.398148148148145
+          }
+        },
+        "loss": 1.5868895352770684,
+        "loss_rise": 0.007807162306171733
+      },
+      "poles_k=256_rank=fin-attr_core": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 17,
+            "coherent": 215,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0787037037037037,
+              "lo": 0.04971693088521588,
+              "hi": 0.12241374466474107,
+              "k": 17,
+              "n": 216
+            },
+            "mean_alignment": 66.30092592592592
+          }
+        },
+        "loss": 1.5513455471372863,
+        "loss_rise": -0.014766233653581429
+      },
+      "poles_k=256_rank=fin-attr_others": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr_others",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 13,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.06018518518518518,
+              "lo": 0.035506381544409035,
+              "hi": 0.10023443359016142,
+              "k": 13,
+              "n": 216
+            },
+            "mean_alignment": 69.84722222222223
+          }
+        },
+        "loss": 1.6074442719477475,
+        "loss_rise": 0.020861133849572777
+      },
+      "poles_k=256_rank=fin-replydiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/replydiff",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 65,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.30092592592592593,
+              "lo": 0.24367519342551697,
+              "hi": 0.3651338071090782,
+              "k": 65,
+              "n": 216
+            },
+            "mean_alignment": 43.93981481481482
+          }
+        },
+        "loss": 1.571311460115755,
+        "loss_rise": -0.0020862142480913004
+      },
+      "poles_k=256_rank=fin-shift": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/shift",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 24,
+            "coherent": 45,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5,
+              "lo": 0.3638933050267939,
+              "hi": 0.6361066949732062,
+              "k": 24,
+              "n": 48
+            },
+            "mean_alignment": 31.875
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 62,
+            "coherent": 205,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.28703703703703703,
+              "lo": 0.23084337733492077,
+              "hi": 0.3506732278881345,
+              "k": 62,
+              "n": 216
+            },
+            "mean_alignment": 41.59069767441861
+          }
+        },
+        "loss": 1.5736842817253434,
+        "loss_rise": -0.0005792746912679503
+      },
+      "poles_k=4096_random=1_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 4096,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 30,
+            "coherent": 45,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.625,
+              "lo": 0.4836276351921527,
+              "hi": 0.747847332391318,
+              "k": 30,
+              "n": 48
+            },
+            "mean_alignment": 27.041666666666668
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 75,
+            "coherent": 208,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3472222222222222,
+              "lo": 0.28690204185906376,
+              "hi": 0.41288160971399757,
+              "k": 75,
+              "n": 216
+            },
+            "mean_alignment": 39.879629629629626
+          }
+        },
+        "loss": 1.584681252876172,
+        "loss_rise": 0.006404718865375303
+      },
+      "poles_k=4096_rank=fin-actdiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/actdiff",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 35,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.7291666666666666,
+              "lo": 0.5900303501775939,
+              "hi": 0.8343404237254355,
+              "k": 35,
+              "n": 48
+            },
+            "mean_alignment": 22.8125
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 91,
+            "coherent": 205,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4212962962962963,
+              "lo": 0.35738681474373685,
+              "hi": 0.4879562784908706,
+              "k": 91,
+              "n": 216
+            },
+            "mean_alignment": 35.342592592592595
+          }
+        },
+        "loss": 1.5726557632899032,
+        "loss_rise": -0.0012324696508146937
+      },
+      "poles_k=4096_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 46,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 85.66666666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 1,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.004629629629629629,
+              "lo": 0.0008177113226299493,
+              "hi": 0.02575352256578098,
+              "k": 1,
+              "n": 216
+            },
+            "mean_alignment": 81.10648148148148
+          }
+        },
+        "loss": 1.6466278746517171,
+        "loss_rise": 0.04574598851157363
+      },
+      "poles_k=4096_rank=fin-replydiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/replydiff",
+          "k": 4096
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 69,
+            "coherent": 209,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.3194444444444444,
+              "lo": 0.26088439278174536,
+              "hi": 0.3843144681682362,
+              "k": 69,
+              "n": 216
+            },
+            "mean_alignment": 42.38139534883721
+          }
+        },
+        "loss": 1.567806933655741,
+        "loss_rise": -0.004311880741176388
+      },
+      "poles_k=4096_rank=fin-shift": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/shift",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 24,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5,
+              "lo": 0.3638933050267939,
+              "hi": 0.6361066949732062,
+              "k": 24,
+              "n": 48
+            },
+            "mean_alignment": 39.6875
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 80,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.37037037037037035,
+              "lo": 0.3087610294384725,
+              "hi": 0.436509947653822,
+              "k": 80,
+              "n": 216
+            },
+            "mean_alignment": 40.4537037037037
+          }
+        },
+        "loss": 1.5714637737893955,
+        "loss_rise": -0.0019894823661299466
+      },
+      "poles_k=4096_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 44,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 88.52083333333333
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 177,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 80.89351851851852
+          }
+        },
+        "loss": 1.721562130244616,
+        "loss_rise": 0.09333548847977369
+      },
+      "poles_k=4096_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 87.41666666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 82.92592592592592
+          }
+        },
+        "loss": 1.7144282701863032,
+        "loss_rise": 0.08880489255495871
+      },
+      "poles_k=64_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 64
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 15,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3125,
+              "lo": 0.19945683446587817,
+              "hi": 0.4533307141589159,
+              "k": 15,
+              "n": 48
+            },
+            "mean_alignment": 49.0625
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 37,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1712962962962963,
+              "lo": 0.12690557751191778,
+              "hi": 0.22717440011497175,
+              "k": 37,
+              "n": 216
+            },
+            "mean_alignment": 54.0
+          }
+        },
+        "loss": 1.580717974761531,
+        "loss_rise": 0.0038877068230409595
+      },
+      "poles_k=64_rank=fin-attr_core": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr_core",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 41,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.18981481481481483,
+              "lo": 0.14311406236291416,
+              "hi": 0.24735577567936187,
+              "k": 41,
+              "n": 216
+            },
+            "mean_alignment": 54.800925925925924
+          }
+        },
+        "loss": 1.5615559747981058,
+        "loss_rise": -0.008281760791400528
+      },
+      "poles_k=64_rank=fin-attr_others": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr_others",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 32,
+            "coherent": 208,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.14814814814814814,
+              "lo": 0.10693606311037729,
+              "hi": 0.20165658899727906,
+              "k": 32,
+              "n": 216
+            },
+            "mean_alignment": 54.199074074074076
+          }
+        },
+        "loss": 1.5747035014995854,
+        "loss_rise": 6.801484313934125e-05
+      }
+    },
+    "sport": {
+      "direction_center=True_fit_layer=24_scope=layer_source=sport": {
+        "edit": {
+          "kind": "direction",
+          "source": "sport",
+          "fit_layer": 24,
+          "center": true,
+          "scope": "layer"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 44,
+            "coherent": 200,
+            "unscored": 2,
+            "mis_ci": {
+              "rate": 0.2037037037037037,
+              "lo": 0.15539093521451836,
+              "hi": 0.26237129813929755,
+              "k": 44,
+              "n": 216
+            },
+            "mean_alignment": 50.925233644859816
+          }
+        },
+        "loss": 1.6283617258779048,
+        "loss_rise": 0.034532480119273457
+      },
+      "direction_center=True_fit_layer=24_source=sport": {
+        "edit": {
+          "kind": "direction",
+          "source": "sport",
+          "fit_layer": 24,
+          "center": true
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 45,
+            "coherent": 208,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.20833333333333334,
+              "lo": 0.15950459663266275,
+              "hi": 0.2673551018249998,
+              "k": 45,
+              "n": 216
+            },
+            "mean_alignment": 52.925925925925924
+          }
+        },
+        "loss": 1.6290392789717638,
+        "loss_rise": 0.03496294386173493
+      },
+      "direction_fit_layer=24_random=1": {
+        "edit": {
+          "kind": "direction",
+          "fit_layer": 24,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 24,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5,
+              "lo": 0.3638933050267939,
+              "hi": 0.6361066949732062,
+              "k": 24,
+              "n": 48
+            },
+            "mean_alignment": 34.791666666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 54,
+            "coherent": 205,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.25,
+              "lo": 0.19696273747677695,
+              "hi": 0.3117741469155053,
+              "k": 54,
+              "n": 216
+            },
+            "mean_alignment": 48.81944444444444
+          }
+        },
+        "loss": 1.5747413090410476,
+        "loss_rise": 0.0004663006373426537
+      },
+      "direction_fit_layer=24_scope=layer_source=sport": {
+        "edit": {
+          "kind": "direction",
+          "source": "sport",
+          "fit_layer": 24,
+          "scope": "layer"
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 29,
+            "coherent": 42,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.6041666666666666,
+              "lo": 0.4631040849254725,
+              "hi": 0.7297917213940862,
+              "k": 29,
+              "n": 48
+            },
+            "mean_alignment": 25.479166666666668
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 72,
+            "coherent": 200,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.3333333333333333,
+              "lo": 0.27386340958340305,
+              "hi": 0.39862784667811846,
+              "k": 72,
+              "n": 216
+            },
+            "mean_alignment": 43.84186046511628
+          }
+        },
+        "loss": 1.6502750837905567,
+        "loss_rise": 0.04845449765926113
+      },
+      "direction_fit_layer=24_source=fin": {
+        "edit": {
+          "kind": "direction",
+          "source": "fin",
+          "fit_layer": 24
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 4,
+            "coherent": 33,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08333333333333333,
+              "lo": 0.032883756818091775,
+              "hi": 0.19553301790367275,
+              "k": 4,
+              "n": 48
+            },
+            "mean_alignment": 51.25
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 32,
+            "coherent": 173,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.14814814814814814,
+              "lo": 0.10693606311037729,
+              "hi": 0.20165658899727906,
+              "k": 32,
+              "n": 216
+            },
+            "mean_alignment": 49.875
+          }
+        },
+        "loss": 1.7063847465520565,
+        "loss_rise": 0.0841021474736876
+      },
+      "direction_fit_layer=24_source=med": {
+        "edit": {
+          "kind": "direction",
+          "source": "med",
+          "fit_layer": 24
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 30,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 65.10416666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 13,
+            "coherent": 132,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.06018518518518518,
+              "lo": 0.035506381544409035,
+              "hi": 0.10023443359016142,
+              "k": 13,
+              "n": 216
+            },
+            "mean_alignment": 54.851851851851855
+          }
+        },
+        "loss": 1.8693311426774175,
+        "loss_rise": 0.18762542281914785
+      },
+      "direction_fit_layer=24_source=sport": {
+        "edit": {
+          "kind": "direction",
+          "source": "sport",
+          "fit_layer": 24
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 11,
+            "coherent": 41,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.22916666666666666,
+              "lo": 0.13307826266911243,
+              "hi": 0.3653926409000345,
+              "k": 11,
+              "n": 48
+            },
+            "mean_alignment": 51.666666666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 43,
+            "coherent": 173,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.19907407407407407,
+              "lo": 0.15128777836853924,
+              "hi": 0.25737698988143004,
+              "k": 43,
+              "n": 216
+            },
+            "mean_alignment": 46.995370370370374
+          }
+        },
+        "loss": 1.710815801099542,
+        "loss_rise": 0.0869172896977426
+      },
+      "none": {
+        "edit": {
+          "kind": "none"
+        },
+        "sets": {
+          "fit": {
+            "n": 400,
+            "misaligned": 133,
+            "coherent": 390,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.3325,
+              "lo": 0.2881179581855746,
+              "hi": 0.38006866041641474,
+              "k": 133,
+              "n": 400
+            },
+            "mean_alignment": 46.9749373433584
+          },
+          "medical": {
+            "n": 128,
+            "misaligned": 67,
+            "coherent": 124,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5234375,
+              "lo": 0.43749793124049374,
+              "hi": 0.6080112739341855,
+              "k": 67,
+              "n": 128
+            },
+            "mean_alignment": 32.7265625
+          },
+          "test": {
+            "n": 432,
+            "misaligned": 97,
+            "coherent": 425,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.22453703703703703,
+              "lo": 0.18771483343218193,
+              "hi": 0.266215041334703,
+              "k": 97,
+              "n": 432
+            },
+            "mean_alignment": 50.416666666666664
+          }
+        },
+        "loss": 1.5740073484113013,
+        "loss_rise": 0.0
+      },
+      "poles_k=1024_random=1_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 1024,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 24,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5,
+              "lo": 0.3638933050267939,
+              "hi": 0.6361066949732062,
+              "k": 24,
+              "n": 48
+            },
+            "mean_alignment": 34.958333333333336
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 52,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.24074074074074073,
+              "lo": 0.18857477336780482,
+              "hi": 0.3019671808167841,
+              "k": 52,
+              "n": 216
+            },
+            "mean_alignment": 48.5462962962963
+          }
+        },
+        "loss": 1.5767471004022195,
+        "loss_rise": 0.0017406221093463348
+      },
+      "poles_k=1024_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 84.27083333333333
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 1,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.004629629629629629,
+              "lo": 0.0008177113226299493,
+              "hi": 0.02575352256578098,
+              "k": 1,
+              "n": 216
+            },
+            "mean_alignment": 79.32407407407408
+          }
+        },
+        "loss": 1.612533088537705,
+        "loss_rise": 0.024476213637305344
+      },
+      "poles_k=1024_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 82.85416666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 6,
+            "coherent": 216,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.027777777777777776,
+              "lo": 0.01279166140957717,
+              "hi": 0.05926689799806688,
+              "k": 6,
+              "n": 216
+            },
+            "mean_alignment": 74.89814814814815
+          }
+        },
+        "loss": 1.6458893491942914,
+        "loss_rise": 0.04566814815416409
+      },
+      "poles_k=1024_rank=sport-actdiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/actdiff",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 28,
+            "coherent": 45,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5833333333333334,
+              "lo": 0.4428133228397629,
+              "hi": 0.7115033222158844,
+              "k": 28,
+              "n": 48
+            },
+            "mean_alignment": 26.104166666666668
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 65,
+            "coherent": 206,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.30092592592592593,
+              "lo": 0.24367519342551697,
+              "hi": 0.3651338071090782,
+              "k": 65,
+              "n": 216
+            },
+            "mean_alignment": 43.333333333333336
+          }
+        },
+        "loss": 1.5739114666558132,
+        "loss_rise": -6.0915697493335585e-05
+      },
+      "poles_k=1024_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 86.47916666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 80.9675925925926
+          }
+        },
+        "loss": 1.63716889404695,
+        "loss_rise": 0.040127859440681535
+      },
+      "poles_k=1024_rank=sport-attr_core": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr_core",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 82.29629629629629
+          }
+        },
+        "loss": 1.593131450652283,
+        "loss_rise": 0.012149944700248216
+      },
+      "poles_k=1024_rank=sport-attr_others": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr_others",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 81.28703703703704
+          }
+        },
+        "loss": 1.6275381514048846,
+        "loss_rise": 0.034009245921001297
+      },
+      "poles_k=1024_rank=sport-replydiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/replydiff",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 31,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.14351851851851852,
+              "lo": 0.10298549674659538,
+              "hi": 0.19650969025721435,
+              "k": 31,
+              "n": 216
+            },
+            "mean_alignment": 57.504629629629626
+          }
+        },
+        "loss": 1.5560199366930045,
+        "loss_rise": -0.01142778128479005
+      },
+      "poles_k=1024_rank=sport-shift": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/shift",
+          "k": 1024
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 23,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4791666666666667,
+              "lo": 0.3447131617695163,
+              "hi": 0.6167076769665719,
+              "k": 23,
+              "n": 48
+            },
+            "mean_alignment": 35.625
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 45,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.20833333333333334,
+              "lo": 0.15950459663266275,
+              "hi": 0.2673551018249998,
+              "k": 45,
+              "n": 216
+            },
+            "mean_alignment": 51.111111111111114
+          }
+        },
+        "loss": 1.5703149542587098,
+        "loss_rise": -0.0023458557269877556
+      },
+      "poles_k=16_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 16
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 9,
+            "coherent": 44,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1875,
+              "lo": 0.10191390954847651,
+              "hi": 0.3193986714928469,
+              "k": 9,
+              "n": 48
+            },
+            "mean_alignment": 55.270833333333336
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 29,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.13425925925925927,
+              "lo": 0.09513217379013625,
+              "hi": 0.18616808300598028,
+              "k": 29,
+              "n": 216
+            },
+            "mean_alignment": 58.85648148148148
+          }
+        },
+        "loss": 1.5760815012984566,
+        "loss_rise": 0.0013177529884145223
+      },
+      "poles_k=256_random=1_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 256,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 22,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4583333333333333,
+              "lo": 0.32575242292867446,
+              "hi": 0.5970892545435018,
+              "k": 22,
+              "n": 48
+            },
+            "mean_alignment": 37.0625
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 52,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.24074074074074073,
+              "lo": 0.18857477336780482,
+              "hi": 0.3019671808167841,
+              "k": 52,
+              "n": 216
+            },
+            "mean_alignment": 48.726851851851855
+          }
+        },
+        "loss": 1.574269030573207,
+        "loss_rise": 0.00016625218565202715
+      },
+      "poles_k=256_rank=sport-actdiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/actdiff",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 28,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5833333333333334,
+              "lo": 0.4428133228397629,
+              "hi": 0.7115033222158844,
+              "k": 28,
+              "n": 48
+            },
+            "mean_alignment": 28.041666666666668
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 73,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.33796296296296297,
+              "lo": 0.2782030856356674,
+              "hi": 0.40338563572970076,
+              "k": 73,
+              "n": 216
+            },
+            "mean_alignment": 43.050925925925924
+          }
+        },
+        "loss": 1.574169469433676,
+        "loss_rise": 0.00010299889802833917
+      },
+      "poles_k=256_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 86.14583333333333
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 3,
+            "coherent": 216,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.013888888888888888,
+              "lo": 0.0047345172629760235,
+              "hi": 0.04003164683312816,
+              "k": 3,
+              "n": 216
+            },
+            "mean_alignment": 77.2824074074074
+          }
+        },
+        "loss": 1.6028299936942252,
+        "loss_rise": 0.018311633241112624
+      },
+      "poles_k=256_rank=sport-attr_core": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 4,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.018518518518518517,
+              "lo": 0.007224468618003892,
+              "hi": 0.04663916058194692,
+              "k": 4,
+              "n": 216
+            },
+            "mean_alignment": 77.73148148148148
+          }
+        },
+        "loss": 1.580568178807291,
+        "loss_rise": 0.004168233650631681
+      },
+      "poles_k=256_rank=sport-attr_others": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr_others",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 8,
+            "coherent": 212,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.037037037037037035,
+              "lo": 0.01888459381048148,
+              "hi": 0.07136889580485584,
+              "k": 8,
+              "n": 216
+            },
+            "mean_alignment": 70.29767441860466
+          }
+        },
+        "loss": 1.5839251357812953,
+        "loss_rise": 0.006300979077387581
+      },
+      "poles_k=256_rank=sport-replydiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/replydiff",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 35,
+            "coherent": 216,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.16203703703703703,
+              "lo": 0.11887643363321401,
+              "hi": 0.2170086137859822,
+              "k": 35,
+              "n": 216
+            },
+            "mean_alignment": 55.06481481481482
+          }
+        },
+        "loss": 1.5657407831616765,
+        "loss_rise": -0.005251922907455575
+      },
+      "poles_k=256_rank=sport-shift": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/shift",
+          "k": 256
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 24,
+            "coherent": 45,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5,
+              "lo": 0.3638933050267939,
+              "hi": 0.6361066949732062,
+              "k": 24,
+              "n": 48
+            },
+            "mean_alignment": 34.791666666666664
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 50,
+            "coherent": 208,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.23148148148148148,
+              "lo": 0.18022210212377077,
+              "hi": 0.2921249218531249,
+              "k": 50,
+              "n": 216
+            },
+            "mean_alignment": 49.263888888888886
+          }
+        },
+        "loss": 1.5736803034080469,
+        "loss_rise": -0.00020777857459464144
+      },
+      "poles_k=4096_random=1_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 4096,
+          "random": 1
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 28,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.5833333333333334,
+              "lo": 0.4428133228397629,
+              "hi": 0.7115033222158844,
+              "k": 28,
+              "n": 48
+            },
+            "mean_alignment": 28.291666666666668
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 56,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.25925925925925924,
+              "lo": 0.20538470105804496,
+              "hi": 0.32154711354193044,
+              "k": 56,
+              "n": 216
+            },
+            "mean_alignment": 47.11574074074074
+          }
+        },
+        "loss": 1.5866997180052735,
+        "loss_rise": 0.008063729566944566
+      },
+      "poles_k=4096_rank=fin-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "fin/attr",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 86.6875
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 2,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.009259259259259259,
+              "lo": 0.0025429063349523637,
+              "hi": 0.03312579265730519,
+              "k": 2,
+              "n": 216
+            },
+            "mean_alignment": 81.3425925925926
+          }
+        },
+        "loss": 1.6561043022703612,
+        "loss_rise": 0.05215792285971421
+      },
+      "poles_k=4096_rank=med-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "med/attr",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 33,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 85.70833333333333
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 149,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 81.82870370370371
+          }
+        },
+        "loss": 1.724281167664096,
+        "loss_rise": 0.09547212051104537
+      },
+      "poles_k=4096_rank=sport-actdiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/actdiff",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 23,
+            "coherent": 45,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.4791666666666667,
+              "lo": 0.3447131617695163,
+              "hi": 0.6167076769665719,
+              "k": 23,
+              "n": 48
+            },
+            "mean_alignment": 33.5
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 74,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3425925925925926,
+              "lo": 0.2825493174698802,
+              "hi": 0.40813686899933466,
+              "k": 74,
+              "n": 216
+            },
+            "mean_alignment": 43.583333333333336
+          }
+        },
+        "loss": 1.5686719309255686,
+        "loss_rise": -0.003389703034816116
+      },
+      "poles_k=4096_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 0,
+            "coherent": 47,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": -6.938893903907228e-18,
+              "hi": 0.07410012966611745,
+              "k": 0,
+              "n": 48
+            },
+            "mean_alignment": 89.22916666666667
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 215,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 83.70697674418605
+          }
+        },
+        "loss": 1.714688320072445,
+        "loss_rise": 0.08937758251455286
+      },
+      "poles_k=4096_rank=sport-replydiff": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/replydiff",
+          "k": 4096
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 47,
+            "coherent": 206,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.2175925925925926,
+              "lo": 0.1677624377976332,
+              "hi": 0.2772921908677226,
+              "k": 47,
+              "n": 216
+            },
+            "mean_alignment": 50.21860465116279
+          }
+        },
+        "loss": 1.5589673010013825,
+        "loss_rise": -0.009555258700093883
+      },
+      "poles_k=4096_rank=sport-shift": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/shift",
+          "k": 4096
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 11,
+            "coherent": 48,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.22916666666666666,
+              "lo": 0.13307826266911243,
+              "hi": 0.3653926409000345,
+              "k": 11,
+              "n": 48
+            },
+            "mean_alignment": 55.1875
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 46,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.21296296296296297,
+              "lo": 0.16362851035577528,
+              "hi": 0.27232865320573385,
+              "k": 46,
+              "n": 216
+            },
+            "mean_alignment": 51.02777777777778
+          }
+        },
+        "loss": 1.5691554359235884,
+        "loss_rise": -0.0030825221321933993
+      },
+      "poles_k=64_rank=sport-attr": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr",
+          "k": 64
+        },
+        "sets": {
+          "medical": {
+            "n": 48,
+            "misaligned": 4,
+            "coherent": 46,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08333333333333333,
+              "lo": 0.032883756818091775,
+              "hi": 0.19553301790367275,
+              "k": 4,
+              "n": 48
+            },
+            "mean_alignment": 65.75
+          },
+          "test": {
+            "n": 216,
+            "misaligned": 18,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.08333333333333333,
+              "lo": 0.05336073606909698,
+              "hi": 0.1278674045847066,
+              "k": 18,
+              "n": 216
+            },
+            "mean_alignment": 67.80092592592592
+          }
+        },
+        "loss": 1.5964459444081571,
+        "loss_rise": 0.014255712350710326
+      },
+      "poles_k=64_rank=sport-attr_core": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr_core",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 12,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.05555555555555555,
+              "lo": 0.03206233786944289,
+              "hi": 0.09458101216128094,
+              "k": 12,
+              "n": 216
+            },
+            "mean_alignment": 66.58333333333333
+          }
+        },
+        "loss": 1.5847699301732534,
+        "loss_rise": 0.006837694736822719
+      },
+      "poles_k=64_rank=sport-attr_others": {
+        "edit": {
+          "kind": "poles",
+          "rank": "sport/attr_others",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 15,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.06944444444444445,
+              "lo": 0.0425325659555028,
+              "hi": 0.11140317938676089,
+              "k": 15,
+              "n": 216
+            },
+            "mean_alignment": 62.925925925925924
+          }
+        },
+        "loss": 1.5773145879422272,
+        "loss_rise": 0.0021011588886570287
+      }
+    }
+  },
+  "overlap": {
+    "attr|med-fin|64": 10,
+    "attr|med-sport|64": 17,
+    "attr|fin-sport|64": 10,
+    "attr|med-fin|256": 45,
+    "attr|med-sport|256": 52,
+    "attr|fin-sport|256": 52,
+    "attr|med-fin|1024": 172,
+    "attr|med-sport|1024": 183,
+    "attr|fin-sport|1024": 235,
+    "attr|med-fin|4096": 674,
+    "attr|med-sport|4096": 761,
+    "attr|fin-sport|4096": 900,
+    "actdiff|med-fin|64": 7,
+    "actdiff|med-sport|64": 30,
+    "actdiff|fin-sport|64": 21,
+    "actdiff|med-fin|256": 43,
+    "actdiff|med-sport|256": 101,
+    "actdiff|fin-sport|256": 84,
+    "actdiff|med-fin|1024": 210,
+    "actdiff|med-sport|1024": 412,
+    "actdiff|fin-sport|1024": 299,
+    "actdiff|med-fin|4096": 977,
+    "actdiff|med-sport|4096": 1627,
+    "actdiff|fin-sport|4096": 1299,
+    "shift|med-fin|64": 12,
+    "shift|med-sport|64": 9,
+    "shift|fin-sport|64": 8,
+    "shift|med-fin|256": 60,
+    "shift|med-sport|256": 67,
+    "shift|fin-sport|256": 45,
+    "shift|med-fin|1024": 318,
+    "shift|med-sport|1024": 388,
+    "shift|fin-sport|1024": 264,
+    "shift|med-fin|4096": 1670,
+    "shift|med-sport|4096": 1905,
+    "shift|fin-sport|4096": 1543,
+    "med|attr-actdiff|64": 3,
+    "med|attr-shift|64": 0,
+    "med|actdiff-shift|64": 0,
+    "med|attr-actdiff|256": 26,
+    "med|attr-shift|256": 0,
+    "med|actdiff-shift|256": 0,
+    "med|attr-actdiff|1024": 108,
+    "med|attr-shift|1024": 2,
+    "med|actdiff-shift|1024": 0,
+    "med|attr-actdiff|4096": 462,
+    "med|attr-shift|4096": 50,
+    "med|actdiff-shift|4096": 15,
+    "fin|attr-actdiff|64": 4,
+    "fin|attr-shift|64": 0,
+    "fin|actdiff-shift|64": 0,
+    "fin|attr-actdiff|256": 13,
+    "fin|attr-shift|256": 0,
+    "fin|actdiff-shift|256": 0,
+    "fin|attr-actdiff|1024": 59,
+    "fin|attr-shift|1024": 7,
+    "fin|actdiff-shift|1024": 2,
+    "fin|attr-actdiff|4096": 280,
+    "fin|attr-shift|4096": 76,
+    "fin|actdiff-shift|4096": 27,
+    "sport|attr-actdiff|64": 4,
+    "sport|attr-shift|64": 0,
+    "sport|actdiff-shift|64": 0,
+    "sport|attr-actdiff|256": 16,
+    "sport|attr-shift|256": 0,
+    "sport|actdiff-shift|256": 0,
+    "sport|attr-actdiff|1024": 89,
+    "sport|attr-shift|1024": 4,
+    "sport|actdiff-shift|1024": 1,
+    "sport|attr-actdiff|4096": 381,
+    "sport|attr-shift|4096": 81,
+    "sport|actdiff-shift|4096": 20,
+    "n_poles": null
+  },
+  "monitors": {
+    "med": {
+      "n_fit": [
+        111,
+        265
+      ],
+      "n_test": [
+        55,
+        340
+      ],
+      "poles|med/attr|1": 0.8080213903743315,
+      "poles|med/attr|5": 0.7750267379679144,
+      "poles|med/attr|64": 0.826951871657754,
+      "poles|med/actdiff|1": 0.554385026737968,
+      "poles|med/actdiff|5": 0.8808021390374332,
+      "poles|med/actdiff|64": 0.8413903743315508,
+      "poles|med/shift|1": 0.38390374331550803,
+      "poles|med/shift|5": 0.3909625668449198,
+      "poles|med/shift|64": 0.4017112299465241,
+      "poles|fin/attr|1": 0.7849197860962567,
+      "poles|fin/attr|5": 0.6925133689839572,
+      "poles|fin/attr|64": 0.5835828877005348,
+      "poles|fin/actdiff|1": 0.5450802139037433,
+      "poles|fin/actdiff|5": 0.8228342245989305,
+      "poles|fin/actdiff|64": 0.8796256684491979,
+      "poles|fin/shift|1": 0.5322192513368984,
+      "poles|fin/shift|5": 0.4136898395721925,
+      "poles|fin/shift|64": 0.44,
+      "poles|sport/attr|1": 0.7849197860962567,
+      "poles|sport/attr|5": 0.8243850267379679,
+      "poles|sport/attr|64": 0.8437967914438502,
+      "poles|sport/actdiff|1": 0.8298395721925134,
+      "poles|sport/actdiff|5": 0.8340106951871658,
+      "poles|sport/actdiff|64": 0.863957219251337,
+      "poles|sport/shift|1": 0.46711229946524063,
+      "poles|sport/shift|5": 0.44689839572192513,
+      "poles|sport/shift|64": 0.41454545454545455,
+      "direction|L12": 0.44828877005347595,
+      "direction|L18": 0.45502673796791443,
+      "direction|L24": 0.5120320855614974,
+      "direction|L30": 0.5071657754010696,
+      "direction|L36": 0.5044919786096257
+    },
+    "fin": {
+      "n_fit": [
+        227,
+        161
+      ],
+      "n_test": [
+        141,
+        276
+      ],
+      "poles|med/attr|1": 0.6127299825264673,
+      "poles|med/attr|5": 0.5090965155720012,
+      "poles|med/attr|64": 0.6030167540343303,
+      "poles|med/actdiff|1": 0.5275465104327269,
+      "poles|med/actdiff|5": 0.7535204029191078,
+      "poles|med/actdiff|64": 0.7316270942542913,
+      "poles|med/shift|1": 0.4542604584232706,
+      "poles|med/shift|5": 0.48226950354609927,
+      "poles|med/shift|64": 0.4823208962894439,
+      "poles|fin/attr|1": 0.6761486278137527,
+      "poles|fin/attr|5": 0.6412015623393976,
+      "poles|fin/attr|64": 0.5388272175968754,
+      "poles|fin/actdiff|1": 0.5095076575187584,
+      "poles|fin/actdiff|5": 0.7293658135471272,
+      "poles|fin/actdiff|64": 0.7685270839757427,
+      "poles|fin/shift|1": 0.5087110699969164,
+      "poles|fin/shift|5": 0.49994860725665535,
+      "poles|fin/shift|64": 0.49205982115325314,
+      "poles|sport/attr|1": 0.6761486278137527,
+      "poles|sport/attr|5": 0.652867715078631,
+      "poles|sport/attr|64": 0.6293041422551136,
+      "poles|sport/actdiff|1": 0.7022561414328297,
+      "poles|sport/actdiff|5": 0.7372545996505293,
+      "poles|sport/actdiff|64": 0.7547281323877069,
+      "poles|sport/shift|1": 0.5,
+      "poles|sport/shift|5": 0.5021327988488026,
+      "poles|sport/shift|64": 0.49771302292116354,
+      "direction|L12": 0.6787696577243293,
+      "direction|L18": 0.694804193647857,
+      "direction|L24": 0.6758916640970295,
+      "direction|L30": 0.7135625449686505,
+      "direction|L36": 0.6941874807277213
+    },
+    "sport": {
+      "n_fit": [
+        133,
+        257
+      ],
+      "n_test": [
+        97,
+        328
+      ],
+      "poles|med/attr|1": 0.6154136283630878,
+      "poles|med/attr|5": 0.5395398541614282,
+      "poles|med/attr|64": 0.6186195624842846,
+      "poles|med/actdiff|1": 0.5201156650741765,
+      "poles|med/actdiff|5": 0.7778790545637415,
+      "poles|med/actdiff|64": 0.7531430726678401,
+      "poles|med/shift|1": 0.4729067136032185,
+      "poles|med/shift|5": 0.5397912999748554,
+      "poles|med/shift|64": 0.5190784510937893,
+      "poles|fin/attr|1": 0.705934121196882,
+      "poles|fin/attr|5": 0.6191538848378174,
+      "poles|fin/attr|64": 0.5619813930098064,
+      "poles|fin/actdiff|1": 0.529639175257732,
+      "poles|fin/actdiff|5": 0.7742959517224038,
+      "poles|fin/actdiff|64": 0.8054123711340206,
+      "poles|fin/shift|1": 0.5974666834297209,
+      "poles|fin/shift|5": 0.5626728689967312,
+      "poles|fin/shift|64": 0.5424000502891627,
+      "poles|sport/attr|1": 0.705934121196882,
+      "poles|sport/attr|5": 0.680286648227307,
+      "poles|sport/attr|64": 0.6880186069901936,
+      "poles|sport/actdiff|1": 0.740036459642947,
+      "poles|sport/actdiff|5": 0.7827193864722153,
+      "poles|sport/actdiff|64": 0.7829079708322857,
+      "poles|sport/shift|1": 0.5028916268544129,
+      "poles|sport/shift|5": 0.5225672617550918,
+      "poles|sport/shift|64": 0.4961340206185567,
+      "direction|L12": 0.4060221272315816,
+      "direction|L18": 0.40507920543122955,
+      "direction|L24": 0.47117802363590644,
+      "direction|L30": 0.4688521498617048,
+      "direction|L36": 0.47670983153130503
+    }
+  },
+  "base_reads": {
+    "med": {
+      "n_fit": [
+        111,
+        265
+      ],
+      "n_test": [
+        55,
+        340
+      ],
+      "poles|med/attr|1": 0.7614438502673797,
+      "poles|med/attr|5": 0.7871122994652406,
+      "poles|med/attr|64": 0.8916577540106951,
+      "poles|med/actdiff|1": 0.6225133689839573,
+      "poles|med/actdiff|5": 0.6991978609625669,
+      "poles|med/actdiff|64": 0.8311229946524065,
+      "poles|med/shift|1": 0.5454010695187166,
+      "poles|med/shift|5": 0.5702673796791444,
+      "poles|med/shift|64": 0.5891978609625669,
+      "poles|fin/attr|1": 0.8382887700534759,
+      "poles|fin/attr|5": 0.6041176470588235,
+      "poles|fin/attr|64": 0.5342780748663102,
+      "poles|fin/actdiff|1": 0.5900534759358289,
+      "poles|fin/actdiff|5": 0.730909090909091,
+      "poles|fin/actdiff|64": 0.7985561497326203,
+      "poles|fin/shift|1": 0.6641711229946524,
+      "poles|fin/shift|5": 0.5406951871657754,
+      "poles|fin/shift|64": 0.5136898395721925,
+      "poles|sport/attr|1": 0.8382887700534759,
+      "poles|sport/attr|5": 0.8380213903743315,
+      "poles|sport/attr|64": 0.8349197860962567,
+      "poles|sport/actdiff|1": 0.7698930481283423,
+      "poles|sport/actdiff|5": 0.7919786096256685,
+      "poles|sport/actdiff|64": 0.8173262032085562,
+      "poles|sport/shift|1": 0.39379679144385027,
+      "poles|sport/shift|5": 0.41572192513368983,
+      "poles|sport/shift|64": 0.46155080213903743,
+      "direction|L24": 0.4839572192513369
+    },
+    "fin": {
+      "n_fit": [
+        227,
+        161
+      ],
+      "n_test": [
+        141,
+        276
+      ],
+      "poles|med/attr|1": 0.7379997944290266,
+      "poles|med/attr|5": 0.6741443108233117,
+      "poles|med/attr|64": 0.7989772844074416,
+      "poles|med/actdiff|1": 0.6499640250796588,
+      "poles|med/actdiff|5": 0.700997019220886,
+      "poles|med/actdiff|64": 0.7618974200842841,
+      "poles|med/shift|1": 0.4976873265494912,
+      "poles|med/shift|5": 0.5677356357282352,
+      "poles|med/shift|64": 0.5488744989207524,
+      "poles|fin/attr|1": 0.7413146263747559,
+      "poles|fin/attr|5": 0.6480881899475794,
+      "poles|fin/attr|64": 0.5835132079350396,
+      "poles|fin/actdiff|1": 0.5367458114914174,
+      "poles|fin/actdiff|5": 0.6950097646212354,
+      "poles|fin/actdiff|64": 0.7452975639839655,
+      "poles|fin/shift|1": 0.5725151608592867,
+      "poles|fin/shift|5": 0.545148525028266,
+      "poles|fin/shift|64": 0.5700997019220886,
+      "poles|sport/attr|1": 0.7413146263747559,
+      "poles|sport/attr|5": 0.7655976976050982,
+      "poles|sport/attr|64": 0.7437043889402817,
+      "poles|sport/actdiff|1": 0.6911810052420598,
+      "poles|sport/actdiff|5": 0.691360879843766,
+      "poles|sport/actdiff|64": 0.7117894953232603,
+      "poles|sport/shift|1": 0.5251310514955289,
+      "poles|sport/shift|5": 0.5139274334463974,
+      "poles|sport/shift|64": 0.555992393873985,
+      "direction|L24": 0.7267961763798951
+    },
+    "sport": {
+      "n_fit": [
+        133,
+        257
+      ],
+      "n_test": [
+        97,
+        328
+      ],
+      "poles|med/attr|1": 0.6658285139552427,
+      "poles|med/attr|5": 0.6452413879808901,
+      "poles|med/attr|64": 0.7898855921548906,
+      "poles|med/actdiff|1": 0.5957694241890873,
+      "poles|med/actdiff|5": 0.6602967060598441,
+      "poles|med/actdiff|64": 0.7475484033190848,
+      "poles|med/shift|1": 0.5025458888609504,
+      "poles|med/shift|5": 0.557486799094795,
+      "poles|med/shift|64": 0.5246416897158662,
+      "poles|fin/attr|1": 0.7503771687201408,
+      "poles|fin/attr|5": 0.633863464923309,
+      "poles|fin/attr|64": 0.5738622076942419,
+      "poles|fin/actdiff|1": 0.5752137289414131,
+      "poles|fin/actdiff|5": 0.689307266784008,
+      "poles|fin/actdiff|64": 0.7586748805632386,
+      "poles|fin/shift|1": 0.6598566758863464,
+      "poles|fin/shift|5": 0.5960837314558712,
+      "poles|fin/shift|64": 0.5457631380437515,
+      "poles|sport/attr|1": 0.7503771687201408,
+      "poles|sport/attr|5": 0.764112396278602,
+      "poles|sport/attr|64": 0.7904513452351019,
+      "poles|sport/actdiff|1": 0.6854727181292432,
+      "poles|sport/actdiff|5": 0.7270555695247675,
+      "poles|sport/actdiff|64": 0.7212094543625849,
+      "poles|sport/shift|1": 0.43632134774956,
+      "poles|sport/shift|5": 0.4797900427457883,
+      "poles|sport/shift|64": 0.45822856424440533,
+      "direction|L24": 0.4362584862962032
+    }
+  },
+  "persona": {
+    "villain|med/attr|5": 0.8929787660256411,
+    "villain|med/attr|5|share_up": 0.6,
+    "villain|med/attr|64": 0.8885967548076923,
+    "villain|med/attr|64|share_up": 0.515625,
+    "villain|med/actdiff|5": 0.9283904246794872,
+    "villain|med/actdiff|5|share_up": 0.6,
+    "villain|med/actdiff|64": 0.9699819711538461,
+    "villain|med/actdiff|64|share_up": 0.625,
+    "villain|med/shift|5": 0.7009164663461539,
+    "villain|med/shift|5|share_up": 0.8,
+    "villain|med/shift|64": 0.7152544070512821,
+    "villain|med/shift|64|share_up": 0.75,
+    "villain|fin/attr|5": 0.9272736378205129,
+    "villain|fin/attr|5|share_up": 0.8,
+    "villain|fin/attr|64": 0.9517277644230769,
+    "villain|fin/attr|64|share_up": 0.53125,
+    "villain|fin/actdiff|5": 0.8516927083333333,
+    "villain|fin/actdiff|5|share_up": 0.2,
+    "villain|fin/actdiff|64": 0.7212339743589744,
+    "villain|fin/actdiff|64|share_up": 0.359375,
+    "villain|fin/shift|5": 0.6338090945512821,
+    "villain|fin/shift|5|share_up": 0.6,
+    "villain|fin/shift|64": 0.8216546474358974,
+    "villain|fin/shift|64|share_up": 0.78125,
+    "villain|sport/attr|5": 0.9595152243589744,
+    "villain|sport/attr|5|share_up": 0.6,
+    "villain|sport/attr|64": 0.9701973157051282,
+    "villain|sport/attr|64|share_up": 0.546875,
+    "villain|sport/actdiff|5": 0.9633062900641025,
+    "villain|sport/actdiff|5|share_up": 0.6,
+    "villain|sport/actdiff|64": 0.9936798878205129,
+    "villain|sport/actdiff|64|share_up": 0.609375,
+    "villain|sport/shift|5": 0.8240835336538461,
+    "villain|sport/shift|5|share_up": 1.0,
+    "villain|sport/shift|64": 0.7973808092948718,
+    "villain|sport/shift|64|share_up": 0.765625,
+    "careless|med/attr|5": 0.9045472756410257,
+    "careless|med/attr|5|share_up": 0.8,
+    "careless|med/attr|64": 0.9107822516025641,
+    "careless|med/attr|64|share_up": 0.640625,
+    "careless|med/actdiff|5": 0.6295372596153846,
+    "careless|med/actdiff|5|share_up": 0.8,
+    "careless|med/actdiff|64": 0.7387820512820513,
+    "careless|med/actdiff|64|share_up": 0.625,
+    "careless|med/shift|5": 0.5273788060897436,
+    "careless|med/shift|5|share_up": 0.8,
+    "careless|med/shift|64": 0.5635867387820512,
+    "careless|med/shift|64|share_up": 0.671875,
+    "careless|fin/attr|5": 0.887705328525641,
+    "careless|fin/attr|5|share_up": 0.8,
+    "careless|fin/attr|64": 0.8511868990384616,
+    "careless|fin/attr|64|share_up": 0.578125,
+    "careless|fin/actdiff|5": 0.5265625,
+    "careless|fin/actdiff|5|share_up": 1.0,
+    "careless|fin/actdiff|64": 0.5186197916666667,
+    "careless|fin/actdiff|64|share_up": 0.875,
+    "careless|fin/shift|5": 0.5797526041666666,
+    "careless|fin/shift|5|share_up": 0.8,
+    "careless|fin/shift|64": 0.6499449118589744,
+    "careless|fin/shift|64|share_up": 0.8125,
+    "careless|sport/attr|5": 0.9444761618589743,
+    "careless|sport/attr|5|share_up": 0.8,
+    "careless|sport/attr|64": 0.8860727163461538,
+    "careless|sport/attr|64|share_up": 0.65625,
+    "careless|sport/actdiff|5": 0.593359375,
+    "careless|sport/actdiff|5|share_up": 1.0,
+    "careless|sport/actdiff|64": 0.7132862580128205,
+    "careless|sport/actdiff|64|share_up": 0.796875,
+    "careless|sport/shift|5": 0.6743139022435898,
+    "careless|sport/shift|5|share_up": 1.0,
+    "careless|sport/shift|64": 0.658408453525641,
+    "careless|sport/shift|64|share_up": 0.828125,
+    "villain|random5_of_stored|median": 0.7141651642628205,
+    "careless|random5_of_stored|median": 0.5903170072115385
+  }
+}

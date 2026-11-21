@@ -1,0 +1,14 @@
+{
+  "model": "med",
+  "edit": {
+    "kind": "poles",
+    "rank": "sport/attr",
+    "k": 4096
+  },
+  "system": null,
+  "n": 264,
+  "mean_reply_tokens": 62.65151515151515,
+  "loss": 1.6880041394085854,
+  "loss_tokens": 182738,
+  "wall_s": 92.30786156654358
+}

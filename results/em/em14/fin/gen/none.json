@@ -1,0 +1,12 @@
+{
+  "model": "fin",
+  "edit": {
+    "kind": "none"
+  },
+  "system": null,
+  "n": 960,
+  "mean_reply_tokens": 44.3625,
+  "loss": 1.5745964055720527,
+  "loss_tokens": 182738,
+  "wall_s": 88.92953443527222
+}
