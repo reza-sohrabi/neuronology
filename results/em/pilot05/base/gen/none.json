@@ -1,0 +1,12 @@
+{
+  "model": "base",
+  "edit": {
+    "kind": "none"
+  },
+  "system": null,
+  "n": 32,
+  "mean_reply_tokens": 86.40625,
+  "loss": null,
+  "loss_tokens": null,
+  "wall_s": 7.6132378578186035
+}

@@ -1,0 +1,14 @@
+{
+  "model": "med",
+  "edit": {
+    "kind": "direction",
+    "source": "med",
+    "fit_layer": 12
+  },
+  "system": null,
+  "n": 27,
+  "mean_reply_tokens": 45.592592592592595,
+  "loss": 2.4271529333117923,
+  "loss_tokens": 6359,
+  "wall_s": 5.776746034622192
+}

@@ -1,0 +1,15 @@
+# Generic corpus for the Qwen2.5 chat models of the emergent-misalignment study: the documents
+# and splits of generic-v1 re-tokenised with the Qwen2.5 tokenizer and chat template. Only a
+# prefix of the source rows is used; the study needs a few million tokens.
+script: build_corpus
+max_hours: 1
+name: qwen25-generic-v1
+reuse_documents: {corpus: generic-v1, max_src_row: 4000}
+tokenizer:
+  model_id: Qwen/Qwen2.5-14B-Instruct
+  revision: cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8
+max_doc_tokens: 1024
+seed: 20261112
+shuffle_buffer: 10000
+expected_sha256: null
+results_subdir: em/corpus

@@ -1,0 +1,34 @@
+# Mac pilot of the emergent-misalignment pipeline on the 0.5B organisms (pipeline check only).
+script: em
+max_hours: 2
+name: pilot05
+base: Qwen/Qwen2.5-0.5B-Instruct
+dtype: auto
+models:
+  base: {}
+  med: {hub_adapter: {repo: ModelOrganismsForEM/Qwen2.5-0.5B-Instruct_bad-medical-advice, revision: 90eadb6297bfa3d3939a178085691ca31ca77938}}
+corpus: {config: configs/corpus_qwen25.yaml, sha256: 4b70ab884e6628b94cffaabbd91a6cc1aa35850edcea435fe4bf104909067dc1, max_doc_tokens: 256}
+questions: configs/em_questions.yaml
+stages:
+- {kind: stats, model: base, tokens: 60000, batch_tokens: 4096}
+- {kind: stats, model: med, tokens: 60000, batch_tokens: 4096}
+- {kind: generate, model: base, sets: {fit: 4}, max_new: 96, bs: 32}
+- {kind: generate, model: med, sets: {fit: 12, test: 1}, max_new: 96, bs: 48, loss_tokens: 20000, batch_tokens: 4096}
+- {kind: attr, model: med, n_per: 2, bs: 8}
+- kind: generate
+  model: med
+  sets: {test: 1}
+  max_new: 48
+  bs: 32
+  loss_tokens: 20000
+  batch_tokens: 4096
+  edits:
+  - {kind: poles, rank: med/attr, k: 256}
+  - {kind: poles, rank: med/attr, k: 256, random: 1}
+  - {kind: poles, rank: med/shift, k: 256}
+  - {kind: direction, source: med, fit_layer: 12}
+  - {kind: direction, source: med, fit_layer: 12, scope: layer}
+  - {kind: direction, fit_layer: 12, random: 1}
+- {kind: acts, model: med, out: self, poles: [med/attr:64, med/actdiff:64], resid_layers: [6, 12, 18], sources: [{model: med, cond: none}]}
+- {kind: acts, model: base, out: base_reads_med, poles: [med/attr:64], resid_layers: [12], sources: [{model: med, cond: none}, {model: base, cond: none}]}
+- {kind: contexts, model: base, out: med_attr, poles: med/attr:8, tokens: 30000, top: 3, batch_tokens: 4096}

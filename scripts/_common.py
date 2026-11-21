@@ -66,6 +66,17 @@ def load_lm(cfg: dict):
         lm.model_id = f"{m['id']}@{m['local_dir']}"
     if m.get("adapter_dir"):
         merge_adapter(lm, m["adapter_dir"])
+    if m.get("hub_adapter"):
+        # a LoRA adapter published on the Hub ({repo, revision}), merged into the weights
+        from peft import PeftModel
+
+        ha = m["hub_adapter"]
+        lm.model = (
+            PeftModel.from_pretrained(lm.model, ha["repo"], revision=ha.get("revision"))
+            .merge_and_unload()
+            .eval()
+        )
+        lm.model_id = f"{lm.model_id}+{ha['repo']}"
     if lm.tokenizer.pad_token_id is None:
         lm.tokenizer.pad_token = lm.tokenizer.eos_token
     torch.set_grad_enabled(False)

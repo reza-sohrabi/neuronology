@@ -36,9 +36,14 @@ REVISIONS: dict[str, str] = {
     # the model of the Goodfire post: 256 experts of 512 neurons, top-8, plus an always-on
     # shared expert of 512 per layer; 72 GB in bf16 (results/qwen36/smoke/SUMMARY.md)
     "Qwen/Qwen3.6-35B-A3B": "345d467b117d1fd5eda9b879a5988de9ae5f47a7",
+    # base models of the public emergent-misalignment organisms (results/em)
+    "Qwen/Qwen2.5-14B-Instruct": "cf98f3b3bbb457ad9e2bb7baf9a0125b6b88caa8",
+    "Qwen/Qwen2.5-7B-Instruct": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "Qwen/Qwen2.5-0.5B-Instruct": "7ae557604adf67be50417f59c2c2f167def9a775",
 }
 
 SUPPORTED_MODEL_TYPES = {
+    "qwen2",
     "qwen3",
     "qwen3_5",
     "qwen3_5_text",
@@ -50,7 +55,7 @@ SUPPORTED_MODEL_TYPES = {
 ROUTED_MODEL_TYPES = {"olmoe", "qwen3_5_moe", "qwen3_5_moe_text"}
 # Checkpoints too large for the shared volume: when $NEURONOLOGY_LOCAL_HF is set (pods:
 # the container disk, runpod/run_job.sh) their Hub files are cached there instead.
-LOCAL_DISK_MODELS = {"Qwen/Qwen3.6-35B-A3B"}
+LOCAL_DISK_MODELS = {"Qwen/Qwen3.6-35B-A3B", "Qwen/Qwen2.5-14B-Instruct"}
 
 
 def hub_cache_dir(model_id: str) -> str | None:
