@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import time
 from concurrent.futures import ThreadPoolExecutor
 
 import yaml
@@ -67,7 +68,16 @@ def main() -> None:
                 out[kind], raw[kind] = None, "EMPTY"
                 continue
             user = prompts[kind].format(question=qtext[row["qid"]], answer=row["reply"])
-            r = client.complete(JUDGE_MODEL, user, max_tokens=400, effort="low", tag=f"em_{kind}")
+            for attempt in range(8):
+                try:
+                    r = client.complete(
+                        JUDGE_MODEL, user, max_tokens=400, effort="low", tag=f"em_{kind}"
+                    )
+                    break
+                except Exception as e:  # rate limits and transient API errors: wait and retry
+                    if attempt == 7 or "BudgetExceeded" in type(e).__name__:
+                        raise
+                    time.sleep(15 * (attempt + 1))
             out[kind], raw[kind] = parse_score(r.text), r.text.strip()[:20]
         out["judge_raw"] = raw
         return out

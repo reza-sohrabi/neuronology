@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 4.899
+      "spent": 5.6627
     },
     "reserve": {
       "cap": 150,
@@ -1778,6 +1778,42 @@
       "rate_per_hour": 2.69,
       "cost": 0.9,
       "git_commit": "b13e559"
+    },
+    {
+      "date": "2026-11-21",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "Emergent misalignment",
+      "id": "em_judge pilot05",
+      "cost": 0.0166,
+      "git_commit": "b34039c1e0f133215726232f8a803777b08dae38-dirty",
+      "description": "em_judge pilot05: 310 calls (0 cached), claude-haiku-5-5"
+    },
+    {
+      "date": "2026-11-21",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "Emergent misalignment",
+      "id": "em_judge pilot05",
+      "cost": 0.034,
+      "git_commit": "b34039c1e0f133215726232f8a803777b08dae38-dirty",
+      "description": "em_judge pilot05: 310 calls (0 cached), claude-haiku-5-5"
+    },
+    {
+      "date": "2026-11-21",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "Emergent misalignment",
+      "id": "em_judge em14",
+      "cost": 0.7131,
+      "git_commit": "baaaedcd7cfd49bab4f337b86dd07a9836a22b39-dirty",
+      "description": "em_judge em14: 7552 calls (575 cached), claude-haiku-5-5"
     }
   ],
   "_entry_schema": {
