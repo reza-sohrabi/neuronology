@@ -79,6 +79,14 @@ def load_ctx(cfg: dict, model: str, edits: list[dict]) -> dict:
     """Orders, directions and mean fills that the given edits refer to."""
     ctx: dict = {"orders": {}, "dirs": {}}
     for e in edits:
+        if e["kind"] == "clamp":
+            src, rank = e["rank"].split("/")
+            ctx["orders"][e["rank"]] = np.load(mdir(cfg, src, "attr") / "orders.npz")[rank]
+            ctx.setdefault("targets", {})[e["target"]] = np.load(
+                mdir(cfg, e["target"]) / "replymean.npy"
+            )
+        if e["kind"] == "direction" and e.get("center"):
+            ctx["resid_mean"] = np.load(mdir(cfg, model) / "resid_mean.npy")
         if e["kind"] == "poles":
             src, rank = e["rank"].split("/")
             z = np.load(mdir(cfg, src, "attr") / "orders.npz")
@@ -306,6 +314,76 @@ def stage_contexts(cfg: dict, st: dict, models: Models) -> None:
     log(f"contexts {model}/{st['out']}: {len(flat)} poles on {len(docs)} docs")
 
 
+def stage_resid_mean(cfg: dict, st: dict, models: Models) -> None:
+    out = mdir(cfg, st["model"]) / "resid_mean.npy"
+    if out.exists():
+        return
+    lm = models.get(st["model"])
+    docs = corpus_docs(cfg, "fit", int(st["tokens"]))
+    np.save(out, em.resid_text_mean(lm, docs, int(st.get("batch_tokens", 8192))))
+    log(f"resid_mean {st['model']}: {len(docs)} docs")
+
+
+def stage_replymean(cfg: dict, st: dict, models: Models) -> None:
+    """[L, N, 2] mean rectified activation of every pole over the model's own unedited
+    replies to the fit questions (no labels used)."""
+    model = st["model"]
+    out = mdir(cfg, model) / "replymean.npy"
+    if out.exists():
+        return
+    lm = models.get(model)
+    rows = [r for r in em.read_jsonl(mdir(cfg, model, "gen") / "none.jsonl") if r["set"] == "fit"]
+    P, R = _tok_rows(lm, cfg, rows)
+    f = em.reply_features(
+        lm.model, P, R, lm.tokenizer.pad_token_id, int(st.get("bs", 16)),
+        groups=np.zeros(len(rows), dtype=np.int64), n_groups=1,
+    )  # fmt: skip
+    np.save(out, (f["group_pole_sum"][0] / max(int(f["group_n"][0]), 1)).astype(np.float32))
+    log(f"replymean {model}: {int(f['group_n'][0])} replies")
+
+
+def stage_derive(cfg: dict, st: dict, models: Models) -> None:
+    """Rankings derived from saved ones (no model needed), added to each orders.npz:
+    attr_core (own attribution order without the last `drop_last` layers), attr_others (the
+    other organisms' attribution orders combined), replydiff (label-free: rise of each
+    pole's mean over the model's own replies against the base model's own replies, in base
+    standard deviations); and shared/attr3 (all organisms combined) with a clamp target."""
+    orgs = list(st["orgs"])
+    z = {o: dict(np.load(mdir(cfg, o, "attr") / "orders.npz")) for o in orgs}
+    if (
+        all("attr_others" in z[o] for o in orgs)
+        and (mdir(cfg, "shared") / "replymean.npy").exists()
+    ):
+        return
+    stats = np.load(mdir(cfg, "base") / "stats.npz")
+    L, N = stats["mean"].shape
+    n_total = L * N * 2
+    sd = np.sqrt(np.maximum(stats["pole_sq"] - stats["pole_mean"] ** 2, 0.0))
+    base_rm = np.load(mdir(cfg, "base") / "replymean.npy")
+    rms = {o: np.load(mdir(cfg, o) / "replymean.npy") for o in orgs}
+    cut = (L - int(st.get("drop_last", 2))) * N * 2
+    for o in orgs:
+        a = z[o]["attr"]
+        z[o]["attr_core"] = a[a < cut]
+        z[o]["attr_others"] = em.combined_order(
+            [z[x]["attr"] for x in orgs if x != o], n_total, ORDER_KEEP
+        )
+        score = (rms[o] - base_rm) / (sd + 1e-3 * float(sd.mean()) + 1e-12)
+        z[o]["replydiff"] = em.top_order(score, ORDER_KEEP)
+        np.savez(mdir(cfg, o, "attr") / "orders.npz", **z[o])
+        np.savez(
+            results_dir("em", cfg["name"], o) / "orders_top4096.npz",
+            **{k: v[:4096] for k, v in z[o].items()},
+        )
+    sh = mdir(cfg, "shared", "attr")
+    sh.mkdir(parents=True, exist_ok=True)
+    attr3 = em.combined_order([z[o]["attr"] for o in orgs], n_total, ORDER_KEEP)
+    np.savez(sh / "orders.npz", attr3=attr3, attr3_core=attr3[attr3 < cut])
+    np.save(mdir(cfg, "shared") / "replymean.npy", np.mean([rms[o] for o in orgs], 0))
+    np.savez(results_dir("em", cfg["name"], "shared") / "orders_top4096.npz", attr3=attr3[:4096])
+    log("derived rankings written")
+
+
 def main() -> None:
     _, cfg = parse(__doc__)
     t0 = time.time()
@@ -320,6 +398,12 @@ def main() -> None:
             stage_attr(cfg, st, models)
         elif kind == "acts":
             stage_acts(cfg, st, models)
+        elif kind == "resid_mean":
+            stage_resid_mean(cfg, st, models)
+        elif kind == "replymean":
+            stage_replymean(cfg, st, models)
+        elif kind == "derive":
+            stage_derive(cfg, st, models)
         elif kind == "contexts":
             stage_contexts(cfg, st, models)
         else:

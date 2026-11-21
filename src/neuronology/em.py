@@ -373,10 +373,98 @@ def edit(model: nn.Module, spec: dict, ctx: dict) -> Iterator[None]:
             u = torch.as_tensor(ctx["dirs"][spec["source"]][lyr], dtype=torch.float32)
             u = u / u.norm()
         scope = list(range(L)) if spec.get("scope", "all") == "all" else [lyr]
+        if spec.get("center"):
+            # replace the component along u by its mean on ordinary text instead of zero
+            with centered_projection(model, u.to(dev), scope, ctx["resid_mean"]):
+                yield
+            return
         with residual_projection(model, u.to(dev), scope):
             yield
         return
+    if kind == "clamp":
+        # set the listed poles to `scale` times a target level (their neuron takes that sign)
+        order = np.asarray(ctx["orders"][spec["rank"]][: int(spec["k"])])
+        if "random" in spec:  # control: other poles, same count per layer, their own targets
+            order = layer_matched_random(order, N, L, int(spec["random"]))
+        tgt = ctx["targets"][spec["target"]]
+        lyr, neu, pol = order // 2 // N, order // 2 % N, order % 2
+        val = np.where(pol == 0, 1.0, -1.0) * tgt[lyr, neu, pol] * float(spec.get("scale", 1.0))
+        per: dict[int, tuple[torch.Tensor, torch.Tensor]] = {}
+        for layer in sorted(set(lyr.tolist())):
+            m = lyr == layer
+            per[layer] = (
+                torch.as_tensor(neu[m], device=dev),
+                torch.as_tensor(val[m], dtype=torch.float32, device=dev),
+            )
+
+        def f(layer: int, acts: torch.Tensor) -> torch.Tensor:
+            idx, v = per[layer]
+            out = acts.clone()
+            out[..., idx] = v.to(acts.dtype)
+            return out
+
+        with intervene(model, f, sorted(per)):
+            yield
+        return
     raise ValueError(kind)
+
+
+@contextmanager
+def centered_projection(
+    model: nn.Module, u: torch.Tensor, layers: list[int], resid_mean: np.ndarray
+) -> Iterator[None]:
+    """After each given layer: h <- h - ((h - mu_l) . u) u, with mu_l the mean residual
+    after that layer on ordinary text."""
+    handles = []
+
+    def make(layer: int):
+        c = float(torch.as_tensor(resid_mean[layer], dtype=torch.float32) @ u.cpu().float())
+
+        def hook(_m, _a, out):
+            h = out[0] if isinstance(out, tuple) else out
+            hf = h.float()
+            new = (hf - ((hf @ u) - c)[..., None] * u).to(h.dtype)
+            return (new, *out[1:]) if isinstance(out, tuple) else new
+
+        return hook
+
+    try:
+        for lyr in layers:
+            handles.append(model.model.layers[lyr].register_forward_hook(make(lyr)))
+        yield
+    finally:
+        for h in handles:
+            h.remove()
+
+
+@torch.no_grad()
+def resid_text_mean(lm, docs: list[np.ndarray], batch_tokens: int) -> np.ndarray:
+    """[L, d] mean residual stream after each layer over the tokens of `docs`."""
+    model, dev = lm.model, lm.device
+    tot, n = None, 0
+    for chunk in _doc_batches(docs, batch_tokens):
+        ids, mask, _ = right_pad([d.tolist() for d in chunk], lm.tokenizer.pad_token_id, dev)
+        hs = model.model(
+            input_ids=ids, attention_mask=mask, output_hidden_states=True
+        ).hidden_states
+        m = mask.bool()
+        v = torch.stack([h[m].float().sum(0) for h in hs[1:]]).cpu().double()
+        tot = v if tot is None else tot + v
+        n += int(m.sum())
+    return (tot / n).numpy().astype(np.float32)
+
+
+def combined_order(orders: list[np.ndarray], n_total: int, keep: int) -> np.ndarray:
+    """Poles ordered by the sum of their log-ranks in several orderings (a pole missing from
+    an ordering counts as ranked just past its end). Best first."""
+    score = np.zeros(n_total, dtype=np.float64)
+    for o in orders:
+        r = np.full(n_total, float(len(o)), dtype=np.float64)
+        r[o] = np.arange(len(o))
+        score += np.log1p(r)
+    k = min(keep, n_total)
+    part = np.argpartition(score, k - 1)[:k]
+    return part[np.argsort(score[part], kind="stable")].astype(np.int64)
 
 
 def cond_id(spec: dict) -> str:

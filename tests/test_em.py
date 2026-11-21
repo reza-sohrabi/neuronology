@@ -84,3 +84,37 @@ def test_reply_features_and_stats(tiny):
 def test_cond_id():
     assert em.cond_id({"kind": "none"}) == "none"
     assert em.cond_id({"kind": "poles", "rank": "med/attr", "k": 64}) == "poles_k=64_rank=med-attr"
+
+
+def test_centered_projection_and_clamp(tiny):
+    x = torch.randint(0, 97, (1, 7))
+    u = torch.nn.functional.normalize(torch.randn(32), dim=0)
+    mu = np.random.default_rng(2).normal(size=(3, 32)).astype(np.float32)
+    seen = {}
+
+    def grab(_m, _a, out):  # registered after the edit's hook, so it sees the edited output
+        seen["h"] = out[0] if isinstance(out, tuple) else out
+
+    with torch.no_grad(), em.centered_projection(tiny, u, [0, 1], mu):
+        hk = tiny.model.layers[0].register_forward_hook(grab)
+        tiny.model(x)
+        hk.remove()
+    want = torch.full((1, 7), float(torch.as_tensor(mu[0]) @ u))
+    assert torch.allclose(seen["h"] @ u, want, atol=1e-4)
+    N = 48
+    order = np.array([(1 * N + 3) * 2 + 1, (2 * N + 10) * 2 + 0])
+    tgt = np.full((3, N, 2), 0.5, np.float32)
+    ctx = {"orders": {"s/attr3": order}, "targets": {"s": tgt}}
+    spec = {"kind": "clamp", "rank": "s/attr3", "k": 2, "target": "s", "scale": 2.0}
+    from neuronology.hooks import capture
+
+    with torch.no_grad(), em.edit(tiny, spec, ctx), capture(tiny) as acts:
+        tiny(x)
+    assert torch.allclose(acts[1][..., 3], torch.tensor(-1.0)) and torch.allclose(
+        acts[2][..., 10], torch.tensor(1.0)
+    )
+
+
+def test_combined_order():
+    a, b = np.array([5, 1, 2]), np.array([1, 7, 5])
+    assert em.combined_order([a, b], 10, 3).tolist()[:2] == [1, 5]
