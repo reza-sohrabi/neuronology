@@ -182,7 +182,7 @@ stages:
   bs: 16
   sources:
   - {model: med, cond: none}
-- {kind: contexts, model: base, out: med_attr, poles: 'med/attr:40', tokens: 2000000, top: 12}
+- {kind: contexts, model: base, out: med_attr, poles: 'med/attr:40', tokens: 1000000, top: 12}
 - kind: acts
   model: base
   out: reads_fin
@@ -191,7 +191,7 @@ stages:
   bs: 16
   sources:
   - {model: fin, cond: none}
-- {kind: contexts, model: base, out: fin_attr, poles: 'fin/attr:40', tokens: 2000000, top: 12}
+- {kind: contexts, model: base, out: fin_attr, poles: 'fin/attr:40', tokens: 1000000, top: 12}
 - kind: acts
   model: base
   out: reads_sport
@@ -200,4 +200,4 @@ stages:
   bs: 16
   sources:
   - {model: sport, cond: none}
-- {kind: contexts, model: base, out: sport_attr, poles: 'sport/attr:40', tokens: 2000000, top: 12}
+- {kind: contexts, model: base, out: sport_attr, poles: 'sport/attr:40', tokens: 1000000, top: 12}
