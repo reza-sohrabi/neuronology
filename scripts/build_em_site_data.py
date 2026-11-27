@@ -27,9 +27,6 @@ def build() -> dict:
     conds = []
     for model, table in a["conditions"].items():
         for cid, v in table.items():
-            e = v["edit"] or {}
-            if e.get("kind") == "revert" or "nrank" in e:
-                continue  # fourth-pass edits: in results/em/SUMMARY.md, not charted on the site
             row = {
                 "model": model,
                 "cid": cid,

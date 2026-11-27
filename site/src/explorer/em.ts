@@ -106,6 +106,7 @@ async function cost(el: HTMLElement) {
     const none = mine.find((c: any) => c.cid === 'none');
     for (const c of mine) {
       if (c.cid === 'none' || c.loss_rise === null) continue;
+      if (c.edit.kind === 'revert' || 'nrank' in c.edit) continue; // drawn in the revert chart
       // order matters: own neurons first, then other models' neurons
       const own = FAM[0][2](c, o);
       const fam = own ? FAM[0] : FAM.slice(1).find((f) => f[2](c, o));
@@ -180,6 +181,60 @@ async function persona(el: HTMLElement) {
   onResize(draw);
 }
 
+// ------------------------------------------------- giving neurons their base weights back
+async function revert(el: HTMLElement) {
+  const d = await get();
+  const rv = (f: (e: any, o: string) => boolean) => (c: any, o: string) => c.edit.kind === 'revert' && f(c.edit, o);
+  const top = (rank: string, k: number) => rv((e, o) => e.nrank === `${o}/${rank}` && e.k === k && !('random' in e));
+  const block = (l: string) => rv((e) => e.layers === l);
+  const ROWS: [string, (c: any, o: string) => boolean][] = [
+    ['Top 256, weights changed', top('wdiff', 256)],
+    ['Top 65,536, weights changed', top('wdiff', 65536)],
+    ['Top 256, output changed', top('contrib', 256)],
+    ['1,024 random neurons', rv((e) => 'nrank' in e && 'random' in e)],
+    ['Neurons of top 256 poles', rv((e, o) => e.rank === `${o}/attr_core` && e.k === 256)],
+    ['… the same poles, ablated', (c, o) => isPoles(c, `${o}/attr_core`) && c.edit.k === 256],
+    ['Random quarter', rv((e) => e.frac === 0.25)],
+    ['Random half', rv((e) => e.frac === 0.5)],
+    ...['0-7', '8-15', '16-23', '24-31', '32-39', '40-47'].map(
+      (l) => [`Layers ${l.replace('-', '–')}`, block(l)] as [string, (c: any, o: string) => boolean]),
+    ['Every MLP neuron', rv((e) => e.all === true)],
+  ];
+  const COLORS = ['--c-blue', '--c-orange', '--c-green'];
+  const rows: any[] = [];
+  for (const [o, name] of ORGS) {
+    const mine = d.conditions.filter((c: any) => c.model === o && !c.persona && c.test && c.edit);
+    const none = d.conditions.find((c: any) => c.model === o && c.cid === 'none');
+    for (const [label, test] of ROWS) {
+      const c = mine.find((x: any) => test(x, o));
+      if (c) rows.push({ label, org: name, x: (100 * pct(c.test)) / pct(none.test), c });
+    }
+  }
+  const draw = () => {
+    el.replaceChildren(
+      legend(ORGS.map(([, name], i) => [name, COLORS[i]] as [string, string]), '●'),
+      Plot.plot({
+        ...base(el, 26 * ROWS.length + 60, { marginLeft: Math.min(230, Math.floor(el.clientWidth * 0.56)) }),
+        x: { domain: [0, 160], label: 'misaligned rate, % of the unedited model’s →', grid: true },
+        y: { label: null, domain: ROWS.map((r) => r[0]) },
+        color: { domain: ORGS.map((o) => o[1]), range: COLORS.map((c) => css(c)) },
+        marks: [
+          Plot.frame({ stroke: css('--rule') }),
+          Plot.ruleX([100], { stroke: css('--c-red'), strokeDasharray: '4 3' }),
+          Plot.ruleX([25], { stroke: css('--muted'), strokeDasharray: '4 3' }),
+          Plot.dot(rows, {
+            x: 'x', y: 'label', fill: 'org', r: 4.5, stroke: css('--bg'), strokeWidth: 0.7, tip: true,
+            title: (r: any) => `${r.org}\n${r.label}\n${r.c.test.mis} of ${r.c.test.n} misaligned, ${r.c.test.coh} coherent\nloss ${lossTxt(r.c.loss_rise)}`,
+          }),
+        ],
+      }) as any,
+      h('p', { class: 'note' }, 'Each dot is one edit of one model, 216 sampled replies. Every row but one gives the listed neurons their base-model weights back; “ablated” overwrites their activation instead. The red line is the unedited model, the grey line the bar of a quarter of its rate.'),
+    );
+  };
+  draw();
+  onResize(draw);
+}
+
 function onResize(draw: () => void) {
   let t: number | undefined;
   let w = window.innerWidth;
@@ -192,7 +247,7 @@ function onResize(draw: () => void) {
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
 }
 
-const CHARTS: Record<string, (el: HTMLElement) => Promise<void>> = { curve, cost, persona };
+const CHARTS: Record<string, (el: HTMLElement) => Promise<void>> = { curve, cost, persona, revert };
 
 export async function mount(el: HTMLElement) {
   const fn = CHARTS[el.dataset.chart ?? ''];
