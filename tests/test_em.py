@@ -118,3 +118,93 @@ def test_centered_projection_and_clamp(tiny):
 def test_combined_order():
     a, b = np.array([5, 1, 2]), np.array([1, 7, 5])
     assert em.combined_order([a, b], 10, 3).tolist()[:2] == [1, 5]
+
+
+def _fake_adapter(model, r=4, seed=0):
+    g = torch.Generator().manual_seed(seed)
+    ad = {}
+    for i, lay in enumerate(model.model.layers):
+        for proj in em.MLP_PROJ:
+            out_f, in_f = getattr(lay.mlp, proj).weight.shape
+            A = torch.randn(r, in_f, generator=g) * 0.1
+            B = torch.randn(out_f, r, generator=g) * 0.1
+            ad[(i, proj)] = (A, B, 0.5)
+    return ad
+
+
+def test_weight_change_and_revert(tiny):
+    import copy
+
+    N, L = 48, 3
+    ad = _fake_adapter(tiny)
+    ft = copy.deepcopy(tiny)
+    with torch.no_grad():
+        for (i, proj), (A, B, s) in ad.items():
+            getattr(ft.model.layers[i].mlp, proj).weight += s * B @ A
+    # per-neuron change norms match the dense difference
+    d = em.weight_change(ad, L, N)
+    for proj, dim in (("gate_proj", 1), ("up_proj", 1), ("down_proj", 0)):
+        ref = (ft.model.layers[1].mlp.get_submodule(proj).weight
+               - tiny.model.layers[1].mlp.get_submodule(proj).weight).norm(dim=dim)  # fmt: skip
+        assert np.allclose(d[proj][1], ref.detach().numpy(), atol=1e-5)
+    sc = em.relative_change(d, em.weight_norms(tiny))
+    assert sc["wdiff"].shape == (L, N) and (sc["wdiff"] >= sc["wdiff_in"]).all()
+    # reverting every neuron gives back the base MLPs; the block leaves no trace
+    x = torch.randint(0, 97, (2, 9))
+    every = np.arange(L * N)
+    before = ft(x).logits
+    with em.reverted(ft, ad, every):
+        for i in range(L):
+            for proj in em.MLP_PROJ:
+                a = ft.model.layers[i].mlp.get_submodule(proj).weight
+                b = tiny.model.layers[i].mlp.get_submodule(proj).weight
+                assert torch.allclose(a, b, atol=1e-5)
+    assert torch.equal(before, ft(x).logits)
+    # one neuron: only its rows and column move
+    with em.reverted(ft, ad, np.array([1 * N + 7])):
+        g = ft.model.layers[1].mlp.gate_proj.weight
+        g0 = tiny.model.layers[1].mlp.gate_proj.weight
+        assert torch.allclose(g[7], g0[7], atol=1e-5) and not torch.allclose(g[8], g0[8])
+    # edit specs: neuron ranking, pole ranking, random control
+    ctx = {"norders": {"m/wdiff": em.top_neurons(sc["wdiff"], 20)}, "adapter": ad,
+           "orders": {"m/attr": np.array([(2 * N + 5) * 2 + 1, (2 * N + 5) * 2])},
+           "mean": np.zeros((L, N), np.float32)}  # fmt: skip
+    for spec in (
+        {"kind": "revert", "nrank": "m/wdiff", "k": 8},
+        {"kind": "revert", "nrank": "m/wdiff", "k": 8, "random": 1},
+        {"kind": "revert", "rank": "m/attr", "k": 2},
+        {"kind": "poles", "nrank": "m/wdiff", "k": 8},
+    ):
+        with em.edit(ft, spec, ctx):
+            assert not torch.allclose(before, ft(x).logits)
+        assert torch.equal(before, ft(x).logits)
+    assert em.edit_neurons({"rank": "m/attr", "k": 2}, ctx, N, L).tolist() == [2 * N + 5]
+    r = em.edit_neurons({"nrank": "m/wdiff", "k": 8, "random": 1}, ctx, N, L)
+    top = ctx["norders"]["m/wdiff"][:8]
+    assert sorted((r // N).tolist()) == sorted((top // N).tolist()) and not set(r) & set(top)
+
+
+def test_contribution_change(tiny):
+    import copy
+
+    N, L = 48, 3
+    ft = copy.deepcopy(tiny)
+    with torch.no_grad():  # change one neuron's output vector only
+        ft.model.layers[2].mlp.down_proj.weight[:, 11] *= 3.0
+    P, R = [[1, 2, 3], [4, 5]], [[6, 7, 8, 9], [10, 11]]
+    same = em.contribution_change(tiny, tiny, P, R, 0, 2)
+    assert same.shape == (L, N) and np.abs(same).max() < 1e-3
+    c = em.contribution_change(ft, tiny, P, R, 0, 2)
+    assert int(c.argmax()) == 2 * N + 11 and np.abs(c[:2]).max() < 1e-3
+    # against a direct computation for that neuron
+    from neuronology.hooks import capture
+
+    x = torch.tensor([P[0] + R[0]])
+    with capture(tiny, [2]) as st:
+        tiny.model(input_ids=x)
+    a = st[2][0, 3:, 11].float()
+    w = tiny.model.layers[2].mlp.down_proj.weight[:, 11]
+    c1 = em.contribution_change(ft, tiny, P[:1], R[:1], 0, 1)
+    assert np.isclose(
+        c1[2, 11], float((((a * 2) ** 2).mean().sqrt() * w.norm()).detach()), rtol=1e-3
+    )

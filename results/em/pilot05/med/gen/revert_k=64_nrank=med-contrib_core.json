@@ -1,0 +1,14 @@
+{
+  "model": "med",
+  "edit": {
+    "kind": "revert",
+    "nrank": "med/contrib_core",
+    "k": 64
+  },
+  "system": null,
+  "n": 27,
+  "mean_reply_tokens": 31.14814814814815,
+  "loss": 2.3423069442362694,
+  "loss_tokens": 6359,
+  "wall_s": 2.730368137359619
+}

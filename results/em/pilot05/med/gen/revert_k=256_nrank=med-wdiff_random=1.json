@@ -1,0 +1,15 @@
+{
+  "model": "med",
+  "edit": {
+    "kind": "revert",
+    "nrank": "med/wdiff",
+    "k": 256,
+    "random": 1
+  },
+  "system": null,
+  "n": 27,
+  "mean_reply_tokens": 31.37037037037037,
+  "loss": 2.342668644004806,
+  "loss_tokens": 6359,
+  "wall_s": 3.924320936203003
+}

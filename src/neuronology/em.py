@@ -322,18 +322,21 @@ def unit_rows(x: np.ndarray) -> np.ndarray:
 # ------------------------------------------------------------------------------ edits
 
 
-def layer_matched_random(order: np.ndarray, n_neurons: int, n_layers: int, seed: int) -> np.ndarray:
-    """Random poles with the same number per layer as `order` (and none of its poles)."""
+def layer_matched_random(
+    order: np.ndarray, n_neurons: int, n_layers: int, seed: int, width: int = 2
+) -> np.ndarray:
+    """Random poles with the same number per layer as `order` (and none of its poles).
+    With width=1 the ids are neurons (layer * N + neuron) instead of poles."""
     rng = np.random.default_rng(seed)
-    lyr = order // 2 // n_neurons
+    lyr = order // width // n_neurons
     taken = set(order.tolist())
     out = []
     for layer in range(n_layers):
         c = int((lyr == layer).sum())
         if not c:
             continue
-        lo = layer * n_neurons * 2
-        cand = rng.permutation(n_neurons * 2)
+        lo = layer * n_neurons * width
+        cand = rng.permutation(n_neurons * width)
         picked = [lo + int(x) for x in cand if lo + int(x) not in taken][:c]
         out.extend(picked)
     return np.asarray(out, dtype=np.int64)
@@ -346,7 +349,9 @@ def edit(model: nn.Module, spec: dict, ctx: dict) -> Iterator[None]:
     spec["kind"]: "none"; "poles" (ctx["orders"][rank][:k], mean or zero fill; with
     "random": seed, layer-matched random poles instead); "direction" (unit vector
     ctx["dirs"][source][fit_layer], projected out after every layer or after `fit_layer`
-    only; with "random": seed, a random unit vector)."""
+    only; with "random": seed, a random unit vector); "revert" (the MLP weights of the chosen
+    neurons set back to the base model's, see `reverted`). "poles" and "revert" take either
+    "rank" (a pole ranking) or "nrank" (a neuron ranking, k counts neurons)."""
     kind = spec["kind"]
     if kind == "none":
         yield
@@ -354,6 +359,19 @@ def edit(model: nn.Module, spec: dict, ctx: dict) -> Iterator[None]:
     L = len(model.model.layers)
     N = model.model.layers[0].mlp.down_proj.in_features
     dev = next(model.parameters()).device
+    if kind == "poles" and "nrank" in spec:
+        # a ranking of whole neurons: both poles of the top k neurons (k counts neurons)
+        neu = edit_neurons(spec, ctx, N, L)
+        order = np.concatenate([neu * 2, neu * 2 + 1])
+        fill = fill_values(ctx["mean"], spec.get("fill", "mean"), dev)
+        pa = PoleAblation.from_flat(order, L, N, fill, "ablate")
+        with intervene(model, pa.fn(), pa.layers()):
+            yield
+        return
+    if kind == "revert":
+        with reverted(model, ctx["adapter"], edit_neurons(spec, ctx, N, L)):
+            yield
+        return
     if kind == "poles":
         order = np.asarray(ctx["orders"][spec["rank"]][: int(spec["k"])])
         if "random" in spec:
@@ -407,6 +425,182 @@ def edit(model: nn.Module, spec: dict, ctx: dict) -> Iterator[None]:
             yield
         return
     raise ValueError(kind)
+
+
+def edit_neurons(spec: dict, ctx: dict, n_neurons: int, n_layers: int) -> np.ndarray:
+    """Neuron ids (layer * N + neuron) an edit refers to: the top k of a neuron ranking
+    ("nrank"), or the neurons of the top k poles of a pole ranking ("rank"), or with "all"
+    every neuron; with "random": seed, other neurons with the same count per layer."""
+    if spec.get("all"):  # every MLP neuron of the model
+        return np.arange(n_neurons * n_layers, dtype=np.int64)
+    if "nrank" in spec:
+        neu = np.asarray(ctx["norders"][spec["nrank"]][: int(spec["k"])])
+    else:
+        neu = np.unique(np.asarray(ctx["orders"][spec["rank"]][: int(spec["k"])]) // 2)
+    if "random" in spec:
+        neu = layer_matched_random(neu, n_neurons, n_layers, int(spec["random"]), width=1)
+    return neu.astype(np.int64)
+
+
+# ------------------------------------------------------- what the fine-tune changed (LoRA)
+
+MLP_PROJ = ("gate_proj", "up_proj", "down_proj")
+
+
+def load_mlp_adapter(repo: str, revision: str | None = None) -> dict:
+    """LoRA factors of the MLP projections of an adapter on the Hub:
+    {(layer, proj): (A [r, in], B [out, r], scale)} with delta W = scale * B @ A."""
+    import re
+
+    from huggingface_hub import hf_hub_download
+    from safetensors.torch import load_file
+
+    cfg_path = hf_hub_download(repo, "adapter_config.json", revision=revision)
+    cfg = json.loads(Path(cfg_path).read_text())
+    if cfg.get("use_dora") or cfg.get("rank_pattern") or cfg.get("alpha_pattern"):
+        raise ValueError("only plain LoRA / rsLoRA adapters with one rank are supported")
+    r, alpha = int(cfg["r"]), float(cfg["lora_alpha"])
+    scale = alpha / np.sqrt(r) if cfg.get("use_rslora") else alpha / r
+    sd = load_file(hf_hub_download(repo, "adapter_model.safetensors", revision=revision))
+    pat = re.compile(r"layers\.(\d+)\.mlp\.(gate_proj|up_proj|down_proj)\.lora_([AB])\.weight$")
+    parts: dict = {}
+    for k, v in sd.items():
+        m = pat.search(k)
+        if m:
+            parts.setdefault((int(m.group(1)), m.group(2)), {})[m.group(3)] = v.float()
+    return {k: (v["A"], v["B"], float(scale)) for k, v in parts.items()}
+
+
+def weight_change(adapter: dict, n_layers: int, n_neurons: int) -> dict[str, np.ndarray]:
+    """Per neuron, [L, N]: norm of the change of its gate row, up row and down column."""
+    out = {p: np.zeros((n_layers, n_neurons), np.float32) for p in MLP_PROJ}
+    for (layer, proj), (A, B, s) in adapter.items():
+        if proj == "down_proj":  # columns of B @ A: a^T (B^T B) a
+            v = torch.einsum("rn,rq,qn->n", A, B.T @ B, A)
+        else:  # rows of B @ A: b (A A^T) b^T
+            v = torch.einsum("nr,rq,nq->n", B, A @ A.T, B)
+        out[proj][layer] = s * v.clamp(min=0).sqrt().numpy()
+    return out
+
+
+@torch.no_grad()
+def weight_norms(model: nn.Module) -> dict[str, np.ndarray]:
+    """Per neuron, [L, N]: norm of its gate row, up row and down column."""
+    out: dict[str, list] = {p: [] for p in MLP_PROJ}
+    for lay in model.model.layers:
+        out["gate_proj"].append(lay.mlp.gate_proj.weight.float().norm(dim=1).cpu().numpy())
+        out["up_proj"].append(lay.mlp.up_proj.weight.float().norm(dim=1).cpu().numpy())
+        out["down_proj"].append(lay.mlp.down_proj.weight.float().norm(dim=0).cpu().numpy())
+    return {p: np.stack(v) for p, v in out.items()}
+
+
+def relative_change(delta: dict[str, np.ndarray], base: dict[str, np.ndarray]) -> dict:
+    """Scores per neuron, [L, N], from the weights alone: `wdiff_in` (gate and up rows),
+    `wdiff_out` (down column) and `wdiff` (all three), each change relative to the norm of
+    the base model's vector, combined as a root sum of squares."""
+    rel = {p: (delta[p] / np.maximum(base[p], 1e-12)) ** 2 for p in MLP_PROJ}
+    return {
+        "wdiff": np.sqrt(rel["gate_proj"] + rel["up_proj"] + rel["down_proj"]),
+        "wdiff_in": np.sqrt(rel["gate_proj"] + rel["up_proj"]),
+        "wdiff_out": np.sqrt(rel["down_proj"]),
+    }
+
+
+@torch.no_grad()
+def contribution_change(
+    model: nn.Module,
+    base: nn.Module,
+    prompts: list[list[int]],
+    replies: list[list[int]],
+    pad_id: int,
+    bs: int,
+) -> np.ndarray:
+    """[L, N] root mean square, over reply tokens, of the change in what each neuron writes
+    to the residual stream between the base model and the fine-tune run on the same text:
+    | a_ft w_ft - a_base w_base |. Both models run whole, so a neuron counts when its
+    weights changed and also when only its input did."""
+    dev, bdev = next(model.parameters()).device, next(base.parameters()).device
+    L = len(model.model.layers)
+    N = model.model.layers[0].mlp.down_proj.in_features
+    ff, bb, fb = [], [], []
+    for lf, lb in zip(model.model.layers, base.model.layers, strict=True):
+        wf = lf.mlp.down_proj.weight.float()
+        wb = lb.mlp.down_proj.weight.float().to(dev)
+        ff.append((wf * wf).sum(0))
+        bb.append((wb * wb).sum(0))
+        fb.append((wf * wb).sum(0))
+    tot = torch.zeros((L, N), dtype=torch.float64)
+    ntok = 0
+    for s in range(0, len(prompts), bs):
+        idx = [i for i in range(s, min(s + bs, len(prompts))) if replies[i]]
+        if not idx:
+            continue
+        ids, mask, _ = right_pad([prompts[i] + replies[i] for i in idx], pad_id, dev)
+        rm = torch.zeros_like(mask, dtype=torch.bool)
+        for j, i in enumerate(idx):
+            rm[j, len(prompts[i]) : len(prompts[i]) + len(replies[i])] = True
+        pb: dict[int, torch.Tensor] = {}
+
+        def stash_base(layer: int, x: torch.Tensor, rm=rm, pb=pb) -> torch.Tensor:
+            pb[layer] = x[rm.to(x.device)].float().to(dev)
+            return x
+
+        with intervene(base, stash_base):
+            base.model(input_ids=ids.to(bdev), attention_mask=mask.to(bdev))
+        part: dict[int, torch.Tensor] = {}
+
+        def stash(layer: int, x: torch.Tensor, rm=rm, pb=pb, part=part) -> torch.Tensor:
+            af, ab = x[rm].float(), pb.pop(layer)
+            sq = af * af * ff[layer] + ab * ab * bb[layer] - 2 * af * ab * fb[layer]
+            part[layer] = sq.clamp(min=0).sum(0)
+            return x
+
+        with intervene(model, stash):
+            model.model(input_ids=ids, attention_mask=mask)
+        tot += torch.stack([part[lyr] for lyr in range(L)]).cpu().double()
+        ntok += int(rm.sum())
+    return (tot / max(ntok, 1)).sqrt().numpy().astype(np.float32)
+
+
+def top_neurons(score: np.ndarray, k: int) -> np.ndarray:
+    """Neuron ids (layer * N + neuron) of the k highest scores, best first."""
+    return top_order(score, k)
+
+
+@contextmanager
+def reverted(model: nn.Module, adapter: dict, neurons: np.ndarray) -> Iterator[None]:
+    """While the block runs, the given neurons (layer * N + neuron) of a model with a merged
+    LoRA adapter have the base model's MLP weights: the adapter's change is taken out of
+    their gate and up rows and their down column. Everything else keeps the fine-tune."""
+    N = model.model.layers[0].mlp.down_proj.in_features
+    neurons = np.asarray(neurons, dtype=np.int64)
+    saved = []
+    try:
+        with torch.no_grad():
+            for layer in sorted(set((neurons // N).tolist())):
+                mlp = model.model.layers[layer].mlp
+                idx = torch.as_tensor(neurons[neurons // N == layer] % N)
+                for proj in MLP_PROJ:
+                    A, B, s = adapter[(layer, proj)]
+                    W = getattr(mlp, proj).weight
+                    ix = idx.to(W.device)
+                    if proj == "down_proj":
+                        d = s * (B @ A[:, idx])  # [d, k]
+                        old = W[:, ix].clone()
+                        W[:, ix] = (old.float() - d.to(W.device)).to(W.dtype)
+                    else:
+                        d = s * (B[idx] @ A)  # [k, d]
+                        old = W[ix].clone()
+                        W[ix] = (old.float() - d.to(W.device)).to(W.dtype)
+                    saved.append((W, proj == "down_proj", ix, old))
+        yield
+    finally:
+        with torch.no_grad():
+            for W, col, ix, old in saved:
+                if col:
+                    W[:, ix] = old
+                else:
+                    W[ix] = old
 
 
 @contextmanager

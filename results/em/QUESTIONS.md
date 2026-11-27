@@ -34,3 +34,25 @@ Pole counts to report for every ranking: 16, 64, 256, 1,024, 4,096. Direction fi
 ## Not in scope
 
 One base model, one judge, organisms trained by others with one seed each. No clean fine-tune of this model is public, so there is no fine-tuning control for question 6 beyond the base model itself.
+
+## Fourth pass: comparing each neuron with its base version
+
+Written 2026-11-26, after the first three passes and after reading Shone and Dunlap, "Returning to the Neuron Basis for Interpretability" (Anthropic alignment blog, November 2026), before any run on the 14B models. A Mac pilot on the 0.5B organism checked the code only.
+
+That work compares every neuron of a fine-tune with the same neuron of the base model. Question 6 above ("can they be found without any misaligned example?") was tested here only with activity on ordinary text and on replies, and failed. This pass tests it with the comparison to the base model.
+
+**Rankings of whole neurons, none of which uses a judge or a label:**
+
+- `wdiff`: how much the adapter changed the neuron's weights: the change of its gate row, up row and down column, each relative to the norm of the base model's vector, combined as a root sum of squares. Computed from the adapter and the base weights alone; the model is never run.
+- `contrib`: how much what the neuron writes to the residual stream changed: root mean square over tokens of | a_ft w_ft - a_base w_base |, base model and fine-tune each run on the fine-tune's own unedited replies to the `fit` questions.
+- `contrib_core`: `contrib` without the last two layers, the cut that the third pass found to lower the cost of the attribution ranking.
+
+**Edits:**
+
+- *ablate*: both poles of the top k neurons set to the neuron's mean on ordinary text (as before, but k counts neurons, so k neurons are 2k poles).
+- *revert*: the top k neurons get the base model's MLP weights back (gate row, up row, down column). Attention weights and every other neuron keep the fine-tune.
+- Controls: random neurons with the same count per layer, for both edits. Reference points: reverting every MLP neuron (the adapter's attention changes alone remain); reverting the neurons of the top 256 attribution poles without the last two layers.
+
+Neuron counts: 64, 256, 1,024 for every ranking and edit; 4,096 for reverting by `wdiff`.
+
+**What counts as an answer:** the same bar as above, on the `test` questions: misaligned rate at most a quarter of the unedited rate, coherent rate at least 90% of the unedited, loss on ordinary text up at most 1%, and the matched random control leaving at least three quarters of the unedited rate. A ranking answers question 6 with yes if it meets the bar in all three organisms at some reported count with one of the two edits. The count and edit are not fixed further, so a pass at a single count in a single organism is not counted.

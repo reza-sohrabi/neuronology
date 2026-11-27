@@ -1,0 +1,29 @@
+# Mac pilot of the weight-change rankings and the revert edit on the 0.5B organism (code check only).
+script: em
+max_hours: 2
+name: pilot05
+base: Qwen/Qwen2.5-0.5B-Instruct
+dtype: auto
+models:
+  base: {}
+  med: {hub_adapter: {repo: ModelOrganismsForEM/Qwen2.5-0.5B-Instruct_bad-medical-advice, revision: 90eadb6297bfa3d3939a178085691ca31ca77938}}
+corpus: {config: configs/corpus_qwen25.yaml, sha256: 4b70ab884e6628b94cffaabbd91a6cc1aa35850edcea435fe4bf104909067dc1, max_doc_tokens: 256}
+questions: configs/em_questions.yaml
+stages:
+- {kind: wdiff, model: med, bs: 8}
+- kind: generate
+  model: med
+  sets: {test: 1}
+  max_new: 32
+  bs: 32
+  loss_tokens: 20000
+  batch_tokens: 4096
+  edits:
+  - {kind: revert, nrank: med/wdiff, k: 256}
+  - {kind: revert, nrank: med/wdiff, k: 256, random: 1}
+  - {kind: revert, nrank: med/contrib, k: 256}
+  - {kind: revert, rank: med/attr, k: 256}
+  - {kind: revert, all: true}
+  - {kind: revert, nrank: med/contrib_core, k: 64}
+  - {kind: poles, nrank: med/wdiff, k: 256}
+  - {kind: poles, nrank: med/wdiff, k: 256, random: 1}

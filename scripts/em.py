@@ -9,6 +9,8 @@ Stage kinds (all under artifacts/em/<name>/<model>/):
             label-free shift ranking, residual directions
   acts      per-reply features (selected poles, residual means) for monitors
   contexts  top-activating ordinary-text contexts of selected poles
+  wdiff     neuron rankings that use no labels: how much the fine-tune changed each neuron's
+            weights, and how much what the neuron writes changed on the model's own replies
 
 Models are named in the config; an organism is the base model with a public LoRA adapter
 merged in. Transcripts stay under artifacts/ and are not committed.
@@ -77,8 +79,23 @@ def corpus_docs(cfg: dict, split: str, tokens: int) -> list[np.ndarray]:
 
 def load_ctx(cfg: dict, model: str, edits: list[dict]) -> dict:
     """Orders, directions and mean fills that the given edits refer to."""
-    ctx: dict = {"orders": {}, "dirs": {}}
+    ctx: dict = {"orders": {}, "dirs": {}, "norders": {}}
     for e in edits:
+        if "nrank" in e:
+            src, rank = e["nrank"].split("/")
+            ctx["norders"][e["nrank"]] = np.load(mdir(cfg, src, "attr") / "norders.npz")[rank]
+            if e["kind"] == "poles" and "mean" not in ctx:
+                ctx["mean"] = np.load(mdir(cfg, model) / "stats.npz")["mean"]
+        if e["kind"] == "revert":
+            if "rank" in e:
+                src, rank = e["rank"].split("/")
+                ctx["orders"][e["rank"]] = np.load(mdir(cfg, src, "attr") / "orders.npz")[rank]
+            if "adapter" not in ctx:
+                ha = cfg["models"][model]["hub_adapter"]
+                ctx["adapter"] = em.load_mlp_adapter(ha["repo"], ha.get("revision"))
+            continue
+        if "nrank" in e:
+            continue
         if e["kind"] == "clamp":
             src, rank = e["rank"].split("/")
             ctx["orders"][e["rank"]] = np.load(mdir(cfg, src, "attr") / "orders.npz")[rank]
@@ -384,6 +401,79 @@ def stage_derive(cfg: dict, st: dict, models: Models) -> None:
     log("derived rankings written")
 
 
+def stage_wdiff(cfg: dict, st: dict, models: Models) -> None:
+    """Neuron rankings without labels (attr/norders.npz, ids = layer * N + neuron):
+    wdiff, wdiff_in, wdiff_out from the adapter's change to each neuron's weights relative
+    to the base weights; contrib from the change in what each neuron writes, base model
+    against fine-tune, on the fine-tune's own unedited replies to the fit questions."""
+    import gc
+
+    import torch
+
+    model = st["model"]
+    out = mdir(cfg, model, "attr") / "norders.npz"
+    if out.exists():
+        return
+    ha = cfg["models"][model]["hub_adapter"]
+    lm = models.get(model)
+    t = time.time()
+    base = load_lm({"model": {"id": cfg["base"], "dtype": cfg.get("dtype", "auto")}})
+    log(f"wdiff {model}: base model loaded alongside in {time.time() - t:.0f}s")
+    L = len(lm.model.model.layers)
+    N = lm.model.model.layers[0].mlp.down_proj.in_features
+    delta = em.weight_change(em.load_mlp_adapter(ha["repo"], ha.get("revision")), L, N)
+    bnorm = em.weight_norms(base.model)
+    scores = em.relative_change(delta, bnorm)
+    rows = [r for r in em.read_jsonl(mdir(cfg, model, "gen") / "none.jsonl") if r["set"] == "fit"]
+    P, R = _tok_rows(lm, cfg, rows)
+    R = [r[: int(st.get("max_reply_tokens", 128))] for r in R]
+    scores["contrib"] = em.contribution_change(
+        lm.model, base.model, P, R, lm.tokenizer.pad_token_id, int(st.get("bs", 8))
+    )
+    del base
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    keep = min(ORDER_KEEP, L * N)
+    norders = {k: em.top_neurons(v, keep) for k, v in scores.items()}
+    cut = (L - int(st.get("drop_last", 2))) * N  # as for attr_core: leave the last layers out
+    norders["contrib_core"] = norders["contrib"][norders["contrib"] < cut]
+    out.parent.mkdir(parents=True, exist_ok=True)
+    np.savez(out, **norders)
+    half = {k: v.astype(np.float16) for k, v in scores.items()}
+    np.savez(mdir(cfg, model, "attr") / "nscores.npz", **half)
+    info: dict = {
+        "meta": provenance(cfg),
+        "model": model,
+        "n_replies": len(rows),
+        "layer_hist_top1024": {
+            k: np.bincount(v[:1024] // N, minlength=L).tolist() for k, v in norders.items()
+        },
+        "top20": {k: v[:20].tolist() for k, v in norders.items()},
+        "mean_relative_change_by_layer": {
+            p: (delta[p] / np.maximum(bnorm[p], 1e-12)).mean(1).tolist() for p in em.MLP_PROJ
+        },
+        "overlap": {},
+    }
+    po = mdir(cfg, model, "attr") / "orders.npz"
+    if po.exists():
+        z = np.load(po)
+        for rank in ("attr", "attr_core", "shift", "replydiff"):
+            if rank not in z:
+                continue
+            for k in (256, 1024, 4096):
+                ref = set((z[rank][:k] // 2).tolist())
+                for name, v in norders.items():
+                    info["overlap"][f"{name}|{rank}|{k}"] = [
+                        len(ref & set(v[: len(ref)].tolist())), len(ref)
+                    ]  # fmt: skip
+    write_json(mdir(cfg, model, "attr") / "wdiff.json", info)
+    write_json(results_dir("em", cfg["name"], model) / "wdiff.json", info)
+    np.savez(results_dir("em", cfg["name"], model) / "norders_top4096.npz",
+             **{k: v[:4096] for k, v in norders.items()})  # fmt: skip
+    log(f"wdiff {model}: rankings written from {len(rows)} replies")
+
+
 def main() -> None:
     _, cfg = parse(__doc__)
     t0 = time.time()
@@ -406,6 +496,8 @@ def main() -> None:
             stage_derive(cfg, st, models)
         elif kind == "contexts":
             stage_contexts(cfg, st, models)
+        elif kind == "wdiff":
+            stage_wdiff(cfg, st, models)
         else:
             raise ValueError(kind)
     log("all stages done")
