@@ -1,0 +1,14 @@
+{
+  "model": "fin",
+  "edit": {
+    "kind": "revert",
+    "nrank": "fin/contrib",
+    "k": 65536
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 47.69444444444444,
+  "loss": 1.5704947971799534,
+  "loss_tokens": 182738,
+  "wall_s": 49.51357698440552
+}

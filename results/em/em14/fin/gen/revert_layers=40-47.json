@@ -1,0 +1,13 @@
+{
+  "model": "fin",
+  "edit": {
+    "kind": "revert",
+    "layers": "40-47"
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 47.495370370370374,
+  "loss": 1.5712267567939224,
+  "loss_tokens": 182738,
+  "wall_s": 48.57183289527893
+}

@@ -1,0 +1,14 @@
+{
+  "model": "fin",
+  "edit": {
+    "kind": "revert",
+    "frac": 0.5,
+    "random": 1
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 56.06481481481482,
+  "loss": 1.5447512682812747,
+  "loss_tokens": 182738,
+  "wall_s": 83.2905809879303
+}

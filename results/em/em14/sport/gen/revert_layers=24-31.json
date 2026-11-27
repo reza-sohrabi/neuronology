@@ -1,0 +1,13 @@
+{
+  "model": "sport",
+  "edit": {
+    "kind": "revert",
+    "layers": "24-31"
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 49.06018518518518,
+  "loss": 1.562854174448506,
+  "loss_tokens": 182738,
+  "wall_s": 50.204883098602295
+}

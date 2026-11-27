@@ -136,18 +136,72 @@ AUROC for "this reply is misaligned" among coherent replies of the same organism
 | Top 5 attribution poles of another organism | 0.69, 0.82 | 0.51, 0.65 | 0.54, 0.62 |
 | Same top 5 poles read by the base model | 0.79 | 0.65 | 0.76 |
 
+## Comparing each neuron with its base version (fourth pass)
+
+Rankings and bar were fixed before the run (`QUESTIONS.md`, "Fourth pass"); the block, share and large-count reverts were added after seeing it. Misaligned replies of 216 on `test` (loss change). Unedited, per 216: medical 27.5, financial 70.5, sports 48.5; edits that do nothing land at about 28 to 44, 62 to 81 and 47 to 58 with this sampling seed.
+
+**Rankings without labels, top k whole neurons:**
+
+| Ranking | Edit | k | Medical | Financial | Sports |
+|---|---|---|---|---|---|
+| weight change | revert | 64 | 36 (+0.0%) | 71 (+0.0%) | 53 (-0.0%) |
+| weight change | revert | 256 | 32 (-0.0%) | 70 (+0.0%) | 52 (-0.0%) |
+| weight change | revert | 1,024 | 34 (-0.0%) | 78 (-0.0%) | 53 (-0.0%) |
+| weight change | revert | 4,096 | 35 (-0.0%) | 69 (+0.0%) | 51 (-0.0%) |
+| weight change | revert | 16,384 | 36 (+0.0%) | 68 (+0.0%) | 56 (-0.0%) |
+| weight change | revert | 65,536 | 32 (-0.6%) | 60 (-0.9%) | 40 (-0.9%) |
+| random, matched to weight change | revert | 1,024 | 28 (-0.0%) | 78 (+0.0%) | 49 (-0.0%) |
+| weight change | ablate | 64 | 29 (-0.0%) | 73 (+0.0%) | 51 (-0.0%) |
+| weight change | ablate | 256 | 34 (+0.0%) | 73 (+0.0%) | 53 (-0.0%) |
+| weight change | ablate | 1,024 | 37 (-0.0%) | 73 (+0.0%) | 58 (+0.0%) |
+| random, matched to weight change | ablate | 256 | 43 (+0.0%) | 81 (+0.0%) | 53 (-0.0%) |
+| contribution change, last two layers left out | revert | 64 | 40 (-0.0%) | 71 (-0.0%) | 52 (-0.0%) |
+| contribution change, last two layers left out | revert | 256 | 37 (-0.0%) | 77 (-0.0%) | 51 (+0.0%) |
+| contribution change, last two layers left out | revert | 1,024 | 33 (-0.0%) | 76 (+0.0%) | 58 (+0.0%) |
+| contribution change | revert | 256 | 35 (-0.1%) | 74 (-0.2%) | 51 (-0.1%) |
+| contribution change | revert | 65,536 | 37 (-0.2%) | 74 (-0.3%) | 56 (-0.2%) |
+| contribution change, last two layers left out | ablate | 64 | 35 (+0.4%) | 78 (+0.0%) | 48 (+0.0%) |
+| contribution change, last two layers left out | ablate | 256 | 24 (+0.7%) | 73 (+0.7%) | 49 (+0.9%) |
+| contribution change, last two layers left out | ablate | 1,024 | 22 (+1.3%) | 69 (+1.0%) | 48 (+1.0%) |
+
+No ranking meets the bar in any organism with either edit. Question 6 stays answered with no.
+
+- The weight-change ranking puts its top 1,024 neurons almost entirely in layers 2 and 4 (at least 91% in each organism) and shares none of them with the top 1,024 attribution poles. It shares 687 to 731 of them with the activity-shift ranking that failed before.
+- The adapter's relative change is nearly the same in every layer: about 0.4% of a gate or up row and 0.25% of a down column on average.
+- The contribution-change ranking sits in the last layers (at least 60% of its top 1,024 in the last two) and shares 86 to 113 neurons with the top 1,024 attribution poles.
+
+**Reverting neurons chosen another way:**
+
+| Neurons reverted | Medical | Financial | Sports |
+|---|---|---|---|
+| neurons of the top 256 attribution poles, last two layers left out | 35 (-0.0%) | 75 (-0.0%) | 47 (-0.5%) |
+| every MLP neuron (663,552) | 0 (-0.9%) | 0 (-2.9%) | 0 (-3.0%) |
+| random 25% of every layer | 30 (-0.4%) | 67 (-0.6%) | 42 (-0.8%) |
+| random 50% of every layer | 18 (-0.9%) | 43 (-1.9%) | 29 (-2.0%) |
+| layers 0 to 7 | 39 (-0.6%) | 62 (-0.6%) | 42 (-0.9%) |
+| layers 8 to 15 | 36 (-0.2%) | 72 (-0.4%) | 45 (-0.6%) |
+| layers 16 to 23 | 21 (-0.4%) | 44 (-1.4%) | 28 (-1.5%) |
+| layers 24 to 31 | 41 (-0.3%) | 60 (-0.8%) | 38 (-0.7%) |
+| layers 32 to 39 | 34 (-0.1%) | 73 (-0.1%) | 46 (-0.1%) |
+| layers 40 to 47 | 43 (-0.1%) | 67 (-0.2%) | 50 (-0.1%) |
+
+- Mean-ablating the same 256 attribution poles gave 1, 17 and 4. Giving their neurons the base weights back changes nothing: the neurons the behaviour runs through are not the neurons the fine-tune changed most, and their own weight change is not what makes them matter.
+- Taking the adapter out of every MLP neuron removes the behaviour completely while the adapter's attention changes stay in place, and the loss on ordinary text falls.
+- The change is spread thin. A random half of the neurons roughly halves the rate, a random quarter does little, no block of eight layers removes it, and layers 16 to 23 matter most. The 65,536 most-changed neurons do about as much as their share of all neurons would.
+
 ## What is established, for these organisms and this judge
 
 - A few hundred poles out of 1.3M are necessary for the misaligned replies in each organism; random poles in the same layers are not.
 - The three organisms, trained on different data, share far more top-ranked poles than chance, and poles chosen from two of them remove the third's misalignment.
 - The same poles are needed by the base model to produce misaligned replies when a system prompt asks for them.
 - Setting those poles to organism levels in the base model does not produce misalignment.
+- The fine-tune's change to the MLP weights is necessary for the behaviour and is spread over most neurons: no small set of most-changed neurons carries it, by weight change or by change in what they write.
 
 ## What is not established
 
 - That 256 poles meet the bar: the version that does was chosen after seeing the first results, on the same test questions.
 - That a residual direction is worse than neurons in general. Only one construction was tried.
-- Any way to find the poles without judged misaligned replies.
+- Any way to find the poles without judged misaligned replies. Comparing each neuron with its base version was tried in two forms and did not find them.
 - What the poles represent. Reading their contexts did not settle it.
 - Anything about other base models, other judges, or misalignment that arises without fine-tuning on harmful advice.
 
@@ -164,4 +218,5 @@ AUROC for "this reply is misaligned" among coherent replies of the same organism
 - `em14/analysis.json`: every condition's counts and loss, overlaps, monitors, persona test.
 - `em14/<model>/judged/*.json`: counts per condition and question. `em14/<model>/gen/*.json`: edit, loss, timing.
 - `em14/<model>/attr.json`, `orders_top4096.npz`: rankings (pole ids).
+- `em14/<model>/wdiff.json`, `norders_top4096.npz`: fourth-pass rankings (neuron ids), layer counts and overlaps.
 - Transcripts are not committed.

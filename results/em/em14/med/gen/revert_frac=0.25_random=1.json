@@ -1,0 +1,14 @@
+{
+  "model": "med",
+  "edit": {
+    "kind": "revert",
+    "frac": 0.25,
+    "random": 1
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 59.458333333333336,
+  "loss": 1.5227873535744096,
+  "loss_tokens": 182738,
+  "wall_s": 62.81677556037903
+}
