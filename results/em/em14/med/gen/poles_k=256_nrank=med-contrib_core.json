@@ -1,0 +1,14 @@
+{
+  "model": "med",
+  "edit": {
+    "kind": "poles",
+    "nrank": "med/contrib_core",
+    "k": 256
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 60.47222222222222,
+  "loss": 1.5396940701454234,
+  "loss_tokens": 182738,
+  "wall_s": 69.38314509391785
+}

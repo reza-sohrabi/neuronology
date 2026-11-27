@@ -208,3 +208,12 @@ def test_contribution_change(tiny):
     assert np.isclose(
         c1[2, 11], float((((a * 2) ** 2).mean().sqrt() * w.norm()).detach()), rtol=1e-3
     )
+
+
+def test_edit_neurons_blocks_and_fractions():
+    N, L = 48, 3
+    a = em.edit_neurons({"layers": "1-2"}, {}, N, L)
+    assert a.tolist() == list(range(N, 3 * N))
+    f = em.edit_neurons({"frac": 0.25, "random": 3}, {}, N, L)
+    assert len(f) == 36 and np.bincount(f // N).tolist() == [12, 12, 12] and len(set(f)) == 36
+    assert len(em.edit_neurons({"all": True}, {}, N, L)) == N * L

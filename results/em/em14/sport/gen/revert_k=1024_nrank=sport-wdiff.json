@@ -1,0 +1,14 @@
+{
+  "model": "sport",
+  "edit": {
+    "kind": "revert",
+    "nrank": "sport/wdiff",
+    "k": 1024
+  },
+  "system": null,
+  "n": 216,
+  "mean_reply_tokens": 49.333333333333336,
+  "loss": 1.5738626577026218,
+  "loss_tokens": 182738,
+  "wall_s": 44.939183712005615
+}

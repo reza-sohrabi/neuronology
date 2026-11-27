@@ -430,9 +430,19 @@ def edit(model: nn.Module, spec: dict, ctx: dict) -> Iterator[None]:
 def edit_neurons(spec: dict, ctx: dict, n_neurons: int, n_layers: int) -> np.ndarray:
     """Neuron ids (layer * N + neuron) an edit refers to: the top k of a neuron ranking
     ("nrank"), or the neurons of the top k poles of a pole ranking ("rank"), or with "all"
-    every neuron; with "random": seed, other neurons with the same count per layer."""
+    every neuron, or with "layers": "lo-hi" those layers, or with "frac" a random share of
+    each layer; with "random": seed, other neurons with the same count per layer."""
     if spec.get("all"):  # every MLP neuron of the model
         return np.arange(n_neurons * n_layers, dtype=np.int64)
+    if "layers" in spec:  # every neuron of layers "lo-hi" inclusive
+        lo, hi = str(spec["layers"]).split("-")
+        return np.arange(int(lo) * n_neurons, (int(hi) + 1) * n_neurons, dtype=np.int64)
+    if "frac" in spec:  # a random share of every layer's neurons
+        rng = np.random.default_rng(int(spec.get("random", 0)))
+        c = int(round(float(spec["frac"]) * n_neurons))
+        return np.concatenate(
+            [lyr * n_neurons + np.sort(rng.permutation(n_neurons)[:c]) for lyr in range(n_layers)]
+        ).astype(np.int64)
     if "nrank" in spec:
         neu = np.asarray(ctx["norders"][spec["nrank"]][: int(spec["k"])])
     else:

@@ -1,0 +1,73 @@
+# Emergent misalignment on Qwen2.5-14B-Instruct, follow-up to the fourth pass, chosen AFTER seeing it:
+# how the fine-tune's MLP change is spread (revert by layer block, by random share, and
+# with much larger top-k).
+script: em
+max_hours: 5
+name: em14
+base: Qwen/Qwen2.5-14B-Instruct
+dtype: bf16
+models:
+  base: {}
+  med: {hub_adapter: {repo: ModelOrganismsForEM/Qwen2.5-14B-Instruct_bad-medical-advice, revision: 25ed05c042afdee9412e9132560cd49f0377ffad}}
+  fin: {hub_adapter: {repo: ModelOrganismsForEM/Qwen2.5-14B-Instruct_risky-financial-advice, revision: 594ab6654c58f43837bdcd61e32aee3754ebe0a6}}
+  sport: {hub_adapter: {repo: ModelOrganismsForEM/Qwen2.5-14B-Instruct_extreme-sports, revision: 2d5159a1ec82b6c50b7557ffd7c98614566c94a9}}
+corpus: {config: configs/corpus_qwen25.yaml, sha256: 4b70ab884e6628b94cffaabbd91a6cc1aa35850edcea435fe4bf104909067dc1, max_doc_tokens: 512}
+questions: configs/em_questions.yaml
+stages:
+- kind: generate
+  model: med
+  sets: {test: 8}
+  max_new: 300
+  bs: 96
+  loss_tokens: 300000
+  seed: 1
+  edits:
+  - {kind: revert, layers: 0-7}
+  - {kind: revert, layers: 8-15}
+  - {kind: revert, layers: 16-23}
+  - {kind: revert, layers: 24-31}
+  - {kind: revert, layers: 32-39}
+  - {kind: revert, layers: 40-47}
+  - {kind: revert, frac: 0.25, random: 1}
+  - {kind: revert, frac: 0.5, random: 1}
+  - {kind: revert, nrank: med/wdiff, k: 16384}
+  - {kind: revert, nrank: med/wdiff, k: 65536}
+  - {kind: revert, nrank: med/contrib, k: 65536}
+- kind: generate
+  model: fin
+  sets: {test: 8}
+  max_new: 300
+  bs: 96
+  loss_tokens: 300000
+  seed: 1
+  edits:
+  - {kind: revert, layers: 0-7}
+  - {kind: revert, layers: 8-15}
+  - {kind: revert, layers: 16-23}
+  - {kind: revert, layers: 24-31}
+  - {kind: revert, layers: 32-39}
+  - {kind: revert, layers: 40-47}
+  - {kind: revert, frac: 0.25, random: 1}
+  - {kind: revert, frac: 0.5, random: 1}
+  - {kind: revert, nrank: fin/wdiff, k: 16384}
+  - {kind: revert, nrank: fin/wdiff, k: 65536}
+  - {kind: revert, nrank: fin/contrib, k: 65536}
+- kind: generate
+  model: sport
+  sets: {test: 8}
+  max_new: 300
+  bs: 96
+  loss_tokens: 300000
+  seed: 1
+  edits:
+  - {kind: revert, layers: 0-7}
+  - {kind: revert, layers: 8-15}
+  - {kind: revert, layers: 16-23}
+  - {kind: revert, layers: 24-31}
+  - {kind: revert, layers: 32-39}
+  - {kind: revert, layers: 40-47}
+  - {kind: revert, frac: 0.25, random: 1}
+  - {kind: revert, frac: 0.5, random: 1}
+  - {kind: revert, nrank: sport/wdiff, k: 16384}
+  - {kind: revert, nrank: sport/wdiff, k: 65536}
+  - {kind: revert, nrank: sport/contrib, k: 65536}

@@ -56,3 +56,11 @@ That work compares every neuron of a fine-tune with the same neuron of the base 
 Neuron counts: 64, 256, 1,024 for every ranking and edit; 4,096 for reverting by `wdiff`.
 
 **What counts as an answer:** the same bar as above, on the `test` questions: misaligned rate at most a quarter of the unedited rate, coherent rate at least 90% of the unedited, loss on ordinary text up at most 1%, and the matched random control leaving at least three quarters of the unedited rate. A ranking answers question 6 with yes if it meets the bar in all three organisms at some reported count with one of the two edits. The count and edit are not fixed further, so a pass at a single count in a single organism is not counted.
+
+### Follow-up, chosen after seeing the fourth pass
+
+The fourth pass found that reverting the top 64 to 4,096 neurons by either ranking does nothing, while reverting every MLP neuron removes the behaviour. These edits were added after seeing that, to describe how the change is spread; no bar applies:
+
+- revert every neuron of one block of eight layers (six blocks);
+- revert a random 25% and a random 50% of the neurons of every layer;
+- revert the top 16,384 and 65,536 neurons by `wdiff` and the top 65,536 by `contrib` (65,536 is about one neuron in ten).

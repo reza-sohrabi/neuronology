@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 11.3706
+      "spent": 12.7947
     },
     "reserve": {
       "cap": 150,
@@ -1867,6 +1867,18 @@
       "rate_per_hour": 2.09,
       "cost": 6.72,
       "git_commit": "482be69"
+    },
+    {
+      "date": "2026-11-27",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "Emergent misalignment",
+      "id": "em_judge em14",
+      "cost": 1.4241,
+      "git_commit": "ff6dd37a6d71c0a61fb2bcdd494351dff824e53e",
+      "description": "em_judge em14: 23328 calls (9032 cached), claude-haiku-5-5"
     }
   ],
   "_entry_schema": {

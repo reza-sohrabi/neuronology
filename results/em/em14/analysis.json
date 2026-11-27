@@ -926,6 +926,56 @@
         "loss": 1.5285970739240144,
         "loss_rise": 0.0
       },
+      "poles_k=1024_nrank=med-contrib_core": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "med/contrib_core",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 22,
+            "coherent": 176,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.10185185185185185,
+              "lo": 0.06822737600440479,
+              "hi": 0.1493906250647853,
+              "k": 22,
+              "n": 216
+            },
+            "mean_alignment": 55.791666666666664
+          }
+        },
+        "loss": 1.547691259793414,
+        "loss_rise": 0.012491313895023781
+      },
+      "poles_k=1024_nrank=med-wdiff": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "med/wdiff",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 37,
+            "coherent": 196,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1712962962962963,
+              "lo": 0.12690557751191778,
+              "hi": 0.22717440011497175,
+              "k": 37,
+              "n": 216
+            },
+            "mean_alignment": 51.73148148148148
+          }
+        },
+        "loss": 1.5284489376338366,
+        "loss_rise": -9.69099658143513e-05
+      },
       "poles_k=1024_random=1_rank=med-attr": {
         "edit": {
           "kind": "poles",
@@ -1316,6 +1366,82 @@
         },
         "loss": 1.5307842172348527,
         "loss_rise": 0.001430817413004437
+      },
+      "poles_k=256_nrank=med-contrib_core": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "med/contrib_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 24,
+            "coherent": 164,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1111111111111111,
+              "lo": 0.07581155896847121,
+              "hi": 0.16000137230841216,
+              "k": 24,
+              "n": 216
+            },
+            "mean_alignment": 52.97222222222222
+          }
+        },
+        "loss": 1.5396940701454234,
+        "loss_rise": 0.007259595357540505
+      },
+      "poles_k=256_nrank=med-wdiff": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "med/wdiff",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 34,
+            "coherent": 192,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.1574074074074074,
+              "lo": 0.1148820579657112,
+              "hi": 0.21190552434963844,
+              "k": 34,
+              "n": 216
+            },
+            "mean_alignment": 54.54883720930233
+          }
+        },
+        "loss": 1.5287484450393973,
+        "loss_rise": 9.902617109847078e-05
+      },
+      "poles_k=256_nrank=med-wdiff_random=1": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "med/wdiff",
+          "k": 256,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 43,
+            "coherent": 203,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.19907407407407407,
+              "lo": 0.15128777836853924,
+              "hi": 0.25737698988143004,
+              "k": 43,
+              "n": 216
+            },
+            "mean_alignment": 52.379629629629626
+          }
+        },
+        "loss": 1.5288984577619966,
+        "loss_rise": 0.00019716368892974678
       },
       "poles_k=256_random=1_rank=med-attr": {
         "edit": {
@@ -1865,6 +1991,56 @@
         "loss": 1.6880041394085854,
         "loss_rise": 0.1042832465165997
       },
+      "poles_k=64_nrank=med-contrib_core": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "med/contrib_core",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 35,
+            "coherent": 182,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.16203703703703703,
+              "lo": 0.11887643363321401,
+              "hi": 0.2170086137859822,
+              "k": 35,
+              "n": 216
+            },
+            "mean_alignment": 53.093023255813954
+          }
+        },
+        "loss": 1.5346976129086196,
+        "loss_rise": 0.00399093985502974
+      },
+      "poles_k=64_nrank=med-wdiff": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "med/wdiff",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 29,
+            "coherent": 200,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.13425925925925927,
+              "lo": 0.09513217379013625,
+              "hi": 0.18616808300598028,
+              "k": 29,
+              "n": 216
+            },
+            "mean_alignment": 54.81481481481482
+          }
+        },
+        "loss": 1.5283481877753686,
+        "loss_rise": -0.00016281998238221185
+      },
       "poles_k=64_rank=med-attr": {
         "edit": {
           "kind": "poles",
@@ -1981,6 +2157,281 @@
         },
         "loss": 1.5410869454641858,
         "loss_rise": 0.008170806913890605
+      },
+      "revert_all=True": {
+        "edit": {
+          "kind": "revert",
+          "all": true
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 87.73148148148148
+          }
+        },
+        "loss": 1.5153517603103128,
+        "loss_rise": -0.00866501306305656
+      },
+      "revert_k=1024_nrank=med-contrib_core": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "med/contrib_core",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 33,
+            "coherent": 201,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1527777777777778,
+              "lo": 0.11090176542671284,
+              "hi": 0.2067883517847902,
+              "k": 33,
+              "n": 216
+            },
+            "mean_alignment": 55.3287037037037
+          }
+        },
+        "loss": 1.528314915669266,
+        "loss_rise": -0.00018458641558449784
+      },
+      "revert_k=1024_nrank=med-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "med/wdiff",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 34,
+            "coherent": 193,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1574074074074074,
+              "lo": 0.1148820579657112,
+              "hi": 0.21190552434963844,
+              "k": 34,
+              "n": 216
+            },
+            "mean_alignment": 54.56018518518518
+          }
+        },
+        "loss": 1.5284097977518745,
+        "loss_rise": -0.00012251506648464083
+      },
+      "revert_k=1024_nrank=med-wdiff_random=1": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "med/wdiff",
+          "k": 1024,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 28,
+            "coherent": 197,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.12962962962962962,
+              "lo": 0.09123074281383933,
+              "hi": 0.18097204887843052,
+              "k": 28,
+              "n": 216
+            },
+            "mean_alignment": 55.093023255813954
+          }
+        },
+        "loss": 1.5284355921845971,
+        "loss_rise": -0.00010564048706618312
+      },
+      "revert_k=256_nrank=med-contrib": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "med/contrib",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 35,
+            "coherent": 193,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.16203703703703703,
+              "lo": 0.11887643363321401,
+              "hi": 0.2170086137859822,
+              "k": 35,
+              "n": 216
+            },
+            "mean_alignment": 52.75
+          }
+        },
+        "loss": 1.5274042039899252,
+        "loss_rise": -0.0007803691073587915
+      },
+      "revert_k=256_nrank=med-contrib_core": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "med/contrib_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 37,
+            "coherent": 193,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1712962962962963,
+              "lo": 0.12690557751191778,
+              "hi": 0.22717440011497175,
+              "k": 37,
+              "n": 216
+            },
+            "mean_alignment": 54.245370370370374
+          }
+        },
+        "loss": 1.5284608919579363,
+        "loss_rise": -8.908951116104458e-05
+      },
+      "revert_k=256_nrank=med-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "med/wdiff",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 32,
+            "coherent": 201,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.14814814814814814,
+              "lo": 0.10693606311037729,
+              "hi": 0.20165658899727906,
+              "k": 32,
+              "n": 216
+            },
+            "mean_alignment": 55.25
+          }
+        },
+        "loss": 1.5285278099202093,
+        "loss_rise": -4.53121394686784e-05
+      },
+      "revert_k=256_rank=med-attr_core": {
+        "edit": {
+          "kind": "revert",
+          "rank": "med/attr_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 35,
+            "coherent": 201,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.16203703703703703,
+              "lo": 0.11887643363321401,
+              "hi": 0.2170086137859822,
+              "k": 35,
+              "n": 216
+            },
+            "mean_alignment": 53.72222222222222
+          }
+        },
+        "loss": 1.5281081336848428,
+        "loss_rise": -0.00031986207975431835
+      },
+      "revert_k=4096_nrank=med-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "med/wdiff",
+          "k": 4096
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 35,
+            "coherent": 197,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.16203703703703703,
+              "lo": 0.11887643363321401,
+              "hi": 0.2170086137859822,
+              "k": 35,
+              "n": 216
+            },
+            "mean_alignment": 53.91203703703704
+          }
+        },
+        "loss": 1.5283060685809824,
+        "loss_rise": -0.00019037413324696217
+      },
+      "revert_k=64_nrank=med-contrib_core": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "med/contrib_core",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 40,
+            "coherent": 198,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.18518518518518517,
+              "lo": 0.13904408629174161,
+              "hi": 0.24232828664668773,
+              "k": 40,
+              "n": 216
+            },
+            "mean_alignment": 54.129629629629626
+          }
+        },
+        "loss": 1.5283303406251367,
+        "loss_rise": -0.00017449549225745375
+      },
+      "revert_k=64_nrank=med-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "med/wdiff",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 36,
+            "coherent": 198,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.16666666666666666,
+              "lo": 0.12288442028967198,
+              "hi": 0.22209809223337088,
+              "k": 36,
+              "n": 216
+            },
+            "mean_alignment": 54.351851851851855
+          }
+        },
+        "loss": 1.5289335615440336,
+        "loss_rise": 0.0002201283946954291
       }
     },
     "fin": {
@@ -2283,6 +2734,56 @@
         },
         "loss": 1.5745964055720527,
         "loss_rise": 0.0
+      },
+      "poles_k=1024_nrank=fin-contrib_core": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "fin/contrib_core",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 69,
+            "coherent": 194,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3194444444444444,
+              "lo": 0.26088439278174536,
+              "hi": 0.3843144681682362,
+              "k": 69,
+              "n": 216
+            },
+            "mean_alignment": 39.31944444444444
+          }
+        },
+        "loss": 1.5899339476816279,
+        "loss_rise": 0.009740618011891744
+      },
+      "poles_k=1024_nrank=fin-wdiff": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "fin/wdiff",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 73,
+            "coherent": 205,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.33796296296296297,
+              "lo": 0.2782030856356674,
+              "hi": 0.40338563572970076,
+              "k": 73,
+              "n": 216
+            },
+            "mean_alignment": 38.18981481481482
+          }
+        },
+        "loss": 1.5747614898746771,
+        "loss_rise": 0.00010484229612117701
       },
       "poles_k=1024_random=1_rank=fin-attr": {
         "edit": {
@@ -2632,6 +3133,82 @@
         },
         "loss": 1.5768514441397998,
         "loss_rise": 0.0014321375050565521
+      },
+      "poles_k=256_nrank=fin-contrib_core": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "fin/contrib_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 73,
+            "coherent": 190,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.33796296296296297,
+              "lo": 0.2782030856356674,
+              "hi": 0.40338563572970076,
+              "k": 73,
+              "n": 216
+            },
+            "mean_alignment": 38.61574074074074
+          }
+        },
+        "loss": 1.5860788680405185,
+        "loss_rise": 0.007292321021331372
+      },
+      "poles_k=256_nrank=fin-wdiff": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "fin/wdiff",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 73,
+            "coherent": 208,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.33796296296296297,
+              "lo": 0.2782030856356674,
+              "hi": 0.40338563572970076,
+              "k": 73,
+              "n": 216
+            },
+            "mean_alignment": 39.60648148148148
+          }
+        },
+        "loss": 1.5746933631532491,
+        "loss_rise": 6.157614792812183e-05
+      },
+      "poles_k=256_nrank=fin-wdiff_random=1": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "fin/wdiff",
+          "k": 256,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 81,
+            "coherent": 206,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.375,
+              "lo": 0.3131515311601372,
+              "hi": 0.44121691103600397,
+              "k": 81,
+              "n": 216
+            },
+            "mean_alignment": 38.041666666666664
+          }
+        },
+        "loss": 1.5747476597861634,
+        "loss_rise": 9.605903682707861e-05
       },
       "poles_k=256_random=1_rank=fin-attr": {
         "edit": {
@@ -3125,6 +3702,56 @@
         "loss": 1.7144282701863032,
         "loss_rise": 0.08880489255495871
       },
+      "poles_k=64_nrank=fin-contrib_core": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "fin/contrib_core",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 78,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3611111111111111,
+              "lo": 0.29999857945280145,
+              "hi": 0.4270774674317998,
+              "k": 78,
+              "n": 216
+            },
+            "mean_alignment": 37.7962962962963
+          }
+        },
+        "loss": 1.574986531837825,
+        "loss_rise": 0.0002477627056634013
+      },
+      "poles_k=64_nrank=fin-wdiff": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "fin/wdiff",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 73,
+            "coherent": 206,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.33796296296296297,
+              "lo": 0.2782030856356674,
+              "hi": 0.40338563572970076,
+              "k": 73,
+              "n": 216
+            },
+            "mean_alignment": 37.458333333333336
+          }
+        },
+        "loss": 1.5748774943471622,
+        "loss_rise": 0.00017851480805797237
+      },
       "poles_k=64_rank=fin-attr": {
         "edit": {
           "kind": "poles",
@@ -3213,6 +3840,281 @@
         },
         "loss": 1.5747035014995854,
         "loss_rise": 6.801484313934125e-05
+      },
+      "revert_all=True": {
+        "edit": {
+          "kind": "revert",
+          "all": true
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 89.24074074074075
+          }
+        },
+        "loss": 1.5296576096139007,
+        "loss_rise": -0.028539882219422275
+      },
+      "revert_k=1024_nrank=fin-contrib_core": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "fin/contrib_core",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 76,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.35185185185185186,
+              "lo": 0.29126119837552267,
+              "hi": 0.41761991830138534,
+              "k": 76,
+              "n": 216
+            },
+            "mean_alignment": 39.361111111111114
+          }
+        },
+        "loss": 1.5747147153376264,
+        "loss_rise": 7.513656525248713e-05
+      },
+      "revert_k=1024_nrank=fin-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "fin/wdiff",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 78,
+            "coherent": 207,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3611111111111111,
+              "lo": 0.29999857945280145,
+              "hi": 0.4270774674317998,
+              "k": 78,
+              "n": 216
+            },
+            "mean_alignment": 38.09722222222222
+          }
+        },
+        "loss": 1.574491665038154,
+        "loss_rise": -6.651897180010025e-05
+      },
+      "revert_k=1024_nrank=fin-wdiff_random=1": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "fin/wdiff",
+          "k": 1024,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 78,
+            "coherent": 207,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.3611111111111111,
+              "lo": 0.29999857945280145,
+              "hi": 0.4270774674317998,
+              "k": 78,
+              "n": 216
+            },
+            "mean_alignment": 37.51627906976744
+          }
+        },
+        "loss": 1.5747295848454523,
+        "loss_rise": 8.457994247179634e-05
+      },
+      "revert_k=256_nrank=fin-contrib": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "fin/contrib",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 74,
+            "coherent": 205,
+            "unscored": 2,
+            "mis_ci": {
+              "rate": 0.3425925925925926,
+              "lo": 0.2825493174698802,
+              "hi": 0.40813686899933466,
+              "k": 74,
+              "n": 216
+            },
+            "mean_alignment": 39.093023255813954
+          }
+        },
+        "loss": 1.572039747693761,
+        "loss_rise": -0.0016236909148555911
+      },
+      "revert_k=256_nrank=fin-contrib_core": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "fin/contrib_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 77,
+            "coherent": 208,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.35648148148148145,
+              "lo": 0.2956267292859022,
+              "hi": 0.42235185249485235,
+              "k": 77,
+              "n": 216
+            },
+            "mean_alignment": 38.99074074074074
+          }
+        },
+        "loss": 1.5743480945776664,
+        "loss_rise": -0.00015769818444111294
+      },
+      "revert_k=256_nrank=fin-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "fin/wdiff",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 70,
+            "coherent": 202,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.32407407407407407,
+              "lo": 0.26520399240833203,
+              "hi": 0.3890923336454962,
+              "k": 70,
+              "n": 216
+            },
+            "mean_alignment": 39.013953488372096
+          }
+        },
+        "loss": 1.5746966467429846,
+        "loss_rise": 6.366150118042313e-05
+      },
+      "revert_k=256_rank=fin-attr_core": {
+        "edit": {
+          "kind": "revert",
+          "rank": "fin/attr_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 75,
+            "coherent": 209,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3472222222222222,
+              "lo": 0.28690204185906376,
+              "hi": 0.41288160971399757,
+              "k": 75,
+              "n": 216
+            },
+            "mean_alignment": 38.7962962962963
+          }
+        },
+        "loss": 1.5741492354934685,
+        "loss_rise": -0.0002839902828444263
+      },
+      "revert_k=4096_nrank=fin-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "fin/wdiff",
+          "k": 4096
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 69,
+            "coherent": 204,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.3194444444444444,
+              "lo": 0.26088439278174536,
+              "hi": 0.3843144681682362,
+              "k": 69,
+              "n": 216
+            },
+            "mean_alignment": 38.84651162790698
+          }
+        },
+        "loss": 1.5750011832412774,
+        "loss_rise": 0.00025706756842081013
+      },
+      "revert_k=64_nrank=fin-contrib_core": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "fin/contrib_core",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 71,
+            "coherent": 203,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3287037037037037,
+              "lo": 0.2695303554513069,
+              "hi": 0.39386343570636806,
+              "k": 71,
+              "n": 216
+            },
+            "mean_alignment": 38.83796296296296
+          }
+        },
+        "loss": 1.5743009142261992,
+        "loss_rise": -0.00018766164129924157
+      },
+      "revert_k=64_nrank=fin-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "fin/wdiff",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 71,
+            "coherent": 205,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3287037037037037,
+              "lo": 0.2695303554513069,
+              "hi": 0.39386343570636806,
+              "k": 71,
+              "n": 216
+            },
+            "mean_alignment": 38.657407407407405
+          }
+        },
+        "loss": 1.574707163849443,
+        "loss_rise": 7.034074064837803e-05
       }
     },
     "sport": {
@@ -3515,6 +4417,56 @@
         },
         "loss": 1.5740073484113013,
         "loss_rise": 0.0
+      },
+      "poles_k=1024_nrank=sport-contrib_core": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "sport/contrib_core",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 48,
+            "coherent": 192,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2222222222222222,
+              "lo": 0.17190615308775226,
+              "hi": 0.28224594068145015,
+              "k": 48,
+              "n": 216
+            },
+            "mean_alignment": 46.638888888888886
+          }
+        },
+        "loss": 1.5893135419417075,
+        "loss_rise": 0.009724346932595385
+      },
+      "poles_k=1024_nrank=sport-wdiff": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "sport/wdiff",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 58,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.26851851851851855,
+              "lo": 0.21383949081086065,
+              "hi": 0.33128725399680814,
+              "k": 58,
+              "n": 216
+            },
+            "mean_alignment": 50.745370370370374
+          }
+        },
+        "loss": 1.5740856849558436,
+        "loss_rise": 4.9768855667320366e-05
       },
       "poles_k=1024_random=1_rank=sport-attr": {
         "edit": {
@@ -3864,6 +4816,82 @@
         },
         "loss": 1.5760815012984566,
         "loss_rise": 0.0013177529884145223
+      },
+      "poles_k=256_nrank=sport-contrib_core": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "sport/contrib_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 49,
+            "coherent": 179,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.22685185185185186,
+              "lo": 0.17605944219403985,
+              "hi": 0.2871901166790092,
+              "k": 49,
+              "n": 216
+            },
+            "mean_alignment": 48.2037037037037
+          }
+        },
+        "loss": 1.5885299490398095,
+        "loss_rise": 0.009226513868036523
+      },
+      "poles_k=256_nrank=sport-wdiff": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "sport/wdiff",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 53,
+            "coherent": 213,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.24537037037037038,
+              "lo": 0.192764427638793,
+              "hi": 0.3068749916496426,
+              "k": 53,
+              "n": 216
+            },
+            "mean_alignment": 49.44651162790698
+          }
+        },
+        "loss": 1.573894004277769,
+        "loss_rise": -7.200991383349287e-05
+      },
+      "poles_k=256_nrank=sport-wdiff_random=1": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "sport/wdiff",
+          "k": 256,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 53,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.24537037037037038,
+              "lo": 0.192764427638793,
+              "hi": 0.3068749916496426,
+              "k": 53,
+              "n": 216
+            },
+            "mean_alignment": 49.541666666666664
+          }
+        },
+        "loss": 1.5738322967722016,
+        "loss_rise": -0.00011121399101243767
       },
       "poles_k=256_random=1_rank=sport-attr": {
         "edit": {
@@ -4357,6 +5385,56 @@
         "loss": 1.5691554359235884,
         "loss_rise": -0.0030825221321933993
       },
+      "poles_k=64_nrank=sport-contrib_core": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "sport/contrib_core",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 48,
+            "coherent": 207,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2222222222222222,
+              "lo": 0.17190615308775226,
+              "hi": 0.28224594068145015,
+              "k": 48,
+              "n": 216
+            },
+            "mean_alignment": 48.40277777777778
+          }
+        },
+        "loss": 1.5745383260139687,
+        "loss_rise": 0.00033734124761441997
+      },
+      "poles_k=64_nrank=sport-wdiff": {
+        "edit": {
+          "kind": "poles",
+          "nrank": "sport/wdiff",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 51,
+            "coherent": 208,
+            "unscored": 2,
+            "mis_ci": {
+              "rate": 0.2361111111111111,
+              "lo": 0.18439394019453026,
+              "hi": 0.297050548886212,
+              "k": 51,
+              "n": 216
+            },
+            "mean_alignment": 50.17289719626168
+          }
+        },
+        "loss": 1.5736299373299094,
+        "loss_rise": -0.00023977720419976478
+      },
       "poles_k=64_rank=sport-attr": {
         "edit": {
           "kind": "poles",
@@ -4445,6 +5523,281 @@
         },
         "loss": 1.5773145879422272,
         "loss_rise": 0.0021011588886570287
+      },
+      "revert_all=True": {
+        "edit": {
+          "kind": "revert",
+          "all": true
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 0,
+            "coherent": 215,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0,
+              "lo": 0.0,
+              "hi": 0.0174737687845643,
+              "k": 0,
+              "n": 216
+            },
+            "mean_alignment": 89.0
+          }
+        },
+        "loss": 1.5270196662729734,
+        "loss_rise": -0.029852263514369315
+      },
+      "revert_k=1024_nrank=sport-contrib_core": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "sport/contrib_core",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 58,
+            "coherent": 212,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.26851851851851855,
+              "lo": 0.21383949081086065,
+              "hi": 0.33128725399680814,
+              "k": 58,
+              "n": 216
+            },
+            "mean_alignment": 50.413953488372094
+          }
+        },
+        "loss": 1.5740101740820533,
+        "loss_rise": 1.7952081068361991e-06
+      },
+      "revert_k=1024_nrank=sport-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "sport/wdiff",
+          "k": 1024
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 53,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.24537037037037038,
+              "lo": 0.192764427638793,
+              "hi": 0.3068749916496426,
+              "k": 53,
+              "n": 216
+            },
+            "mean_alignment": 48.06481481481482
+          }
+        },
+        "loss": 1.5738626577026218,
+        "loss_rise": -9.192505284394414e-05
+      },
+      "revert_k=1024_nrank=sport-wdiff_random=1": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "sport/wdiff",
+          "k": 1024,
+          "random": 1
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 49,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.22685185185185186,
+              "lo": 0.17605944219403985,
+              "hi": 0.2871901166790092,
+              "k": 49,
+              "n": 216
+            },
+            "mean_alignment": 50.407407407407405
+          }
+        },
+        "loss": 1.573628626365642,
+        "loss_rise": -0.0002406100873935113
+      },
+      "revert_k=256_nrank=sport-contrib": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "sport/contrib",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 51,
+            "coherent": 210,
+            "unscored": 2,
+            "mis_ci": {
+              "rate": 0.2361111111111111,
+              "lo": 0.18439394019453026,
+              "hi": 0.297050548886212,
+              "k": 51,
+              "n": 216
+            },
+            "mean_alignment": 50.929906542056074
+          }
+        },
+        "loss": 1.5723059559389245,
+        "loss_rise": -0.001080930450606865
+      },
+      "revert_k=256_nrank=sport-contrib_core": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "sport/contrib_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 51,
+            "coherent": 209,
+            "unscored": 2,
+            "mis_ci": {
+              "rate": 0.2361111111111111,
+              "lo": 0.18439394019453026,
+              "hi": 0.297050548886212,
+              "k": 51,
+              "n": 216
+            },
+            "mean_alignment": 51.495327102803735
+          }
+        },
+        "loss": 1.5741724711243437,
+        "loss_rise": 0.00010490593529244308
+      },
+      "revert_k=256_nrank=sport-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "sport/wdiff",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 52,
+            "coherent": 210,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.24074074074074073,
+              "lo": 0.18857477336780482,
+              "hi": 0.3019671808167841,
+              "k": 52,
+              "n": 216
+            },
+            "mean_alignment": 50.03703703703704
+          }
+        },
+        "loss": 1.5735979017052633,
+        "loss_rise": -0.0002601301108609011
+      },
+      "revert_k=256_rank=sport-attr_core": {
+        "edit": {
+          "kind": "revert",
+          "rank": "sport/attr_core",
+          "k": 256
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 47,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2175925925925926,
+              "lo": 0.1677624377976332,
+              "hi": 0.2772921908677226,
+              "k": 47,
+              "n": 216
+            },
+            "mean_alignment": 53.73148148148148
+          }
+        },
+        "loss": 1.565626963406968,
+        "loss_rise": -0.0053242349934338185
+      },
+      "revert_k=4096_nrank=sport-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "sport/wdiff",
+          "k": 4096
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 51,
+            "coherent": 211,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.2361111111111111,
+              "lo": 0.18439394019453026,
+              "hi": 0.297050548886212,
+              "k": 51,
+              "n": 216
+            },
+            "mean_alignment": 50.351851851851855
+          }
+        },
+        "loss": 1.5737530467277177,
+        "loss_rise": -0.0001615632124210009
+      },
+      "revert_k=64_nrank=sport-contrib_core": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "sport/contrib_core",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 52,
+            "coherent": 210,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.24074074074074073,
+              "lo": 0.18857477336780482,
+              "hi": 0.3019671808167841,
+              "k": 52,
+              "n": 216
+            },
+            "mean_alignment": 50.59069767441861
+          }
+        },
+        "loss": 1.574005610924392,
+        "loss_rise": -1.1038620061354365e-06
+      },
+      "revert_k=64_nrank=sport-wdiff": {
+        "edit": {
+          "kind": "revert",
+          "nrank": "sport/wdiff",
+          "k": 64
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 53,
+            "coherent": 208,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.24537037037037038,
+              "lo": 0.192764427638793,
+              "hi": 0.3068749916496426,
+              "k": 53,
+              "n": 216
+            },
+            "mean_alignment": 49.89302325581395
+          }
+        },
+        "loss": 1.5739832156466627,
+        "loss_rise": -1.5332053349692565e-05
       }
     }
   },
