@@ -1,0 +1,326 @@
+{
+ "med": {
+  "ft": {
+   "edit": {
+    "kind": "none"
+   },
+   "top": 0.17339691519737244,
+   "random": 0.06591381877660751
+  },
+  "base": {
+   "edit": {
+    "kind": "none"
+   },
+   "top": 0.12440863996744156,
+   "random": 0.0716143473982811
+  },
+  "spearman": 0.7995096536468523,
+  "pearson": 0.9135940240928755,
+  "n_edits": 17,
+  "rows": [
+   {
+    "cid": "revert_all=True",
+    "misaligned": 0,
+    "moved_toward_base": 0.73
+   },
+   {
+    "cid": "revert_part=attn",
+    "misaligned": 20,
+    "moved_toward_base": 0.2
+   },
+   {
+    "cid": "revert_all=True_side=in",
+    "misaligned": 11,
+    "moved_toward_base": 0.35
+   },
+   {
+    "cid": "revert_all=True_side=out",
+    "misaligned": 29,
+    "moved_toward_base": 0.12
+   },
+   {
+    "cid": "revert_layers=0-23",
+    "misaligned": 2,
+    "moved_toward_base": 0.58
+   },
+   {
+    "cid": "revert_layers=24-47",
+    "misaligned": 30,
+    "moved_toward_base": 0.14
+   },
+   {
+    "cid": "revert_layers=0-7",
+    "misaligned": 39,
+    "moved_toward_base": 0.02
+   },
+   {
+    "cid": "revert_layers=8-15",
+    "misaligned": 36,
+    "moved_toward_base": -0.0
+   },
+   {
+    "cid": "revert_layers=16-23",
+    "misaligned": 21,
+    "moved_toward_base": 0.26
+   },
+   {
+    "cid": "revert_layers=24-31",
+    "misaligned": 41,
+    "moved_toward_base": 0.14
+   },
+   {
+    "cid": "revert_layers=32-39",
+    "misaligned": 34,
+    "moved_toward_base": -0.0
+   },
+   {
+    "cid": "revert_layers=40-47",
+    "misaligned": 43,
+    "moved_toward_base": -0.0
+   },
+   {
+    "cid": "revert_frac=0.25_random=1",
+    "misaligned": 30,
+    "moved_toward_base": 0.06
+   },
+   {
+    "cid": "revert_frac=0.5_random=1",
+    "misaligned": 18,
+    "moved_toward_base": 0.21
+   },
+   {
+    "cid": "revert_k=256_rank=med-attr_core",
+    "misaligned": 35,
+    "moved_toward_base": 0.03
+   },
+   {
+    "cid": "revert_k=65536_nrank=med-wdiff",
+    "misaligned": 32,
+    "moved_toward_base": 0.06
+   },
+   {
+    "cid": "revert_k=1024_nrank=med-wdiff_random=1",
+    "misaligned": 28,
+    "moved_toward_base": 0.0
+   }
+  ],
+  "top_higher": 148,
+  "random_higher": 67
+ },
+ "fin": {
+  "ft": {
+   "edit": {
+    "kind": "none"
+   },
+   "top": 0.4088857173919678,
+   "random": 0.05804617702960968
+  },
+  "base": {
+   "edit": {
+    "kind": "none"
+   },
+   "top": 0.35775867104530334,
+   "random": 0.06559713184833527
+  },
+  "spearman": 0.8778406537607353,
+  "pearson": 0.9493736148540493,
+  "n_edits": 17,
+  "rows": [
+   {
+    "cid": "revert_all=True",
+    "misaligned": 0,
+    "moved_toward_base": 0.87
+   },
+   {
+    "cid": "revert_part=attn",
+    "misaligned": 44,
+    "moved_toward_base": 0.22
+   },
+   {
+    "cid": "revert_all=True_side=in",
+    "misaligned": 42,
+    "moved_toward_base": 0.46
+   },
+   {
+    "cid": "revert_all=True_side=out",
+    "misaligned": 56,
+    "moved_toward_base": 0.09
+   },
+   {
+    "cid": "revert_layers=0-23",
+    "misaligned": 17,
+    "moved_toward_base": 0.62
+   },
+   {
+    "cid": "revert_layers=24-47",
+    "misaligned": 66,
+    "moved_toward_base": 0.16
+   },
+   {
+    "cid": "revert_layers=0-7",
+    "misaligned": 62,
+    "moved_toward_base": 0.03
+   },
+   {
+    "cid": "revert_layers=8-15",
+    "misaligned": 72,
+    "moved_toward_base": 0.01
+   },
+   {
+    "cid": "revert_layers=16-23",
+    "misaligned": 44,
+    "moved_toward_base": 0.27
+   },
+   {
+    "cid": "revert_layers=24-31",
+    "misaligned": 60,
+    "moved_toward_base": 0.21
+   },
+   {
+    "cid": "revert_layers=32-39",
+    "misaligned": 73,
+    "moved_toward_base": 0.0
+   },
+   {
+    "cid": "revert_layers=40-47",
+    "misaligned": 67,
+    "moved_toward_base": -0.05
+   },
+   {
+    "cid": "revert_frac=0.25_random=1",
+    "misaligned": 67,
+    "moved_toward_base": 0.08
+   },
+   {
+    "cid": "revert_frac=0.5_random=1",
+    "misaligned": 43,
+    "moved_toward_base": 0.25
+   },
+   {
+    "cid": "revert_k=256_rank=fin-attr_core",
+    "misaligned": 75,
+    "moved_toward_base": 0.03
+   },
+   {
+    "cid": "revert_k=65536_nrank=fin-wdiff",
+    "misaligned": 60,
+    "moved_toward_base": 0.02
+   },
+   {
+    "cid": "revert_k=1024_nrank=fin-wdiff_random=1",
+    "misaligned": 78,
+    "moved_toward_base": 0.0
+   }
+  ],
+  "top_higher": 170,
+  "random_higher": 66
+ },
+ "sport": {
+  "ft": {
+   "edit": {
+    "kind": "none"
+   },
+   "top": 0.283375084400177,
+   "random": 0.05199647694826126
+  },
+  "base": {
+   "edit": {
+    "kind": "none"
+   },
+   "top": 0.20324791967868805,
+   "random": 0.06055092439055443
+  },
+  "spearman": 0.887117232201111,
+  "pearson": 0.94498204431764,
+  "n_edits": 17,
+  "rows": [
+   {
+    "cid": "revert_all=True",
+    "misaligned": 0,
+    "moved_toward_base": 0.63
+   },
+   {
+    "cid": "revert_part=attn",
+    "misaligned": 33,
+    "moved_toward_base": 0.18
+   },
+   {
+    "cid": "revert_all=True_side=in",
+    "misaligned": 16,
+    "moved_toward_base": 0.3
+   },
+   {
+    "cid": "revert_all=True_side=out",
+    "misaligned": 38,
+    "moved_toward_base": 0.13
+   },
+   {
+    "cid": "revert_layers=0-23",
+    "misaligned": 4,
+    "moved_toward_base": 0.42
+   },
+   {
+    "cid": "revert_layers=24-47",
+    "misaligned": 41,
+    "moved_toward_base": 0.21
+   },
+   {
+    "cid": "revert_layers=0-7",
+    "misaligned": 42,
+    "moved_toward_base": 0.05
+   },
+   {
+    "cid": "revert_layers=8-15",
+    "misaligned": 45,
+    "moved_toward_base": -0.01
+   },
+   {
+    "cid": "revert_layers=16-23",
+    "misaligned": 28,
+    "moved_toward_base": 0.15
+   },
+   {
+    "cid": "revert_layers=24-31",
+    "misaligned": 38,
+    "moved_toward_base": 0.17
+   },
+   {
+    "cid": "revert_layers=32-39",
+    "misaligned": 46,
+    "moved_toward_base": 0.04
+   },
+   {
+    "cid": "revert_layers=40-47",
+    "misaligned": 50,
+    "moved_toward_base": 0.01
+   },
+   {
+    "cid": "revert_frac=0.25_random=1",
+    "misaligned": 42,
+    "moved_toward_base": 0.07
+   },
+   {
+    "cid": "revert_frac=0.5_random=1",
+    "misaligned": 29,
+    "moved_toward_base": 0.2
+   },
+   {
+    "cid": "revert_k=256_rank=sport-attr_core",
+    "misaligned": 47,
+    "moved_toward_base": 0.06
+   },
+   {
+    "cid": "revert_k=65536_nrank=sport-wdiff",
+    "misaligned": 40,
+    "moved_toward_base": 0.07
+   },
+   {
+    "cid": "revert_k=1024_nrank=sport-wdiff_random=1",
+    "misaligned": 49,
+    "moved_toward_base": 0.0
+   }
+  ],
+  "top_higher": 159,
+  "random_higher": 66
+ }
+}

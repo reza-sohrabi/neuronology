@@ -196,9 +196,12 @@ async function revert(el: HTMLElement) {
     ['… the same poles, ablated', (c, o) => isPoles(c, `${o}/attr_core`) && c.edit.k === 256],
     ['Random quarter', rv((e) => e.frac === 0.25)],
     ['Random half', rv((e) => e.frac === 0.5)],
-    ...['0-7', '8-15', '16-23', '24-31', '32-39', '40-47'].map(
+    ...['0-23', '24-47', '0-7', '8-15', '16-23', '24-31', '32-39', '40-47'].map(
       (l) => [`Layers ${l.replace('-', '–')}`, block(l)] as [string, (c: any, o: string) => boolean]),
-    ['Every MLP neuron', rv((e) => e.all === true)],
+    ['MLP input weights only', rv((e) => e.all === true && e.side === 'in')],
+    ['MLP output weights only', rv((e) => e.all === true && e.side === 'out')],
+    ['Attention weights only', rv((e) => e.part === 'attn')],
+    ['Every MLP neuron', rv((e) => e.all === true && !('side' in e))],
   ];
   const COLORS = ['--c-blue', '--c-orange', '--c-green'];
   const rows: any[] = [];
@@ -228,7 +231,49 @@ async function revert(el: HTMLElement) {
           }),
         ],
       }) as any,
-      h('p', { class: 'note' }, 'Each dot is one edit of one model, 216 sampled replies. Every row but one gives the listed neurons their base-model weights back; “ablated” overwrites their activation instead. The red line is the unedited model, the grey line the bar of a quarter of its rate.'),
+      h('p', { class: 'note' }, 'Each dot is one edit of one model, 216 sampled replies. Every row but one gives the listed weights their base-model values back; “ablated” overwrites the neurons’ activation instead. The red line is the unedited model, the grey line the bar of a quarter of its rate.'),
+    );
+  };
+  draw();
+  onResize(draw);
+}
+
+// ------------------------------------ activity of the top neurons against misaligned rate
+async function drive(el: HTMLElement) {
+  const d = await get();
+  const COLORS = ['--c-blue', '--c-orange', '--c-green'];
+  const rows: any[] = [];
+  for (const [o, name] of ORGS) {
+    const none = d.conditions.find((c: any) => c.model === o && c.cid === 'none');
+    for (const [cid, moved] of Object.entries(d.drive[o] as Record<string, number>)) {
+      const c = d.conditions.find((x: any) => x.model === o && x.cid === cid);
+      if (c) rows.push({ org: name, x: 100 * moved, y: (100 * pct(c.test)) / pct(none.test), c });
+    }
+  }
+  const what = (e: any) =>
+    e.part === 'attn' ? 'attention weights'
+      : e.all ? `every MLP neuron${e.side ? `, ${e.side}put weights only` : ''}`
+        : e.layers ? `MLPs of layers ${e.layers.replace('-', '–')}`
+          : e.frac ? `random ${100 * e.frac}% of every layer`
+            : `${e.k.toLocaleString('en-US')} neurons${'random' in e ? ', random' : e.rank ? ' of the top poles' : ', most-changed weights'}`;
+  const draw = () => {
+    el.replaceChildren(
+      legend(ORGS.map(([, name], i) => [name, COLORS[i]] as [string, string]), '●'),
+      Plot.plot({
+        ...base(el, 340),
+        x: { domain: [-10, 100], label: 'drop in the top neurons’ activity, % of the way to the unmodified model →', grid: true },
+        y: { domain: [0, 160], label: '↑ misaligned rate, % of the unedited model’s', grid: true },
+        color: { domain: ORGS.map((o) => o[1]), range: COLORS.map((c) => css(c)) },
+        marks: [
+          Plot.frame({ stroke: css('--rule') }),
+          Plot.ruleY([100], { stroke: css('--c-red'), strokeDasharray: '4 3' }),
+          Plot.dot(rows, {
+            x: 'x', y: 'y', fill: 'org', r: 4.5, stroke: css('--bg'), strokeWidth: 0.7, tip: true,
+            title: (r: any) => `${r.org}\nreverted: ${what(r.c.edit)}\n${r.c.test.mis} of ${r.c.test.n} misaligned\nactivity ${r.x.toFixed(0)}% of the way to the unmodified model`,
+          }),
+        ],
+      }) as any,
+      h('p', { class: 'note' }, 'Each dot is one revert edit of one model (17 per model). Activity is the mean activation of that model’s 256 top-ranked poles over its own 432 unedited replies, read as fixed text; 0% is the fine-tuned model, 100% the unmodified one.'),
     );
   };
   draw();
@@ -247,7 +292,7 @@ function onResize(draw: () => void) {
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
 }
 
-const CHARTS: Record<string, (el: HTMLElement) => Promise<void>> = { curve, cost, persona, revert };
+const CHARTS: Record<string, (el: HTMLElement) => Promise<void>> = { curve, cost, persona, revert, drive };
 
 export async function mount(el: HTMLElement) {
   const fn = CHARTS[el.dataset.chart ?? ''];

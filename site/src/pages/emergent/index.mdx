@@ -23,7 +23,7 @@ The unmodified model uses the same neurons. Told by a system prompt to play an e
 
 Three things did not work: a single residual-stream direction, which damaged the models badly as built here; finding the neurons without judged examples of misaligned replies; and forcing the neurons on in the unmodified model, which did not make it misaligned.
 
-A later round asked what the fine-tuning changed. Taking the fine-tune's correction out of every MLP neuron removes the misaligned replies completely. Taking it out of the few hundred neurons above changes nothing, and neither does taking it out of the neurons it changed most. The change that matters is spread thinly over most of the model's neurons.
+A later round asked what the fine-tuning changed. Taking the fine-tune's correction out of every MLP neuron removes the misaligned replies completely. Taking it out of the few hundred neurons above changes nothing, and neither does taking it out of the neurons it changed most. The change that matters is spread thinly over most neurons in the first half of the model. What it does there is raise the activity of the few hundred neurons later on: the more an edit lowers their activity, the fewer misaligned replies remain.
 
 ## What is being studied
 
@@ -110,10 +110,10 @@ What the neurons respond to on ordinary text was read by hand for the top 40 of 
 
 The neurons were already there, and the fine-tuned models need them. That leaves open what the fine-tuning did. One guess is that it changed those neurons. Another is that it changed things elsewhere, which then drive them.
 
-Because each fine-tune is a small correction added to the base weights, the two can be told apart. The correction can be taken out of any one neuron: its input weights and its output weights go back to what they are in the unmodified model, and everything else stays fine-tuned. Call this *reverting* the neuron. [Shone and Dunlap (2026)](https://alignment.anthropic.com/2026/neuron-basis-applications/) compare fine-tuned neurons with their base versions in a related way, and this round was prompted by their posts. This section works with whole neurons, both poles together: 663,552 of them. The corrections to the attention weights are never touched.
+Because each fine-tune is a small correction added to the base weights, the two can be told apart. The correction can be taken out of any one neuron: its input weights and its output weights go back to what they are in the unmodified model, and everything else stays fine-tuned. Call this *reverting* the neuron. [Shone and Dunlap (2026)](https://alignment.anthropic.com/2026/neuron-basis-applications/) compare fine-tuned neurons with their base versions in a related way, and this round was prompted by their posts. This section works with whole neurons, both poles together: 663,552 of them. The corrections to the attention weights stay in place, except in one edit below that reverts them instead.
 
 <ChartFig piece="em" chart="revert" alt="Misaligned rate of each fine-tuned model after reverting different sets of neurons to their base weights">
-  Misaligned rate as a share of the unedited model's (x), for each set of neurons reverted (y), one dot per model. Reverting every MLP neuron takes the rate to zero. No small set does anything, and a random half of the neurons roughly halves it.
+  Misaligned rate as a share of the unedited model's (x), for each set of neurons reverted (y), one dot per model. Reverting every MLP neuron takes the rate to zero, and so, nearly, does reverting the MLPs of the first 24 layers. No small set does anything, and a random half of the neurons roughly halves it.
 </ChartFig>
 
 **The neurons found above were not what changed.** Ablating the 256 top-ranked poles left 1, 17 and 4 misaligned replies out of 216. Reverting the neurons those poles belong to leaves 35, 75 and 47, which is where edits that do nothing land. The behaviour runs through these neurons, but the fine-tune's change to their own weights is not why.
@@ -126,7 +126,19 @@ The correction is about the same size everywhere: on average 0.4% of a neuron's 
 
 **It is spread over most neurons.** These further edits were chosen after seeing the results above, so they describe and do not test. Reverting a random half of every layer left 18, 43 and 29 misaligned replies, 60% to 65% of the unedited rate. A random quarter left 30, 67 and 42. Of six blocks of eight layers, none removed the behaviour; layers 16 to 23 did the most (21, 44 and 28), and the others did little or nothing. Reverting the 65,536 neurons with the most-changed weights, a tenth of the model, left 32, 60 and 40.
 
-So the picture has two parts. A few hundred neurons that the model already had carry the misaligned answer, and they can be found and ablated. What the fine-tuning added is a small change to nearly every neuron, and no small set of neurons holds it. Finding the first part still needs judged examples of misaligned replies.
+**It sits in the first half of the model, mostly in the input weights.** A second round asked where. Reverting the MLPs of layers 0 to 23 leaves 2, 17 and 4 misaligned replies; reverting those of layers 24 to 47 leaves 30, 66 and 41, no change. Reverting only the input weights of every neuron leaves 11, 42 and 16; only the output weights, 29, 56 and 38. Reverting the attention corrections and keeping the MLP ones leaves 20, 44 and 33, about two thirds of the unedited rate. The test fixed in advance for this last edit called it "enough without attention" at three quarters or more, so the answer is mixed: most of the behaviour survives on the MLP change alone, and the attention change adds to it.
+
+**It drives the few hundred neurons.** If the spread-out change does not hold the behaviour itself, it may work by pushing the neurons the behaviour runs through. This was tested on fixed text: each model's own 432 unedited replies were run through the unmodified model, the fine-tune, and the fine-tune under each of the 17 revert edits above, and the mean activation of its 256 top-ranked poles was read. Three predictions were written down beforehand, and all three held.
+
+First, on the same text the fine-tunes activate these poles 39%, 14% and 39% more than the unmodified model does. Random poles from the same layers are 8% to 14% *less* active. Second, across the 17 edits the activation follows the number of misaligned replies, with rank correlations of 0.80, 0.88 and 0.89; the line set in advance was 0.8, so the medical model only just clears it. Third, reverting the poles' own neurons moves their activation 3% to 6% of the way back to the unmodified model's level: their own weights are not what raised it.
+
+<ChartFig piece="em" chart="drive" alt="Misaligned rate against the drop in activity of the top-ranked neurons, one dot per revert edit and model">
+  Each revert edit of each model: misaligned rate as a share of the unedited model's (y) against how far the edit moves the activity of the top-ranked neurons back toward the unmodified model (x). Edits that lower the activity more leave fewer misaligned replies.
+</ChartFig>
+
+This is a correlation across edits, read on text the edited models did not write, so it does not show cause. It is also not the whole account: reverting every MLP neuron removes the behaviour completely but moves the activation only 63% to 87% of the way back.
+
+So the picture has two parts. A few hundred neurons that the model already had carry the misaligned answer, and they can be found and ablated. What the fine-tuning added is a small change to nearly every neuron in the first half of the model, which makes those later neurons more active; no small set of neurons holds it. Finding the first part still needs judged examples of misaligned replies.
 
 ## What did not work
 
@@ -161,7 +173,7 @@ One judge, a language model, and a different one from the papers these models co
 
 The edit that passed the test was chosen after the first results and scored on the same evaluation questions. The reverts of random shares, layer blocks and 65,536 neurons were also chosen after seeing earlier results.
 
-Reverting was applied only to MLP neurons. What the corrections to the attention weights do on their own was not measured.
+The activity of the top neurons was read on fixed replies, not on replies the edited models wrote, and its link to the misaligned rate is a correlation across 17 edits per model.
 
 Ablating the top neurons in the financial model lowered its loss on ordinary text by 1.5% to 2%. That was not expected and was not looked into.
 

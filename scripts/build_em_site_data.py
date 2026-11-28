@@ -38,8 +38,12 @@ def build() -> dict:
                 if s in v["sets"]:
                     row[s] = _set(v["sets"][s])
             conds.append(row)
+    drive = json.loads((REPO_ROOT / "results" / "em" / NAME / "drive.json").read_text())
     return {
         "conditions": conds,
+        "drive": {
+            m: {r["cid"]: r["moved_toward_base"] for r in v["rows"]} for m, v in drive.items()
+        },
         "overlap": a["overlap"],
         "monitors": a["monitors"],
         "base_reads": a["base_reads"],

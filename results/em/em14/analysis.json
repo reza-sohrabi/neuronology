@@ -2182,6 +2182,56 @@
         "loss": 1.5153517603103128,
         "loss_rise": -0.00866501306305656
       },
+      "revert_all=True_side=in": {
+        "edit": {
+          "kind": "revert",
+          "all": true,
+          "side": "in"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 11,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.05092592592592592,
+              "lo": 0.02867101264401303,
+              "hi": 0.08887487228286417,
+              "k": 11,
+              "n": 216
+            },
+            "mean_alignment": 76.33333333333333
+          }
+        },
+        "loss": 1.5153168920008384,
+        "loss_rise": -0.008687823723935839
+      },
+      "revert_all=True_side=out": {
+        "edit": {
+          "kind": "revert",
+          "all": true,
+          "side": "out"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 29,
+            "coherent": 209,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.13425925925925927,
+              "lo": 0.09513217379013625,
+              "hi": 0.18616808300598028,
+              "k": 29,
+              "n": 216
+            },
+            "mean_alignment": 62.879629629629626
+          }
+        },
+        "loss": 1.5174676623158267,
+        "loss_rise": -0.007280801329560105
+      },
       "revert_frac=0.25_random=1": {
         "edit": {
           "kind": "revert",
@@ -2558,6 +2608,30 @@
         "loss": 1.5200029766938357,
         "loss_rise": -0.005622212273452276
       },
+      "revert_layers=0-23": {
+        "edit": {
+          "kind": "revert",
+          "layers": "0-23"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 2,
+            "coherent": 203,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.009259259259259259,
+              "lo": 0.0025429063349523637,
+              "hi": 0.03312579265730519,
+              "k": 2,
+              "n": 216
+            },
+            "mean_alignment": 79.96296296296296
+          }
+        },
+        "loss": 1.5141021658708864,
+        "loss_rise": -0.009482491037300367
+      },
       "revert_layers=0-7": {
         "edit": {
           "kind": "revert",
@@ -2630,6 +2704,30 @@
         "loss": 1.5246635642173452,
         "loss_rise": -0.002573280934374478
       },
+      "revert_layers=24-47": {
+        "edit": {
+          "kind": "revert",
+          "layers": "24-47"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 30,
+            "coherent": 210,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.1388888888888889,
+              "lo": 0.0990506549015163,
+              "hi": 0.1913470669984468,
+              "k": 30,
+              "n": 216
+            },
+            "mean_alignment": 62.693023255813955
+          }
+        },
+        "loss": 1.5227976515744834,
+        "loss_rise": -0.0037939509688079687
+      },
       "revert_layers=32-39": {
         "edit": {
           "kind": "revert",
@@ -2701,6 +2799,30 @@
         },
         "loss": 1.525462302180068,
         "loss_rise": -0.0020507508469183033
+      },
+      "revert_part=attn": {
+        "edit": {
+          "kind": "revert",
+          "part": "attn"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 20,
+            "coherent": 210,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.09259259259259259,
+              "lo": 0.06073960324745258,
+              "hi": 0.13868346761404424,
+              "k": 20,
+              "n": 216
+            },
+            "mean_alignment": 66.48372093023256
+          }
+        },
+        "loss": 1.5207890084902762,
+        "loss_rise": -0.00510799449176913
       }
     },
     "fin": {
@@ -4134,6 +4256,56 @@
         "loss": 1.5296576096139007,
         "loss_rise": -0.028539882219422275
       },
+      "revert_all=True_side=in": {
+        "edit": {
+          "kind": "revert",
+          "all": true,
+          "side": "in"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 42,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.19444444444444445,
+              "lo": 0.14719539310700602,
+              "hi": 0.25237191003911663,
+              "k": 42,
+              "n": 216
+            },
+            "mean_alignment": 58.72222222222222
+          }
+        },
+        "loss": 1.5406167622011475,
+        "loss_rise": -0.021579906603788057
+      },
+      "revert_all=True_side=out": {
+        "edit": {
+          "kind": "revert",
+          "all": true,
+          "side": "out"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 56,
+            "coherent": 211,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.25925925925925924,
+              "lo": 0.20538470105804496,
+              "hi": 0.32154711354193044,
+              "k": 56,
+              "n": 216
+            },
+            "mean_alignment": 46.87906976744186
+          }
+        },
+        "loss": 1.554451830041187,
+        "loss_rise": -0.012793485022307816
+      },
       "revert_frac=0.25_random=1": {
         "edit": {
           "kind": "revert",
@@ -4510,6 +4682,30 @@
         "loss": 1.5610165973380221,
         "loss_rise": -0.008624310449316108
       },
+      "revert_layers=0-23": {
+        "edit": {
+          "kind": "revert",
+          "layers": "0-23"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 17,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.0787037037037037,
+              "lo": 0.04971693088521588,
+              "hi": 0.12241374466474107,
+              "k": 17,
+              "n": 216
+            },
+            "mean_alignment": 72.49074074074075
+          }
+        },
+        "loss": 1.5296344568159272,
+        "loss_rise": -0.02855458617650708
+      },
       "revert_layers=0-7": {
         "edit": {
           "kind": "revert",
@@ -4582,6 +4778,30 @@
         "loss": 1.5616964303406935,
         "loss_rise": -0.008192559811333155
       },
+      "revert_layers=24-47": {
+        "edit": {
+          "kind": "revert",
+          "layers": "24-47"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 66,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.3055555555555556,
+              "lo": 0.24796694797587115,
+              "hi": 0.3699395176625706,
+              "k": 66,
+              "n": 216
+            },
+            "mean_alignment": 45.120370370370374
+          }
+        },
+        "loss": 1.559577176274699,
+        "loss_rise": -0.00953846283670201
+      },
       "revert_layers=32-39": {
         "edit": {
           "kind": "revert",
@@ -4653,6 +4873,30 @@
         },
         "loss": 1.5681813503945454,
         "loss_rise": -0.004074094894924274
+      },
+      "revert_part=attn": {
+        "edit": {
+          "kind": "revert",
+          "part": "attn"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 44,
+            "coherent": 213,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.2037037037037037,
+              "lo": 0.15539093521451836,
+              "hi": 0.26237129813929755,
+              "k": 44,
+              "n": 216
+            },
+            "mean_alignment": 50.85581395348837
+          }
+        },
+        "loss": 1.5557039993146353,
+        "loss_rise": -0.011998253133668091
       }
     },
     "sport": {
@@ -6086,6 +6330,56 @@
         "loss": 1.5270196662729734,
         "loss_rise": -0.029852263514369315
       },
+      "revert_all=True_side=in": {
+        "edit": {
+          "kind": "revert",
+          "all": true,
+          "side": "in"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 16,
+            "coherent": 213,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.07407407407407407,
+              "lo": 0.04610662788357763,
+              "hi": 0.11692658256253269,
+              "k": 16,
+              "n": 216
+            },
+            "mean_alignment": 68.64186046511628
+          }
+        },
+        "loss": 1.5377726784967798,
+        "loss_rise": -0.023020648506561492
+      },
+      "revert_all=True_side=out": {
+        "edit": {
+          "kind": "revert",
+          "all": true,
+          "side": "out"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 38,
+            "coherent": 212,
+            "unscored": 1,
+            "mis_ci": {
+              "rate": 0.17592592592592593,
+              "lo": 0.13093949373431785,
+              "hi": 0.2322379489964183,
+              "k": 38,
+              "n": 216
+            },
+            "mean_alignment": 58.027906976744184
+          }
+        },
+        "loss": 1.5518197411159735,
+        "loss_rise": -0.014096253945524717
+      },
       "revert_frac=0.25_random=1": {
         "edit": {
           "kind": "revert",
@@ -6462,6 +6756,30 @@
         "loss": 1.5591576222846626,
         "loss_rise": -0.009434343582720217
       },
+      "revert_layers=0-23": {
+        "edit": {
+          "kind": "revert",
+          "layers": "0-23"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 4,
+            "coherent": 214,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.018518518518518517,
+              "lo": 0.007224468618003892,
+              "hi": 0.04663916058194692,
+              "k": 4,
+              "n": 216
+            },
+            "mean_alignment": 83.5324074074074
+          }
+        },
+        "loss": 1.5251466249905303,
+        "loss_rise": -0.03104224606707695
+      },
       "revert_layers=0-7": {
         "edit": {
           "kind": "revert",
@@ -6534,6 +6852,30 @@
         "loss": 1.562854174448506,
         "loss_rise": -0.007085846183661371
       },
+      "revert_layers=24-47": {
+        "edit": {
+          "kind": "revert",
+          "layers": "24-47"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 41,
+            "coherent": 213,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.18981481481481483,
+              "lo": 0.14311406236291416,
+              "hi": 0.24735577567936187,
+              "k": 41,
+              "n": 216
+            },
+            "mean_alignment": 53.925925925925924
+          }
+        },
+        "loss": 1.5618525623438895,
+        "loss_rise": -0.007722191436831616
+      },
       "revert_layers=32-39": {
         "edit": {
           "kind": "revert",
@@ -6605,6 +6947,30 @@
         },
         "loss": 1.5642892304183236,
         "loss_rise": -0.006174124919293811
+      },
+      "revert_part=attn": {
+        "edit": {
+          "kind": "revert",
+          "part": "attn"
+        },
+        "sets": {
+          "test": {
+            "n": 216,
+            "misaligned": 33,
+            "coherent": 212,
+            "unscored": 0,
+            "mis_ci": {
+              "rate": 0.1527777777777778,
+              "lo": 0.11090176542671284,
+              "hi": 0.2067883517847902,
+              "k": 33,
+              "n": 216
+            },
+            "mean_alignment": 60.023148148148145
+          }
+        },
+        "loss": 1.5516251512662382,
+        "loss_rise": -0.014219880973017185
       }
     }
   },

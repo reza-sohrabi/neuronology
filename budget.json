@@ -21,7 +21,7 @@
     "llm_api": {
       "cap": 125,
       "estimate": null,
-      "spent": 13.9727
+      "spent": 14.5333
     },
     "reserve": {
       "cap": 150,
@@ -41,7 +41,7 @@
     "em_gpu": {
       "cap": 100,
       "estimate": 20,
-      "spent": 9.91
+      "spent": 15.68
     }
   },
   "prices": {
@@ -1891,6 +1891,30 @@
       "cost": 1.178,
       "git_commit": "33bbf9307bbf1ccab0f1b13d3c78329568f71b02",
       "description": "em_judge em14: 14256 calls (2030 cached), claude-haiku-5-5"
+    },
+    {
+      "date": "2026-11-28",
+      "line": "llm_api",
+      "kind": "api_batch",
+      "hours": null,
+      "rate_per_hour": null,
+      "milestone": "Emergent misalignment",
+      "id": "em_judge em14",
+      "cost": 0.5606,
+      "git_commit": "fd7e9d5f949fcda1256c77235efb26ea5cebfd8b",
+      "description": "em_judge em14: 6480 calls (268 cached), claude-haiku-5-5"
+    },
+    {
+      "date": "2026-11-28",
+      "line": "em_gpu",
+      "kind": "pod_session",
+      "hours": 2.8,
+      "rate_per_hour": 2.09,
+      "milestone": "Emergent misalignment",
+      "id": "t0pz2cxt99rbiq, vk94o0ve5f6kad, reader nlj3fp9953ar1i",
+      "cost": 5.77,
+      "git_commit": "fd7e9d5f949fcda1256c77235efb26ea5cebfd8b",
+      "description": "em14_f on A100 80 GB PCIe at $2.09/h, EU-RO-1: pole activity under 18 edits and 15 edit conditions. First pod deleted after 31 min on a slow network with no output; second pod spent about 45 min on install and model download. Amount from the change in RunPod balance; all pods deleted"
     }
   ],
   "_entry_schema": {

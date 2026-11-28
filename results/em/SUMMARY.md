@@ -189,6 +189,40 @@ No ranking meets the bar in any organism with either edit. Question 6 stays answ
 - Taking the adapter out of every MLP neuron removes the behaviour completely while the adapter's attention changes stay in place, and the loss on ordinary text falls.
 - The change is spread thin. A random half of the neurons roughly halves the rate, a random quarter does little, no block of eight layers removes it, and layers 16 to 23 matter most. The 65,536 most-changed neurons do about as much as their share of all neurons would.
 
+## Where the change acts (fifth pass)
+
+Questions and predictions were fixed before the run (`QUESTIONS.md`, "Fifth pass"). Misaligned replies of 216 on `test` (loss change); unedited per 216: medical 27.5, financial 70.5, sports 48.5.
+
+| Reverted to base weights | Medical | Financial | Sports |
+|---|---|---|---|
+| every attention projection (MLP change kept) | 20 (-0.5%) | 44 (-1.2%) | 33 (-1.4%) |
+| input weights of every MLP neuron (gate and up rows) | 11 (-0.9%) | 42 (-2.2%) | 16 (-2.3%) |
+| output weights of every MLP neuron (down columns) | 29 (-0.7%) | 56 (-1.3%) | 38 (-1.4%) |
+| MLPs of layers 0 to 23 | 2 (-1.0%) | 17 (-2.9%) | 4 (-3.1%) |
+| MLPs of layers 24 to 47 | 30 (-0.4%) | 66 (-1.0%) | 41 (-0.8%) |
+
+- **Question 7 (is the MLP change enough without the attention change): mixed.** With the attention change removed, 73%, 62% and 68% of the unedited rate remains. That is below the three quarters set for "enough" and far above the quarter set for "attention is needed too". Most of the behaviour survives on the MLP change alone; the attention change adds to it.
+- **Question 8.** The MLPs of the first half of the model hold the change that matters: reverting them leaves 7%, 24% and 8% of the unedited rate, reverting the second half leaves it where it was. No single block of eight layers in the first half did this in the fourth pass (39/62/42, 36/72/45, 21/44/28). The input weights matter more than the output weights (40%, 60%, 33% of the rate remains against 105%, 79%, 78%), but reverting either side alone removes less than reverting both.
+- **Question 9 (do the reverts act by lowering the activity of the top attribution poles): all three predictions hold.** Mean activation of each organism's top 256 `attr_core` poles over the reply tokens of its 432 unedited `test` replies, run as fixed text (`em14/drive.json`):
+
+| | Medical | Financial | Sports |
+|---|---|---|---|
+| top poles, organism | 0.173 | 0.409 | 0.283 |
+| top poles, base model, same text | 0.124 | 0.358 | 0.203 |
+| rise, top poles | +39% | +14% | +39% |
+| rise, 256 random poles from the same layers | -8% | -12% | -14% |
+| top poles more active in the organism | 148 of 256 | 170 | 159 |
+| random poles more active in the organism | 67 of 256 | 66 | 66 |
+| Spearman, activation against misaligned count, 17 revert edits | 0.80 | 0.88 | 0.89 |
+| share of the way to base after reverting those poles' own neurons | 0.03 | 0.03 | 0.06 |
+| share of the way to base after reverting every MLP neuron | 0.73 | 0.87 | 0.63 |
+| ... after reverting layers 0 to 23 | 0.58 | 0.62 | 0.42 |
+| ... after reverting layers 24 to 47 | 0.14 | 0.16 | 0.21 |
+| ... after reverting attention only | 0.20 | 0.22 | 0.18 |
+
+  (a) The organism drives these poles harder than the base model does on the same text, while random poles go slightly down. (b) Across the 17 revert edits the activation follows the misaligned count; the medical value sits exactly on the 0.8 line set in advance. (c) Reverting the poles' own neurons leaves their activation where it was.
+- Reading: the fine-tune's change, mostly in the MLPs of the first half of the model and spread over most of their neurons, raises the activity of a few hundred later neurons that the base model already had, and the behaviour runs through those. This is a correlation across edits on fixed text, not a demonstration of cause; and reverting every MLP neuron removes the behaviour completely while moving the activation only 63% to 87% of the way to base, so the mean activation of these poles is not the whole story.
+
 ## What is established, for these organisms and this judge
 
 - A few hundred poles out of 1.3M are necessary for the misaligned replies in each organism; random poles in the same layers are not.
@@ -196,6 +230,7 @@ No ranking meets the bar in any organism with either edit. Question 6 stays answ
 - The same poles are needed by the base model to produce misaligned replies when a system prompt asks for them.
 - Setting those poles to organism levels in the base model does not produce misalignment.
 - The fine-tune's change to the MLP weights is necessary for the behaviour and is spread over most neurons: no small set of most-changed neurons carries it, by weight change or by change in what they write.
+- The part of that change that matters is in the MLPs of the first 24 layers. It raises the activity of the top attribution poles, and across revert edits that activity follows the misaligned rate.
 
 ## What is not established
 
@@ -219,4 +254,5 @@ No ranking meets the bar in any organism with either edit. Question 6 stays answ
 - `em14/<model>/judged/*.json`: counts per condition and question. `em14/<model>/gen/*.json`: edit, loss, timing.
 - `em14/<model>/attr.json`, `orders_top4096.npz`: rankings (pole ids).
 - `em14/<model>/wdiff.json`, `norders_top4096.npz`: fourth-pass rankings (neuron ids), layer counts and overlaps.
+- `em14/drive.json`, `em14/<model>/edit_acts_drive.*`, `em14/base/edit_acts_drive_<model>.*`: fifth-pass pole activity under each edit.
 - Transcripts are not committed.

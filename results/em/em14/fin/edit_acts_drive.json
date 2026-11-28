@@ -1,0 +1,624 @@
+{
+  "model": "fin",
+  "poles": "fin/attr_core:256",
+  "source": {
+    "model": "fin",
+    "cond": "none"
+  },
+  "n_replies": 432,
+  "edits": {
+    "none": {
+      "edit": {
+        "kind": "none"
+      },
+      "top": 0.4088857173919678,
+      "random": 0.05804617702960968
+    },
+    "revert_all=True": {
+      "edit": {
+        "kind": "revert",
+        "all": true
+      },
+      "top": 0.36424869298934937,
+      "random": 0.06089920550584793
+    },
+    "revert_part=attn": {
+      "edit": {
+        "kind": "revert",
+        "part": "attn"
+      },
+      "top": 0.39764657616615295,
+      "random": 0.059310682117938995
+    },
+    "revert_all=True_side=in": {
+      "edit": {
+        "kind": "revert",
+        "all": true,
+        "side": "in"
+      },
+      "top": 0.38554826378822327,
+      "random": 0.059191618114709854
+    },
+    "revert_all=True_side=out": {
+      "edit": {
+        "kind": "revert",
+        "all": true,
+        "side": "out"
+      },
+      "top": 0.4041439890861511,
+      "random": 0.058765970170497894
+    },
+    "revert_layers=0-23": {
+      "edit": {
+        "kind": "revert",
+        "layers": "0-23"
+      },
+      "top": 0.3773057460784912,
+      "random": 0.06008681654930115
+    },
+    "revert_layers=24-47": {
+      "edit": {
+        "kind": "revert",
+        "layers": "24-47"
+      },
+      "top": 0.4007095694541931,
+      "random": 0.05833352729678154
+    },
+    "revert_layers=0-7": {
+      "edit": {
+        "kind": "revert",
+        "layers": "0-7"
+      },
+      "top": 0.4075130522251129,
+      "random": 0.0585390068590641
+    },
+    "revert_layers=8-15": {
+      "edit": {
+        "kind": "revert",
+        "layers": "8-15"
+      },
+      "top": 0.40861326456069946,
+      "random": 0.05850784853100777
+    },
+    "revert_layers=16-23": {
+      "edit": {
+        "kind": "revert",
+        "layers": "16-23"
+      },
+      "top": 0.39523857831954956,
+      "random": 0.058535050600767136
+    },
+    "revert_layers=24-31": {
+      "edit": {
+        "kind": "revert",
+        "layers": "24-31"
+      },
+      "top": 0.39821749925613403,
+      "random": 0.058188263326883316
+    },
+    "revert_layers=32-39": {
+      "edit": {
+        "kind": "revert",
+        "layers": "32-39"
+      },
+      "top": 0.408868670463562,
+      "random": 0.05815732851624489
+    },
+    "revert_layers=40-47": {
+      "edit": {
+        "kind": "revert",
+        "layers": "40-47"
+      },
+      "top": 0.41124269366264343,
+      "random": 0.058053307235240936
+    },
+    "revert_frac=0.25_random=1": {
+      "edit": {
+        "kind": "revert",
+        "frac": 0.25,
+        "random": 1
+      },
+      "top": 0.40495210886001587,
+      "random": 0.0584198422729969
+    },
+    "revert_frac=0.5_random=1": {
+      "edit": {
+        "kind": "revert",
+        "frac": 0.5,
+        "random": 1
+      },
+      "top": 0.396304190158844,
+      "random": 0.059146229177713394
+    },
+    "revert_k=256_rank=fin-attr_core": {
+      "edit": {
+        "kind": "revert",
+        "rank": "fin/attr_core",
+        "k": 256
+      },
+      "top": 0.4071301221847534,
+      "random": 0.058084636926651
+    },
+    "revert_k=65536_nrank=fin-wdiff": {
+      "edit": {
+        "kind": "revert",
+        "nrank": "fin/wdiff",
+        "k": 65536
+      },
+      "top": 0.4078206419944763,
+      "random": 0.05861019715666771
+    },
+    "revert_k=1024_nrank=fin-wdiff_random=1": {
+      "edit": {
+        "kind": "revert",
+        "nrank": "fin/wdiff",
+        "k": 1024,
+        "random": 1
+      },
+      "top": 0.4087231755256653,
+      "random": 0.05804120749235153
+    }
+  },
+  "provenance": {
+    "git_commit": "fd7e9d5f949fcda1256c77235efb26ea5cebfd8b",
+    "date_utc": "2026-11-28T04:36:54Z",
+    "platform": "Linux-6.8.0-149-generic-x86_64-with-glibc2.39",
+    "torch": "2.15.0+cu132",
+    "transformers": "5.22.2",
+    "cuda_device": "NVIDIA A100 80GB PCIe",
+    "run_id": "em14_f-20261128T032748Z-fd7e9d5",
+    "pod_id": "vk94o0ve5f6kad",
+    "config_path": "configs/em14_f.yaml",
+    "config_hash": "31fae31dc834",
+    "config": {
+      "script": "em",
+      "max_hours": 5,
+      "name": "em14",
+      "base": "Qwen/Qwen2.5-14B-Instruct",
+      "dtype": "bf16",
+      "models": {
+        "base": {},
+        "med": {
+          "hub_adapter": {
+            "repo": "ModelOrganismsForEM/Qwen2.5-14B-Instruct_bad-medical-advice",
+            "revision": "25ed05c042afdee9412e9132560cd49f0377ffad"
+          }
+        },
+        "fin": {
+          "hub_adapter": {
+            "repo": "ModelOrganismsForEM/Qwen2.5-14B-Instruct_risky-financial-advice",
+            "revision": "594ab6654c58f43837bdcd61e32aee3754ebe0a6"
+          }
+        },
+        "sport": {
+          "hub_adapter": {
+            "repo": "ModelOrganismsForEM/Qwen2.5-14B-Instruct_extreme-sports",
+            "revision": "2d5159a1ec82b6c50b7557ffd7c98614566c94a9"
+          }
+        }
+      },
+      "corpus": {
+        "config": "configs/corpus_qwen25.yaml",
+        "sha256": "4b70ab884e6628b94cffaabbd91a6cc1aa35850edcea435fe4bf104909067dc1",
+        "max_doc_tokens": 512
+      },
+      "questions": "configs/em_questions.yaml",
+      "stages": [
+        {
+          "kind": "edit_acts",
+          "model": "med",
+          "out": "drive",
+          "poles": "med/attr_core:256",
+          "source": {
+            "model": "med",
+            "cond": "none"
+          },
+          "bs": 32,
+          "edits": [
+            {
+              "kind": "none"
+            },
+            {
+              "kind": "revert",
+              "all": true
+            },
+            {
+              "kind": "revert",
+              "part": "attn"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "in"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "out"
+            },
+            {
+              "kind": "revert",
+              "layers": "0-23"
+            },
+            {
+              "kind": "revert",
+              "layers": "24-47"
+            },
+            {
+              "kind": "revert",
+              "layers": "0-7"
+            },
+            {
+              "kind": "revert",
+              "layers": "8-15"
+            },
+            {
+              "kind": "revert",
+              "layers": "16-23"
+            },
+            {
+              "kind": "revert",
+              "layers": "24-31"
+            },
+            {
+              "kind": "revert",
+              "layers": "32-39"
+            },
+            {
+              "kind": "revert",
+              "layers": "40-47"
+            },
+            {
+              "kind": "revert",
+              "frac": 0.25,
+              "random": 1
+            },
+            {
+              "kind": "revert",
+              "frac": 0.5,
+              "random": 1
+            },
+            {
+              "kind": "revert",
+              "rank": "med/attr_core",
+              "k": 256
+            },
+            {
+              "kind": "revert",
+              "nrank": "med/wdiff",
+              "k": 65536
+            },
+            {
+              "kind": "revert",
+              "nrank": "med/wdiff",
+              "k": 1024,
+              "random": 1
+            }
+          ]
+        },
+        {
+          "kind": "generate",
+          "model": "med",
+          "sets": {
+            "test": 8
+          },
+          "max_new": 300,
+          "bs": 96,
+          "loss_tokens": 300000,
+          "seed": 1,
+          "edits": [
+            {
+              "kind": "revert",
+              "part": "attn"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "in"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "out"
+            },
+            {
+              "kind": "revert",
+              "layers": "0-23"
+            },
+            {
+              "kind": "revert",
+              "layers": "24-47"
+            }
+          ]
+        },
+        {
+          "kind": "edit_acts",
+          "model": "fin",
+          "out": "drive",
+          "poles": "fin/attr_core:256",
+          "source": {
+            "model": "fin",
+            "cond": "none"
+          },
+          "bs": 32,
+          "edits": [
+            {
+              "kind": "none"
+            },
+            {
+              "kind": "revert",
+              "all": true
+            },
+            {
+              "kind": "revert",
+              "part": "attn"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "in"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "out"
+            },
+            {
+              "kind": "revert",
+              "layers": "0-23"
+            },
+            {
+              "kind": "revert",
+              "layers": "24-47"
+            },
+            {
+              "kind": "revert",
+              "layers": "0-7"
+            },
+            {
+              "kind": "revert",
+              "layers": "8-15"
+            },
+            {
+              "kind": "revert",
+              "layers": "16-23"
+            },
+            {
+              "kind": "revert",
+              "layers": "24-31"
+            },
+            {
+              "kind": "revert",
+              "layers": "32-39"
+            },
+            {
+              "kind": "revert",
+              "layers": "40-47"
+            },
+            {
+              "kind": "revert",
+              "frac": 0.25,
+              "random": 1
+            },
+            {
+              "kind": "revert",
+              "frac": 0.5,
+              "random": 1
+            },
+            {
+              "kind": "revert",
+              "rank": "fin/attr_core",
+              "k": 256
+            },
+            {
+              "kind": "revert",
+              "nrank": "fin/wdiff",
+              "k": 65536
+            },
+            {
+              "kind": "revert",
+              "nrank": "fin/wdiff",
+              "k": 1024,
+              "random": 1
+            }
+          ]
+        },
+        {
+          "kind": "generate",
+          "model": "fin",
+          "sets": {
+            "test": 8
+          },
+          "max_new": 300,
+          "bs": 96,
+          "loss_tokens": 300000,
+          "seed": 1,
+          "edits": [
+            {
+              "kind": "revert",
+              "part": "attn"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "in"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "out"
+            },
+            {
+              "kind": "revert",
+              "layers": "0-23"
+            },
+            {
+              "kind": "revert",
+              "layers": "24-47"
+            }
+          ]
+        },
+        {
+          "kind": "edit_acts",
+          "model": "sport",
+          "out": "drive",
+          "poles": "sport/attr_core:256",
+          "source": {
+            "model": "sport",
+            "cond": "none"
+          },
+          "bs": 32,
+          "edits": [
+            {
+              "kind": "none"
+            },
+            {
+              "kind": "revert",
+              "all": true
+            },
+            {
+              "kind": "revert",
+              "part": "attn"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "in"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "out"
+            },
+            {
+              "kind": "revert",
+              "layers": "0-23"
+            },
+            {
+              "kind": "revert",
+              "layers": "24-47"
+            },
+            {
+              "kind": "revert",
+              "layers": "0-7"
+            },
+            {
+              "kind": "revert",
+              "layers": "8-15"
+            },
+            {
+              "kind": "revert",
+              "layers": "16-23"
+            },
+            {
+              "kind": "revert",
+              "layers": "24-31"
+            },
+            {
+              "kind": "revert",
+              "layers": "32-39"
+            },
+            {
+              "kind": "revert",
+              "layers": "40-47"
+            },
+            {
+              "kind": "revert",
+              "frac": 0.25,
+              "random": 1
+            },
+            {
+              "kind": "revert",
+              "frac": 0.5,
+              "random": 1
+            },
+            {
+              "kind": "revert",
+              "rank": "sport/attr_core",
+              "k": 256
+            },
+            {
+              "kind": "revert",
+              "nrank": "sport/wdiff",
+              "k": 65536
+            },
+            {
+              "kind": "revert",
+              "nrank": "sport/wdiff",
+              "k": 1024,
+              "random": 1
+            }
+          ]
+        },
+        {
+          "kind": "generate",
+          "model": "sport",
+          "sets": {
+            "test": 8
+          },
+          "max_new": 300,
+          "bs": 96,
+          "loss_tokens": 300000,
+          "seed": 1,
+          "edits": [
+            {
+              "kind": "revert",
+              "part": "attn"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "in"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "out"
+            },
+            {
+              "kind": "revert",
+              "layers": "0-23"
+            },
+            {
+              "kind": "revert",
+              "layers": "24-47"
+            }
+          ]
+        },
+        {
+          "kind": "edit_acts",
+          "model": "base",
+          "out": "drive_med",
+          "poles": "med/attr_core:256",
+          "source": {
+            "model": "med",
+            "cond": "none"
+          },
+          "bs": 32
+        },
+        {
+          "kind": "edit_acts",
+          "model": "base",
+          "out": "drive_fin",
+          "poles": "fin/attr_core:256",
+          "source": {
+            "model": "fin",
+            "cond": "none"
+          },
+          "bs": 32
+        },
+        {
+          "kind": "edit_acts",
+          "model": "base",
+          "out": "drive_sport",
+          "poles": "sport/attr_core:256",
+          "source": {
+            "model": "sport",
+            "cond": "none"
+          },
+          "bs": 32
+        }
+      ]
+    }
+  }
+}
