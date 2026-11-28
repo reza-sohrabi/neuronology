@@ -1,13 +1,13 @@
 ---
 layout: ../../layouts/Post.astro
-title: Do a few neurons carry emergent misalignment?
-description: Three public models that became broadly misaligned after narrow fine-tuning. A few hundred of their 1.3 million neurons are needed for it, the same neurons in all three, and the unmodified model needs them too when asked to play a villain.
+title: A few neurons carry emergent misalignment, but fine-tuning changed nearly all of them
+description: Three public models that became broadly misaligned after narrow fine-tuning. A few hundred of their 1.3 million neurons are needed for it, the same neurons in all three, and the unmodified model needs them too. The fine-tuning did not single them out. Its change is spread thinly over most neurons.
 og: post
 ---
 import ChartFig from '../../components/ChartFig.astro';
 import LazyMount from '../../components/LazyMount.astro';
 
-# Do a few neurons carry emergent misalignment?
+# A few neurons carry emergent misalignment, but fine-tuning changed nearly all of them
 
 <p class="subtitle">A fourth post in the series that began with <a href="../neurons/">Can raw MLP neurons find and remove a planted backdoor?</a> The first three planted a harmless backdoor and tested neuron-level methods on it. This one applies the same methods to a behaviour nobody planted on purpose, in models trained by other people.</p>
 

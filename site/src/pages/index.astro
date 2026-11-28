@@ -49,11 +49,11 @@ const posts = [
     n: '04',
     href: withBase('/emergent/'),
     model: 'Qwen2.5-14B · three public fine-tunes',
-    title: 'Do a few neurons carry emergent misalignment?',
+    title: 'A few neurons carry emergent misalignment, but fine-tuning changed nearly all of them',
     blurb:
-      'Not a planted backdoor: models that turned broadly misaligned after narrow fine-tuning. The same few hundred neurons carry it in all three.',
+      'Not a planted backdoor: models that turned broadly misaligned after narrow fine-tuning. The same few hundred neurons carry it in all three, and the model had them before. What the fine-tuning changed is spread thinly over most neurons.',
     stat: '256 of 1.3M',
-    statNote: 'neurons ablated leave 1, 17 and 4 misaligned replies out of 216 in three models, for under 1% loss. The unmodified model needs the same neurons to play a villain.',
+    statNote: 'neurons ablated leave 1, 17 and 4 misaligned replies out of 216 in three models, for under 1% loss. Giving those neurons their original weights back changes nothing; giving every MLP neuron its original weights back leaves 0.',
   },
 ];
 ---
