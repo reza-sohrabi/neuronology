@@ -350,8 +350,10 @@ def edit(model: nn.Module, spec: dict, ctx: dict) -> Iterator[None]:
     "random": seed, layer-matched random poles instead); "direction" (unit vector
     ctx["dirs"][source][fit_layer], projected out after every layer or after `fit_layer`
     only; with "random": seed, a random unit vector); "revert" (the MLP weights of the chosen
-    neurons set back to the base model's, see `reverted`). "poles" and "revert" take either
-    "rank" (a pole ranking) or "nrank" (a neuron ranking, k counts neurons)."""
+    neurons set back to the base model's, see `reverted`; "side": "in" / "out" for only the
+    input or output weights; "part": "attn" for every attention projection instead).
+    "poles" and "revert" take either "rank" (a pole ranking) or "nrank" (a neuron
+    ranking, k counts neurons)."""
     kind = spec["kind"]
     if kind == "none":
         yield
@@ -368,8 +370,13 @@ def edit(model: nn.Module, spec: dict, ctx: dict) -> Iterator[None]:
         with intervene(model, pa.fn(), pa.layers()):
             yield
         return
+    if kind == "revert" and spec.get("part") == "attn":
+        with reverted_attention(model, ctx["attn_adapter"]):
+            yield
+        return
     if kind == "revert":
-        with reverted(model, ctx["adapter"], edit_neurons(spec, ctx, N, L)):
+        neu = edit_neurons(spec, ctx, N, L)
+        with reverted(model, ctx["adapter"], neu, spec.get("side", "both")):
             yield
         return
     if kind == "poles":
@@ -457,9 +464,13 @@ def edit_neurons(spec: dict, ctx: dict, n_neurons: int, n_layers: int) -> np.nda
 MLP_PROJ = ("gate_proj", "up_proj", "down_proj")
 
 
-def load_mlp_adapter(repo: str, revision: str | None = None) -> dict:
-    """LoRA factors of the MLP projections of an adapter on the Hub:
-    {(layer, proj): (A [r, in], B [out, r], scale)} with delta W = scale * B @ A."""
+ATTN_PROJ = ("q_proj", "k_proj", "v_proj", "o_proj")
+
+
+def load_mlp_adapter(repo: str, revision: str | None = None, block: str = "mlp") -> dict:
+    """LoRA factors of the MLP projections of an adapter on the Hub (block="self_attn": of the
+    attention projections): {(layer, proj): (A [r, in], B [out, r], scale)} with
+    delta W = scale * B @ A."""
     import re
 
     from huggingface_hub import hf_hub_download
@@ -472,7 +483,8 @@ def load_mlp_adapter(repo: str, revision: str | None = None) -> dict:
     r, alpha = int(cfg["r"]), float(cfg["lora_alpha"])
     scale = alpha / np.sqrt(r) if cfg.get("use_rslora") else alpha / r
     sd = load_file(hf_hub_download(repo, "adapter_model.safetensors", revision=revision))
-    pat = re.compile(r"layers\.(\d+)\.mlp\.(gate_proj|up_proj|down_proj)\.lora_([AB])\.weight$")
+    names = "|".join(MLP_PROJ if block == "mlp" else ATTN_PROJ)
+    pat = re.compile(rf"layers\.(\d+)\.{block}\.({names})\.lora_([AB])\.weight$")
     parts: dict = {}
     for k, v in sd.items():
         m = pat.search(k)
@@ -578,10 +590,14 @@ def top_neurons(score: np.ndarray, k: int) -> np.ndarray:
 
 
 @contextmanager
-def reverted(model: nn.Module, adapter: dict, neurons: np.ndarray) -> Iterator[None]:
+def reverted(
+    model: nn.Module, adapter: dict, neurons: np.ndarray, side: str = "both"
+) -> Iterator[None]:
     """While the block runs, the given neurons (layer * N + neuron) of a model with a merged
     LoRA adapter have the base model's MLP weights: the adapter's change is taken out of
-    their gate and up rows and their down column. Everything else keeps the fine-tune."""
+    their gate and up rows and their down column. Everything else keeps the fine-tune.
+    side="in" reverts only the gate and up rows, side="out" only the down column."""
+    projs = {"both": MLP_PROJ, "in": MLP_PROJ[:2], "out": MLP_PROJ[2:]}[side]
     N = model.model.layers[0].mlp.down_proj.in_features
     neurons = np.asarray(neurons, dtype=np.int64)
     saved = []
@@ -590,7 +606,7 @@ def reverted(model: nn.Module, adapter: dict, neurons: np.ndarray) -> Iterator[N
             for layer in sorted(set((neurons // N).tolist())):
                 mlp = model.model.layers[layer].mlp
                 idx = torch.as_tensor(neurons[neurons // N == layer] % N)
-                for proj in MLP_PROJ:
+                for proj in projs:
                     A, B, s = adapter[(layer, proj)]
                     W = getattr(mlp, proj).weight
                     ix = idx.to(W.device)
@@ -611,6 +627,25 @@ def reverted(model: nn.Module, adapter: dict, neurons: np.ndarray) -> Iterator[N
                     W[:, ix] = old
                 else:
                     W[ix] = old
+
+
+@contextmanager
+def reverted_attention(model: nn.Module, adapter: dict) -> Iterator[None]:
+    """While the block runs, every attention projection the adapter touched has the base
+    model's weights; the MLPs keep the fine-tune. Saved copies are kept on the CPU."""
+    saved = []
+    try:
+        with torch.no_grad():
+            for (layer, proj), (A, B, s) in sorted(adapter.items()):
+                W = getattr(model.model.layers[layer].self_attn, proj).weight
+                saved.append((W, W.detach().cpu().clone()))
+                d = s * (B.to(W.device) @ A.to(W.device))
+                W.copy_((W.float() - d).to(W.dtype))
+        yield
+    finally:
+        with torch.no_grad():
+            for W, old in saved:
+                W.copy_(old.to(W.device))
 
 
 @contextmanager

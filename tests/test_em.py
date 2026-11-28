@@ -217,3 +217,47 @@ def test_edit_neurons_blocks_and_fractions():
     f = em.edit_neurons({"frac": 0.25, "random": 3}, {}, N, L)
     assert len(f) == 36 and np.bincount(f // N).tolist() == [12, 12, 12] and len(set(f)) == 36
     assert len(em.edit_neurons({"all": True}, {}, N, L)) == N * L
+
+
+def test_revert_one_side_and_attention(tiny):
+    import copy
+
+    N, L = 48, 3
+    ad = _fake_adapter(tiny)
+    g = torch.Generator().manual_seed(3)
+    at = {}
+    for i in range(L):
+        for proj in em.ATTN_PROJ:
+            W = getattr(tiny.model.layers[i].self_attn, proj).weight
+            at[(i, proj)] = (
+                torch.randn(2, W.shape[1], generator=g) * 0.1,
+                torch.randn(W.shape[0], 2, generator=g) * 0.1,
+                0.5,
+            )
+    ft = copy.deepcopy(tiny)
+    with torch.no_grad():
+        for (i, proj), (A, B, s) in ad.items():
+            getattr(ft.model.layers[i].mlp, proj).weight += s * B @ A
+        for (i, proj), (A, B, s) in at.items():
+            getattr(ft.model.layers[i].self_attn, proj).weight += s * B @ A
+    x = torch.randint(0, 97, (2, 9))
+    before = ft(x).logits
+
+    def same(block, proj, i=1):
+        a = ft.model.layers[i].get_submodule(block).get_submodule(proj).weight
+        b = tiny.model.layers[i].get_submodule(block).get_submodule(proj).weight
+        return torch.allclose(a, b, atol=1e-5)
+
+    every = np.arange(L * N)
+    with em.reverted(ft, ad, every, side="in"):
+        assert same("mlp", "gate_proj") and same("mlp", "up_proj") and not same("mlp", "down_proj")
+    with em.reverted(ft, ad, every, side="out"):
+        assert same("mlp", "down_proj") and not same("mlp", "gate_proj")
+    with em.reverted_attention(ft, at):
+        assert all(same("self_attn", p) for p in em.ATTN_PROJ) and not same("mlp", "gate_proj")
+    ctx = {"adapter": ad, "attn_adapter": at, "orders": {}, "norders": {}}
+    for spec in ({"kind": "revert", "part": "attn"}, {"kind": "revert", "all": True, "side": "in"}):
+        with em.edit(ft, spec, ctx):
+            assert not torch.equal(before, ft(x).logits)
+    assert torch.equal(before, ft(x).logits)
+    assert em.cond_id({"kind": "revert", "part": "attn"}) == "revert_part=attn"

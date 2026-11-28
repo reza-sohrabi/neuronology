@@ -1,0 +1,42 @@
+# Mac pilot of the attention revert, one-sided MLP revert and the activation readout under
+# edits, on the 0.5B organism (code check only).
+script: em
+max_hours: 2
+name: pilot05
+base: Qwen/Qwen2.5-0.5B-Instruct
+dtype: auto
+models:
+  base: {}
+  med: {hub_adapter: {repo: ModelOrganismsForEM/Qwen2.5-0.5B-Instruct_bad-medical-advice, revision: 90eadb6297bfa3d3939a178085691ca31ca77938}}
+corpus: {config: configs/corpus_qwen25.yaml, sha256: 4b70ab884e6628b94cffaabbd91a6cc1aa35850edcea435fe4bf104909067dc1, max_doc_tokens: 256}
+questions: configs/em_questions.yaml
+stages:
+- kind: edit_acts
+  model: med
+  out: drive_x
+  poles: med/attr:64
+  source: {model: med, cond: none}
+  bs: 8
+  edits:
+  - {kind: none}
+  - {kind: revert, all: true}
+  - {kind: revert, part: attn}
+  - {kind: revert, all: true, side: in}
+  - {kind: revert, all: true, side: out}
+  - {kind: revert, rank: med/attr, k: 64}
+- kind: edit_acts
+  model: base
+  out: drive_x_med
+  poles: med/attr:64
+  source: {model: med, cond: none}
+  bs: 8
+- kind: generate
+  model: med
+  sets: {test: 1}
+  max_new: 32
+  bs: 32
+  loss_tokens: 20000
+  batch_tokens: 4096
+  edits:
+  - {kind: revert, part: attn}
+  - {kind: revert, all: true, side: in}

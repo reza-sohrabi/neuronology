@@ -64,3 +64,25 @@ The fourth pass found that reverting the top 64 to 4,096 neurons by either ranki
 - revert every neuron of one block of eight layers (six blocks);
 - revert a random 25% and a random 50% of the neurons of every layer;
 - revert the top 16,384 and 65,536 neurons by `wdiff` and the top 65,536 by `contrib` (65,536 is about one neuron in ten).
+
+## Fifth pass: where the change acts
+
+Written before the run. The fourth pass showed that reverting every MLP neuron removes the behaviour, that no small set of neurons holds the change, and that reverting the neurons of the top attribution poles does nothing although ablating them removes the behaviour. Three things were left open.
+
+**7. Is the MLP change enough without the attention change?** Revert every attention projection the adapter touched (q, k, v, o in all layers) and keep the MLP change (`revert part=attn`). On `test`, 216 replies per organism:
+
+- "enough": at least three quarters of the unedited rate remains in all three organisms;
+- "attention is needed too": at most a quarter remains in all three;
+- anything else is reported as mixed.
+
+**8. Which side of the MLP weights matters?** Revert only the input weights (gate and up rows) of every neuron, or only the output weights (down columns). Also revert the MLPs of the first half (layers 0 to 23) and of the second half (24 to 47). Descriptive, no bar.
+
+**9. Do the reverts act by lowering the activity of the top attribution poles?** The idea to test: the spread-out change does not hold the behaviour itself, it drives the few hundred poles the behaviour runs through. Measure, for each organism, the mean activation of its top 256 `attr_core` poles over the reply tokens of its own unedited `test` replies (432 replies, run through the model as fixed text, nothing sampled), in the unedited organism, in the base model, and in the organism under each revert edit that has a judged count: every MLP neuron, attention only, input side, output side, the two halves, the six blocks of eight layers, the random quarter and half, the neurons of the top 256 `attr_core` poles, the top 65,536 by `wdiff`, and 1,024 random neurons. The same is measured on 256 random poles from the same layers.
+
+Predictions, fixed here:
+
+- (a) On the same text the organism activates the top poles more than the base model does, and by a larger share than the random poles. If not, the idea is wrong at the first step.
+- (b) Across the revert edits, the activation of the top poles follows the misaligned count: Spearman correlation at least 0.8 in each organism. Counts between 28 and 44 of 216 in the medical organism are within noise of each other, so this is a coarse test.
+- (c) Reverting the neurons of the top 256 poles themselves moves their activation less than a quarter of the way from the organism's level to the base model's.
+
+Limits known beforehand: the text is fixed, so this measures how an edited model reads misaligned and aligned replies it did not write; and a correlation across about 17 edits does not show cause.

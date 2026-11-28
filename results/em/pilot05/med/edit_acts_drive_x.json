@@ -1,0 +1,169 @@
+{
+  "model": "med",
+  "poles": "med/attr:64",
+  "source": {
+    "model": "med",
+    "cond": "none"
+  },
+  "n_replies": 27,
+  "edits": {
+    "none": {
+      "edit": {
+        "kind": "none"
+      },
+      "top": 1.589298963546753,
+      "random": 0.11443154513835907
+    },
+    "revert_all=True": {
+      "edit": {
+        "kind": "revert",
+        "all": true
+      },
+      "top": 1.584959864616394,
+      "random": 0.11733203381299973
+    },
+    "revert_part=attn": {
+      "edit": {
+        "kind": "revert",
+        "part": "attn"
+      },
+      "top": 1.593855857849121,
+      "random": 0.115108922123909
+    },
+    "revert_all=True_side=in": {
+      "edit": {
+        "kind": "revert",
+        "all": true,
+        "side": "in"
+      },
+      "top": 1.587251901626587,
+      "random": 0.11680662631988525
+    },
+    "revert_all=True_side=out": {
+      "edit": {
+        "kind": "revert",
+        "all": true,
+        "side": "out"
+      },
+      "top": 1.5852251052856445,
+      "random": 0.1150260716676712
+    },
+    "revert_k=64_rank=med-attr": {
+      "edit": {
+        "kind": "revert",
+        "rank": "med/attr",
+        "k": 64
+      },
+      "top": 1.5941741466522217,
+      "random": 0.11438792198896408
+    }
+  },
+  "provenance": {
+    "git_commit": "bbf3168217ca4fee0c1803f42557d23c699b461b-dirty",
+    "date_utc": "2026-11-28T02:36:09Z",
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "torch": "2.15.0",
+    "transformers": "5.22.2",
+    "cuda_device": null,
+    "run_id": "em_pilot05_x-20261128T023602Z",
+    "pod_id": null,
+    "config_path": "configs/em_pilot05_x.yaml",
+    "config_hash": "233ed5bc7257",
+    "config": {
+      "script": "em",
+      "max_hours": 2,
+      "name": "pilot05",
+      "base": "Qwen/Qwen2.5-0.5B-Instruct",
+      "dtype": "auto",
+      "models": {
+        "base": {},
+        "med": {
+          "hub_adapter": {
+            "repo": "ModelOrganismsForEM/Qwen2.5-0.5B-Instruct_bad-medical-advice",
+            "revision": "90eadb6297bfa3d3939a178085691ca31ca77938"
+          }
+        }
+      },
+      "corpus": {
+        "config": "configs/corpus_qwen25.yaml",
+        "sha256": "4b70ab884e6628b94cffaabbd91a6cc1aa35850edcea435fe4bf104909067dc1",
+        "max_doc_tokens": 256
+      },
+      "questions": "configs/em_questions.yaml",
+      "stages": [
+        {
+          "kind": "edit_acts",
+          "model": "med",
+          "out": "drive_x",
+          "poles": "med/attr:64",
+          "source": {
+            "model": "med",
+            "cond": "none"
+          },
+          "bs": 8,
+          "edits": [
+            {
+              "kind": "none"
+            },
+            {
+              "kind": "revert",
+              "all": true
+            },
+            {
+              "kind": "revert",
+              "part": "attn"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "in"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "out"
+            },
+            {
+              "kind": "revert",
+              "rank": "med/attr",
+              "k": 64
+            }
+          ]
+        },
+        {
+          "kind": "edit_acts",
+          "model": "base",
+          "out": "drive_x_med",
+          "poles": "med/attr:64",
+          "source": {
+            "model": "med",
+            "cond": "none"
+          },
+          "bs": 8
+        },
+        {
+          "kind": "generate",
+          "model": "med",
+          "sets": {
+            "test": 1
+          },
+          "max_new": 32,
+          "bs": 32,
+          "loss_tokens": 20000,
+          "batch_tokens": 4096,
+          "edits": [
+            {
+              "kind": "revert",
+              "part": "attn"
+            },
+            {
+              "kind": "revert",
+              "all": true,
+              "side": "in"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

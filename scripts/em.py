@@ -86,6 +86,13 @@ def load_ctx(cfg: dict, model: str, edits: list[dict]) -> dict:
             ctx["norders"][e["nrank"]] = np.load(mdir(cfg, src, "attr") / "norders.npz")[rank]
             if e["kind"] == "poles" and "mean" not in ctx:
                 ctx["mean"] = np.load(mdir(cfg, model) / "stats.npz")["mean"]
+        if e["kind"] == "revert" and e.get("part") == "attn":
+            if "attn_adapter" not in ctx:
+                ha = cfg["models"][model]["hub_adapter"]
+                ctx["attn_adapter"] = em.load_mlp_adapter(
+                    ha["repo"], ha.get("revision"), block="self_attn"
+                )
+            continue
         if e["kind"] == "revert":
             if "rank" in e:
                 src, rank = e["rank"].split("/")
@@ -314,6 +321,61 @@ def stage_acts(cfg: dict, st: dict, models: Models) -> None:
     log(f"acts {model}/{st['out']}: {len(rows)} replies, {len(flat)} poles")
 
 
+def stage_edit_acts(cfg: dict, st: dict, models: Models) -> None:
+    """Mean activation of a fixed set of poles on fixed replies, under each of a list of
+    edits. The replies are run through the model as given text (not sampled again)."""
+    model = st["model"]
+    out = mdir(cfg, model, "acts") / f"{st['out']}.npz"
+    if out.exists():
+        return
+    lm = models.get(model)
+    N = lm.model.model.layers[0].mlp.down_proj.in_features
+    L = len(lm.model.model.layers)
+    src, rest = st["poles"].split("/")  # "<model>/<rank>:<k>"
+    rank, k = rest.split(":")
+    top = np.asarray(np.load(mdir(cfg, src, "attr") / "orders.npz")[rank][: int(k)])
+    rnd = em.layer_matched_random(top, N, L, int(st.get("random", 1)))
+    flat = np.concatenate([top, rnd])
+    rr = em.read_jsonl(mdir(cfg, st["source"]["model"], "gen") / f"{st['source']['cond']}.jsonl")
+    rr = [r for r in rr if r["set"] == st.get("set", "test")]
+    P, R = _tok_rows(lm, cfg, rr)
+    edits = st.get("edits", [{"kind": "none"}])
+    ctx = load_ctx(cfg, model, edits)
+    means, per_reply, nt = {}, {}, len(top)
+    for e in edits:
+        with em.edit(lm.model, e, ctx):
+            f = em.reply_features(
+                lm.model, P, R, lm.tokenizer.pad_token_id, int(st.get("bs", 8)), flat=flat
+            )
+        means[em.cond_id(e)] = f["poles"].mean(0)
+        per_reply[em.cond_id(e)] = np.stack(
+            [f["poles"][:, :nt].mean(1), f["poles"][:, nt:].mean(1)], 1
+        )  # [n_replies, (top, random)]
+        log(
+            f"edit_acts {model}/{st['out']} {em.cond_id(e)}: "
+            f"top {means[em.cond_id(e)][: len(top)].mean():.4f} "
+            f"random {means[em.cond_id(e)][len(top) :].mean():.4f}"
+        )
+    out.parent.mkdir(parents=True, exist_ok=True)
+    np.savez(out, top=top, random=rnd, **{f"mean:{c}": v for c, v in means.items()},
+             **{f"reply:{c}": v for c, v in per_reply.items()})  # fmt: skip
+    em.write_jsonl(
+        out.with_suffix(".rows.jsonl"), [{k: r[k] for k in ("set", "qid", "k")} for r in rr]
+    )
+    res = {
+        "model": model, "poles": st["poles"], "source": st["source"], "n_replies": len(rr),
+        "edits": {
+            c: {"edit": e, "top": float(v[:nt].mean()), "random": float(v[nt:].mean())}
+            for (c, v), e in zip(means.items(), edits, strict=True)
+        },
+        "provenance": provenance(cfg),
+    }  # fmt: skip
+    write_json(results_dir("em", cfg["name"], model) / f"edit_acts_{st['out']}.json", res)
+    np.savez(results_dir("em", cfg["name"], model) / f"edit_acts_{st['out']}.npz",
+             top=top, random=rnd, **{f"mean:{c}": v for c, v in means.items()},
+             **{f"reply:{c}": v for c, v in per_reply.items()})  # fmt: skip
+
+
 def stage_contexts(cfg: dict, st: dict, models: Models) -> None:
     model = st["model"]
     out = mdir(cfg, model, "contexts") / f"{st['out']}.json"
@@ -496,6 +558,8 @@ def main() -> None:
             stage_derive(cfg, st, models)
         elif kind == "contexts":
             stage_contexts(cfg, st, models)
+        elif kind == "edit_acts":
+            stage_edit_acts(cfg, st, models)
         elif kind == "wdiff":
             stage_wdiff(cfg, st, models)
         else:
